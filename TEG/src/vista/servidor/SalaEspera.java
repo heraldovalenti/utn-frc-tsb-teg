@@ -19,7 +19,7 @@ public class SalaEspera extends javax.swing.JFrame {
      */
     public SalaEspera() {
         initComponents();
-        inicio();
+        //inicio();
     }
     /**
      * Personal method for initializing the form.
