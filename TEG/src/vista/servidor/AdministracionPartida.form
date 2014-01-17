@@ -2,58 +2,58 @@
 
 <Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+    <Menu class="javax.swing.JMenuBar" name="menuPrincipal">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="menuItemSala">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sala"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemEstablecerContrase&#xf1;a">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Establecer contrase&#xf1;a"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemCargarPartida">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cargar partida"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemGuardarPartida">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Guardar partida"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemCerrarSala">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cerrar sala"/>
               </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="menuItemJugadores">
           <Properties>
             <Property name="text" type="java.lang.String" value="Jugadores"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemAgregarJugadorIA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar jugador IA"/>
               </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
+        <Menu class="javax.swing.JMenu" name="menuItemPartida">
           <Properties>
             <Property name="text" type="java.lang.String" value="Partida"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemComenzarPartida">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Comenzar partida"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemPausarPartida">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pausar partida"/>
               </Properties>
@@ -68,7 +68,7 @@
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="menuPrincipal"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <AuxValues>
@@ -89,9 +89,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jScrollPane3" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="1" pref="386" max="32767" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="sPanelChat" max="32767" attributes="0"/>
+                  <Component id="sPanelJugadores" alignment="1" pref="396" max="32767" attributes="0"/>
+                  <Component id="lblNumeroJuego" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="txtChatPersonal" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -106,11 +106,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="lblNumeroJuego" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="188" max="-2" attributes="0"/>
+              <Component id="sPanelJugadores" min="-2" pref="188" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane3" pref="146" max="32767" attributes="0"/>
+              <Component id="sPanelChat" pref="195" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtChatPersonal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,19 +122,19 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblNumeroJuego">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;numeroDeJuego(aleatorio)&gt;"/>
+        <Property name="text" type="java.lang.String" value="Numero de juego: &lt;VALOR_ALEATORIO&gt;"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="sPanelJugadores">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tblJugadores">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="10">
@@ -149,9 +149,6 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="txtChatPersonal">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Chat personal"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnEnviarChat">
       <Properties>
@@ -161,7 +158,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarChatActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+    <Container class="javax.swing.JScrollPane" name="sPanelChat">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>

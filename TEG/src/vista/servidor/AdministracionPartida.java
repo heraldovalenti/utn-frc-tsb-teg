@@ -87,31 +87,31 @@ public class AdministracionPartida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        lblNumeroJuego = new javax.swing.JLabel();
+        sPanelJugadores = new javax.swing.JScrollPane();
+        tblJugadores = new javax.swing.JTable();
         txtChatPersonal = new javax.swing.JTextField();
         btnEnviarChat = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        sPanelChat = new javax.swing.JScrollPane();
         txtChatArea = new javax.swing.JTextArea();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        menuPrincipal = new javax.swing.JMenuBar();
+        menuItemSala = new javax.swing.JMenu();
+        menuItemEstablecerContraseña = new javax.swing.JMenuItem();
+        menuItemCargarPartida = new javax.swing.JMenuItem();
+        menuItemGuardarPartida = new javax.swing.JMenuItem();
+        menuItemCerrarSala = new javax.swing.JMenuItem();
+        menuItemJugadores = new javax.swing.JMenu();
+        menuItemAgregarJugadorIA = new javax.swing.JMenuItem();
+        menuItemPartida = new javax.swing.JMenu();
+        menuItemComenzarPartida = new javax.swing.JMenuItem();
+        menuItemPausarPartida = new javax.swing.JMenuItem();
 
         setTitle("TEG - Administracion de partida");
         setResizable(false);
 
-        jLabel1.setText("<numeroDeJuego(aleatorio)>");
+        lblNumeroJuego.setText("Numero de juego: <VALOR_ALEATORIO>");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblJugadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -136,9 +136,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-
-        txtChatPersonal.setText("Chat personal");
+        sPanelJugadores.setViewportView(tblJugadores);
 
         btnEnviarChat.setText("Enviar");
         btnEnviarChat.addActionListener(new java.awt.event.ActionListener() {
@@ -151,42 +149,42 @@ public class AdministracionPartida extends javax.swing.JFrame {
         txtChatArea.setColumns(20);
         txtChatArea.setLineWrap(true);
         txtChatArea.setRows(1);
-        jScrollPane3.setViewportView(txtChatArea);
+        sPanelChat.setViewportView(txtChatArea);
 
-        jMenu1.setText("Sala");
+        menuItemSala.setText("Sala");
 
-        jMenuItem5.setText("Establecer contraseña");
-        jMenu1.add(jMenuItem5);
+        menuItemEstablecerContraseña.setText("Establecer contraseña");
+        menuItemSala.add(menuItemEstablecerContraseña);
 
-        jMenuItem3.setText("Cargar partida");
-        jMenu1.add(jMenuItem3);
+        menuItemCargarPartida.setText("Cargar partida");
+        menuItemSala.add(menuItemCargarPartida);
 
-        jMenuItem2.setText("Guardar partida");
-        jMenu1.add(jMenuItem2);
+        menuItemGuardarPartida.setText("Guardar partida");
+        menuItemSala.add(menuItemGuardarPartida);
 
-        jMenuItem1.setText("Cerrar sala");
-        jMenu1.add(jMenuItem1);
+        menuItemCerrarSala.setText("Cerrar sala");
+        menuItemSala.add(menuItemCerrarSala);
 
-        jMenuBar1.add(jMenu1);
+        menuPrincipal.add(menuItemSala);
 
-        jMenu2.setText("Jugadores");
+        menuItemJugadores.setText("Jugadores");
 
-        jMenuItem4.setText("Agregar jugador IA");
-        jMenu2.add(jMenuItem4);
+        menuItemAgregarJugadorIA.setText("Agregar jugador IA");
+        menuItemJugadores.add(menuItemAgregarJugadorIA);
 
-        jMenuBar1.add(jMenu2);
+        menuPrincipal.add(menuItemJugadores);
 
-        jMenu3.setText("Partida");
+        menuItemPartida.setText("Partida");
 
-        jMenuItem6.setText("Comenzar partida");
-        jMenu3.add(jMenuItem6);
+        menuItemComenzarPartida.setText("Comenzar partida");
+        menuItemPartida.add(menuItemComenzarPartida);
 
-        jMenuItem7.setText("Pausar partida");
-        jMenu3.add(jMenuItem7);
+        menuItemPausarPartida.setText("Pausar partida");
+        menuItemPartida.add(menuItemPausarPartida);
 
-        jMenuBar1.add(jMenu3);
+        menuPrincipal.add(menuItemPartida);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,9 +193,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sPanelChat)
+                    .addComponent(sPanelJugadores, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                    .addComponent(lblNumeroJuego, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(txtChatPersonal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -208,11 +206,11 @@ public class AdministracionPartida extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblNumeroJuego)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtChatPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,21 +234,21 @@ public class AdministracionPartida extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarChat;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblNumeroJuego;
+    private javax.swing.JMenuItem menuItemAgregarJugadorIA;
+    private javax.swing.JMenuItem menuItemCargarPartida;
+    private javax.swing.JMenuItem menuItemCerrarSala;
+    private javax.swing.JMenuItem menuItemComenzarPartida;
+    private javax.swing.JMenuItem menuItemEstablecerContraseña;
+    private javax.swing.JMenuItem menuItemGuardarPartida;
+    private javax.swing.JMenu menuItemJugadores;
+    private javax.swing.JMenu menuItemPartida;
+    private javax.swing.JMenuItem menuItemPausarPartida;
+    private javax.swing.JMenu menuItemSala;
+    private javax.swing.JMenuBar menuPrincipal;
+    private javax.swing.JScrollPane sPanelChat;
+    private javax.swing.JScrollPane sPanelJugadores;
+    private javax.swing.JTable tblJugadores;
     private javax.swing.JTextArea txtChatArea;
     private javax.swing.JTextField txtChatPersonal;
     // End of variables declaration//GEN-END:variables
