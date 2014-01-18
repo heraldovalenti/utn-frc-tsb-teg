@@ -41,6 +41,11 @@
                 <Property name="text" type="java.lang.String" value="Agregar jugador IA"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemDificultadIA">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Establecer dificultad IA"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuItemPartida">
@@ -56,6 +61,28 @@
             <MenuItem class="javax.swing.JMenuItem" name="menuItemPausarPartida">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pausar partida"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuItemServidor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Servidor"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemServidorIniciar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Iniciar"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemServidorDetener">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Detener"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemServidorReiniciar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reiniciar"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -90,12 +117,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="sPanelChat" max="32767" attributes="0"/>
-                  <Component id="sPanelJugadores" alignment="1" pref="396" max="32767" attributes="0"/>
-                  <Component id="lblNumeroJuego" alignment="0" max="32767" attributes="0"/>
+                  <Component id="sPanelJugadores" alignment="1" max="32767" attributes="0"/>
+                  <Component id="txtChatPersonal" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtChatPersonal" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnEnviarChat" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNumeroJuego" min="-2" pref="214" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -106,16 +133,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblNumeroJuego" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblNumeroJuego" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sPanelJugadores" min="-2" pref="188" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="sPanelChat" pref="195" max="32767" attributes="0"/>
+              <Component id="sPanelChat" pref="198" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtChatPersonal" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnEnviarChat" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="txtChatPersonal" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -150,14 +177,6 @@
     </Container>
     <Component class="javax.swing.JTextField" name="txtChatPersonal">
     </Component>
-    <Component class="javax.swing.JButton" name="btnEnviarChat">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Enviar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarChatActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="sPanelChat">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -175,5 +194,11 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Estado servidor: &lt;ESTADO_SERVIDOR&gt;"/>
+        <Property name="horizontalTextPosition" type="int" value="4"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

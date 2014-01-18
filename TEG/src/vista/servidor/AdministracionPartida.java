@@ -38,7 +38,6 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Called from the constructor after initComponents()
      */
     private void inicio() {
-        addKeyListenerToChatField();
         addCloseListenerToFrame();
     }
     
@@ -58,24 +57,15 @@ public class AdministracionPartida extends javax.swing.JFrame {
         });
     }
     
-    /**
-     *KeyListener add to txtChatPersonal, called when <ENTER> is pressed.
-     */
-    private void addKeyListenerToChatField() {
-        txtChatPersonal.addKeyListener(new java.awt.event.KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    btnEnviarChatActionPerformed(null);
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
+    private void enviarChat() {
+        String chat = txtChatPersonal.getText();
+        if (chat != null && chat.isEmpty()) {
+            return;
+        }
+        txtChatArea.append(txtChatPersonal.getText() + "\n");
+        DefaultCaret caret = (DefaultCaret)txtChatPersonal.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        txtChatPersonal.setText("");
     }
 
     /**
@@ -91,9 +81,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
         sPanelJugadores = new javax.swing.JScrollPane();
         tblJugadores = new javax.swing.JTable();
         txtChatPersonal = new javax.swing.JTextField();
-        btnEnviarChat = new javax.swing.JButton();
         sPanelChat = new javax.swing.JScrollPane();
         txtChatArea = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
         menuPrincipal = new javax.swing.JMenuBar();
         menuItemSala = new javax.swing.JMenu();
         menuItemEstablecerContraseña = new javax.swing.JMenuItem();
@@ -102,9 +92,14 @@ public class AdministracionPartida extends javax.swing.JFrame {
         menuItemCerrarSala = new javax.swing.JMenuItem();
         menuItemJugadores = new javax.swing.JMenu();
         menuItemAgregarJugadorIA = new javax.swing.JMenuItem();
+        menuItemDificultadIA = new javax.swing.JMenuItem();
         menuItemPartida = new javax.swing.JMenu();
         menuItemComenzarPartida = new javax.swing.JMenuItem();
         menuItemPausarPartida = new javax.swing.JMenuItem();
+        menuItemServidor = new javax.swing.JMenu();
+        menuItemServidorIniciar = new javax.swing.JMenuItem();
+        menuItemServidorDetener = new javax.swing.JMenuItem();
+        menuItemServidorReiniciar = new javax.swing.JMenuItem();
 
         setTitle("TEG - Administracion de partida");
         setResizable(false);
@@ -138,18 +133,14 @@ public class AdministracionPartida extends javax.swing.JFrame {
         });
         sPanelJugadores.setViewportView(tblJugadores);
 
-        btnEnviarChat.setText("Enviar");
-        btnEnviarChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarChatActionPerformed(evt);
-            }
-        });
-
         txtChatArea.setEditable(false);
         txtChatArea.setColumns(20);
         txtChatArea.setLineWrap(true);
         txtChatArea.setRows(1);
         sPanelChat.setViewportView(txtChatArea);
+
+        jLabel1.setText("Estado servidor: <ESTADO_SERVIDOR>");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         menuItemSala.setText("Sala");
 
@@ -172,6 +163,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
         menuItemAgregarJugadorIA.setText("Agregar jugador IA");
         menuItemJugadores.add(menuItemAgregarJugadorIA);
 
+        menuItemDificultadIA.setText("Establecer dificultad IA");
+        menuItemJugadores.add(menuItemDificultadIA);
+
         menuPrincipal.add(menuItemJugadores);
 
         menuItemPartida.setText("Partida");
@@ -184,6 +178,19 @@ public class AdministracionPartida extends javax.swing.JFrame {
 
         menuPrincipal.add(menuItemPartida);
 
+        menuItemServidor.setText("Servidor");
+
+        menuItemServidorIniciar.setText("Iniciar");
+        menuItemServidor.add(menuItemServidorIniciar);
+
+        menuItemServidorDetener.setText("Detener");
+        menuItemServidor.add(menuItemServidorDetener);
+
+        menuItemServidorReiniciar.setText("Reiniciar");
+        menuItemServidor.add(menuItemServidorReiniciar);
+
+        menuPrincipal.add(menuItemServidor);
+
         setJMenuBar(menuPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,57 +201,51 @@ public class AdministracionPartida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sPanelChat)
-                    .addComponent(sPanelJugadores, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                    .addComponent(lblNumeroJuego, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sPanelJugadores)
+                    .addComponent(txtChatPersonal, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(txtChatPersonal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEnviarChat)))
+                        .addComponent(lblNumeroJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblNumeroJuego)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumeroJuego)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtChatPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnviarChat))
+                .addComponent(txtChatPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEnviarChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarChatActionPerformed
-        String chat = txtChatPersonal.getText();
-        if (chat != null && chat.isEmpty()) {
-            return;
-        }
-        txtChatArea.append(txtChatPersonal.getText() + "\n");
-        DefaultCaret caret = (DefaultCaret)txtChatPersonal.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        txtChatPersonal.setText("");
-    }//GEN-LAST:event_btnEnviarChatActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEnviarChat;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNumeroJuego;
     private javax.swing.JMenuItem menuItemAgregarJugadorIA;
     private javax.swing.JMenuItem menuItemCargarPartida;
     private javax.swing.JMenuItem menuItemCerrarSala;
     private javax.swing.JMenuItem menuItemComenzarPartida;
+    private javax.swing.JMenuItem menuItemDificultadIA;
     private javax.swing.JMenuItem menuItemEstablecerContraseña;
     private javax.swing.JMenuItem menuItemGuardarPartida;
     private javax.swing.JMenu menuItemJugadores;
     private javax.swing.JMenu menuItemPartida;
     private javax.swing.JMenuItem menuItemPausarPartida;
     private javax.swing.JMenu menuItemSala;
+    private javax.swing.JMenu menuItemServidor;
+    private javax.swing.JMenuItem menuItemServidorDetener;
+    private javax.swing.JMenuItem menuItemServidorIniciar;
+    private javax.swing.JMenuItem menuItemServidorReiniciar;
     private javax.swing.JMenuBar menuPrincipal;
     private javax.swing.JScrollPane sPanelChat;
     private javax.swing.JScrollPane sPanelJugadores;
