@@ -1,0 +1,9 @@
+syntax: glob
+TEG/build.xml
+TEG/manifest.mf
+TEG/nbproject/build-impl.xml
+TEG/nbproject/genfiles.properties
+TEG/nbproject/private/private.properties
+TEG/nbproject/private/private.xml
+TEG/nbproject/project.properties
+TEG/nbproject/project.xml
