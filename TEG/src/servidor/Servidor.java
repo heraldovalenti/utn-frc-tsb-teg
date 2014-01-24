@@ -17,26 +17,41 @@ import logger.LogItem;
 public class Servidor extends Thread {
 
     private ServerSocket server;
+    private GestorClientes gestorClientes;
+    private boolean banderaEjecucion;
+
+    public Servidor(GestorClientes gestorClientes) {
+        this.gestorClientes = gestorClientes;
+        try {
+            server = new ServerSocket(Configuracion.getInstancia().puertoServidor());
+        } catch (IOException ex) {
+            ServerManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Error iniciando servidor", ex));
+        }
+    }
     
-    public  Servidor() {
+    /**
+     * Indica que el servidor debe interrumpir su ejecucion.
+     */
+    public void parar() {
+        try {
+            server.close();
+        } catch (IOException ex) {
+            ServerManager.getInstance().getLogger().addLogItem(
+                        new LogItem("Error intentando parar el servidor", ex));
+        }
+        banderaEjecucion = false;
     }
 
     @Override
     public void run() {
-        try {
-            server = new ServerSocket(Configuracion.getInstancia().puertoServidor());
-
-        } catch (IOException ex) {
-            logger.Logger.getInstance().addLogItem(
-                    new LogItem("Error iniciando servidor", ex));
-        }
-        while (true) {
-            //esta accion se puede trasladar al manager...
+        banderaEjecucion = true;
+        while (banderaEjecucion) {
             try {
                 Socket s = server.accept();
-                GestorClientes.getInstance().agregarCliente(new ConexionCliente(s));
+                gestorClientes.agregarCliente(new ConexionCliente(s));
             } catch (IOException ex) {
-                logger.Logger.getInstance().addLogItem(
+                ServerManager.getInstance().getLogger().addLogItem(
                         new LogItem("Error estableciendo conexion con cliente", ex));
             }
         }

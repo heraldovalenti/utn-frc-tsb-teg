@@ -21,30 +21,31 @@ public class SalaEspera extends javax.swing.JFrame {
         initComponents();
         addCloseListenerToFrame();
     }
-    
+
     private void addCloseListenerToFrame() {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 finalizar();
             }
         });
     }
-    
+
     /**
      * Metodo para cerrar todas las conexiones y terminar el programa.
      */
     private void finalizar() {
-        int res = JOptionPane.showConfirmDialog(this, "¿Esta seguro?", 
+        int res = JOptionPane.showConfirmDialog(this, "¿Esta seguro?",
                 "Confirmación requerida", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
-        if (res == JOptionPane.YES_OPTION) System.exit(0);
+        if (res == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
         //se deberia notificar al servidor de la desconexion.
     }
-    
+
     /**
-     * Envia el 
+     * Envia el
      */
     private void enviarChat() {
         String chat = txtChatPersonal.getText();
@@ -52,7 +53,7 @@ public class SalaEspera extends javax.swing.JFrame {
             return;
         }
         txtChatArea.append(txtChatPersonal.getText() + "\n");
-        DefaultCaret caret = (DefaultCaret)txtChatPersonal.getCaret();
+        DefaultCaret caret = (DefaultCaret) txtChatPersonal.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         txtChatPersonal.setText("");
     }
@@ -99,6 +100,11 @@ public class SalaEspera extends javax.swing.JFrame {
         jLabel2.setText("Estado:");
 
         btnConexion.setText("Conectar");
+        btnConexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConexionActionPerformed(evt);
+            }
+        });
 
         lblEstadoConexion.setText("<ESTADO_CONEXION>");
 
@@ -245,6 +251,9 @@ public class SalaEspera extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConexionActionPerformed
+        
+    }//GEN-LAST:event_btnConexionActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConexion;
     private javax.swing.JCheckBox cbxEstadoJugador;

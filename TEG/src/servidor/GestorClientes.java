@@ -5,64 +5,135 @@
 package servidor;
 
 import com.Accionable;
+import com.cliente.CerrarConexion;
 import java.util.LinkedList;
 
 /**
  *
  * @author heril
  */
-public class GestorClientes {
+public class GestorClientes extends Thread {
 
-    private static GestorClientes instance = null;
-
-    public static GestorClientes getInstance() {
-        if (instance == null) {
-            instance = new GestorClientes();
-        }
-        return instance;
-    }
-
-    private GestorClientes() {
-        conexionesCliente = new LinkedList();
-        indiceCliente = -1;
-    }
     private LinkedList<ConexionCliente> conexionesCliente;
-    private int indiceCliente;
+    private ConexionCliente conexionAAtender;
+    private ColaAcciones colaAcciones;
+    private boolean banderaEjecucion;
 
-    public synchronized void agregarCliente(ConexionCliente ac) {
-        conexionesCliente.add(ac);
+    public GestorClientes(ColaAcciones colaAcciones) {
+        conexionesCliente = new LinkedList();
+        conexionAAtender = null;
+        this.colaAcciones = colaAcciones;
+        banderaEjecucion = false;
     }
 
     /**
-     * Metodo publico para consultar si hay datos disponibles enviados por algun
-     * cliente.
+     * Agrega una conexion con un cliente al gestor e informa de la
+     * conexion con el nuevo cliente mediante una llamada al server manager.
      *
-     * @return true si hay datos para leer, false en caso contrario.
+     * @param cc ConexionCliente a agregar
      */
-    public boolean datosDisponibles() {
-        indiceCliente = checkDatosDisponibles();
-        return indiceCliente != -1;
-    }
-
-    /**
-     * Metodo publico para obtener los accionables enviados por los clientes.
-     *
-     * @return Accionable enviando por el cliente.
-     */
-    public Accionable leerAccionable() {
-        if (indiceCliente == -1) {
-            return null;
-        }
-        Accionable res = recibir(indiceCliente);
-        indiceCliente = -1;
-        return res;
+    public void agregarCliente(ConexionCliente cc) {
+        cc.setId(generarIdentificadorUnico());
+        conexionesCliente.add(cc);
+        ServerManager.getInstance().informarNuevoCliente(cc.getId());
     }
     
     /**
-     * Enviar un accionable a todos los clientes conectados.
+     * Genera un identificador unico para los nuevos clientes que se conectan
+     * al servidor. Para realizarlo, genera un numero aleatorio y verifica que
+     * los clientes ya conectados no contengan el mismo identificador.
+     * @return int el identificador generado.
+     */
+    private int generarIdentificadorUnico() {
+        boolean identificadorValido;
+        int identificador = -1;
+        do {
+            double rnd = Math.random();
+            identificador = (int)(rnd * 1000000000);
+            boolean forInterrumpido = false;
+            for (ConexionCliente cc : conexionesCliente) {
+                if (cc.getId() == identificador || identificador == 0) {
+                    forInterrumpido = true;
+                    break;
+                }
+            }
+            if (forInterrumpido) {
+                identificadorValido = false;
+            } else {
+                identificadorValido = true;
+            }
+        } while(!identificadorValido);
+        return identificador;
+    }
+
+    /**
+     * Metodo para consultar si hay datos disponibles enviados por algun
+     * cliente. Establece la conexion a atender del cliente que ha enviado datos
+     * y estan listos para recibirse.
+     *
+     * @return true si hay datos para leer, false en caso contrario.
+     */
+    private boolean datosDisponibles() {
+        conexionAAtender = checkDatosDisponibles();
+        rotarColaConexiones();
+        return conexionAAtender != null;
+    }
+
+    /**
+     * Rota la cola de conexiones establecidas con clientes. La conexion que
+     * estaba en primer lugar de la cola, pasa a estar en ultimo lugar ahora,
+     * con el objetivo de que si un cliente envia datos constantemente, los
+     * demas clientes tambien tengan oportunidad de ser atendidos por el
+     * servidor.
+     */
+    private void rotarColaConexiones() {
+        ConexionCliente aux = conexionesCliente.pollFirst();
+        if (aux != null) {
+            conexionesCliente.addLast(aux);
+        }
+    }
+
+    /**
+     * Metodo para obtener los accionables enviados por los clientes. Lee un
+     * accionable del cliente indicado por el la conexion a servir y lo agrega a
+     * la cola de acciones. Si la conexion es null no hace nada.
+     *
+     * @return Accionable enviando por el cliente.
+     */
+    private void leerAccionable() {
+        if (conexionAAtender == null) {
+            return;
+        }
+        Accionable accion = recibir();
+        colaAcciones.solicitarAcceso();
+        colaAcciones.pushEntrada(accion);
+        colaAcciones.informarSalida();
+        conexionAAtender = null;
+    }
+
+    /**
+     * Envia un accionable a todos los clientes conectados. Obtiene el
+     * accionable a enviarse desde la cola de salida de acciones.
+     *
      * @param accion el accionable a enviarse.
      */
-    public void enviarAccionable(Accionable accion) {
+    private void enviarAccionable() {
+        colaAcciones.solicitarAcceso();
+        Accionable accion = colaAcciones.pullSalida();
+        colaAcciones.informarSalida();
+        for (ConexionCliente aux : conexionesCliente) {
+            aux.enviar(accion);
+        }
+    }
+
+    /**
+     * Envia un accionable a todos los clientes conectados.
+     *
+     * @param accion el accionable a enviarse.
+     */
+    private void enviarAccionable(Accionable accion) {
+        colaAcciones.solicitarAcceso();
+        colaAcciones.informarSalida();
         for (ConexionCliente aux : conexionesCliente) {
             aux.enviar(accion);
         }
@@ -71,25 +142,57 @@ public class GestorClientes {
     /**
      * Chequea si hay datos para recibir de los clientes.
      *
-     * @return el indice del cliente que envio datos, -1 si no existen datos.
+     * @return la conexion de cliente que envio datos, null si no existen datos.
      */
-    private int checkDatosDisponibles() {
-        for (int i = 0; i < conexionesCliente.size(); i++) {
-            ConexionCliente cc = conexionesCliente.get(i);
+    private ConexionCliente checkDatosDisponibles() {
+        for (ConexionCliente cc : conexionesCliente) {
             if (cc.disponible() != -1) {
-                return i;
+                return cc;
             }
         }
-        return -1;
+        return null;
     }
 
     /**
      * Devuelve lee un accionable enviado por el cliente.
      *
-     * @param i int el indice del cliente
      * @return Accionable la accion enviada por el cliente.
      */
-    private Accionable recibir(int i) {
-        return conexionesCliente.get(i).recibir();
+    private Accionable recibir() {
+        return conexionAAtender.recibir();
+    }
+
+    /**
+     * Verifica la existencia de salidas esperando para ser enviadas.
+     *
+     * @return true si hay salidas pendientes de envio, false en otro caso.
+     */
+    private boolean salidasEnEspera() {
+        colaAcciones.solicitarAcceso();
+        boolean res = colaAcciones.haySalidas();
+        colaAcciones.informarSalida();
+        return res;
+    }
+
+    /**
+     * Indica que el gestor debe parar su ejecucion y cierra las conexiones con
+     * clientes activas.
+     */
+    public void parar() {
+        enviarAccionable(new CerrarConexion(CerrarConexion.SERVIDOR_INTERRUMPIDO));
+        banderaEjecucion = false;
+    }
+
+    @Override
+    public void run() {
+        banderaEjecucion = true;
+        while (banderaEjecucion) {
+            if (datosDisponibles()) {
+                leerAccionable();
+            }
+            if (salidasEnEspera()) {
+                enviarAccionable();
+            }
+        }
     }
 }

@@ -7,7 +7,6 @@ package servidor;
 import java.awt.event.WindowEvent;
 import javax.swing.text.DefaultCaret;
 import logger.LogItem;
-import logger.Logger;
 
 /**
  *
@@ -46,12 +45,12 @@ public class AdministracionPartida extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 e.getWindow().setVisible(false);
-                Logger.getInstance().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
+                ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
             }
 
             @Override
             public void windowOpened(WindowEvent e) {
-                Logger.getInstance().addLogItem(new LogItem("Ventana servidor ha sido abierta."));
+                ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido abierta."));
             }
         });
     }

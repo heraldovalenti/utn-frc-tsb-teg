@@ -6,6 +6,7 @@ package servidor;
 
 import com.Accionable;
 import java.util.LinkedList;
+import logger.LogItem;
 
 /**
  *
@@ -15,34 +16,54 @@ public class ColaAcciones {
     
     private LinkedList<Accionable> colaEntrada;
     private LinkedList<Accionable> colaSalida;
+    private boolean accesoPermitido;
     
     public ColaAcciones() {
         colaEntrada = new LinkedList<>();
         colaSalida = new LinkedList<>();
+        accesoPermitido = true;
     }
     
-    public synchronized boolean hayEntradas() {
+    public boolean hayEntradas() {
         return !colaEntrada.isEmpty();
     }
     
-    public synchronized boolean haySalidas() {
+    public boolean haySalidas() {
         return !colaSalida.isEmpty();
     }
     
-    public synchronized void pushEntrada(Accionable entrada) {
+    public void pushEntrada(Accionable entrada) {
         colaEntrada.addLast(entrada);
     }
     
-    public synchronized void pushSalida(Accionable salida) {
+    public void pushSalida(Accionable salida) {
         colaSalida.addLast(salida);
     }
     
-    public synchronized Accionable pullEntrada() {
+    public Accionable pullEntrada() {
         return colaEntrada.removeFirst();
     }
     
-    public synchronized Accionable pullSalida() {
+    public Accionable pullSalida() {
         return colaSalida.removeFirst();
+    }
+    
+    public synchronized void solicitarAcceso() {
+        while (!accesoPermitido) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                ServerManager.getInstance().getLogger().addLogItem(
+                        new LogItem("Error en solicitud de acceso a cola de acciones. ", ex)                        
+                        );
+            }
+        }
+        accesoPermitido = false;
+    }
+    
+    public synchronized void informarSalida() {
+        accesoPermitido = true;
+        notifyAll();
     }
     
 }

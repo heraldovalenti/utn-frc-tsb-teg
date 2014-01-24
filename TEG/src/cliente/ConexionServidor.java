@@ -10,60 +10,94 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Date;
+import logger.LogItem;
 
 /**
  *
  * @author heril
  */
-public class ConexionServidor {
-    
+public class ConexionServidor extends Thread {
+
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
     public ConexionServidor() {
+    }
+    
+    public void conectar(String direccionServidor) {
         try {
             socket = new Socket(
-                    Configuracion.getInstancia().direccionServidor(), 
-                    Configuracion.getInstancia().puertoServidor()
-                    );
+                    direccionServidor,
+                    Configuracion.getInstancia().puertoServidor());
             out = new ObjectOutputStream(this.socket.getOutputStream());
             in = new ObjectInputStream(this.socket.getInputStream());
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error estableciendo conexión con el servidor.", ex));
         }
     }
     
-    public synchronized void recibir() {
+    public void desconectar() {
+        try {
+            in.close();
+            out.close();
+            socket.close();
+            this.interrupt();
+        } catch (IOException | SecurityException ex) {
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error cerrado conexión con el servidor.", ex));
+        }
+        
+    }
+
+    private Accionable recibir() {
         try {
             in.read();
             Accionable a = (Accionable) in.readObject();
-            a.accionar();
+            return a;
         } catch (IOException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Error leyendo datos del servidor.", ex));
         }
+        return null;
     }
 
-    public synchronized int disponible() {
-        int res = -1;
+    private int disponible() {
         try {
-            Date d = new Date();
-            res = in.available();
-            System.out.println(d.getTime() + ": " + res);
+            int disponible = in.available();
+            return disponible;
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Error leyendo datos del servidor.", ex));
         }
-        return res;
+        return -1;
     }
-    
-    public synchronized void enviar(Accionable a) {
+
+    public void enviar(Accionable a) {
         try {
             out.write(1);
             out.writeObject(a);
             out.flush();
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Error enviando datos al servidor", ex));
         }
     }
+
+    @Override
+    public void run() {
+        long tiempoEspera = Configuracion.getInstancia().tiempoEsperaLecturaCliente();
+        while (true) {
+            //MonitorCliente.getInstance().startWork();
+            System.out.println(System.nanoTime() + ": Conexion servidor checkeada...");
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexion servidor checkeada..."));
+            //MonitorCliente.getInstance().jobFinished();
+            try {
+                sleep(tiempoEspera);
+            } catch (InterruptedException ex) {
+                System.out.println("Error: " + ex);
+            }
+        }
+    }
+    
+    
 }

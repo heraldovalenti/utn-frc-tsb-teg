@@ -38,10 +38,15 @@ public class Configuracion {
         return puertoCliente;
     }
     
+    public long tiempoEsperaLecturaCliente() {
+        return tiempoEsperaLecturaCliente;
+    }
+    
     private static final long tiempoEsperaLectura = 500;
+    private static final long tiempoEsperaLecturaCliente = 100;
     private static final String direccionServidor = "localhost";
     private static final String direccionCliente = "localhost";
     private static final int puertoServidor = 9988;
-    private static final int puertoCliente = 9989;
+    private static final int puertoCliente = 9988;
     
 }
