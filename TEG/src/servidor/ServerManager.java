@@ -6,6 +6,7 @@ package servidor;
 
 import com.cliente.RecibirNuevoCliente;
 import com.servidor.RecibirNuevoClienteEnServidor;
+import logger.LogItem;
 import logger.Logger;
 
 /**
@@ -48,6 +49,8 @@ public class ServerManager {
         gestorClientes.start();
         despachadorAcciones.start();
         estado = ESTADO_EN_EJECUCION;
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Servidor iniciado"));
     }
 
     /**
@@ -59,6 +62,8 @@ public class ServerManager {
         gestorClientes.parar();
         despachadorAcciones.parar();
         estado = ESTADO_NO_INICIADO;
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Servidor iniciado"));
     }
 
     /**

@@ -14,6 +14,10 @@ public class Logger {
         
     }
     
+    private void notificar(String cadenaIdentificacionEvento) {
+        System.out.println(cadenaIdentificacionEvento);
+    }
+    
     public void addLogItem(LogItem logItem) {
         System.out.println(logItem);
     }

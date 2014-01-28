@@ -4,9 +4,12 @@
  */
 package cliente;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
+import servidor.AdministracionPartida;
 
 /**
  *
@@ -19,10 +22,11 @@ public class SalaEspera extends javax.swing.JFrame {
      */
     public SalaEspera() {
         initComponents();
-        addCloseListenerToFrame();
+        addListenerToFrame();
+        addListenerToAdministracionPartidaMenu();
     }
 
-    private void addCloseListenerToFrame() {
+    private void addListenerToFrame() {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -31,11 +35,29 @@ public class SalaEspera extends javax.swing.JFrame {
         });
     }
 
+    private void addListenerToAdministracionPartidaMenu() {
+        this.menuItemAdministracionPartida.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        abrirVentanaAdministracionPartida();
+                    }
+                });
+    }
+
+    /**
+     * Metodo para abrir la ventana de administracion de partida.
+     */
+    private void abrirVentanaAdministracionPartida() {
+        AdministracionPartida.getInstance().mostrarVentana();
+    }
+
     /**
      * Metodo para cerrar todas las conexiones y terminar el programa.
      */
     private void finalizar() {
-        int res = JOptionPane.showConfirmDialog(this, "¿Esta seguro?",
+        int res = JOptionPane.showConfirmDialog(this, "Se terminara cualquier conexion existente.\n"
+                + "¿Esta seguro que desea cerrar el sistema?",
                 "Confirmación requerida", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
@@ -68,11 +90,11 @@ public class SalaEspera extends javax.swing.JFrame {
     private void initComponents() {
 
         panelConexion = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblDireccionServidor = new javax.swing.JLabel();
         txtDireccionServidor = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        btnConexion = new javax.swing.JButton();
         lblEstadoConexion = new javax.swing.JLabel();
+        btnConexion = new javax.swing.JButton();
+        lblEstadoConexionInfo = new javax.swing.JLabel();
         panelSalaEspera = new javax.swing.JPanel();
         lblNumeroJuego = new javax.swing.JLabel();
         sPanelJugadores = new javax.swing.JScrollPane();
@@ -93,11 +115,11 @@ public class SalaEspera extends javax.swing.JFrame {
 
         panelConexion.setBorder(javax.swing.BorderFactory.createTitledBorder("Conexión a partida"));
 
-        jLabel1.setText("IP servidor:");
+        lblDireccionServidor.setText("IP servidor:");
 
         txtDireccionServidor.setText("localhost");
 
-        jLabel2.setText("Estado:");
+        lblEstadoConexion.setText("Estado:");
 
         btnConexion.setText("Conectar");
         btnConexion.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +128,7 @@ public class SalaEspera extends javax.swing.JFrame {
             }
         });
 
-        lblEstadoConexion.setText("<ESTADO_CONEXION>");
+        lblEstadoConexionInfo.setText("<ESTADO_CONEXION>");
 
         javax.swing.GroupLayout panelConexionLayout = new javax.swing.GroupLayout(panelConexion);
         panelConexion.setLayout(panelConexionLayout);
@@ -115,28 +137,28 @@ public class SalaEspera extends javax.swing.JFrame {
             .addGroup(panelConexionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblEstadoConexion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDireccionServidor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelConexionLayout.createSequentialGroup()
                         .addComponent(txtDireccionServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblEstadoConexion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblEstadoConexionInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelConexionLayout.setVerticalGroup(
             panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConexionLayout.createSequentialGroup()
                 .addGroup(panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblDireccionServidor)
                     .addComponent(txtDireccionServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConexion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblEstadoConexion)))
+                    .addComponent(lblEstadoConexion)
+                    .addComponent(lblEstadoConexionInfo)))
         );
 
         panelSalaEspera.setBorder(javax.swing.BorderFactory.createTitledBorder("Sala de espera"));
@@ -252,14 +274,13 @@ public class SalaEspera extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConexionActionPerformed
-        
     }//GEN-LAST:event_btnConexionActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConexion;
     private javax.swing.JCheckBox cbxEstadoJugador;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblDireccionServidor;
     private javax.swing.JLabel lblEstadoConexion;
+    private javax.swing.JLabel lblEstadoConexionInfo;
     private javax.swing.JLabel lblNumeroJuego;
     private javax.swing.JMenuItem menuItemAdministracionPartida;
     private javax.swing.JMenuItem menuItemAlias;

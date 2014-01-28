@@ -123,7 +123,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblNumeroJuego" min="-2" pref="214" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblEstadoServidor" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -136,7 +136,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblNumeroJuego" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblEstadoServidor" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sPanelJugadores" min="-2" pref="188" max="-2" attributes="0"/>
@@ -195,7 +195,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblEstadoServidor">
       <Properties>
         <Property name="text" type="java.lang.String" value="Estado servidor: &lt;ESTADO_SERVIDOR&gt;"/>
         <Property name="horizontalTextPosition" type="int" value="4"/>

@@ -4,6 +4,7 @@
  */
 package servidor;
 
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.text.DefaultCaret;
 import logger.LogItem;
@@ -15,48 +16,66 @@ import logger.LogItem;
 public class AdministracionPartida extends javax.swing.JFrame {
 
     private static AdministracionPartida instance = null;
-    
+
     /**
      * Creates new form SalaEspera
      */
     private AdministracionPartida() {
         initComponents();
-        inicio();
+        addListenerToFrame();
+        addListenerToMenuIniciarServidor();
     }
-    
+
     public static AdministracionPartida getInstance() {
         if (instance == null) {
             instance = new AdministracionPartida();
         }
         return instance;
     }
-    
-    /**
-     * Personal method for initializing the form.
-     * Called from the constructor after initComponents()
-     */
-    private void inicio() {
-        addCloseListenerToFrame();
-    }
-    
-    private void addCloseListenerToFrame() {
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
 
+    private void addListenerToFrame() {
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                e.getWindow().setVisible(false);
-                ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
-            }
-
-            @Override
-            public void windowOpened(WindowEvent e) {
-                ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido abierta."));
+                ocultarVentana();
             }
         });
     }
-    
+
+    private void addListenerToMenuIniciarServidor() {
+        this.menuItemServidorIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                iniciarServidor();
+            }
+        });
+    }
+
     /**
-     * 
+     * Metodo para iniciar el servidor.
+     */
+    private void iniciarServidor() {
+        ServerManager.getInstance().iniciarServidor();
+    }
+
+    /**
+     * Metodo para ocultar este frame.
+     */
+    public void ocultarVentana() {
+        this.setVisible(false);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
+    }
+
+    /**
+     * Metodo para mostrar este frame.
+     */
+    public void mostrarVentana() {
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido abierta."));
+        this.setVisible(true);
+    }
+
+    /**
+     *
      */
     private void enviarChat() {
         String chat = txtChatPersonal.getText();
@@ -64,7 +83,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
             return;
         }
         txtChatArea.append(txtChatPersonal.getText() + "\n");
-        DefaultCaret caret = (DefaultCaret)txtChatPersonal.getCaret();
+        DefaultCaret caret = (DefaultCaret) txtChatPersonal.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         txtChatPersonal.setText("");
     }
@@ -84,7 +103,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
         txtChatPersonal = new javax.swing.JTextField();
         sPanelChat = new javax.swing.JScrollPane();
         txtChatArea = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        lblEstadoServidor = new javax.swing.JLabel();
         menuPrincipal = new javax.swing.JMenuBar();
         menuItemSala = new javax.swing.JMenu();
         menuItemEstablecerContraseña = new javax.swing.JMenuItem();
@@ -141,8 +160,8 @@ public class AdministracionPartida extends javax.swing.JFrame {
         txtChatArea.setRows(1);
         sPanelChat.setViewportView(txtChatArea);
 
-        jLabel1.setText("Estado servidor: <ESTADO_SERVIDOR>");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblEstadoServidor.setText("Estado servidor: <ESTADO_SERVIDOR>");
+        lblEstadoServidor.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         menuItemSala.setText("Sala");
 
@@ -208,7 +227,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lblNumeroJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
+                        .addComponent(lblEstadoServidor)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -217,7 +236,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroJuego)
-                    .addComponent(jLabel1))
+                    .addComponent(lblEstadoServidor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,9 +248,8 @@ public class AdministracionPartida extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblEstadoServidor;
     private javax.swing.JLabel lblNumeroJuego;
     private javax.swing.JMenuItem menuItemAgregarJugadorIA;
     private javax.swing.JMenuItem menuItemCargarPartida;

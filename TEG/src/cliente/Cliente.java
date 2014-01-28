@@ -24,7 +24,7 @@ public class Cliente extends Thread {
     private ConexionServidor conexion;
 
     public void run() {
-        conexion = new ConexionServidor();
+        /*conexion = new ConexionServidor();
         while (true) {
             try {
                 int disp = conexion.disponible();
@@ -37,5 +37,6 @@ public class Cliente extends Thread {
                 System.out.println(ex.getMessage());
             }
         }
+        */
     }
 }
