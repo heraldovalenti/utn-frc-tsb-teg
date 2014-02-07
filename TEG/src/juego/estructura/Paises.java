@@ -484,6 +484,33 @@ public class Paises {
         limitrofes[VIETNAM][INDIA] = 1;
         limitrofes[VIETNAM][FILIPINAS] = 1;
     }
+    
+    private static void calcularDistancia() {
+        int provisorio[];
+        for (int i = 0; i < limitrofes.length ; i++) {
+            for (int j = 0; j < limitrofes[i].length ; j++) {
+                if(j==i || limitrofes[i][j]==0) {
+                        continue;
+                }
+                else if (limitrofes[i][j]==1){
+                    provisorio= limitrofes[j];
+                    for (int k = 0; k < provisorio.length; k++) {
+                        if(provisorio[k]>0 && provisorio[k]<=2)
+                        {
+                            if(limitrofes[i][k]>provisorio[k] || limitrofes[i][k]==0)
+                            {
+                                limitrofes[i][k]=provisorio[k]+1;
+                            }
+                        }
+                    }
+                }            
+            }
+        }
+        
+    }
+    
+    
+    
     public static final int ALASKA = 0;
     public static final int ALBANIA = 1;
     public static final int ALEMANIA = 2;
