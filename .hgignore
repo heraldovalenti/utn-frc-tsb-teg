@@ -1,0 +1,5 @@
+syntax: glob
+TEG/build/
+TEG/nbproject/
+TEG/dist/
+syntax: regexp
