@@ -4,7 +4,8 @@
  */
 package servidor;
 
-import com.cliente.RecibirNuevoCliente;
+import com.cliente.RecibirChat;
+import com.cliente.RespuestaAlias;
 import com.servidor.RecibirNuevoClienteEnServidor;
 import logger.LogItem;
 import logger.Logger;
@@ -63,18 +64,25 @@ public class ServerManager {
         despachadorAcciones.parar();
         estado = ESTADO_NO_INICIADO;
         ServerManager.getInstance().getLogger().addLogItem(
-                new LogItem("Servidor iniciado"));
+                new LogItem("Servidor parado"));
     }
 
-    /**
-     * Informa de la conexion de un nuevo cliente localmente al servidor y a los
-     * clientes ya conectados al servidor.
-     *
-     * @param identificadorCliente el identificador del cliente nuevo.
-     */
     public void informarNuevoCliente(int identificadorCliente) {
-        despachadorAcciones.ingresarEntrada(new RecibirNuevoClienteEnServidor(identificadorCliente));
-        despachadorAcciones.ingresarSalida(new RecibirNuevoCliente(identificadorCliente));
+        despachadorAcciones.ingresarEntrada(new RecibirNuevoClienteEnServidor(identificadorCliente, gestorClientes));
+    }
+
+    public void procesarChat(String chat) {
+        RecibirChat aEnviarseAlCliente = new RecibirChat(chat);
+        despachadorAcciones.ingresarSalida(aEnviarseAlCliente);
+    }
+
+    public boolean procesarSolicitudAlias(int id, String alias) {
+        boolean aliasDisponible = gestorClientes.aliasDisponible(alias);
+        if (aliasDisponible) {
+            gestorClientes.establecerAlias(id, alias);
+        }
+        despachadorAcciones.ingresarSalida(new RespuestaAlias(id, aliasDisponible));
+        return aliasDisponible;
     }
 
     //METODOS SETTERS AND GETTERS - SIEMPRE AL FINAL DE LA CLASE

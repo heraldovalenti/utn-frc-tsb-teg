@@ -4,7 +4,7 @@
  */
 package cliente;
 
-import servidor.*;
+import servidor.ColaAcciones;
 
 /**
  *

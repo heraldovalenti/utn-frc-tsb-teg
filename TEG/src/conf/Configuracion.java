@@ -42,6 +42,10 @@ public class Configuracion {
         return tiempoEsperaLecturaCliente;
     }
     
+    public long tiempoEspera() {
+        return tiempoEsperaLecturaCliente;
+    }
+    
     private static final long tiempoEsperaLectura = 500;
     private static final long tiempoEsperaLecturaCliente = 100;
     private static final String direccionServidor = "localhost";

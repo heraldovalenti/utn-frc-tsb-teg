@@ -22,6 +22,10 @@ public class ConexionCliente {
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    
+    public ConexionCliente(int id) {
+        this.id = id;
+    }
 
     public ConexionCliente(Socket socket) {
         this.socket = socket;
@@ -53,7 +57,7 @@ public class ConexionCliente {
      * Metodo para verificar si el cliente conectado ha enviado datos y estan
      * pendientes de procesamiento.
      *
-     * @return int -1 si no hay datos disponibles, cualquier otro valor en caso
+     * @return int 0 si no hay datos disponibles, cualquier otro valor en caso
      * contrario.
      */
     public int disponible() {
@@ -64,7 +68,7 @@ public class ConexionCliente {
             ServerManager.getInstance().getLogger().addLogItem(
                     new LogItem("Error leyendo datos de cliente.", ex));
         }
-        return -1;
+        return 0;
     }
 
     /**
@@ -82,6 +86,15 @@ public class ConexionCliente {
                     new LogItem("Error leyendo datos de cliente.", ex));
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ConexionCliente) {
+            ConexionCliente other = (ConexionCliente) obj;
+            return other.id == this.id;
+        }
+        return false;
     }
 
     //METODOS GETTERS AND SETTER

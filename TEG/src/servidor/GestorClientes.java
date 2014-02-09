@@ -131,12 +131,35 @@ public class GestorClientes extends Thread {
      *
      * @param accion el accionable a enviarse.
      */
-    private void enviarAccionable(Accionable accion) {
-        colaAcciones.solicitarAcceso();
-        colaAcciones.informarSalida();
+    public void enviarAccionable(Accionable accion) {
         for (ConexionCliente aux : conexionesCliente) {
             aux.enviar(accion);
         }
+    }
+    
+    /**
+     * Envia un accionable a la conexion cliente especificada.
+     * Sobrecarga para enviar mensajes a un cliente en particular.
+     * @param accion el accionable a enviarse.
+     * @param cc la conexion a enviarse el accionable.
+     */
+    public void enviarAccionable(Accionable accion, ConexionCliente cc) {
+        int indexOf = conexionesCliente.indexOf(cc);
+        conexionesCliente.get(indexOf).enviar(accion);
+    }
+    
+    public boolean aliasDisponible(String alias) {
+        for (ConexionCliente cc : conexionesCliente) {
+            if (cc.getAlias().equals(alias)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public void establecerAlias(int id, String alias) {
+        int indexOf = conexionesCliente.indexOf(new ConexionCliente(id));
+        conexionesCliente.get(indexOf).setAlias(alias);
     }
 
     /**
@@ -146,7 +169,7 @@ public class GestorClientes extends Thread {
      */
     private ConexionCliente checkDatosDisponibles() {
         for (ConexionCliente cc : conexionesCliente) {
-            if (cc.disponible() != -1) {
+            if (cc.disponible() != 0) {
                 return cc;
             }
         }
@@ -192,6 +215,11 @@ public class GestorClientes extends Thread {
             }
             if (salidasEnEspera()) {
                 enviarAccionable();
+            }
+            try {
+                sleep(conf.Configuracion.getInstancia().tiempoEspera());
+            } catch (InterruptedException ex) {
+                System.err.println("error tratando de dormir: " + ex.getMessage());
             }
         }
     }

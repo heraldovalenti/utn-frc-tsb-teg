@@ -4,8 +4,8 @@
  */
 package cliente;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
@@ -24,6 +24,35 @@ public class SalaEspera extends javax.swing.JFrame {
         initComponents();
         addListenerToFrame();
         addListenerToAdministracionPartidaMenu();
+        addListenerToAliasMenu();
+        addListenerToChatPersonal();
+        setCaretPolicyToChatArea();
+        cargarAlias();
+    }
+
+    private void cargarAlias() {
+        String aliasActual = ClienteManager.getInstance().getControlAlias().getAlias();
+        lblAlias.setText("Alias: " + aliasActual);
+    }
+    
+    public void recargarAlias() {
+        cargarAlias();
+    }
+
+    private void setCaretPolicyToChatArea() {
+        DefaultCaret caret = (DefaultCaret) txtChatArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+
+    private void addListenerToChatPersonal() {
+        this.txtChatPersonal.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enviarChat();
+                }
+            }
+        });
     }
 
     private void addListenerToFrame() {
@@ -35,14 +64,22 @@ public class SalaEspera extends javax.swing.JFrame {
         });
     }
 
+    private void addListenerToAliasMenu() {
+        this.menuItemAlias.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                solicitarNuevoAlias();
+            }
+        });
+    }
+
     private void addListenerToAdministracionPartidaMenu() {
-        this.menuItemAdministracionPartida.addMouseListener(
-                new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        abrirVentanaAdministracionPartida();
-                    }
-                });
+        this.menuItemAdministracionPartida.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirVentanaAdministracionPartida();
+            }
+        });
     }
 
     /**
@@ -66,18 +103,30 @@ public class SalaEspera extends javax.swing.JFrame {
         //se deberia notificar al servidor de la desconexion.
     }
 
-    /**
-     * Envia el
-     */
+    public void mostrarChat(String chat) {
+        if (chat != null && chat.isEmpty()) {
+            return;
+        }
+        txtChatArea.append(chat + "\n");
+    }
+
+    public void solicitarNuevoAlias() {
+        EleccionAlias frm = new EleccionAlias(this, true);
+        frm.setVisible(true);
+    }
+
     private void enviarChat() {
         String chat = txtChatPersonal.getText();
         if (chat != null && chat.isEmpty()) {
             return;
         }
-        txtChatArea.append(txtChatPersonal.getText() + "\n");
-        DefaultCaret caret = (DefaultCaret) txtChatPersonal.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        ClienteManager.getInstance().enviarChat(chat);
         txtChatPersonal.setText("");
+    }
+
+    private void iniciarConexion() {
+        String direccion = txtDireccionServidor.getText();
+        ClienteManager.getInstance().conectarServidor(direccion);
     }
 
     /**
@@ -103,6 +152,9 @@ public class SalaEspera extends javax.swing.JFrame {
         txtChatArea = new javax.swing.JTextArea();
         txtChatPersonal = new javax.swing.JTextField();
         cbxEstadoJugador = new javax.swing.JCheckBox();
+        lblAlias = new javax.swing.JLabel();
+        lblIdConexion = new javax.swing.JLabel();
+        lblColorAsignado = new javax.swing.JLabel();
         menuPrincipal = new javax.swing.JMenuBar();
         menuItemOpciones = new javax.swing.JMenu();
         menuItemAlias = new javax.swing.JMenuItem();
@@ -142,7 +194,7 @@ public class SalaEspera extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelConexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelConexionLayout.createSequentialGroup()
-                        .addComponent(txtDireccionServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                        .addComponent(txtDireccionServidor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblEstadoConexionInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -200,6 +252,12 @@ public class SalaEspera extends javax.swing.JFrame {
 
         cbxEstadoJugador.setText("Estoy listo");
 
+        lblAlias.setText("Alias: <ALIAS>");
+
+        lblIdConexion.setText("ID Conexion: <ID_CONEXION>");
+
+        lblColorAsignado.setText("Color: <COLOR_ASIGNADO>");
+
         javax.swing.GroupLayout panelSalaEsperaLayout = new javax.swing.GroupLayout(panelSalaEspera);
         panelSalaEspera.setLayout(panelSalaEsperaLayout);
         panelSalaEsperaLayout.setHorizontalGroup(
@@ -207,24 +265,37 @@ public class SalaEspera extends javax.swing.JFrame {
             .addGroup(panelSalaEsperaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNumeroJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sPanelJugadores, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                    .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(sPanelChat)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSalaEsperaLayout.createSequentialGroup()
+                    .addGroup(panelSalaEsperaLayout.createSequentialGroup()
                         .addComponent(txtChatPersonal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxEstadoJugador)))
+                        .addComponent(cbxEstadoJugador))
+                    .addGroup(panelSalaEsperaLayout.createSequentialGroup()
+                        .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblAlias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNumeroJuego, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIdConexion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblColorAsignado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panelSalaEsperaLayout.setVerticalGroup(
             panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSalaEsperaLayout.createSequentialGroup()
-                .addComponent(lblNumeroJuego)
+                .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumeroJuego)
+                    .addComponent(lblIdConexion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAlias)
+                    .addComponent(lblColorAsignado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelChat, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtChatPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxEstadoJugador))
@@ -274,13 +345,17 @@ public class SalaEspera extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConexionActionPerformed
+        iniciarConexion();
     }//GEN-LAST:event_btnConexionActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConexion;
     private javax.swing.JCheckBox cbxEstadoJugador;
+    private javax.swing.JLabel lblAlias;
+    private javax.swing.JLabel lblColorAsignado;
     private javax.swing.JLabel lblDireccionServidor;
     private javax.swing.JLabel lblEstadoConexion;
     private javax.swing.JLabel lblEstadoConexionInfo;
+    private javax.swing.JLabel lblIdConexion;
     private javax.swing.JLabel lblNumeroJuego;
     private javax.swing.JMenuItem menuItemAdministracionPartida;
     private javax.swing.JMenuItem menuItemAlias;
