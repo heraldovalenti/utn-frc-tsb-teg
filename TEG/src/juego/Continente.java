@@ -18,15 +18,6 @@ public class Continente {
         this.nombre = nombre;
     }
     
-    public boolean equals(Object o) {
-        if (o instanceof Continente) {
-            Continente otro = (Continente) o;
-            return otro.nroContinente == this.nroContinente;
-        } else {
-            return false;
-        }
-    }
-
     public int getNroContinente() {
         return nroContinente;
     }
@@ -34,4 +25,28 @@ public class Continente {
     public String getNombre() {
         return nombre;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + this.nroContinente;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Continente other = (Continente) obj;
+        if (this.nroContinente != other.nroContinente) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
