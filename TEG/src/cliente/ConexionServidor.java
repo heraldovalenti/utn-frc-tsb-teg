@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logger.LogItem;
+import servidor.ColaAcciones;
 
 /**
  *
@@ -21,8 +24,13 @@ public class ConexionServidor extends Thread {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private boolean banderaEjecucion;
+    private ColaAcciones colaAcciones;
+    private int id;
+    private String alias;
 
-    public ConexionServidor() {
+    public ConexionServidor(ColaAcciones colaAcciones) {
+        this.colaAcciones = colaAcciones;
     }
     
     public void conectar(String direccionServidor) {
@@ -69,7 +77,7 @@ public class ConexionServidor extends Thread {
             ClienteManager.getInstance().getLogger().addLogItem(
                     new LogItem("Error leyendo datos del servidor.", ex));
         }
-        return -1;
+        return 0;
     }
 
     public void enviar(Accionable a) {
@@ -82,22 +90,63 @@ public class ConexionServidor extends Thread {
                     new LogItem("Error enviando datos al servidor", ex));
         }
     }
-
+    
+    private boolean datosDisponibles() {
+        return disponible() != 0;
+    }
+        
+    private void leerAccionable() {
+        Accionable accion = recibir();
+        colaAcciones.solicitarAcceso();
+        colaAcciones.pushEntrada(accion);
+        colaAcciones.informarSalida();
+    }
+    
+    private boolean salidasEnEspera() {
+        colaAcciones.solicitarAcceso();
+        boolean res = colaAcciones.haySalidas();
+        colaAcciones.informarSalida();
+        return res;
+    }
+    
+   private void enviarAccionable() {
+        colaAcciones.solicitarAcceso();
+        Accionable accion = colaAcciones.pullSalida();
+        colaAcciones.informarSalida();
+        enviar(accion);
+    }
+    
     @Override
     public void run() {
-        long tiempoEspera = Configuracion.getInstancia().tiempoEsperaLecturaCliente();
-        while (true) {
-            //MonitorCliente.getInstance().startWork();
-            System.out.println(System.nanoTime() + ": Conexion servidor checkeada...");
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexion servidor checkeada..."));
-            //MonitorCliente.getInstance().jobFinished();
+        banderaEjecucion = true;
+        while (banderaEjecucion) {
+            if (datosDisponibles()) {
+                leerAccionable();
+            }
+            if (salidasEnEspera()) {
+                enviarAccionable();
+            }
             try {
-                sleep(tiempoEspera);
+                sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
-                System.out.println("Error: " + ex);
+                System.err.println("error tratando de dormir: " + ex.getMessage());
             }
         }
     }
-    
-    
+
+    public void setConexionId(int id) {
+        this.id = id;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public int getConexionId() {
+        return id;
+    }
+
+    public String getAlias() {
+        return alias;
+    }    
 }

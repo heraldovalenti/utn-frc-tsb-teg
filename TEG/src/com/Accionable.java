@@ -4,11 +4,13 @@
  */
 package com;
 
+import java.io.Serializable;
+
 /**
  *
  * @author heril
  */
-public interface Accionable {
+public interface Accionable extends Serializable {
     
     public void accionar();
     

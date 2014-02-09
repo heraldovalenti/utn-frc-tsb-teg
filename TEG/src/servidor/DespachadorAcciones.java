@@ -37,8 +37,9 @@ public class DespachadorAcciones extends Thread {
      */
     private void despacharEntradas() {
         colaAcciones.solicitarAcceso();
-        colaAcciones.pullEntrada().accionar();
+        Accionable accion = colaAcciones.pullEntrada();
         colaAcciones.informarSalida();
+        accion.accionar();
     }
 
     /**
@@ -76,6 +77,11 @@ public class DespachadorAcciones extends Thread {
         while (banderaEjecucion) {
             if (entradasPendientes()) {
                 despacharEntradas();
+            }
+            try {
+                sleep(conf.Configuracion.getInstancia().tiempoEspera());
+            } catch (InterruptedException ex) {
+                System.err.println("error tratando de dormir: " + ex.getMessage());
             }
         }
     }
