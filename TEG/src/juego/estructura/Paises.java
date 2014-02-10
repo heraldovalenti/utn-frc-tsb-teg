@@ -14,11 +14,79 @@ import juego.Pais;
  */
 public class Paises {
 
-//    public static void main(String args[]) {
-//        armarEstructura();
-//        extenderLimites();
-//        esSimetrica();
-//    }
+    public static final int ALASKA = 0;
+    public static final int ALBANIA = 1;
+    public static final int ALEMANIA = 2;
+    public static final int ANGOLA = 3;
+    public static final int ARABIA = 4;
+    public static final int ARGENTINA = 5;
+    public static final int AUSTRALIA = 6;
+    public static final int BIELORRUSIA = 7;
+    public static final int BOLIVIA = 8;
+    public static final int BRASIL = 9;
+    public static final int CALIFORNIA = 10;
+    public static final int CANADA = 11;
+    public static final int COLOMBIA = 12;
+    public static final int COREA = 13;
+    public static final int CROACIA = 14;
+    public static final int CUBA = 15;
+    public static final int CHECHENIA = 16;
+    public static final int CHICAGO = 17;
+    public static final int CHILE = 18;
+    public static final int CHINA = 19;
+    public static final int CHUKCHI = 20;
+    public static final int IRLANDA = 21;
+    public static final int ETIOPIA = 22;
+    public static final int EGIPTO = 23;
+    public static final int EL_SALVADOR = 24;
+    public static final int ESPANA = 25;
+    public static final int FILIPINAS = 26;
+    public static final int FINLANDIA = 27;
+    public static final int FRANCIA = 28;
+    public static final int GRAN_BRETANA = 29;
+    public static final int GROENLANDIA = 30;
+    public static final int HONDURAS = 31;
+    public static final int INDIA = 32;
+    public static final int IRAK = 33;
+    public static final int IRAN = 34;
+    public static final int ISLANDIA = 35;
+    public static final int ISLA_VICTORIA = 36;
+    public static final int ISRAEL = 37;
+    public static final int ITALIA = 38;
+    public static final int JAMAICA = 39;
+    public static final int JAPON = 40;
+    public static final int KAMTCHATKA = 41;
+    public static final int FLORIDA = 42;
+    public static final int LABRADOR = 43;
+    public static final int LAS_VEGAS = 44;
+    public static final int MADAGASCAR = 45;
+    public static final int MALASIA = 46;
+    public static final int MAURITANIA = 47;
+    public static final int MEXICO = 48;
+    public static final int NICARAGUA = 49;
+    public static final int NIGERIA = 50;
+    public static final int NORUEGA = 51;
+    public static final int NUEVA_YORK = 52;
+    public static final int NUEVA_ZELANDIA = 53;
+    public static final int OREGON = 54;
+    public static final int PARAGUAY = 55;
+    public static final int UCRANIA = 56;
+    public static final int PORTUGAL = 57;
+    public static final int RUSIA = 58;
+    public static final int SAHARA = 59;
+    public static final int SERBIA = 60;
+    public static final int SIBERIA = 61;
+    public static final int SUDAFRICA = 62;
+    public static final int SUMATRA = 63;
+    public static final int TASMANIA = 64;
+    public static final int TERRANOVA = 65;
+    public static final int TONGA = 66;
+    public static final int TURQUIA = 67;
+    public static final int POLONIA = 68;
+    public static final int URUGUAY = 69;
+    public static final int VENEZUELA = 70;
+    public static final int VIETNAM = 71;
+
     private static void esSimetrica() {
         boolean res = true;
         for (int i = 0; i < limitrofes.length; i++) {
@@ -33,7 +101,7 @@ public class Paises {
     }
 
     private static void imprimir() {
-        System.out.println("\t0\t\t8\t\t16\t\t24\t\t32\t\t40\t\t48\t\t56\t\t646566676869707172");
+        System.out.println("\t0\t\t8\t\t16\t\t24\t\t32\t\t40\t\t48\t\t56\t\t64");
         for (int i = 0; i < limitrofes.length; i++) {
             System.out.print(i + ">\t");
             for (int j = 0; j < limitrofes.length; j++) {
@@ -47,12 +115,10 @@ public class Paises {
         for (int i = 0; i < limitrofes.length; i++) {
             for (int j = 0; j < limitrofes.length; j++) {
                 if (limitrofes[i][j] == 1) {
-
                 }
             }
         }
     }
-
     private static int[][] limitrofes = null;
 
     public static boolean sonLimitrofes(Pais origen, Pais destino) {
@@ -486,95 +552,34 @@ public class Paises {
 
     private static void calcularDistancia() {
         int provisorio[];
-        for (int i = 0; i < limitrofes.length; i++) {
-            for (int j = 0; j < limitrofes[i].length; j++) {
-                if (j == i || limitrofes[i][j] == 0) {
-                    continue;
-                } else if (limitrofes[i][j] == 1) {
-                    provisorio = limitrofes[j];
-                    for (int k = 0; k < provisorio.length; k++) {
-                        if (provisorio[k] > 0 && provisorio[k] <= 2) {
-                            if (limitrofes[i][k] > provisorio[k] || limitrofes[i][k] == 0) {
-                                limitrofes[i][k] = provisorio[k] + 1;
+        for (int pasadas = 0; pasadas < 10; pasadas++) {
+            for (int i = 0; i < limitrofes.length; i++) {
+                for (int j = 0; j < limitrofes[i].length; j++) {
+                    if (j == i || limitrofes[i][j] == 0) {
+                        continue;
+                    } else if (limitrofes[i][j] == 1) {
+                        provisorio = limitrofes[j];
+                        for (int k = 0; k < provisorio.length; k++) {
+                            if (provisorio[k] > 0 && provisorio[k] <= 2) {
+                                if (limitrofes[i][k] > provisorio[k] || limitrofes[i][k] == 0) {
+                                    if (i != k) {
+                                        limitrofes[i][k] = provisorio[k] + 1;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
-
     }
 
-    public static final int ALASKA = 0;
-    public static final int ALBANIA = 1;
-    public static final int ALEMANIA = 2;
-    public static final int ANGOLA = 3;
-    public static final int ARABIA = 4;
-    public static final int ARGENTINA = 5;
-    public static final int AUSTRALIA = 6;
-    public static final int BIELORRUSIA = 7;
-    public static final int BOLIVIA = 8;
-    public static final int BRASIL = 9;
-    public static final int CALIFORNIA = 10;
-    public static final int CANADA = 11;
-    public static final int COLOMBIA = 12;
-    public static final int COREA = 13;
-    public static final int CROACIA = 14;
-    public static final int CUBA = 15;
-    public static final int CHECHENIA = 16;
-    public static final int CHICAGO = 17;
-    public static final int CHILE = 18;
-    public static final int CHINA = 19;
-    public static final int CHUKCHI = 20;
-    public static final int IRLANDA = 21;
-    public static final int ETIOPIA = 22;
-    public static final int EGIPTO = 23;
-    public static final int EL_SALVADOR = 24;
-    public static final int ESPANA = 25;
-    public static final int FILIPINAS = 26;
-    public static final int FINLANDIA = 27;
-    public static final int FRANCIA = 28;
-    public static final int GRAN_BRETANA = 29;
-    public static final int GROENLANDIA = 30;
-    public static final int HONDURAS = 31;
-    public static final int INDIA = 32;
-    public static final int IRAK = 33;
-    public static final int IRAN = 34;
-    public static final int ISLANDIA = 35;
-    public static final int ISLA_VICTORIA = 36;
-    public static final int ISRAEL = 37;
-    public static final int ITALIA = 38;
-    public static final int JAMAICA = 39;
-    public static final int JAPON = 40;
-    public static final int KAMTCHATKA = 41;
-    public static final int FLORIDA = 42;
-    public static final int LABRADOR = 43;
-    public static final int LAS_VEGAS = 44;
-    public static final int MADAGASCAR = 45;
-    public static final int MALASIA = 46;
-    public static final int MAURITANIA = 47;
-    public static final int MEXICO = 48;
-    public static final int NICARAGUA = 49;
-    public static final int NIGERIA = 50;
-    public static final int NORUEGA = 51;
-    public static final int NUEVA_YORK = 52;
-    public static final int NUEVA_ZELANDIA = 53;
-    public static final int OREGON = 54;
-    public static final int PARAGUAY = 55;
-    public static final int UCRANIA = 56;
-    public static final int PORTUGAL = 57;
-    public static final int RUSIA = 58;
-    public static final int SAHARA = 59;
-    public static final int SERBIA = 60;
-    public static final int SIBERIA = 61;
-    public static final int SUDAFRICA = 62;
-    public static final int SUMATRA = 63;
-    public static final int TASMANIA = 64;
-    public static final int TERRANOVA = 65;
-    public static final int TONGA = 66;
-    public static final int TURQUIA = 67;
-    public static final int POLONIA = 68;
-    public static final int URUGUAY = 69;
-    public static final int VENEZUELA = 70;
-    public static final int VIETNAM = 71;
+    public static void main(String args[]) {
+        armarEstructura();
+        extenderLimites();
+        esSimetrica();
+        imprimir();
+        calcularDistancia();
+        imprimir();
+    }
 }
