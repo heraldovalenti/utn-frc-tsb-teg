@@ -33,7 +33,7 @@ public class Paises {
     }
 
     private static void imprimir() {
-        System.out.println("\t0\t\t8\t\t16\t\t24\t\t32\t\t40\t\t48\t\t56\t\t646566676869707172");
+        System.out.println("\t0\t\t8\t\t16\t\t24\t\t32\t\t40\t\t48\t\t56\t\t64");
         for (int i = 0; i < limitrofes.length; i++) {
             System.out.print(i + ">\t");
             for (int j = 0; j < limitrofes.length; j++) {
@@ -487,29 +487,43 @@ public class Paises {
     
     private static void calcularDistancia() {
         int provisorio[];
-        for (int i = 0; i < limitrofes.length ; i++) {
-            for (int j = 0; j < limitrofes[i].length ; j++) {
-                if(j==i || limitrofes[i][j]==0) {
-                        continue;
-                }
-                else if (limitrofes[i][j]==1){
-                    provisorio= limitrofes[j];
-                    for (int k = 0; k < provisorio.length; k++) {
-                        if(provisorio[k]>0 && provisorio[k]<=2)
-                        {
-                            if(limitrofes[i][k]>provisorio[k] || limitrofes[i][k]==0)
+        for (int pasadas = 0; pasadas < 10; pasadas++) {
+            for (int i = 0; i < limitrofes.length ; i++) {
+                for (int j = 0; j < limitrofes[i].length ; j++) {
+                    if(j==i || limitrofes[i][j]==0) {
+                            continue;
+                    }
+                    else if (limitrofes[i][j]==1){
+                        provisorio= limitrofes[j];
+                        for (int k = 0; k < provisorio.length; k++) {
+                            if(provisorio[k]>0 && provisorio[k]<=2)
                             {
-                                limitrofes[i][k]=provisorio[k]+1;
+                                if(limitrofes[i][k]>provisorio[k] || limitrofes[i][k]==0)
+                                {
+                                    if(i!=k) {
+                                        limitrofes[i][k]=provisorio[k]+1;
+                                    }
+                                }
                             }
                         }
-                    }
-                }            
+                    }            
+                }
             }
         }
-        
     }
     
-    
+    /**
+     *
+     * @param args
+     */
+    public static void main(String args []){
+        armarEstructura();
+        extenderLimites();
+        esSimetrica();
+        imprimir();
+        calcularDistancia();
+        imprimir();
+    }
     
     public static final int ALASKA = 0;
     public static final int ALBANIA = 1;
