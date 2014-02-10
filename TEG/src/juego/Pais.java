@@ -17,12 +17,14 @@ public class Pais {
     private String nombre;
     private Continente continente;
     private Ocupacion ocupacion;
+    private boolean isla;
 
-    public Pais(int nroPais, String nombre, Continente continente) {
+    public Pais(int nroPais, String nombre, Continente continente, boolean isla) {
         this.nroPais = nroPais;
         this.nombre = nombre;
         this.continente = continente;
         ocupacion = new Ocupacion();
+        this.isla = isla;
     }
 
     public String getNombre() {
@@ -36,7 +38,7 @@ public class Pais {
     public Ocupacion getOcupacion() {
         return ocupacion;
     }
-    
+
     public Continente getContinente() {
         return continente;
     }
@@ -45,12 +47,34 @@ public class Pais {
         return otro.continente.equals(this.continente);
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof Pais) {
-            Pais otro = (Pais) o;
-            return otro.nroPais == this.nroPais;
-        } else {
+    public boolean isIsla() {
+        return isla;
+    }
+
+    public void setIsla(boolean isla) {
+        this.isla = isla;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + this.nroPais;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pais other = (Pais) obj;
+        if (this.nroPais != other.nroPais) {
+            return false;
+        }
+        return true;
     }
+
 }

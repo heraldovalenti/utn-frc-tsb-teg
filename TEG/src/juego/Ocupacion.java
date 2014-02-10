@@ -13,6 +13,7 @@ public class Ocupacion {
     private Jugador jugador;
     private int ejercitos;
     private int misiles;
+    private Pais pais;
 
     public Jugador getJugador() {
         return jugador;
@@ -37,4 +38,13 @@ public class Ocupacion {
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
     }    
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+    
 }
