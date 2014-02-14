@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logger.LogItem;
 import servidor.ColaAcciones;
 
@@ -27,36 +25,53 @@ public class ConexionServidor extends Thread {
     private boolean banderaEjecucion;
     private ColaAcciones colaAcciones;
     private int id;
-    private String alias;
+    private boolean conectado;
+    private static String ESTADO_SIN_CONEXION = "Sin conexión";
+    private static String ESTADO_CONEXION_ESTABLECIDA = "Conexión establecida";
 
     public ConexionServidor(ColaAcciones colaAcciones) {
         this.colaAcciones = colaAcciones;
+        conectado =  false;
     }
-    
-    public void conectar(String direccionServidor) {
+
+    public void conectar(String direccionServidor) throws IOException {
         try {
             socket = new Socket(
                     direccionServidor,
                     Configuracion.getInstancia().puertoServidor());
             out = new ObjectOutputStream(this.socket.getOutputStream());
             in = new ObjectInputStream(this.socket.getInputStream());
+            conectado =  true;
         } catch (IOException ex) {
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error estableciendo conexión con el servidor.", ex));
+            socket = null;
+            out = null;
+            in = null;
+            conectado =  false;
+            throw ex;
         }
     }
-    
-    public void desconectar() {
+
+    public void desconectar() throws IOException {
         try {
             in.close();
             out.close();
             socket.close();
             this.interrupt();
-        } catch (IOException | SecurityException ex) {
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error cerrado conexión con el servidor.", ex));
+            conectado =  false;
+        } catch (IOException ex) {
+            socket = null;
+            out = null;
+            in = null;
+            conectado =  false;
+            throw ex;
         }
-        
     }
 
+    /**
+     * Lee y retorna un accionable desde la entrada.
+     *
+     * @return el accionable leido.
+     */
     private Accionable recibir() {
         try {
             in.read();
@@ -69,6 +84,12 @@ public class ConexionServidor extends Thread {
         return null;
     }
 
+    /**
+     * Lee y retorna la cantidad de bytes disponibles para lectura en la
+     * entrada.
+     *
+     * @return la cantidad de bytes disponibles para lectura.
+     */
     private int disponible() {
         try {
             int disponible = in.available();
@@ -80,42 +101,67 @@ public class ConexionServidor extends Thread {
         return 0;
     }
 
-    public void enviar(Accionable a) {
+    /**
+     * Envia un accionable al servidor.
+     *
+     * @param a el accionable a enviarse.
+     * @throws IOException si surge algun error durante el envío.
+     */
+    public void enviar(Accionable a) throws IOException {
         try {
             out.write(1);
             out.writeObject(a);
             out.flush();
         } catch (IOException ex) {
-            ClienteManager.getInstance().getLogger().addLogItem(
-                    new LogItem("Error enviando datos al servidor", ex));
+            throw ex;
         }
     }
-    
+
+    /**
+     * Verifica si hay datos disponibles para lectura o no.
+     *
+     * @return true si hay datos disponibles para leerse, false en otro caso.
+     */
     private boolean datosDisponibles() {
         return disponible() != 0;
     }
-        
+
+    /**
+     * Lee un accionable desde la entrada y lo ingresa en la cola de acciones.
+     */
     private void leerAccionable() {
         Accionable accion = recibir();
         colaAcciones.solicitarAcceso();
         colaAcciones.pushEntrada(accion);
         colaAcciones.informarSalida();
     }
-    
+
+    /**
+     * Verifica si hay salidas en la cola de acciones esperando a ser enviadas.
+     *
+     * @return true si hay salidas esperando su envio, false en otro caso.
+     */
     private boolean salidasEnEspera() {
         colaAcciones.solicitarAcceso();
         boolean res = colaAcciones.haySalidas();
         colaAcciones.informarSalida();
         return res;
     }
-    
-   private void enviarAccionable() {
+
+    /**
+     * Obtiene un accionable desde la cola de acciones y lo envia al servidor.
+     */
+    private void enviarAccionable() {
         colaAcciones.solicitarAcceso();
         Accionable accion = colaAcciones.pullSalida();
         colaAcciones.informarSalida();
-        enviar(accion);
+        try {
+            enviar(accion);
+        } catch (IOException ex) {
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error enviando datos al servidor.", ex));
+        }
     }
-    
+
     @Override
     public void run() {
         banderaEjecucion = true;
@@ -138,15 +184,25 @@ public class ConexionServidor extends Thread {
         this.id = id;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     public int getConexionId() {
         return id;
     }
 
-    public String getAlias() {
-        return alias;
-    }    
+    /**
+     * Metodo para verificar si esta conextado al servidor o no.
+     *
+     * @return true si esta conectado, false en otro caso.
+     */
+    public boolean conexionEstablecida() {
+        return conectado;
+    }
+
+    /**
+     * Informa el estado de la conexión.
+     * @return un mensaje indicando el estado de la conexión.
+     */
+    public String getEstado() {
+        String res = (conectado) ? ESTADO_CONEXION_ESTABLECIDA : ESTADO_SIN_CONEXION;
+        return res;
+    }
 }

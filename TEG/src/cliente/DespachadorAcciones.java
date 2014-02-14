@@ -4,6 +4,8 @@
  */
 package cliente;
 
+import java.io.IOException;
+import logger.LogItem;
 import servidor.ColaAcciones;
 
 /**
@@ -25,15 +27,25 @@ public class DespachadorAcciones {
         despacharSalidas();
     }
     
+    /**
+     * Obtiene un accionable desde la cola de acciones y lo ejecuta.
+     */
     private void despacharEntradas() {
         if (colaAcciones.hayEntradas()) {
             colaAcciones.pullEntrada().accionar();
         }
     }
     
+    /**
+     * Obtiene un acionable desde la cola de acciones y lo envia al servidor.
+     */
     private void despacharSalidas() {
         if (colaAcciones.haySalidas()) {
-            conexionServidor.enviar(colaAcciones.pullSalida());
+            try {
+                conexionServidor.enviar(colaAcciones.pullSalida());
+            } catch (IOException ex) {
+                ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error enviando datos al servidor.", ex));
+            }
         }
     }
     

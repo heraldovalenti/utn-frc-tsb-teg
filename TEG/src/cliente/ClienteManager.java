@@ -4,10 +4,13 @@
  */
 package cliente;
 
+import cliente.control.ControlAlias;
+import cliente.control.ControlInicio;
 import com.Accionable;
 import com.servidor.EnviarChat;
 import logger.Logger;
 import servidor.ColaAcciones;
+import servidor.DespachadorAcciones;
 
 /**
  *
@@ -29,6 +32,8 @@ public class ClienteManager {
         logger = new Logger();
         conexionServidor = new ConexionServidor(colaAcciones);
         despachadorAcciones = new servidor.DespachadorAcciones(colaAcciones);
+        salaEspera = new SalaEspera();
+        controlAlias = new ControlAlias();
     }
     private SalaEspera salaEspera;
     private ConexionServidor conexionServidor;
@@ -37,28 +42,28 @@ public class ClienteManager {
     private Logger logger;
     private String estado;
     private ControlAlias controlAlias;
-    private static String ESTADO_SIN_CONEXION = "Servidor en ejecución";
-    private static String ESTADO_CONEXION_ESTABLECIDA = "Servidor no iniciado";
     
+    /**
+     * Metodo para iniciar la aplicacion.
+     */
+    public void init() {
+        new ControlInicio().iniciar();
+    }
+    
+    /**
+     * Registra una salida en la cola de acciones.
+     * @param salida la salida a registrarse en la cola.
+     */
     public void registrarSalida(Accionable salida) {
         colaAcciones.pushSalida(salida);
     }
     
+    /**
+     * Registra una entrada en la cola de acciones.
+     * @param entrada la entrada a registrarse en la cola.
+     */
     public void registrarEntrada(Accionable entrada) {
         colaAcciones.pushEntrada(entrada);
-    }
-
-    public void conectarServidor(String direccionServidor) {
-        conexionServidor.conectar(direccionServidor);
-        conexionServidor.start();
-        despachadorAcciones.start();
-        estado = ESTADO_CONEXION_ESTABLECIDA;
-    }
-
-    public void desconectarServidor() {
-        conexionServidor.desconectar();
-        despachadorAcciones.parar();
-        estado = ESTADO_SIN_CONEXION;
     }
 
     public void enviarChat(String chat) {
@@ -82,10 +87,6 @@ public class ClienteManager {
     public String getEstado() {
         return this.estado;
     }
-
-    public void setSalaEspera(SalaEspera salaEspera) {
-        this.salaEspera = salaEspera;
-    }
     
     public SalaEspera getSalaEspera() {
         return this.salaEspera;
@@ -97,4 +98,14 @@ public class ClienteManager {
     public ControlAlias getControlAlias() {
         return this.controlAlias;
     }
+
+    public ConexionServidor getConexionServidor() {
+        return conexionServidor;
+    }
+
+    public DespachadorAcciones getDespachadorAcciones() {
+        return despachadorAcciones;
+    }
+    
+    
 }

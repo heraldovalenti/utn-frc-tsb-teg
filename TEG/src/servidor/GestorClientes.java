@@ -205,6 +205,14 @@ public class GestorClientes extends Thread {
         enviarAccionable(new CerrarConexion(CerrarConexion.SERVIDOR_INTERRUMPIDO));
         banderaEjecucion = false;
     }
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean conexionesEstablecidas() {
+        return conexionesCliente.size() != 0;
+    }
 
     @Override
     public void run() {
