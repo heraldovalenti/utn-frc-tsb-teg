@@ -4,7 +4,6 @@
  */
 package juego;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,7 @@ public class Jugador {
 
     private int nroJugador;
     private String nombre;
-    private String color;
+    private Color color;
     private List<Ocupacion> listaOcupaciones;
 
     public Jugador() {
@@ -27,7 +26,7 @@ public class Jugador {
         this.nroJugador = nroJugador;
     }
 
-    public Jugador(int nroJugador, String nombre, String color) {
+    public Jugador(int nroJugador, String nombre, Color color) {
         this.nroJugador = nroJugador;
         this.nombre = nombre;
         this.color = color;
@@ -93,11 +92,11 @@ public class Jugador {
         }
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 }

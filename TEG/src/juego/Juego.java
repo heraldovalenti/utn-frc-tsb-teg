@@ -21,7 +21,7 @@ public class Juego {
     
     private Juego() {
     }
-    
+    private int idJuego;
     private List<Jugador> jugadores;
     private List<Pais> paises;
     private List<TarjetaContinente> tarjetasContinente;
@@ -44,8 +44,12 @@ public class Juego {
     public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
-    
-    
-    
-    
+
+    public int getIdJuego() {
+        return idJuego;
+    }
+
+    public void setIdJuego(int idJuego) {
+        this.idJuego = idJuego;
+    }    
 }

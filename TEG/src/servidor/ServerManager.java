@@ -5,7 +5,6 @@
 package servidor;
 
 import com.cliente.RecibirChat;
-import com.cliente.RespuestaAlias;
 import com.servidor.RecibirNuevoClienteEnServidor;
 import logger.Logger;
 
@@ -46,15 +45,6 @@ public class ServerManager {
     public void procesarChat(String chat) {
         RecibirChat aEnviarseAlCliente = new RecibirChat(chat);
         despachadorAcciones.ingresarSalida(aEnviarseAlCliente);
-    }
-
-    public boolean procesarSolicitudAlias(int id, String alias) {
-        boolean aliasDisponible = gestorClientes.aliasDisponible(alias);
-        if (aliasDisponible) {
-            gestorClientes.establecerAlias(id, alias);
-        }
-        despachadorAcciones.ingresarSalida(new RespuestaAlias(id, aliasDisponible));
-        return aliasDisponible;
     }
 
     //METODOS SETTERS AND GETTERS - SIEMPRE AL FINAL DE LA CLASE

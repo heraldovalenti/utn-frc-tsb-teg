@@ -8,6 +8,8 @@ import cliente.control.ControlAlias;
 import cliente.control.ControlInicio;
 import com.Accionable;
 import com.servidor.EnviarChat;
+import juego.Juego;
+import juego.Jugador;
 import logger.Logger;
 import servidor.ColaAcciones;
 import servidor.DespachadorAcciones;
@@ -34,6 +36,8 @@ public class ClienteManager {
         despachadorAcciones = new servidor.DespachadorAcciones(colaAcciones);
         salaEspera = new SalaEspera();
         controlAlias = new ControlAlias();
+        juego = Juego.getInstancia();
+        jugador = new Jugador();
     }
     private SalaEspera salaEspera;
     private ConexionServidor conexionServidor;
@@ -42,6 +46,8 @@ public class ClienteManager {
     private Logger logger;
     private String estado;
     private ControlAlias controlAlias;
+    private Juego juego;
+    private Jugador jugador;
     
     /**
      * Metodo para iniciar la aplicacion.
@@ -91,10 +97,6 @@ public class ClienteManager {
     public SalaEspera getSalaEspera() {
         return this.salaEspera;
     }
-    
-    public int getIdentificadorConexion() {
-        return this.conexionServidor.getConexionId();
-    }
     public ControlAlias getControlAlias() {
         return this.controlAlias;
     }
@@ -106,6 +108,12 @@ public class ClienteManager {
     public DespachadorAcciones getDespachadorAcciones() {
         return despachadorAcciones;
     }
-    
-    
+
+    public Juego getJuego() {
+        return juego;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
 }
