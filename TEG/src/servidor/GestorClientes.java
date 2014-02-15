@@ -7,6 +7,7 @@ package servidor;
 import com.Accionable;
 import com.cliente.CerrarConexion;
 import java.util.LinkedList;
+import servidor.control.ControlInicioConexion;
 
 /**
  *
@@ -27,15 +28,15 @@ public class GestorClientes extends Thread {
     }
 
     /**
-     * Agrega una conexion con un cliente al gestor e informa de la
-     * conexion con el nuevo cliente mediante una llamada al server manager.
+     * Agrega una conexion con un cliente al gestor.
+     * Ejecuta el procedimiento de inicio de conexion con el cliente.
      *
      * @param cc ConexionCliente a agregar
      */
     public void agregarCliente(ConexionCliente cc) {
         cc.setId(generarIdentificadorUnico());
         conexionesCliente.add(cc);
-        ServerManager.getInstance().informarNuevoCliente(cc.getId());
+        new ControlInicioConexion(cc).ejecutar();
     }
     
     /**

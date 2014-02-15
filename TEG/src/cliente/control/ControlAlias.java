@@ -8,6 +8,7 @@ import cliente.ClienteManager;
 import cliente.SalaEspera;
 import com.servidor.SolicitarAlias;
 import javax.swing.JOptionPane;
+import logger.LogItem;
 
 /**
  *
@@ -71,6 +72,37 @@ public class ControlAlias {
         return cadena != null && !cadena.isEmpty();
     }
 
+    /**
+     * Informa al servidor del alias ingresado por el usuario.
+     */
+    public void informarAliasAServidor() {
+        int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
+        SolicitarAlias solicitarAlias = new SolicitarAlias(idConexion, alias);
+        ClienteManager.getInstance().registrarSalida(solicitarAlias);
+        ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias informado a servidor. Esperando respuesta."));
+        solicitudRealizada = true;
+    }
+    
+    /**
+     * Recibe la respuesta del servidor de la solicitud del alias realizada.
+     * Si el alias fue aceptado por el servidor, procede a solicitar un color.
+     * Si el alias no fue aceptado, procede a solicitar un alias nuevo al
+     * usuario y a solicitar el alias al servidor nuevamente.
+     * @param aceptado true si el alias fue aceptado por el servidor, false en 
+     * otro caso.
+     */
+    public void respuestaServidor(boolean aceptado) {
+        aceptadoPorServidor = aceptado;
+        if (aceptadoPorServidor) {
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias aceptado por servidor."));
+            new ControlColor().solicitarColor();
+        } else {
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias rechazadp por servidor. Solicitando un nuevo alias."));
+            solicitarAlias();
+            informarAliasAServidor();
+        }
+    }
+    
     public void ejecutarControlAlias() {
         //si esta aceptado por el servidor, no hay que hacer nada
         if (aceptadoPorServidor) {
@@ -82,7 +114,7 @@ public class ControlAlias {
             return;
         }
         //se realiza la peticion del alias cargado.
-        int idConexion = ClienteManager.getInstance().getIdentificadorConexion();
+        int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
         SolicitarAlias solicitarAlias = new SolicitarAlias(idConexion, alias);
         ClienteManager.getInstance().registrarSalida(solicitarAlias);
     }
@@ -102,6 +134,20 @@ public class ControlAlias {
         if (solicitudRealizada) {
             //rama de control si ya se intento realizar una conexion al servidor
             //y el alias fue rechazado:
+            String oldAlias = alias;
+            do {
+                SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
+                JOptionPane.showMessageDialog(salaEspera, "El alias <" + oldAlias + "> ha sido rechazado por el servidor."
+                        + "Para continuar deberá elegir un nuevo alias distinto.", 
+                        "Advertencia", JOptionPane.WARNING_MESSAGE);
+                String inputAlias = JOptionPane.showInputDialog(salaEspera, "Ingrese un nuevo alias");
+                if (verificarValidez(inputAlias) && !inputAlias.equals(oldAlias)) {
+                    alias = inputAlias;
+                }
+                if (!aliasValido()) {
+                    JOptionPane.showMessageDialog(salaEspera, "Debe ingresar un alias para poder continuar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            } while (!aliasValido());
         } else {
             //rama de control si todavia no se ha realizado un intento de
             //conexion al servidor.

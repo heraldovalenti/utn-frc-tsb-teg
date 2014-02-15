@@ -5,8 +5,8 @@
 package com.cliente;
 
 import cliente.ClienteManager;
+import cliente.control.ControlAlias;
 import com.Accionable;
-import logger.LogItem;
 
 /**
  *
@@ -22,24 +22,13 @@ public class RespuestaAlias implements Accionable {
         this.aceptado = aceptado;
     }
 
-
     @Override
     public void accionar() {
-        if (ClienteManager.getInstance().getIdentificadorConexion() != this.id) {
+        int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
+        ControlAlias controlAlias = ClienteManager.getInstance().getControlAlias();
+        if (id != idConexion) {
             return;
         }
-        StringBuilder msg = new StringBuilder("Solicitud de alias ");
-        if (aceptado) {
-            msg.append("aceptada");
-        } else {
-            msg.append("rechazada");
-        }
-        ClienteManager.getInstance().getLogger().addLogItem(new LogItem(msg.toString()));
-        if (!aceptado) {
-            ClienteManager.getInstance().getControlAlias().ejecutarControlAlias();
-        }
+        controlAlias.respuestaServidor(aceptado);
     }
-    
-    
-    
 }
