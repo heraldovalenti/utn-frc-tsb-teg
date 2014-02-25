@@ -4,41 +4,39 @@
  */
 package juego.movimiento;
 
-import juego.Ocupacion;
-
-
+import juego.Pais;
 
 /**
  *
  * @author heril
  */
 public class Movimiento {
-    
-    private Ocupacion origen;
-    private Ocupacion destino;
+
+    private Pais origen;
+    private Pais destino;
     private int cantidadEjercitos;
     private int cantidadMisiles;
 
-    public Movimiento(Ocupacion origen, Ocupacion destino, int cantidadEjercitos, int cantidadMisiles) {
+    public Movimiento(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
         this.origen = origen;
         this.destino = destino;
         this.cantidadEjercitos = cantidadEjercitos;
         this.cantidadMisiles = cantidadMisiles;
     }
-    
+
     public void ejecutarMovimiento() {
-        origen.setEjercitos(origen.getEjercitos() - cantidadEjercitos);
-        destino.setEjercitos(destino.getEjercitos() + cantidadEjercitos);
-        
-        origen.setMisiles(origen.getMisiles() - cantidadMisiles);
-        destino.setMisiles(destino.getMisiles() + cantidadMisiles);
+        origen.setCantidadEjercitos(origen.getCantidadEjercitos() - cantidadEjercitos);
+        destino.setCantidadEjercitos(destino.getCantidadEjercitos() + cantidadEjercitos);
+
+        origen.setCantidadMisiles(origen.getCantidadMisiles() - cantidadMisiles);
+        destino.setCantidadMisiles(destino.getCantidadMisiles() + cantidadMisiles);
     }
-    
+
     public void deshacerMovimiento() {
-        origen.setEjercitos(origen.getEjercitos() + cantidadEjercitos);
-        destino.setEjercitos(destino.getEjercitos() - cantidadEjercitos);
-        
-        origen.setMisiles(origen.getMisiles() + cantidadMisiles);
-        destino.setMisiles(destino.getMisiles() - cantidadMisiles);
+        origen.setCantidadEjercitos(origen.getCantidadEjercitos() + cantidadEjercitos);
+        destino.setCantidadEjercitos(destino.getCantidadEjercitos() - cantidadEjercitos);
+
+        origen.setCantidadMisiles(origen.getCantidadMisiles() + cantidadMisiles);
+        destino.setCantidadMisiles(destino.getCantidadMisiles() - cantidadMisiles);
     }
 }

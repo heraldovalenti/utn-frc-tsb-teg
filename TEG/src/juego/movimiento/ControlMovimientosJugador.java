@@ -4,34 +4,33 @@
  */
 package juego.movimiento;
 
-
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import juego.Jugador;
 import juego.Pais;
 import juego.estructura.Paises;
 import juego.turno.SecuenciaTurnos;
-
 
 /**
  *
  * @author heril
  */
 public class ControlMovimientosJugador {
-    
+
     private Jugador jugador;
-    private LinkedList<Movimiento> movimientos;
-    
+    private List<Movimiento> movimientos;
+
     public ControlMovimientosJugador() {
         this.jugador = SecuenciaTurnos.getInstancia().getActual();
-        this.movimientos = new LinkedList<Movimiento>();
+        this.movimientos = new ArrayList<>();
     }
-    
+
     public int maximoMovimiento(Pais origen) {
-        return origen.getOcupacion().getEjercitos() - 1;
+        return origen.getCantidadEjercitos() - 1;
     }
-    
+
     public boolean movimientoValido(Pais origen, Pais destino, int cantidadEjercitos) {
-        if (!origen.getOcupacion().getJugador().equals(destino.getOcupacion().getJugador())) {
+        if (!origen.getJugador().equals(destino.getJugador())) {
             return false;
         }
         if (cantidadEjercitos > this.maximoMovimiento(origen)) {
@@ -42,5 +41,5 @@ public class ControlMovimientosJugador {
         }
         return true;
     }
-    
+
 }

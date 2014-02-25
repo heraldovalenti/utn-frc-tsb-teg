@@ -30,14 +30,14 @@ public class ControlAtaque {
     public boolean ataqueValido() {
         return Paises.sonLimitrofes(atacante, defensor)
                 && Juego.getInstancia().getSituacion().ataquePermitido(atacante, defensor)
-                && atacante.getOcupacion().getEjercitos() > 1;
+                && atacante.getCantidadEjercitos() > 1;
     }
 
     public int ataquePermitido() {
         int res = 4;
         int porSituacion = Juego.getInstancia().getSituacion().maximoAtaque();
-        int porOcupacion = atacante.getOcupacion().getEjercitos();
-        int ejercitosDefensor = defensor.getOcupacion().getEjercitos();
+        int porOcupacion = atacante.getCantidadEjercitos();
+        int ejercitosDefensor = defensor.getCantidadEjercitos();
         int porSuperPobacion = ((double) (porOcupacion / 2) >= ejercitosDefensor && porOcupacion >= 4) ? 4 : 3;
         res = Math.max(porSituacion, porSuperPobacion);
         res = Math.min(res, porOcupacion);
@@ -47,7 +47,7 @@ public class ControlAtaque {
     public int defensaPermitida() {
         int res = 4;
         int porSituacion = Juego.getInstancia().getSituacion().maximoDefensa();
-        int porOcupacion = defensor.getOcupacion().getEjercitos();
+        int porOcupacion = defensor.getCantidadEjercitos();
         res = Math.min(res, porSituacion);
         res = Math.min(res, porOcupacion);
         return res;

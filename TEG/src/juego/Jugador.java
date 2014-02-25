@@ -4,8 +4,8 @@
  */
 package juego;
 
+import java.awt.Color;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +17,7 @@ public class Jugador {
     private int nroJugador;
     private String nombre;
     private Color color;
-    private List<Ocupacion> listaOcupaciones;
+    private Set<Pais> conjuntoPaises;
 
     public Jugador() {
     }
@@ -32,45 +32,59 @@ public class Jugador {
         this.color = color;
     }
 
-    public List<Ocupacion> getListaOcupaciones() {
-        return listaOcupaciones;
+    public int getNroJugador() {
+        return nroJugador;
     }
 
-    public void setListaOcupaciones(List<Ocupacion> listaOcupaciones) {
-        this.listaOcupaciones = listaOcupaciones;
+    public void setNroJugador(int nroJugador) {
+        this.nroJugador = nroJugador;
     }
 
-    public Set<Pais> obtenerPaisesOcupados() {
-        Set<Pais> conjuntoPaises = new HashSet<>();
-        for (Ocupacion ocupacion : listaOcupaciones) {
-            conjuntoPaises.add(ocupacion.getPais());
-        }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Set<Pais> getConjuntoPaises() {
         return conjuntoPaises;
+    }
+
+    public void setConjuntoPaises(Set<Pais> conjuntoPaises) {
+        this.conjuntoPaises = conjuntoPaises;
     }
 
     public Set<Continente> obtenerContinentesOcupados() {
         Set<Continente> conjuntoContinentes = new HashSet<>();
-        for (Ocupacion ocupacion : listaOcupaciones) {
-            conjuntoContinentes.add(ocupacion.getPais().getContinente());
+        for (Pais pais : conjuntoPaises) {
+            conjuntoContinentes.add(pais.getContinente());
         }
         return conjuntoContinentes;
     }
 
     public Set<Pais> obtenerIslasOcupadas() {
-        Set<Pais> conjuntoIsla = new HashSet<>();
-        for (Ocupacion ocupacion : listaOcupaciones) {
-            Pais pais = ocupacion.getPais();
+        Set<Pais> conjuntoIslas = new HashSet<>();
+        for (Pais pais : conjuntoPaises) {
             if (pais.isIsla()) {
-                conjuntoIsla.add(pais);
+                conjuntoIslas.add(pais);
             }
         }
-        return conjuntoIsla;
+        return conjuntoIslas;
     }
 
     public Set<Continente> obtenerContinentesOcupadosConIslas() {
         Set<Continente> conjuntoContinentes = new HashSet<>();
-        for (Ocupacion ocupacion : listaOcupaciones) {
-            Pais pais = ocupacion.getPais();
+        for (Pais pais : conjuntoPaises) {
             if (pais.isIsla()) {
                 conjuntoContinentes.add(pais.getContinente());
             }
@@ -83,20 +97,25 @@ public class Jugador {
         return "Jugador{" + "nroJugador=" + nroJugador + ", nombre=" + nombre + ", color=" + color + '}';
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof Jugador) {
-            Jugador otro = (Jugador) o;
-            return otro.nroJugador == this.nroJugador;
-        } else {
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + this.nroJugador;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Jugador other = (Jugador) obj;
+        if (this.nroJugador != other.nroJugador) {
+            return false;
+        }
+        return true;
     }
 }
