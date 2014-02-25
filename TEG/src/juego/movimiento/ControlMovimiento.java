@@ -28,11 +28,11 @@ public class ControlMovimiento {
     }
 
     public int maximoMovimiento() {
-        return origen.getOcupacion().getEjercitos() - 1;
+        return origen.getCantidadEjercitos() - 1;
     }
 
     public boolean movimientoValido() {
-        if (!origen.getOcupacion().getJugador().equals(destino.getOcupacion().getJugador())) {
+        if (!origen.getJugador().equals(destino.getJugador())) {
             return false;
         }
         if (cantidadEjercitos > this.maximoMovimiento()) {

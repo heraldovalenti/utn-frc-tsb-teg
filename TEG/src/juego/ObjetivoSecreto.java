@@ -22,18 +22,19 @@ public class ObjetivoSecreto {
     private Map<Continente, Integer> paisesPorContinenteAOcupar;
     private Jugador jugadorADestruir;
     private int paisesAOcupar;
-    private Map<Continente, Integer> islasPorContinenteAOcupar;
+    private int islasAOcupar;
+    //private Map<Continente, Integer> islasPorContinenteAOcupar;
 
     public ObjetivoSecreto() {
     }
 
-    public ObjetivoSecreto(int nroObjetivo, String descripcion, Map<Continente, Integer> paisesPorContinenteAOcupar, Jugador jugadorADestruir, int paisesAOcupar, Map<Continente, Integer> islasPorContinenteAOcupar) {
+    public ObjetivoSecreto(int nroObjetivo, String descripcion, Map<Continente, Integer> paisesPorContinenteAOcupar, Jugador jugadorADestruir, int paisesAOcupar, int islasAOcupar) {
         this.nroObjetivo = nroObjetivo;
         this.descripcion = descripcion;
         this.paisesPorContinenteAOcupar = paisesPorContinenteAOcupar;
         this.jugadorADestruir = jugadorADestruir;
         this.paisesAOcupar = paisesAOcupar;
-        this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
+        // this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
     }
 
     public int getNroObjetivo() {
@@ -68,14 +69,13 @@ public class ObjetivoSecreto {
         this.paisesAOcupar = paisesAOcupar;
     }
 
-    public Map<Continente, Integer> getIslasPorContinenteAOcupar() {
-        return islasPorContinenteAOcupar;
-    }
-
-    public void setIslasPorContinenteAOcupar(Map<Continente, Integer> islasPorContinenteAOcupar) {
-        this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
-    }
-
+//    public Map<Continente, Integer> getIslasPorContinenteAOcupar() {
+//        return islasPorContinenteAOcupar;
+//    }
+//
+//    public void setIslasPorContinenteAOcupar(Map<Continente, Integer> islasPorContinenteAOcupar) {
+//        this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
+//    }
     public String getDescripcion() {
         return descripcion;
     }
@@ -110,7 +110,7 @@ public class ObjetivoSecreto {
         Set<Pais> conjuntoPaises;
         Set<Continente> conjuntoContinentes;
         if (paisesPorContinenteAOcupar != null) {
-            conjuntoPaises = jugador.obtenerPaisesOcupados();
+            conjuntoPaises = jugador.getConjuntoPaises();
             conjuntoContinentes = jugador.obtenerContinentesOcupados();
             Map<Continente, Integer> paisesPorContinenteOcupados = new HashMap<>(conjuntoContinentes.size());
             for (Pais pais : conjuntoPaises) {
@@ -133,39 +133,23 @@ public class ObjetivoSecreto {
             }
         }
         if (jugadorADestruir != null) {
-            int cantidadPaises = jugadorADestruir.obtenerPaisesOcupados().size();
+            int cantidadPaises = jugadorADestruir.getConjuntoPaises().size();
             if (cantidadPaises > 0) {
                 return false;
             }
         }
-        if (islasPorContinenteAOcupar != null) {
+        if (islasAOcupar > 0) {
             conjuntoPaises = jugador.obtenerIslasOcupadas();
             conjuntoContinentes = jugador.obtenerContinentesOcupadosConIslas();
-            Map<Continente, Integer> islasPorContinenteOcupadas = new HashMap<>(conjuntoContinentes.size());
+            if (conjuntoPaises.size() < islasAOcupar) {
+                return false;
+            }
             if (conjuntoContinentes.size() < 3) {
                 return false;
             }
-            for (Pais pais : conjuntoPaises) {
-                Continente continente = pais.getContinente();
-                int cantidadAnterior = 0;
-                if (islasPorContinenteOcupadas.containsKey(continente)) {
-                    cantidadAnterior = islasPorContinenteOcupadas.get(continente);
-                }
-                islasPorContinenteOcupadas.put(continente, cantidadAnterior + 1);
-            }
-            for (Continente continente : paisesPorContinenteAOcupar.keySet()) {
-                int cantidadObjetivo = paisesPorContinenteAOcupar.get(continente);
-                int cantidadOcupada = 0;
-                if (islasPorContinenteOcupadas.containsKey(continente)) {
-                    cantidadOcupada = islasPorContinenteOcupadas.get(continente);
-                }
-                if (cantidadOcupada < cantidadObjetivo) {
-                    return false;
-                }
-            }
         }
         if (paisesAOcupar > 0) {
-            conjuntoPaises = jugador.obtenerPaisesOcupados();
+            conjuntoPaises = jugador.getConjuntoPaises();
             if (conjuntoPaises.size() < paisesAOcupar) {
                 return false;
             }

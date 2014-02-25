@@ -16,35 +16,48 @@ public class Pais {
     private int nroPais;
     private String nombre;
     private Continente continente;
-    private Ocupacion ocupacion;
+    private Jugador jugador;
+    private int cantidadEjercitos;
+    private int cantidadMisiles;
     private boolean isla;
 
     public Pais(int nroPais, String nombre, Continente continente, boolean isla) {
         this.nroPais = nroPais;
         this.nombre = nombre;
         this.continente = continente;
-        ocupacion = new Ocupacion();
         this.isla = isla;
-    }
-
-    public String getNombre() {
-        return nombre;
     }
 
     public int getNroPais() {
         return nroPais;
     }
 
-    public Ocupacion getOcupacion() {
-        return ocupacion;
+    public void setNroPais(int nroPais) {
+        this.nroPais = nroPais;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Continente getContinente() {
         return continente;
     }
 
-    public boolean mismoContinente(Pais otro) {
-        return otro.continente.equals(this.continente);
+    public void setContinente(Continente continente) {
+        this.continente = continente;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     public boolean isIsla() {
@@ -53,6 +66,26 @@ public class Pais {
 
     public void setIsla(boolean isla) {
         this.isla = isla;
+    }
+
+    public int getCantidadEjercitos() {
+        return cantidadEjercitos;
+    }
+
+    public void setCantidadEjercitos(int cantidadEjercitos) {
+        this.cantidadEjercitos = cantidadEjercitos;
+    }
+
+    public int getCantidadMisiles() {
+        return cantidadMisiles;
+    }
+
+    public void setCantidadMisiles(int cantidadMisiles) {
+        this.cantidadMisiles = cantidadMisiles;
+    }
+
+    public boolean mismoContinente(Pais otro) {
+        return otro.continente.equals(this.continente);
     }
 
     @Override
