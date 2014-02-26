@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
+package juego.estructura;
 
 import java.awt.Color;
 import java.util.HashSet;

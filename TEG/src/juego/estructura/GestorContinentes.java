@@ -1,18 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package juego.estructura;
 
-import juego.Continente;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author heril
+ * @author Daniel
  */
-public class Continentes {
+public class GestorContinentes {
 
     public static final int AMERICA_NORTE = 0;
     public static final int AMERICA_CENTRAL = 1;
@@ -22,31 +22,29 @@ public class Continentes {
     public static final int AFRICA = 5;
     public static final int OCEANIA = 6;
     private static int[][] limitrofes = null;
+    private static List<Continente> listaContinentes;
+
+    public static void crearContinentes() {
+        listaContinentes = new ArrayList<>(7);
+        Continente continente;
+        continente = new Continente(AMERICA_NORTE, "America del Norte");
+        listaContinentes.add(continente);
+        continente = new Continente(AMERICA_CENTRAL, "America Central");
+        listaContinentes.add(continente);
+        continente = new Continente(AMERICA_SUR, "America del Sur");
+        listaContinentes.add(continente);
+        continente = new Continente(EUROPA, "Europa");
+        listaContinentes.add(continente);
+        continente = new Continente(ASIA, "Asia");
+        listaContinentes.add(continente);
+        continente = new Continente(AFRICA, "Africa");
+        listaContinentes.add(continente);
+        continente = new Continente(OCEANIA, "Oceania");
+        listaContinentes.add(continente);
+    }
 
     public static Continente getContinente(int nroContinente) {
-        Continente res = null;
-        if (nroContinente == AMERICA_NORTE) {
-            res = new Continente(AMERICA_NORTE, "America del Norte");
-        }
-        if (nroContinente == AMERICA_CENTRAL) {
-            res = new Continente(AMERICA_CENTRAL, "America Central");
-        }
-        if (nroContinente == AMERICA_SUR) {
-            res = new Continente(AMERICA_SUR, "America del Sur");
-        }
-        if (nroContinente == EUROPA) {
-            res = new Continente(EUROPA, "Europa");
-        }
-        if (nroContinente == ASIA) {
-            res = new Continente(ASIA, "Asia");
-        }
-        if (nroContinente == AFRICA) {
-            res = new Continente(AFRICA, "Africa");
-        }
-        if (nroContinente == OCEANIA) {
-            res = new Continente(OCEANIA, "Oceania");
-        }
-        return res;
+        return listaContinentes.get(nroContinente);
     }
 
     public static boolean sonLimitrofes(Continente origen, Continente destino) {
