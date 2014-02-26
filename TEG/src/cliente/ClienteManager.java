@@ -9,7 +9,7 @@ import cliente.control.ControlInicio;
 import com.Accionable;
 import com.servidor.EnviarChat;
 import juego.Juego;
-import juego.Jugador;
+import juego.estructura.Jugador;
 import logger.Logger;
 import servidor.ColaAcciones;
 import servidor.DespachadorAcciones;

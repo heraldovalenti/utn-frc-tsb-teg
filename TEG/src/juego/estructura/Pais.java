@@ -2,10 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
-
-import java.util.List;
-import java.util.logging.Logger;
+package juego.estructura;
 
 /**
  *

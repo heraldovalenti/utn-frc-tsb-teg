@@ -2,27 +2,34 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.situacion;
+package juego.mecanicas.situacion;
 
-import juego.Jugador;
-import juego.Pais;
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
+import juego.estructura.GestorContinentes;
 
 /**
  *
  * @author heril
  */
-public class VientoFavor implements Situacion {
+public class FronterasAbiertas implements Situacion {
 
+    @Override
     public int maximoAtaque() {
-        return 4;
+        return 3;
     }
 
+    @Override
     public int maximoDefensa() {
         return 3;
     }
 
+    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
-        return true;
+        if (atacante.mismoContinente(defensor)) {
+            return false;
+        }
+        return GestorContinentes.sonLimitrofes(atacante.getContinente(), defensor.getContinente());
     }
 
     @Override

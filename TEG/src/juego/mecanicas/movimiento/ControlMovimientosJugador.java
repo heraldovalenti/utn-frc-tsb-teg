@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.movimiento;
+package juego.mecanicas.movimiento;
 
 import java.util.ArrayList;
 import java.util.List;
-import juego.Jugador;
-import juego.Pais;
-import juego.estructura.Paises;
-import juego.turno.SecuenciaTurnos;
+import juego.estructura.GestorPaises;
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
+import juego.mecanicas.turno.SecuenciaTurnos;
 
 /**
  *
@@ -36,7 +36,7 @@ public class ControlMovimientosJugador {
         if (cantidadEjercitos > this.maximoMovimiento(origen)) {
             return false;
         }
-        if (!Paises.sonLimitrofes(origen, destino)) {
+        if (GestorPaises.sonLimitrofes(origen, destino)) {
             return false;
         }
         return true;

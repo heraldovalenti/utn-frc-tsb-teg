@@ -2,27 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.situacion;
+package juego.mecanicas.situacion;
 
-import juego.Jugador;
-import juego.Pais;
-
-
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
 
 /**
  *
  * @author heril
  */
-public class CombateNormal implements Situacion {
-    
+public class VientoFavor implements Situacion {
+
     public int maximoAtaque() {
-        return 3;
+        return 4;
     }
-    
+
     public int maximoDefensa() {
         return 3;
     }
-    
+
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
     }
@@ -41,5 +39,5 @@ public class CombateNormal implements Situacion {
     public boolean puedeAtacar(Jugador jugador) {
         return true;
     }
-    
+
 }
