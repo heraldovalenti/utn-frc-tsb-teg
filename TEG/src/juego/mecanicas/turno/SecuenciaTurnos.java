@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.turno;
+package juego.mecanicas.turno;
 
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 import juego.Juego;
-import juego.Jugador;
+import juego.estructura.Jugador;
 
 /**
  *

@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.situacion;
+package juego.mecanicas.situacion;
 
 import java.util.List;
 import juego.Juego;
-import juego.Jugador;
-import juego.Pais;
-import juego.util.GeneradorTiradas;
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
+import juego.GeneradorTiradas;
 
 
 /**

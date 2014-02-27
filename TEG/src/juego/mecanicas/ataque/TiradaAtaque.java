@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.ataque;
+package juego.mecanicas.ataque;
 
-import juego.util.GeneradorTiradas;
+import juego.GeneradorTiradas;
 
 
 

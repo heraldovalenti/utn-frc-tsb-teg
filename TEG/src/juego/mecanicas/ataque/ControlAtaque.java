@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.ataque;
+package juego.mecanicas.ataque;
 
 import juego.Juego;
-import juego.Pais;
-import juego.estructura.Paises;
+import juego.estructura.Pais;
+import juego.estructura.GestorPaises;
 
 /**
  *
@@ -28,7 +28,7 @@ public class ControlAtaque {
     }
 
     public boolean ataqueValido() {
-        return Paises.sonLimitrofes(atacante, defensor)
+        return GestorPaises.sonLimitrofes(atacante, defensor)
                 && Juego.getInstancia().getSituacion().ataquePermitido(atacante, defensor)
                 && atacante.getCantidadEjercitos() > 1;
     }

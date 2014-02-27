@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.movimiento;
+package juego.mecanicas.movimiento;
 
-import juego.Pais;
-import juego.estructura.Paises;
+import juego.estructura.Pais;
+import juego.estructura.GestorPaises;
 
 
 /**
@@ -38,7 +38,7 @@ public class ControlMovimiento {
         if (cantidadEjercitos > this.maximoMovimiento()) {
             return false;
         }
-        if (!Paises.sonLimitrofes(origen, destino)) {
+       if(GestorPaises.sonLimitrofes(origen, destino)) {
             return false;
         }
         return true;

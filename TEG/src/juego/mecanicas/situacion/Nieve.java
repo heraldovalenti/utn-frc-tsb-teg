@@ -2,34 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.situacion;
+package juego.mecanicas.situacion;
 
-import juego.Jugador;
-import juego.Pais;
-import juego.estructura.Continentes;
-
-
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
 
 /**
  *
  * @author heril
  */
-public class FronterasAbiertas implements Situacion {
+public class Nieve implements Situacion {
 
-    @Override
     public int maximoAtaque() {
         return 3;
     }
 
-    @Override
     public int maximoDefensa() {
-        return 3;
+        return 4;
     }
 
-    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
-        if (atacante.mismoContinente(defensor)) return false;
-        return Continentes.sonLimitrofes(atacante.getContinente(), defensor.getContinente());
+        return true;
     }
 
     @Override
@@ -46,7 +39,5 @@ public class FronterasAbiertas implements Situacion {
     public boolean puedeAtacar(Jugador jugador) {
         return true;
     }
-    
-    
-    
+
 }

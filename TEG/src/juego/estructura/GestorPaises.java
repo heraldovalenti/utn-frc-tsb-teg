@@ -6,13 +6,12 @@ package juego.estructura;
 
 import java.util.ArrayList;
 import java.util.List;
-import juego.Pais;
 
 /**
  *
  * @author heril
  */
-public class Paises {
+public class GestorPaises {
 
     public static final int ALASKA = 0;
     public static final int ALBANIA = 1;
@@ -130,78 +129,78 @@ public class Paises {
 
     public List<Pais> listarPaises() {
         List<Pais> res = new ArrayList<>(72);
-        res.add(new Pais(ALASKA, "Alaska", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(ALBANIA, "Albania", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(ALEMANIA, "Alemania", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(ANGOLA, "Angola", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(ARABIA, "Arabia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(ARGENTINA, "Argentina", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(AUSTRALIA, "Australia", Continentes.getContinente(Continentes.OCEANIA), false));
-        res.add(new Pais(BIELORRUSIA, "Bielorrusia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(BOLIVIA, "Bolivia", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(BRASIL, "Brasil", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(CALIFORNIA, "California", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(CANADA, "Canada", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(COLOMBIA, "Colombia", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(COREA, "Corea", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(CROACIA, "Croacia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(CUBA, "Cuba", Continentes.getContinente(Continentes.AMERICA_CENTRAL), true));
-        res.add(new Pais(CHECHENIA, "Chechenia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(CHICAGO, "Chicago", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(CHILE, "Chile", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(CHINA, "China", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(CHUKCHI, "Chukchi", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(ETIOPIA, "Etiopia", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(EGIPTO, "Egipto", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(EL_SALVADOR, "El Salvador", Continentes.getContinente(Continentes.AMERICA_CENTRAL), false));
-        res.add(new Pais(ESPANA, "España", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(FILIPINAS, "Filipinas", Continentes.getContinente(Continentes.OCEANIA), true));
-        res.add(new Pais(FINLANDIA, "Finlandia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(FRANCIA, "Francia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(GRAN_BRETANA, "Gran Bretaña", Continentes.getContinente(Continentes.EUROPA), true));
-        res.add(new Pais(GROENLANDIA, "Groenlandia", Continentes.getContinente(Continentes.AMERICA_NORTE), true));
-        res.add(new Pais(HONDURAS, "Honduras", Continentes.getContinente(Continentes.AMERICA_CENTRAL), false));
-        res.add(new Pais(INDIA, "India", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(IRAK, "Irak", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(IRAN, "Iran", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(IRLANDA, "Irlanda", Continentes.getContinente(Continentes.EUROPA), true));
-        res.add(new Pais(ISLANDIA, "Islandia", Continentes.getContinente(Continentes.EUROPA), true));
-        res.add(new Pais(ISLA_VICTORIA, "Isla Victoria", Continentes.getContinente(Continentes.AMERICA_NORTE), true));
-        res.add(new Pais(ISRAEL, "Israel", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(ITALIA, "Italia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(JAMAICA, "Jamaica", Continentes.getContinente(Continentes.AMERICA_CENTRAL), true));
-        res.add(new Pais(JAPON, "Japon", Continentes.getContinente(Continentes.ASIA), true));
-        res.add(new Pais(KAMTCHATKA, "Kamtchatka", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(FLORIDA, "Florida", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(LABRADOR, "Labrador", Continentes.getContinente(Continentes.AMERICA_NORTE), true));
-        res.add(new Pais(LAS_VEGAS, "Las Vegas", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(MADAGASCAR, "Madagascar", Continentes.getContinente(Continentes.AFRICA), true));
-        res.add(new Pais(MALASIA, "Malasia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(MAURITANIA, "Mauritania", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(MEXICO, "Mexico", Continentes.getContinente(Continentes.AMERICA_CENTRAL), false));
-        res.add(new Pais(NICARAGUA, "Nicaragua", Continentes.getContinente(Continentes.AMERICA_CENTRAL), false));
-        res.add(new Pais(NIGERIA, "Nigeria", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(NORUEGA, "Noruega", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(NUEVA_YORK, "Nueva York", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(NUEVA_ZELANDIA, "Nueva Zelandia", Continentes.getContinente(Continentes.OCEANIA), true));
-        res.add(new Pais(OREGON, "Oregon", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(PARAGUAY, "Paraguay", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(UCRANIA, "Ucrania", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(PORTUGAL, "Portugal", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(RUSIA, "Rusia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(SAHARA, "Sahara", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(SERBIA, "Serbia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(SIBERIA, "Siberia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(SUDAFRICA, "Sudafrica", Continentes.getContinente(Continentes.AFRICA), false));
-        res.add(new Pais(SUMATRA, "Sumatra", Continentes.getContinente(Continentes.OCEANIA), true));
-        res.add(new Pais(TASMANIA, "Tasmania", Continentes.getContinente(Continentes.OCEANIA), true));
-        res.add(new Pais(TERRANOVA, "Terranova", Continentes.getContinente(Continentes.AMERICA_NORTE), false));
-        res.add(new Pais(TONGA, "Tonga", Continentes.getContinente(Continentes.OCEANIA), true));
-        res.add(new Pais(TURQUIA, "Turquia", Continentes.getContinente(Continentes.ASIA), false));
-        res.add(new Pais(POLONIA, "Polonia", Continentes.getContinente(Continentes.EUROPA), false));
-        res.add(new Pais(URUGUAY, "Uruguay", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(VENEZUELA, "Venezuela", Continentes.getContinente(Continentes.AMERICA_SUR), false));
-        res.add(new Pais(VIETNAM, "Vietnam", Continentes.getContinente(Continentes.ASIA), false));
+        res.add(new Pais(ALASKA, "Alaska", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(ALBANIA, "Albania", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(ALEMANIA, "Alemania", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(ANGOLA, "Angola", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(ARABIA, "Arabia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(ARGENTINA, "Argentina", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(AUSTRALIA, "Australia", GestorContinentes.getContinente(GestorContinentes.OCEANIA), false));
+        res.add(new Pais(BIELORRUSIA, "Bielorrusia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(BOLIVIA, "Bolivia", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(BRASIL, "Brasil", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(CALIFORNIA, "California", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(CANADA, "Canada", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(COLOMBIA, "Colombia", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(COREA, "Corea", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(CROACIA, "Croacia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(CUBA, "Cuba", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), true));
+        res.add(new Pais(CHECHENIA, "Chechenia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(CHICAGO, "Chicago", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(CHILE, "Chile", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(CHINA, "China", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(CHUKCHI, "Chukchi", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(ETIOPIA, "Etiopia", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(EGIPTO, "Egipto", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(EL_SALVADOR, "El Salvador", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), false));
+        res.add(new Pais(ESPANA, "España", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(FILIPINAS, "Filipinas", GestorContinentes.getContinente(GestorContinentes.OCEANIA), true));
+        res.add(new Pais(FINLANDIA, "Finlandia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(FRANCIA, "Francia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(GRAN_BRETANA, "Gran Bretaña", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
+        res.add(new Pais(GROENLANDIA, "Groenlandia", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), true));
+        res.add(new Pais(HONDURAS, "Honduras", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), false));
+        res.add(new Pais(INDIA, "India", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(IRAK, "Irak", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(IRAN, "Iran", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(IRLANDA, "Irlanda", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
+        res.add(new Pais(ISLANDIA, "Islandia", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
+        res.add(new Pais(ISLA_VICTORIA, "Isla Victoria", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), true));
+        res.add(new Pais(ISRAEL, "Israel", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(ITALIA, "Italia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(JAMAICA, "Jamaica", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), true));
+        res.add(new Pais(JAPON, "Japon", GestorContinentes.getContinente(GestorContinentes.ASIA), true));
+        res.add(new Pais(KAMTCHATKA, "Kamtchatka", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(FLORIDA, "Florida", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(LABRADOR, "Labrador", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), true));
+        res.add(new Pais(LAS_VEGAS, "Las Vegas", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(MADAGASCAR, "Madagascar", GestorContinentes.getContinente(GestorContinentes.AFRICA), true));
+        res.add(new Pais(MALASIA, "Malasia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(MAURITANIA, "Mauritania", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(MEXICO, "Mexico", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), false));
+        res.add(new Pais(NICARAGUA, "Nicaragua", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), false));
+        res.add(new Pais(NIGERIA, "Nigeria", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(NORUEGA, "Noruega", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(NUEVA_YORK, "Nueva York", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(NUEVA_ZELANDIA, "Nueva Zelandia", GestorContinentes.getContinente(GestorContinentes.OCEANIA), true));
+        res.add(new Pais(OREGON, "Oregon", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(PARAGUAY, "Paraguay", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(UCRANIA, "Ucrania", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(PORTUGAL, "Portugal", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(RUSIA, "Rusia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(SAHARA, "Sahara", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(SERBIA, "Serbia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(SIBERIA, "Siberia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(SUDAFRICA, "Sudafrica", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
+        res.add(new Pais(SUMATRA, "Sumatra", GestorContinentes.getContinente(GestorContinentes.OCEANIA), true));
+        res.add(new Pais(TASMANIA, "Tasmania", GestorContinentes.getContinente(GestorContinentes.OCEANIA), true));
+        res.add(new Pais(TERRANOVA, "Terranova", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
+        res.add(new Pais(TONGA, "Tonga", GestorContinentes.getContinente(GestorContinentes.OCEANIA), true));
+        res.add(new Pais(TURQUIA, "Turquia", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        res.add(new Pais(POLONIA, "Polonia", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
+        res.add(new Pais(URUGUAY, "Uruguay", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(VENEZUELA, "Venezuela", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
+        res.add(new Pais(VIETNAM, "Vietnam", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
 
         return res;
     }
@@ -574,12 +573,12 @@ public class Paises {
         }
     }
 
-    public static void main(String args[]) {
-        armarEstructura();
-        extenderLimites();
-        esSimetrica();
-        imprimir();
-        calcularDistancia();
-        imprimir();
-    }
+//    public static void main(String args[]) {
+//        armarEstructura();
+//        extenderLimites();
+//        esSimetrica();
+//        imprimir();
+//        calcularDistancia();
+//        imprimir();
+//    }
 }
