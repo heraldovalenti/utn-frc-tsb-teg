@@ -14,7 +14,7 @@ import logger.LogItem;
  *
  * @author heril
  */
-public class Servidor extends Thread {
+public class Servidor implements Runnable {
 
     private int numeroDeJuego;
     private ServerSocket server;
@@ -25,22 +25,15 @@ public class Servidor extends Thread {
 
     public Servidor(GestorClientes gestorClientes) {
         this.gestorClientes = gestorClientes;
-        try {
-            server = new ServerSocket(Configuracion.getInstancia().puertoServidor());
-        } catch (IOException ex) {
-            ServerManager.getInstance().getLogger().addLogItem(
-                    new LogItem("Error inicializando servidor", ex));
-        }
         numeroDeJuego = 0;
     }
     
     /**
-     * Indica que el servidor debe interrumpir su ejecucion.
+     * Indica al servidor que debe interrumpir su ejecucion.
      */
     public void parar() {
         try {
             server.close();
-            this.interrupt();
         } catch (IOException ex) {
             ServerManager.getInstance().getLogger().addLogItem(
                         new LogItem("Error intentando detener el servidor", ex));
@@ -86,6 +79,12 @@ public class Servidor extends Thread {
     public void run() {
         generarNumeroDeJuego();
         banderaEjecucion = true;
+        try {
+            server = new ServerSocket(Configuracion.getInstancia().puertoServidor());
+        } catch (IOException ex) {
+            ServerManager.getInstance().getLogger().addLogItem(
+                        new LogItem("Error intentado iniciar el servidor", ex));
+        }
         while (banderaEjecucion) {
             try {
                 Socket s = server.accept();

@@ -33,7 +33,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                ControlEjecucionServidor.ocultarVentanaAdministracoinPartida();
+                ControlEjecucionServidor.ocultarVentanaAdministracionPartida();
             }
         });
     }
@@ -54,7 +54,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Agrega un listener de click al menu detener servidor.
      */
     private void addListenerToMenuDetenerServidor() {
-        this.menuItemServidorIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.menuItemServidorDetener.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 detenerServidor();
@@ -66,7 +66,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Agrega un listener de click al menu reiniciar servidor.
      */
     private void addListenerToMenuReiniciarServidor() {
-        this.menuItemServidorIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.menuItemServidorReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 reiniciarServidor();

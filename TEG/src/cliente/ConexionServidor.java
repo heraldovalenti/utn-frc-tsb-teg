@@ -17,7 +17,7 @@ import servidor.ColaAcciones;
  *
  * @author heril
  */
-public class ConexionServidor extends Thread {
+public class ConexionServidor implements Runnable {
 
     private Socket socket;
     private ObjectInputStream in;
@@ -56,13 +56,15 @@ public class ConexionServidor extends Thread {
             in.close();
             out.close();
             socket.close();
-            this.interrupt();
+            //this.interrupt();
             conectado =  false;
+            banderaEjecucion = false;
         } catch (IOException ex) {
             socket = null;
             out = null;
             in = null;
             conectado =  false;
+            banderaEjecucion = false;
             throw ex;
         }
     }
@@ -172,11 +174,11 @@ public class ConexionServidor extends Thread {
             if (salidasEnEspera()) {
                 enviarAccionable();
             }
-            try {
+            /*try {
                 sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
                 System.err.println("error tratando de dormir: " + ex.getMessage());
-            }
+            }*/
         }
     }
 

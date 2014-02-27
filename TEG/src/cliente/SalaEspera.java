@@ -5,12 +5,12 @@
 package cliente;
 
 import cliente.control.ControlConexion;
+import cliente.control.ControlJuego;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
-import servidor.AdministracionPartida;
 import servidor.control.ControlEjecucionServidor;
 
 /**
@@ -178,6 +178,9 @@ public class SalaEspera extends javax.swing.JFrame {
      */
     public void actualizarEstadoConexion() {
         lblEstadoConexionInfo.setText(ControlConexion.stringEstadoConexion());
+        lblIdConexion.setText("ID Conexión: " + ControlConexion.stringIdentificadorConexion());
+        lblNumeroJuego.setText("Número de juego: " + ControlJuego.stringIdentificadorJuego());
+        lblColorAsignado.setText("Color: ");
         if (ControlConexion.conectado()) {
             txtDireccionServidor.setEditable(false);
             btnConexion.setEnabled(false);

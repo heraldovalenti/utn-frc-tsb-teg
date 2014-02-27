@@ -6,6 +6,7 @@ package com.cliente;
 
 import cliente.ClienteManager;
 import cliente.ConexionServidor;
+import cliente.SalaEspera;
 import com.Accionable;
 import juego.Juego;
 import logger.LogItem;
@@ -30,13 +31,13 @@ public class InicioConexion implements Accionable {
      */
     @Override
     public void accionar() {
+        SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
         ConexionServidor conexionServidor = ClienteManager.getInstance().getConexionServidor();
         Juego juego = ClienteManager.getInstance().getJuego();
         
         conexionServidor.setConexionId(idConexionCliente);
         juego.setIdJuego(idPartida);
-        
+        salaEspera.actualizarEstadoConexion();
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión establecida con éxito."));
-        
     }
 }

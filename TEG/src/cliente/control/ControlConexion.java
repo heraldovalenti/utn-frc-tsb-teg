@@ -24,7 +24,20 @@ import servidor.DespachadorAcciones;
  * @author heril
  */
 public class ControlConexion {
-
+    
+    /**
+     * Informa mediante una cadena el identificador de la conexion con el
+     * servidor.
+     * @return el identificador de la conexion.
+     */
+    public static String stringIdentificadorConexion() {
+        String res = "No definido";
+        if (conectado()) {
+            res = ClienteManager.getInstance().getConexionServidor().getConexionId() + "";
+        }
+        return res;
+    }
+    
     /**
      * Informa mediante una cadena el estado de la conexión.
      * @return el estado de la conexión.
@@ -63,10 +76,9 @@ public class ControlConexion {
         }
         try {
             conexionServidor.conectar(direccionServidor);
-            conexionServidor.start();
-            despachadorAcciones.start();
-            salaEspera.actualizarEstadoConexion();
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión establecida con el servidor."));
+            
+            new Thread(conexionServidor).start();
+            new Thread(despachadorAcciones).start();
         } catch (IOException ex) {
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error estableciendo conexión con el servidor.", ex));
             JOptionPane.showMessageDialog(salaEspera, "Error estableciendo conexión con el servidor:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -122,6 +134,7 @@ public class ControlConexion {
         try {
             conexionServidor.desconectar();
             despachadorAcciones.parar();
+            
             salaEspera.actualizarEstadoConexion();
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión finalizada."));
         } catch (IOException ex) {

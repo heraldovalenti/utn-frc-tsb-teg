@@ -13,7 +13,7 @@ import servidor.control.ControlInicioConexion;
  *
  * @author heril
  */
-public class GestorClientes extends Thread {
+public class GestorClientes implements Runnable {
 
     private LinkedList<ConexionCliente> conexionesCliente;
     private ConexionCliente conexionAAtender;
@@ -205,6 +205,7 @@ public class GestorClientes extends Thread {
     public void parar() {
         enviarAccionable(new CerrarConexion(CerrarConexion.SERVIDOR_INTERRUMPIDO));
         banderaEjecucion = false;
+        conexionesCliente.clear();
     }
     
     /**
@@ -225,11 +226,11 @@ public class GestorClientes extends Thread {
             if (salidasEnEspera()) {
                 enviarAccionable();
             }
-            try {
+            /*try {
                 sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
-                System.err.println("error tratando de dormir: " + ex.getMessage());
-            }
+                System.err.println("Error tratando de dormir: " + ex.getMessage());
+            }*/
         }
     }
 }

@@ -27,15 +27,15 @@ public class ControlEjecucionServidor {
     public static void mostrarVentanaAdministracionPartida() {
         ServerManager.getInstance().getAdministracionPartida().setVisible(true);
         ServerManager.getInstance().getAdministracionPartida().actualizarEstadoServidor();
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ahora es visible."));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor visible."));
     }
     
     /**
      * Oculta la ventana de administración de partida.
      */
-    public static void ocultarVentanaAdministracoinPartida() {
+    public static void ocultarVentanaAdministracionPartida() {
         ServerManager.getInstance().getAdministracionPartida().setVisible(false);
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ocultada."));
     }
     
     /**
@@ -54,9 +54,10 @@ public class ControlEjecucionServidor {
             return;
         }
         
-        servidor.start();
-        gestorClientes.start();
-        despachadorAcciones.start();
+        new Thread(servidor).start();
+        new Thread(gestorClientes).start();
+        new Thread(despachadorAcciones).start();
+        
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor iniciado."));
         administracionPartida.actualizarEstadoServidor();
@@ -94,6 +95,7 @@ public class ControlEjecucionServidor {
         servidor.parar();
         gestorClientes.parar();
         despachadorAcciones.parar();
+        
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor detenido."));
         administracionPartida.actualizarEstadoServidor();
