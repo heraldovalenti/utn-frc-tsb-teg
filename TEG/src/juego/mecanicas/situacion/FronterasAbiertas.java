@@ -4,9 +4,9 @@
  */
 package juego.mecanicas.situacion;
 
+import juego.estructura.GestorContinentes;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-import juego.estructura.GestorContinentes;
 
 /**
  *

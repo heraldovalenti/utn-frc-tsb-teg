@@ -5,10 +5,10 @@
 package juego.mecanicas.situacion;
 
 import java.util.List;
+import juego.GeneradorTiradas;
 import juego.Juego;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-import juego.GeneradorTiradas;
 
 
 /**
