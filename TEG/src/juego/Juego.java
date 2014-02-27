@@ -4,8 +4,10 @@
  */
 package juego;
 
+import juego.estructura.Pais;
+import juego.estructura.Jugador;
 import java.util.List;
-import juego.situacion.Situacion;
+import juego.mecanicas.situacion.Situacion;
 
 /**
  *

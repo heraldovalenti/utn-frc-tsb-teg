@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
+package juego.estructura;
 
 /**
  *
@@ -17,13 +17,21 @@ public class Continente {
         this.nroContinente = nroContinente;
         this.nombre = nombre;
     }
-    
+
     public int getNroContinente() {
         return nroContinente;
     }
 
+    public void setNroContinente(int nroContinente) {
+        this.nroContinente = nroContinente;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     @Override
@@ -47,6 +55,5 @@ public class Continente {
         }
         return true;
     }
-    
-    
+
 }

@@ -2,23 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.situacion;
+package juego.mecanicas.situacion;
 
-import juego.Jugador;
-import juego.Pais;
+import juego.estructura.Jugador;
+import juego.estructura.Pais;
 
 /**
  *
  * @author heril
  */
-public class Nieve implements Situacion {
+public class RefuerzosExtra implements Situacion {
 
     public int maximoAtaque() {
         return 3;
     }
 
     public int maximoDefensa() {
-        return 4;
+        return 3;
     }
 
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
@@ -32,7 +32,7 @@ public class Nieve implements Situacion {
 
     @Override
     public double refuerzosExtra() {
-        return 0;
+        return 0.5;
     }
 
     @Override
