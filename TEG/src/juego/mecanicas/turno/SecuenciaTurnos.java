@@ -5,6 +5,9 @@
 package juego.mecanicas.turno;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import juego.Juego;
@@ -17,6 +20,9 @@ import juego.estructura.Jugador;
 public class SecuenciaTurnos {
 
     private static SecuenciaTurnos instancia = null;
+    private List<Jugador> secuencia;
+    private int actual;
+    private int contadorRondas;
 
     public static SecuenciaTurnos getInstancia() {
         if (instancia == null) {
@@ -24,21 +30,19 @@ public class SecuenciaTurnos {
         }
         return instancia;
     }
-    private LinkedList<Jugador> secuencia;
-    private int actual;
-    private int contadorRondas;
 
     private SecuenciaTurnos() {
-        secuencia = new LinkedList();
+        //  secuencia = new ArrayList<>();
         actual = 0;
         contadorRondas = 1;
-        List<Jugador> listaJugadores = new LinkedList(Juego.getInstancia().getJugadores());
-        while (!listaJugadores.isEmpty()) {
-            double rnd = Math.random();
-            double dRes = rnd * listaJugadores.size();
-            int iRes = (int) dRes;
-            secuencia.add(listaJugadores.remove(iRes));
-        }
+        secuencia = new LinkedList<>(Juego.getInstancia().getJugadores());
+        Collections.shuffle(secuencia);
+//        while (!listaJugadores.isEmpty()) {
+//            double rnd = Math.random();
+//            double dRes = rnd * listaJugadores.size();
+//            int iRes = (int) dRes;
+//            secuencia.add(listaJugadores.remove(iRes));
+//        }
     }
 
     /**
@@ -64,8 +68,8 @@ public class SecuenciaTurnos {
     public void nuevaRonda() {
         contadorRondas++;
         actual = 0;
-        Jugador aux = secuencia.pollFirst();
-        secuencia.addLast(aux);
+        Jugador aux = secuencia.remove(0);
+        secuencia.add(aux);
     }
 
     /**
@@ -77,12 +81,40 @@ public class SecuenciaTurnos {
         return secuencia.get(actual);
     }
 
+    public Jugador getJugadorAnterior(Jugador jugador) {
+        for (int i = 0; i < secuencia.size(); i++) {
+            Jugador res = secuencia.get(i);
+            if (jugador.equals(res)) {
+                if (i == 0) {
+                    return secuencia.get(secuencia.size() - 1);
+                } else {
+                    return secuencia.get(i - 1);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Jugador getJugadorSiguiente(Jugador jugador) {
+        for (int i = 0; i < secuencia.size(); i++) {
+            Jugador res = secuencia.get(i);
+            if (jugador.equals(res)) {
+                if (i == secuencia.size() - 1) {
+                    return secuencia.get(0);
+                } else {
+                    return secuencia.get(i + 1);
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Prueba la funcionalidad de la clase.
      */
     public static void test() {
         Juego j = Juego.getInstancia();
-        LinkedList<Jugador> jugadores = new LinkedList();
+        List<Jugador> jugadores = new ArrayList<>();
         jugadores.add(new Jugador(1, "Heraldo", Color.ORANGE));
         jugadores.add(new Jugador(2, "Tero", Color.BLACK));
         jugadores.add(new Jugador(3, "Nariz", Color.BLUE));
@@ -115,7 +147,6 @@ public class SecuenciaTurnos {
             System.out.println("\t>>" + i.toString());
         }
     }
-
 //    public static void main (String args[]) {
 //        test();
 //    }
