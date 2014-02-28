@@ -7,7 +7,7 @@ package servidor;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.text.DefaultCaret;
-import logger.LogItem;
+import servidor.control.ControlEjecucionServidor;
 
 /**
  *
@@ -15,33 +15,32 @@ import logger.LogItem;
  */
 public class AdministracionPartida extends javax.swing.JFrame {
 
-    private static AdministracionPartida instance = null;
-
     /**
      * Creates new form SalaEspera
      */
-    private AdministracionPartida() {
+    public AdministracionPartida() {
         initComponents();
         addListenerToFrame();
         addListenerToMenuIniciarServidor();
+        addListenerToMenuDetenerServidor();
+        addListenerToMenuReiniciarServidor();
     }
 
-    public static AdministracionPartida getInstance() {
-        if (instance == null) {
-            instance = new AdministracionPartida();
-        }
-        return instance;
-    }
-
+    /**
+     * Agrega un listener de cierre al frame.
+     */
     private void addListenerToFrame() {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                ocultarVentana();
+                ControlEjecucionServidor.ocultarVentanaAdministracionPartida();
             }
         });
     }
 
+    /**
+     * Agrega un listener de click al menu iniciar servidor.
+     */
     private void addListenerToMenuIniciarServidor() {
         this.menuItemServidorIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -52,26 +51,80 @@ public class AdministracionPartida extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo para iniciar el servidor.
+     * Agrega un listener de click al menu detener servidor.
+     */
+    private void addListenerToMenuDetenerServidor() {
+        this.menuItemServidorDetener.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                detenerServidor();
+            }
+        });
+    }
+
+    /**
+     * Agrega un listener de click al menu reiniciar servidor.
+     */
+    private void addListenerToMenuReiniciarServidor() {
+        this.menuItemServidorReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                reiniciarServidor();
+            }
+        });
+    }
+
+    /**
+     * Metodo para iniciar el servidor. Verifica que el servidor no este ya
+     * iniciado.
      */
     private void iniciarServidor() {
-        ServerManager.getInstance().iniciarServidor();
+        if (ControlEjecucionServidor.enEjecucion()) {
+            return;
+        }
+        ControlEjecucionServidor.iniciarServidor();
     }
 
     /**
-     * Metodo para ocultar este frame.
+     * Metodo para detener el servidor. Verifica que el servidor no este ya
+     * detenido.
      */
-    public void ocultarVentana() {
-        this.setVisible(false);
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido oculta."));
+    private void detenerServidor() {
+        if (!ControlEjecucionServidor.enEjecucion()) {
+            return;
+        }
+        ControlEjecucionServidor.detenerServidor();
     }
 
     /**
-     * Metodo para mostrar este frame.
+     * Metodo para reiniciar el servidor. Se llaman a los metodos detener y
+     * luego iniciar servidor. Se verifica tambien que el servidor este
+     * iniciado.
      */
-    public void mostrarVentana() {
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Ventana servidor ha sido abierta."));
-        this.setVisible(true);
+    private void reiniciarServidor() {
+        boolean iniciado = ControlEjecucionServidor.enEjecucion();
+        if (iniciado) {
+            detenerServidor();
+            iniciarServidor();
+        }
+    }
+
+    /**
+     * Metodo para actualizar la interfaz de acuerdo a si el servidor esta en
+     * ejecución o no.
+     */
+    public void actualizarEstadoServidor() {
+        StringBuilder txtEstadoServidor = new StringBuilder("Estado servidor: ");
+        txtEstadoServidor.append(ControlEjecucionServidor.estadoServidor());
+        StringBuilder txtNumeroDeJuego = new StringBuilder("Número de juego: ");
+        Integer nroJuego = ControlEjecucionServidor.numeroDeJuego();
+        if (nroJuego != null) {
+            txtNumeroDeJuego.append(ControlEjecucionServidor.numeroDeJuego());
+        } else {
+            txtNumeroDeJuego.append("No definido");
+        }
+        lblEstadoServidor.setText(txtEstadoServidor.toString());
+        lblNumeroJuego.setText(txtNumeroDeJuego.toString());
     }
 
     /**

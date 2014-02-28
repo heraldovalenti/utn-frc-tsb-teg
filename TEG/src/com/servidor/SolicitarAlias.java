@@ -7,6 +7,7 @@ package com.servidor;
 import com.Accionable;
 import logger.LogItem;
 import servidor.ServerManager;
+import servidor.control.ReguladorAlias;
 
 /**
  *
@@ -24,13 +25,7 @@ public class SolicitarAlias implements Accionable {
 
     @Override
     public void accionar() {
-        boolean res = ServerManager.getInstance().procesarSolicitudAlias(id, alias);
-        StringBuilder logItem = new StringBuilder("Solicitud alias procesada: [" + alias + "] ");
-        if (res) {
-            logItem.append("aceptado");
-        } else {
-            logItem.append("rechazado");
-        }
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem(logItem.toString()));
+        ReguladorAlias reguladorAlias = new ReguladorAlias(id, alias);
+        reguladorAlias.procesarSolicitudAlias();
     }
 }
