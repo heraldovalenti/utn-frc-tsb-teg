@@ -2,6 +2,7 @@ package Interfaces;
 
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -19,7 +20,7 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
      */
     public InformacionDelPais(InterfacePrincipal principal) {
         initComponents();
-        this.setSize(195, 160);
+        this.setSize(200, 215);
         principal = principal;
     }
     
@@ -27,6 +28,13 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
         lblDueño.setText(dueño);
         lblPais.setText(pais);
         lblCantidad.setText(String.valueOf(tropas));
+        try{
+            lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/paises/"+pais+".png")));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Imagen del Pais "+ pais+" no encontrada", "Error",JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     /**
@@ -44,11 +52,19 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         lblDueño = new javax.swing.JLabel();
         lblCantidad = new javax.swing.JLabel();
+        lblImagen = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("INFORMACION");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Información.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
@@ -56,13 +72,6 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
@@ -96,14 +105,20 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDueño, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
+                            .addComponent(lblCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblPais, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(lblPais, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -112,7 +127,7 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(lblCantidad))
-                .addGap(20, 20, 20))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,6 +155,7 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblDueño;
+    private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblPais;
     // End of variables declaration//GEN-END:variables
 }
