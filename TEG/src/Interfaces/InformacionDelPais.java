@@ -26,13 +26,12 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
     
     public void setDatos(String pais, String dueño, int tropas){
         lblDueño.setText(dueño);
-        lblPais.setText(pais);
+        lblPais.setText(pais.toUpperCase());
         lblCantidad.setText(String.valueOf(tropas));
         try{
             lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/paises/"+pais+".png")));
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Imagen del Pais "+ pais+" no encontrada", "Error",JOptionPane.ERROR_MESSAGE);
         }
         
     }
