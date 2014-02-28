@@ -10,7 +10,7 @@ import com.Accionable;
  *
  * @author heril
  */
-public class DespachadorAcciones extends Thread {
+public class DespachadorAcciones implements Runnable {
 
     private ColaAcciones colaAcciones;
     private boolean banderaEjecucion;
@@ -78,11 +78,12 @@ public class DespachadorAcciones extends Thread {
             if (entradasPendientes()) {
                 despacharEntradas();
             }
+            /*
             try {
                 sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
-                System.err.println("error tratando de dormir: " + ex.getMessage());
-            }
+                System.err.println("Error tratando de dormir: " + ex.getMessage());
+            } */
         }
     }
 }

@@ -7,12 +7,13 @@ package servidor;
 import com.Accionable;
 import com.cliente.CerrarConexion;
 import java.util.LinkedList;
+import servidor.control.ControlInicioConexion;
 
 /**
  *
  * @author heril
  */
-public class GestorClientes extends Thread {
+public class GestorClientes implements Runnable {
 
     private LinkedList<ConexionCliente> conexionesCliente;
     private ConexionCliente conexionAAtender;
@@ -27,15 +28,15 @@ public class GestorClientes extends Thread {
     }
 
     /**
-     * Agrega una conexion con un cliente al gestor e informa de la
-     * conexion con el nuevo cliente mediante una llamada al server manager.
+     * Agrega una conexion con un cliente al gestor.
+     * Ejecuta el procedimiento de inicio de conexion con el cliente.
      *
      * @param cc ConexionCliente a agregar
      */
     public void agregarCliente(ConexionCliente cc) {
         cc.setId(generarIdentificadorUnico());
         conexionesCliente.add(cc);
-        ServerManager.getInstance().informarNuevoCliente(cc.getId());
+        new ControlInicioConexion(cc).ejecutar();
     }
     
     /**
@@ -204,6 +205,15 @@ public class GestorClientes extends Thread {
     public void parar() {
         enviarAccionable(new CerrarConexion(CerrarConexion.SERVIDOR_INTERRUMPIDO));
         banderaEjecucion = false;
+        conexionesCliente.clear();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean conexionesEstablecidas() {
+        return conexionesCliente.size() != 0;
     }
 
     @Override
@@ -216,11 +226,11 @@ public class GestorClientes extends Thread {
             if (salidasEnEspera()) {
                 enviarAccionable();
             }
-            try {
+            /*try {
                 sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
-                System.err.println("error tratando de dormir: " + ex.getMessage());
-            }
+                System.err.println("Error tratando de dormir: " + ex.getMessage());
+            }*/
         }
     }
 }

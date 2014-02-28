@@ -4,12 +4,14 @@
  */
 package cliente;
 
+import cliente.control.ControlConexion;
+import cliente.control.ControlJuego;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
-import servidor.AdministracionPartida;
+import servidor.control.ControlEjecucionServidor;
 
 /**
  *
@@ -25,25 +27,32 @@ public class SalaEspera extends javax.swing.JFrame {
         addListenerToFrame();
         addListenerToAdministracionPartidaMenu();
         addListenerToAliasMenu();
+        addListenerToSalirSalaMenu();
         addListenerToChatPersonal();
         setCaretPolicyToChatArea();
-        cargarAlias();
     }
 
-    private void cargarAlias() {
+    /**
+     * Carga el alias en el label correspondiente.
+     */
+    public void cargarAlias() {
         String aliasActual = ClienteManager.getInstance().getControlAlias().getAlias();
         lblAlias.setText("Alias: " + aliasActual);
     }
-    
-    public void recargarAlias() {
-        cargarAlias();
-    }
 
+    /**
+     * Establece que el text area de chat auto-scrollee hacia abajo cada vez que
+     * se agrega una linea y es necesario ajustar el scroll para visualizar la
+     * nueva linea.
+     */
     private void setCaretPolicyToChatArea() {
         DefaultCaret caret = (DefaultCaret) txtChatArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
 
+    /**
+     * Agrega un listener de tecla enter al campo de texto del chat personal.
+     */
     private void addListenerToChatPersonal() {
         this.txtChatPersonal.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
@@ -55,6 +64,9 @@ public class SalaEspera extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Agrega un listener de cierre al frame.
+     */
     private void addListenerToFrame() {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -64,15 +76,33 @@ public class SalaEspera extends javax.swing.JFrame {
         });
     }
 
-    private void addListenerToAliasMenu() {
-        this.menuItemAlias.addActionListener(new java.awt.event.ActionListener() {
+    /**
+     * Agrega un listener de click al menu de salir de la sala.
+     */
+    private void addListenerToSalirSalaMenu() {
+        this.menuItemSalida.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                solicitarNuevoAlias();
+                salirSala();
             }
         });
     }
 
+    /**
+     * Agrega un listener de click al menu de elegir alias.
+     */
+    private void addListenerToAliasMenu() {
+        this.menuItemAlias.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                solicitarAlias();
+            }
+        });
+    }
+
+    /**
+     * Agrega un listener de click al menu de administracion de partida.
+     */
     private void addListenerToAdministracionPartidaMenu() {
         this.menuItemAdministracionPartida.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -86,15 +116,12 @@ public class SalaEspera extends javax.swing.JFrame {
      * Metodo para abrir la ventana de administracion de partida.
      */
     private void abrirVentanaAdministracionPartida() {
-        AdministracionPartida.getInstance().mostrarVentana();
+        ControlEjecucionServidor.mostrarVentanaAdministracionPartida();
     }
 
-    /**
-     * Metodo para cerrar todas las conexiones y terminar el programa.
-     */
     private void finalizar() {
-        int res = JOptionPane.showConfirmDialog(this, "Se terminara cualquier conexion existente.\n"
-                + "¿Esta seguro que desea cerrar el sistema?",
+        int res = JOptionPane.showConfirmDialog(this, "Se terminará cualquier conexión existente.\n"
+                + "¿Está seguro que desea cerrar el sistema?",
                 "Confirmación requerida", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
@@ -103,16 +130,18 @@ public class SalaEspera extends javax.swing.JFrame {
         //se deberia notificar al servidor de la desconexion.
     }
 
+    /**
+     * Solicita al jugador el ingreso de un alias.
+     */
+    private void solicitarAlias() {
+        ClienteManager.getInstance().getControlAlias().solicitarAlias();
+    }
+
     public void mostrarChat(String chat) {
         if (chat != null && chat.isEmpty()) {
             return;
         }
         txtChatArea.append(chat + "\n");
-    }
-
-    public void solicitarNuevoAlias() {
-        EleccionAlias frm = new EleccionAlias(this, true);
-        frm.setVisible(true);
     }
 
     private void enviarChat() {
@@ -124,9 +153,41 @@ public class SalaEspera extends javax.swing.JFrame {
         txtChatPersonal.setText("");
     }
 
+    /**
+     * Da la orden al control de conexión de iniciar la conexión con el
+     * servidor.
+     */
     private void iniciarConexion() {
         String direccion = txtDireccionServidor.getText();
-        ClienteManager.getInstance().conectarServidor(direccion);
+        ControlConexion.conectarServidor(direccion);
+    }
+
+    /**
+     * Da la orden al control de conexión de finalizar la conexión con el 
+     * servidor.
+     */
+    private void salirSala() {
+        if (ControlConexion.conectado()) {
+            ControlConexion.desconectarServidor();
+        }
+    }
+
+    /**
+     * Actualiza la interfaz de acuerdo al estado de la conexión con el
+     * servidor.
+     */
+    public void actualizarEstadoConexion() {
+        lblEstadoConexionInfo.setText(ControlConexion.stringEstadoConexion());
+        lblIdConexion.setText("ID Conexión: " + ControlConexion.stringIdentificadorConexion());
+        lblNumeroJuego.setText("Número de juego: " + ControlJuego.stringIdentificadorJuego());
+        lblColorAsignado.setText("Color: ");
+        if (ControlConexion.conectado()) {
+            txtDireccionServidor.setEditable(false);
+            btnConexion.setEnabled(false);
+        } else {
+            txtDireccionServidor.setEditable(true);
+            btnConexion.setEnabled(true);
+        }
     }
 
     /**
