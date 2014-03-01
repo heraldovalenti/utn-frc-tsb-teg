@@ -64,6 +64,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             informacion.setDatos(pais, "Emanuel Broggi", 2);
         }
     }
+    
    
     /**
      * This method is called from within the constructor to initialize the form.
