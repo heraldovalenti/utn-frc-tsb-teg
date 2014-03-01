@@ -5,7 +5,9 @@
 package juego.estructura;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,6 +21,9 @@ public class Jugador {
     private Color color;
     private Set<Pais> conjuntoPaises = new HashSet<>(96);
     private ObjetivoSecreto objetivoSecreto;
+    private int cantidadCanjes = 0;
+    private List<TarjetaPais> listaTarjetasPais = new ArrayList<TarjetaPais>(5);
+    private List<TarjetaContinente> listaTarjetaContinentes;
 
     public Jugador() {
     }
@@ -107,6 +112,22 @@ public class Jugador {
 
     public boolean comprobarObjetivoComun() {
         return (getCantidadPaises() >= 45);
+    }
+
+    public int canjearTarjetas(List<Canjeable> listaTarjetas) {
+        int cantidadEjercitos = 0;
+        if (GestorTarjetas.canjeValido(listaTarjetas)) {
+            for (Canjeable tarjeta : listaTarjetas) {
+                if (tarjeta.getClass().equals(TarjetaPais.class)) {
+                    GestorTarjetas.devolverTarjeta((TarjetaPais) tarjeta);
+                } else {
+                    //Ver como se van a tratar las tarjetas de continentes usadas
+                }
+            }
+            cantidadEjercitos = GestorTarjetas.calcularEjercitosAdicionales(cantidadCanjes);
+            cantidadCanjes++;
+        }
+        return cantidadEjercitos;
     }
 
     @Override
