@@ -584,4 +584,8 @@ public class GestorPaises {
     public List<Pais> getListaPaises() {
         return listaPaises;
     }
+
+    public static Pais getPais(int pais) {
+        return listaPaises.get(pais);
+    }
 }
