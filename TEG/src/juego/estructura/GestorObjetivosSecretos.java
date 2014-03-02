@@ -94,6 +94,7 @@ public class GestorObjetivosSecretos {
     }
 
     public static List<ObjetivoSecreto> getListaObjetivos() {
+        crearObjetivos();
         return listaObjetivos;
     }
 }

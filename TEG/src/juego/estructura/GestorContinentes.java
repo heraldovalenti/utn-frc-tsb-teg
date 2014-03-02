@@ -23,7 +23,7 @@ public class GestorContinentes {
     public static final int OCEANIA = 6;
     private static int[][] limitrofes = null;
     private static List<Continente> listaContinentes;
-
+  
     public static void crearContinentes() {
         listaContinentes = new ArrayList<>(7);
         Continente continente;
@@ -44,6 +44,7 @@ public class GestorContinentes {
     }
 
     public static Continente getContinente(int nroContinente) {
+        crearContinentes();
         return listaContinentes.get(nroContinente);
     }
 

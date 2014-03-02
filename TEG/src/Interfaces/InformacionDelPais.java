@@ -1,8 +1,9 @@
 package Interfaces;
 
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
+import javax.swing.JMenuItem;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,15 +14,15 @@ import javax.swing.JOptionPane;
  *
  * @author Emanuel
  */
-public class InformacionDelPais extends javax.swing.JInternalFrame {
-    private InterfacePrincipal principal;
+public class InformacionDelPais extends javax.swing.JInternalFrame {    
+    private JMenuItem menu;
     /**
      * Creates new form GUIInformacion
      */
-    public InformacionDelPais(InterfacePrincipal principal) {
+    public InformacionDelPais(JMenuItem menu) {
         initComponents();
-        this.setSize(200, 215);
-        principal = principal;
+        this.setSize(200, 215);      
+        this.menu = menu;
     }
     
     public void setDatos(String pais, String dueño, int tropas){
@@ -144,8 +145,7 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        principal.setVetInformacion(false);
-        
+        menu.setEnabled(true);
     }//GEN-LAST:event_formInternalFrameClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

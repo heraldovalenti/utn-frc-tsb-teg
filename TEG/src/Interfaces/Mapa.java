@@ -1,10 +1,17 @@
 package Interfaces;
 
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import juego.estructura.Pais;
 
 /*
  * To change this template, choose Tools | Templates
@@ -28,10 +35,90 @@ public class Mapa extends javax.swing.JPanel {
        
       
    }
+   private void cargarFichaEnPais(JLabel label, Color col, int cantidad){
+        String color;        
+        String rutaImagen;
+        if(cantidad == 0){
+            rutaImagen = "/imagenes/fichas/fichaGenericaTransparente.png";
+        }
+        else{
+            if(col.equals(Color.RED)){
+            color = "Roja";
+            }
+            else{
+                if(col.equals(Color.BLUE)){
+                    color = "Azul";
+                }
+                else{
+                    if(col.equals(Color.black)){
+                        color = "Negra";
+                    }
+                    else{
+                        if(col.equals(Color.WHITE)){
+                            color = "Blanca";                    
+                        }
+                        else{
+                            if(col.equals(Color.green)){
+                                color = "Verde";
+                            }
+                            else{
+                                color = "Amarilla";
+                            }
+                        }
+                    }
+                }
+            }
+            rutaImagen= "/imagenes/fichas/ficha"+color+cantidad+".png";
+        }
+        try{
+            label.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+  
+    public void actualizarFichas(ArrayList<Pais> paises){
+        Component[] componentes = this.getComponents();        
+        for(Pais pais : paises){
+            for(int i=0; i<componentes.length;i++){ 
+              
+                Component[] hijos = new Component[0];
+                if(componentes[i] instanceof JLabel) 
+                { 
+                    JLabel label = ((JLabel) componentes[i]);
+                    if(pais.getNombre().equalsIgnoreCase(label.getName())){
+                           cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos());
+                    }
+                } 
+                else{
+                    if(componentes[i] instanceof JPanel){
+                        JPanel panel = ((JPanel) componentes[i]);
+                        hijos = panel.getComponents();
+                    } 
+                }
+                for(int j = 0 ; j<hijos.length; j++){      
+                     
+                    if(hijos[j] instanceof JLabel) {                      
+                         JLabel label2= ((JLabel) hijos[j]);
+                         if(pais.getNombre().equalsIgnoreCase(label2.getName())){
+                               cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos());
+                         }
+                    }
+                    
+                }
+               
+            }
+        }
 
+    }
+    private Pais obtenerPais(ArrayList<Pais> paises,String nombre){
+        for(Pais pais : paises){
+            if(pais.getNombre().equalsIgnoreCase(nombre))return pais;
+        }
+        return null;
+    }
 
-
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +141,34 @@ public class Mapa extends javax.swing.JPanel {
         lblChicago = new javax.swing.JLabel();
         lblCalifornia = new javax.swing.JLabel();
         lblFlorida = new javax.swing.JLabel();
+        lblFichaAlaska = new javax.swing.JLabel();
+        lblFichaCanda = new javax.swing.JLabel();
+        lblFichaOregon = new javax.swing.JLabel();
+        lblFichaTerranova = new javax.swing.JLabel();
+        lblFichaIslaVictoria = new javax.swing.JLabel();
+        lblFichaLabrador = new javax.swing.JLabel();
+        lblFichaGroenlandia = new javax.swing.JLabel();
+        lblFichaNuevaYork = new javax.swing.JLabel();
+        lblFichaChicago = new javax.swing.JLabel();
+        lblFichaLasVegas = new javax.swing.JLabel();
+        lblFichaFlorida = new javax.swing.JLabel();
+        lblFichaCalifornia = new javax.swing.JLabel();
+        lblFichaIslandia = new javax.swing.JLabel();
+        lblFichaNoruega = new javax.swing.JLabel();
+        lblFichaBielorrusia = new javax.swing.JLabel();
+        lblFichaIrlanda = new javax.swing.JLabel();
+        lblFichaGranBretaña = new javax.swing.JLabel();
+        lblFichaFrancia = new javax.swing.JLabel();
+        lblFichaEspaña = new javax.swing.JLabel();
+        lblFichaPortugal = new javax.swing.JLabel();
+        lblFichaUcrania = new javax.swing.JLabel();
+        lblFichaCroacia = new javax.swing.JLabel();
+        lblFichaItalia = new javax.swing.JLabel();
+        lblFichaPolonia = new javax.swing.JLabel();
+        lblFichaAlemania = new javax.swing.JLabel();
+        lblFichaSerbia = new javax.swing.JLabel();
+        lblFichaAlbania = new javax.swing.JLabel();
+        lblFichaFinlandia = new javax.swing.JLabel();
         lblIslandia = new javax.swing.JLabel();
         panelCentroAmerica = new javax.swing.JPanel();
         lblMexico = new javax.swing.JLabel();
@@ -62,6 +177,12 @@ public class Mapa extends javax.swing.JPanel {
         lblNicaragua = new javax.swing.JLabel();
         lblCuba = new javax.swing.JLabel();
         lblJamaica = new javax.swing.JLabel();
+        lblFichaMexico = new javax.swing.JLabel();
+        lblFichaHonduras = new javax.swing.JLabel();
+        lblFichaElSalvador = new javax.swing.JLabel();
+        lblFichaNicaragua = new javax.swing.JLabel();
+        lblFichaJamaica = new javax.swing.JLabel();
+        lblFichaCuba = new javax.swing.JLabel();
         panelAmericaDelSur = new javax.swing.JPanel();
         lblColombia = new javax.swing.JLabel();
         lblArgentina = new javax.swing.JLabel();
@@ -71,6 +192,14 @@ public class Mapa extends javax.swing.JPanel {
         lblParaguay = new javax.swing.JLabel();
         lblChile = new javax.swing.JLabel();
         lblUruguay = new javax.swing.JLabel();
+        lblFichaColombia = new javax.swing.JLabel();
+        lblFichaVenezuela = new javax.swing.JLabel();
+        lblFichaBrasil = new javax.swing.JLabel();
+        lblFichaParaguay = new javax.swing.JLabel();
+        lblFichaUruguay = new javax.swing.JLabel();
+        lblFichaArgentina = new javax.swing.JLabel();
+        lblFichaBolivia = new javax.swing.JLabel();
+        lblFichaChile = new javax.swing.JLabel();
         panelAfrica = new javax.swing.JPanel();
         lblSahara = new javax.swing.JLabel();
         lblEgipto = new javax.swing.JLabel();
@@ -80,6 +209,14 @@ public class Mapa extends javax.swing.JPanel {
         lblMauritania = new javax.swing.JLabel();
         lblSudafrica = new javax.swing.JLabel();
         lblMadagascar = new javax.swing.JLabel();
+        lblFichaSahara = new javax.swing.JLabel();
+        lblFichaEgipto = new javax.swing.JLabel();
+        lblFichaEtiopia = new javax.swing.JLabel();
+        lblFichaNigeria = new javax.swing.JLabel();
+        lblFichaAngola = new javax.swing.JLabel();
+        lblFichaMauritania = new javax.swing.JLabel();
+        lblFichaSudafrica = new javax.swing.JLabel();
+        lblFichaMadagascar = new javax.swing.JLabel();
         panelAsia = new javax.swing.JPanel();
         lblIndia = new javax.swing.JLabel();
         lblVietnam = new javax.swing.JLabel();
@@ -96,6 +233,21 @@ public class Mapa extends javax.swing.JPanel {
         lblRusia = new javax.swing.JLabel();
         lblChechenia = new javax.swing.JLabel();
         lblSiberia = new javax.swing.JLabel();
+        lblFichaChukChi = new javax.swing.JLabel();
+        lblFichaKamtchatcka = new javax.swing.JLabel();
+        lblFichaSiberia = new javax.swing.JLabel();
+        lblFichaChina = new javax.swing.JLabel();
+        lblFichaChechenia = new javax.swing.JLabel();
+        lblFichaCorea = new javax.swing.JLabel();
+        lblFichaMalasia = new javax.swing.JLabel();
+        lblFichaRusia = new javax.swing.JLabel();
+        lblFichaIran = new javax.swing.JLabel();
+        lblFichaTurquia = new javax.swing.JLabel();
+        lblFichaVietnam = new javax.swing.JLabel();
+        lblFichaIndia = new javax.swing.JLabel();
+        lblFichaIsrael = new javax.swing.JLabel();
+        lblFichaArabia = new javax.swing.JLabel();
+        lblFichaJapon = new javax.swing.JLabel();
         panelOceania = new javax.swing.JPanel();
         lblSumatra = new javax.swing.JLabel();
         lblFilipinas = new javax.swing.JLabel();
@@ -103,8 +255,15 @@ public class Mapa extends javax.swing.JPanel {
         lblAustralia = new javax.swing.JLabel();
         lblTasmania = new javax.swing.JLabel();
         lblNuevaZelandia = new javax.swing.JLabel();
+        lblFichaSumatra = new javax.swing.JLabel();
+        lblFichaFilipinas = new javax.swing.JLabel();
+        lblFichaTonga = new javax.swing.JLabel();
+        lblFichaAustralia = new javax.swing.JLabel();
+        lblFichaTasmania = new javax.swing.JLabel();
+        lblFichaNuevaZelandia = new javax.swing.JLabel();
         panelAsia2 = new javax.swing.JPanel();
         lblIrak = new javax.swing.JLabel();
+        lblFichaIrak = new javax.swing.JLabel();
         lblUcrania = new javax.swing.JLabel();
         lblPolonia = new javax.swing.JLabel();
         lblSerbia = new javax.swing.JLabel();
@@ -139,6 +298,7 @@ public class Mapa extends javax.swing.JPanel {
         panelAmericaDelNorrte.add(lblLabrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 70, 20));
 
         lblAlaska.setToolTipText("");
+        lblAlaska.setName(""); // NOI18N
         lblAlaska.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAlaskaMouseClicked(evt);
@@ -147,7 +307,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblAlaskaMouseEntered(evt);
             }
         });
-        panelAmericaDelNorrte.add(lblAlaska, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, 40));
+        panelAmericaDelNorrte.add(lblAlaska, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 40));
 
         lblTerranova.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -187,7 +347,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblCanadaMouseEntered(evt);
             }
         });
-        panelAmericaDelNorrte.add(lblCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 83, 59));
+        panelAmericaDelNorrte.add(lblCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 60, 90, 59));
 
         lblIslaVictoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -249,7 +409,121 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblFlorida, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 61, 19));
 
+        lblFichaAlaska.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja6.png"))); // NOI18N
+        lblFichaAlaska.setName("Alaska"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaAlaska, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 30, 30));
+
+        lblFichaCanda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblFichaCanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
+        lblFichaCanda.setToolTipText("");
+        lblFichaCanda.setName("Canada"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaCanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
+        lblFichaOregon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja4.png"))); // NOI18N
+        lblFichaOregon.setName("Oregon"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaOregon, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 145, -1, 40));
+
+        lblFichaTerranova.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja3.png"))); // NOI18N
+        lblFichaTerranova.setName("Terranova"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 115, 40, 40));
+
+        lblFichaIslaVictoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja2.png"))); // NOI18N
+        lblFichaIslaVictoria.setName("IslaVictoria"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaIslaVictoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 5, 40, 40));
+
+        lblFichaLabrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja1.png"))); // NOI18N
+        lblFichaLabrador.setName("Labrador"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaLabrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 45, 30, 30));
+
+        lblFichaGroenlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja10.png"))); // NOI18N
+        lblFichaGroenlandia.setName("Groenlandia"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaGroenlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
+
+        lblFichaNuevaYork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja9.png"))); // NOI18N
+        lblFichaNuevaYork.setName("NuevaYork"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaNuevaYork, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, -1));
+
+        lblFichaChicago.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja6.png"))); // NOI18N
+        lblFichaChicago.setName("Chicago"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaChicago, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 165, 30, 40));
+
+        lblFichaLasVegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja3.png"))); // NOI18N
+        lblFichaLasVegas.setName("LasVegas"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 195, 30, 40));
+
+        lblFichaFlorida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja2.png"))); // NOI18N
+        lblFichaFlorida.setName("Florida"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaFlorida, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 215, -1, 30));
+
+        lblFichaCalifornia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja1.png"))); // NOI18N
+        lblFichaCalifornia.setName("California"); // NOI18N
+        panelAmericaDelNorrte.add(lblFichaCalifornia, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 235, 30, 40));
+
         add(panelAmericaDelNorrte, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 21, 360, 270));
+
+        lblFichaIslandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaGenericaTransparente.png"))); // NOI18N
+        lblFichaIslandia.setName("Islandia"); // NOI18N
+        add(lblFichaIslandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 40, 40));
+
+        lblFichaNoruega.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde4.png"))); // NOI18N
+        lblFichaNoruega.setName("Noruega"); // NOI18N
+        add(lblFichaNoruega, new org.netbeans.lib.awtextra.AbsoluteConstraints(544, 105, 70, 60));
+
+        lblFichaBielorrusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde3.png"))); // NOI18N
+        lblFichaBielorrusia.setName("Bielorrusia"); // NOI18N
+        add(lblFichaBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, -1, -1));
+
+        lblFichaIrlanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde6.png"))); // NOI18N
+        lblFichaIrlanda.setName("Irlanda"); // NOI18N
+        add(lblFichaIrlanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 205, 30, 40));
+
+        lblFichaGranBretaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaGranBretaña.setName("GranBretaña"); // NOI18N
+        add(lblFichaGranBretaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, -1, -1));
+
+        lblFichaFrancia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde1.png"))); // NOI18N
+        lblFichaFrancia.setName("Francia"); // NOI18N
+        add(lblFichaFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 295, -1, 30));
+
+        lblFichaEspaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde2.png"))); // NOI18N
+        lblFichaEspaña.setName("España"); // NOI18N
+        add(lblFichaEspaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 355, 50, 30));
+
+        lblFichaPortugal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde5.png"))); // NOI18N
+        lblFichaPortugal.setName("Portugal"); // NOI18N
+        add(lblFichaPortugal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 350, 30, -1));
+
+        lblFichaUcrania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaUcrania.setName("Ucrania"); // NOI18N
+        add(lblFichaUcrania, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 185, -1, 50));
+
+        lblFichaCroacia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde8.png"))); // NOI18N
+        lblFichaCroacia.setName("Croacia"); // NOI18N
+        add(lblFichaCroacia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 305, 30, 50));
+
+        lblFichaItalia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde9.png"))); // NOI18N
+        lblFichaItalia.setName("Italia"); // NOI18N
+        add(lblFichaItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 335, 30, 40));
+
+        lblFichaPolonia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde3.png"))); // NOI18N
+        lblFichaPolonia.setName("Polonia"); // NOI18N
+        add(lblFichaPolonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 215, 30, 40));
+
+        lblFichaAlemania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde10.png"))); // NOI18N
+        lblFichaAlemania.setName("Alemania"); // NOI18N
+        add(lblFichaAlemania, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 235, 30, 50));
+
+        lblFichaSerbia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaSerbia.setName("Serbia"); // NOI18N
+        add(lblFichaSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 255, 30, 40));
+
+        lblFichaAlbania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde4.png"))); // NOI18N
+        lblFichaAlbania.setName("Albania"); // NOI18N
+        add(lblFichaAlbania, new org.netbeans.lib.awtextra.AbsoluteConstraints(675, 275, 30, 40));
+
+        lblFichaFinlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaFinlandia.setName("Finlandia"); // NOI18N
+        add(lblFichaFinlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 30, 40));
 
         lblIslandia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -264,6 +538,7 @@ public class Mapa extends javax.swing.JPanel {
         panelCentroAmerica.setOpaque(false);
         panelCentroAmerica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblMexico.setName(""); // NOI18N
         lblMexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblMexicoMouseClicked(evt);
@@ -274,6 +549,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 50));
 
+        lblHonduras.setName(""); // NOI18N
         lblHonduras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblHondurasMouseClicked(evt);
@@ -282,8 +558,9 @@ public class Mapa extends javax.swing.JPanel {
                 lblHondurasMouseEntered(evt);
             }
         });
-        panelCentroAmerica.add(lblHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 30, 30));
+        panelCentroAmerica.add(lblHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 30, 30));
 
+        lblElSalvador.setName(""); // NOI18N
         lblElSalvador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblElSalvadorMouseClicked(evt);
@@ -292,7 +569,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblElSalvadorMouseEntered(evt);
             }
         });
-        panelCentroAmerica.add(lblElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 40, 30));
+        panelCentroAmerica.add(lblElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 40, 20));
 
         lblNicaragua.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -304,6 +581,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 60, 40));
 
+        lblCuba.setName(""); // NOI18N
         lblCuba.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCubaMouseClicked(evt);
@@ -314,6 +592,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 70, 20));
 
+        lblJamaica.setName(""); // NOI18N
         lblJamaica.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblJamaicaMouseClicked(evt);
@@ -323,6 +602,30 @@ public class Mapa extends javax.swing.JPanel {
             }
         });
         panelCentroAmerica.add(lblJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 50, 40));
+
+        lblFichaMexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaMexico.setName("Mexico"); // NOI18N
+        panelCentroAmerica.add(lblFichaMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 25, -1, 30));
+
+        lblFichaHonduras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
+        lblFichaHonduras.setName("Honduras"); // NOI18N
+        panelCentroAmerica.add(lblFichaHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 30));
+
+        lblFichaElSalvador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
+        lblFichaElSalvador.setName("ElSalvador"); // NOI18N
+        panelCentroAmerica.add(lblFichaElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 30, -1));
+
+        lblFichaNicaragua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaNicaragua.setName("Nicaragua"); // NOI18N
+        panelCentroAmerica.add(lblFichaNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 95, 30, 40));
+
+        lblFichaJamaica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
+        lblFichaJamaica.setName("Jamaica"); // NOI18N
+        panelCentroAmerica.add(lblFichaJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 65, 30, 40));
+
+        lblFichaCuba.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul8.png"))); // NOI18N
+        lblFichaCuba.setName("Cuba"); // NOI18N
+        panelCentroAmerica.add(lblFichaCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, -5, -1, 40));
 
         add(panelCentroAmerica, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 217, 140));
 
@@ -409,6 +712,38 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 50, 30));
 
+        lblFichaColombia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla1.png"))); // NOI18N
+        lblFichaColombia.setName("Colombia"); // NOI18N
+        panelAmericaDelSur.add(lblFichaColombia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 15, 30, 50));
+
+        lblFichaVenezuela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla10.png"))); // NOI18N
+        lblFichaVenezuela.setName("Venezuela"); // NOI18N
+        panelAmericaDelSur.add(lblFichaVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 40, 30));
+
+        lblFichaBrasil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla3.png"))); // NOI18N
+        lblFichaBrasil.setName("Brasil"); // NOI18N
+        panelAmericaDelSur.add(lblFichaBrasil, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 85, 40, 40));
+
+        lblFichaParaguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla6.png"))); // NOI18N
+        lblFichaParaguay.setName("Paraguay"); // NOI18N
+        panelAmericaDelSur.add(lblFichaParaguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 125, 30, 40));
+
+        lblFichaUruguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla5.png"))); // NOI18N
+        lblFichaUruguay.setName("Uruguay"); // NOI18N
+        panelAmericaDelSur.add(lblFichaUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 165, 30, 40));
+
+        lblFichaArgentina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla2.png"))); // NOI18N
+        lblFichaArgentina.setName("Argentina"); // NOI18N
+        panelAmericaDelSur.add(lblFichaArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 175, 30, 40));
+
+        lblFichaBolivia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla4.png"))); // NOI18N
+        lblFichaBolivia.setName("Bolivia"); // NOI18N
+        panelAmericaDelSur.add(lblFichaBolivia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 30, -1));
+
+        lblFichaChile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla9.png"))); // NOI18N
+        lblFichaChile.setName("Chile"); // NOI18N
+        panelAmericaDelSur.add(lblFichaChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 135, -1, 40));
+
         add(panelAmericaDelSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 430, 240, 280));
 
         panelAfrica.setOpaque(false);
@@ -493,6 +828,38 @@ public class Mapa extends javax.swing.JPanel {
             }
         });
         panelAfrica.add(lblMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 60, 50));
+
+        lblFichaSahara.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra10.png"))); // NOI18N
+        lblFichaSahara.setName("Sahara"); // NOI18N
+        panelAfrica.add(lblFichaSahara, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 45, 30, 40));
+
+        lblFichaEgipto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra8.png"))); // NOI18N
+        lblFichaEgipto.setName("Egipto"); // NOI18N
+        panelAfrica.add(lblFichaEgipto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
+
+        lblFichaEtiopia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra7.png"))); // NOI18N
+        lblFichaEtiopia.setName("Etiopia"); // NOI18N
+        panelAfrica.add(lblFichaEtiopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, -1, -1));
+
+        lblFichaNigeria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra6.png"))); // NOI18N
+        lblFichaNigeria.setName("Nigeria"); // NOI18N
+        panelAfrica.add(lblFichaNigeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 105, -1, 40));
+
+        lblFichaAngola.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra8.png"))); // NOI18N
+        lblFichaAngola.setName("Angola"); // NOI18N
+        panelAfrica.add(lblFichaAngola, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 85, -1, 40));
+
+        lblFichaMauritania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra10.png"))); // NOI18N
+        lblFichaMauritania.setName("Mauritania"); // NOI18N
+        panelAfrica.add(lblFichaMauritania, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 30, -1));
+
+        lblFichaSudafrica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra7.png"))); // NOI18N
+        lblFichaSudafrica.setName("Sudafrica"); // NOI18N
+        panelAfrica.add(lblFichaSudafrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 180, 30, 30));
+
+        lblFichaMadagascar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra9.png"))); // NOI18N
+        lblFichaMadagascar.setName("Madagascar"); // NOI18N
+        panelAfrica.add(lblFichaMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 165, 30, 30));
 
         add(panelAfrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, 280, 240));
 
@@ -649,6 +1016,66 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 50, 40));
 
+        lblFichaChukChi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul5.png"))); // NOI18N
+        lblFichaChukChi.setName("Chukchi"); // NOI18N
+        panelAsia.add(lblFichaChukChi, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 40, 30));
+
+        lblFichaKamtchatcka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
+        lblFichaKamtchatcka.setName("Kamtchatcka"); // NOI18N
+        panelAsia.add(lblFichaKamtchatcka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+
+        lblFichaSiberia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaSiberia.setName("Siberia"); // NOI18N
+        panelAsia.add(lblFichaSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 5, 30, 40));
+
+        lblFichaChina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla4.png"))); // NOI18N
+        lblFichaChina.setName("China"); // NOI18N
+        panelAsia.add(lblFichaChina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 155, -1, 40));
+
+        lblFichaChechenia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla9.png"))); // NOI18N
+        lblFichaChechenia.setName("Chechenia"); // NOI18N
+        panelAsia.add(lblFichaChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 30, -1));
+
+        lblFichaCorea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla7.png"))); // NOI18N
+        lblFichaCorea.setName("Corea"); // NOI18N
+        panelAsia.add(lblFichaCorea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 30, -1));
+
+        lblFichaMalasia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca2.png"))); // NOI18N
+        lblFichaMalasia.setName("Malasia"); // NOI18N
+        panelAsia.add(lblFichaMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 265, 30, 40));
+
+        lblFichaRusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra4.png"))); // NOI18N
+        lblFichaRusia.setName("Rusia"); // NOI18N
+        panelAsia.add(lblFichaRusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 135, -1, 30));
+
+        lblFichaIran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
+        lblFichaIran.setName("Iran"); // NOI18N
+        panelAsia.add(lblFichaIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 195, 30, 50));
+
+        lblFichaTurquia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
+        lblFichaTurquia.setName("Turquia"); // NOI18N
+        panelAsia.add(lblFichaTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 295, 30, 40));
+
+        lblFichaVietnam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja7.png"))); // NOI18N
+        lblFichaVietnam.setName("Vietnam"); // NOI18N
+        panelAsia.add(lblFichaVietnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 315, 30, 40));
+
+        lblFichaIndia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja9.png"))); // NOI18N
+        lblFichaIndia.setName("India"); // NOI18N
+        panelAsia.add(lblFichaIndia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 335, -1, 40));
+
+        lblFichaIsrael.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca4.png"))); // NOI18N
+        lblFichaIsrael.setName("Israel"); // NOI18N
+        panelAsia.add(lblFichaIsrael, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 325, -1, 40));
+
+        lblFichaArabia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca9.png"))); // NOI18N
+        lblFichaArabia.setName("Arabia"); // NOI18N
+        panelAsia.add(lblFichaArabia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 375, -1, 30));
+
+        lblFichaJapon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla3.png"))); // NOI18N
+        lblFichaJapon.setName("Japon"); // NOI18N
+        panelAsia.add(lblFichaJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 175, 30, 30));
+
         add(panelAsia, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 280, 430));
 
         panelOceania.setOpaque(false);
@@ -714,6 +1141,30 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 205, 100, 35));
 
+        lblFichaSumatra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca8.png"))); // NOI18N
+        lblFichaSumatra.setName("Sumatra"); // NOI18N
+        panelOceania.add(lblFichaSumatra, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 45, 30, 30));
+
+        lblFichaFilipinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca8.png"))); // NOI18N
+        lblFichaFilipinas.setName("Filipinas"); // NOI18N
+        panelOceania.add(lblFichaFilipinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 5, -1, 40));
+
+        lblFichaTonga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca9.png"))); // NOI18N
+        lblFichaTonga.setName("Tonga"); // NOI18N
+        panelOceania.add(lblFichaTonga, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 35, -1, 40));
+
+        lblFichaAustralia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca5.png"))); // NOI18N
+        lblFichaAustralia.setName("Australia"); // NOI18N
+        panelOceania.add(lblFichaAustralia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 30, -1));
+
+        lblFichaTasmania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca7.png"))); // NOI18N
+        lblFichaTasmania.setName("Tasmania"); // NOI18N
+        panelOceania.add(lblFichaTasmania, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 165, 30, 50));
+
+        lblFichaNuevaZelandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca5.png"))); // NOI18N
+        lblFichaNuevaZelandia.setName("NuevaZelandia"); // NOI18N
+        panelOceania.add(lblFichaNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 205, -1, 30));
+
         add(panelOceania, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 230, 240));
 
         panelAsia2.setOpaque(false);
@@ -727,20 +1178,27 @@ public class Mapa extends javax.swing.JPanel {
             }
         });
 
+        lblFichaIrak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja8.png"))); // NOI18N
+        lblFichaIrak.setName("Irak"); // NOI18N
+
         javax.swing.GroupLayout panelAsia2Layout = new javax.swing.GroupLayout(panelAsia2);
         panelAsia2.setLayout(panelAsia2Layout);
         panelAsia2Layout.setHorizontalGroup(
             panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAsia2Layout.createSequentialGroup()
-                .addComponent(lblIrak, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGroup(panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblIrak, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFichaIrak))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         panelAsia2Layout.setVerticalGroup(
             panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAsia2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFichaIrak)
+                .addGap(31, 31, 31))
         );
 
         add(panelAsia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, 40, 80));
@@ -1502,6 +1960,78 @@ public class Mapa extends javax.swing.JPanel {
     private javax.swing.JLabel lblElSalvador;
     private javax.swing.JLabel lblEspaña;
     private javax.swing.JLabel lblEtiopia;
+    private javax.swing.JLabel lblFichaAlaska;
+    private javax.swing.JLabel lblFichaAlbania;
+    private javax.swing.JLabel lblFichaAlemania;
+    private javax.swing.JLabel lblFichaAngola;
+    private javax.swing.JLabel lblFichaArabia;
+    private javax.swing.JLabel lblFichaArgentina;
+    private javax.swing.JLabel lblFichaAustralia;
+    private javax.swing.JLabel lblFichaBielorrusia;
+    private javax.swing.JLabel lblFichaBolivia;
+    private javax.swing.JLabel lblFichaBrasil;
+    private javax.swing.JLabel lblFichaCalifornia;
+    private javax.swing.JLabel lblFichaCanda;
+    private javax.swing.JLabel lblFichaChechenia;
+    private javax.swing.JLabel lblFichaChicago;
+    private javax.swing.JLabel lblFichaChile;
+    private javax.swing.JLabel lblFichaChina;
+    private javax.swing.JLabel lblFichaChukChi;
+    private javax.swing.JLabel lblFichaColombia;
+    private javax.swing.JLabel lblFichaCorea;
+    private javax.swing.JLabel lblFichaCroacia;
+    private javax.swing.JLabel lblFichaCuba;
+    private javax.swing.JLabel lblFichaEgipto;
+    private javax.swing.JLabel lblFichaElSalvador;
+    private javax.swing.JLabel lblFichaEspaña;
+    private javax.swing.JLabel lblFichaEtiopia;
+    private javax.swing.JLabel lblFichaFilipinas;
+    private javax.swing.JLabel lblFichaFinlandia;
+    private javax.swing.JLabel lblFichaFlorida;
+    private javax.swing.JLabel lblFichaFrancia;
+    private javax.swing.JLabel lblFichaGranBretaña;
+    private javax.swing.JLabel lblFichaGroenlandia;
+    private javax.swing.JLabel lblFichaHonduras;
+    private javax.swing.JLabel lblFichaIndia;
+    private javax.swing.JLabel lblFichaIrak;
+    private javax.swing.JLabel lblFichaIran;
+    private javax.swing.JLabel lblFichaIrlanda;
+    private javax.swing.JLabel lblFichaIslaVictoria;
+    private javax.swing.JLabel lblFichaIslandia;
+    private javax.swing.JLabel lblFichaIsrael;
+    private javax.swing.JLabel lblFichaItalia;
+    private javax.swing.JLabel lblFichaJamaica;
+    private javax.swing.JLabel lblFichaJapon;
+    private javax.swing.JLabel lblFichaKamtchatcka;
+    private javax.swing.JLabel lblFichaLabrador;
+    private javax.swing.JLabel lblFichaLasVegas;
+    private javax.swing.JLabel lblFichaMadagascar;
+    private javax.swing.JLabel lblFichaMalasia;
+    private javax.swing.JLabel lblFichaMauritania;
+    private javax.swing.JLabel lblFichaMexico;
+    private javax.swing.JLabel lblFichaNicaragua;
+    private javax.swing.JLabel lblFichaNigeria;
+    private javax.swing.JLabel lblFichaNoruega;
+    private javax.swing.JLabel lblFichaNuevaYork;
+    private javax.swing.JLabel lblFichaNuevaZelandia;
+    private javax.swing.JLabel lblFichaOregon;
+    private javax.swing.JLabel lblFichaParaguay;
+    private javax.swing.JLabel lblFichaPolonia;
+    private javax.swing.JLabel lblFichaPortugal;
+    private javax.swing.JLabel lblFichaRusia;
+    private javax.swing.JLabel lblFichaSahara;
+    private javax.swing.JLabel lblFichaSerbia;
+    private javax.swing.JLabel lblFichaSiberia;
+    private javax.swing.JLabel lblFichaSudafrica;
+    private javax.swing.JLabel lblFichaSumatra;
+    private javax.swing.JLabel lblFichaTasmania;
+    private javax.swing.JLabel lblFichaTerranova;
+    private javax.swing.JLabel lblFichaTonga;
+    private javax.swing.JLabel lblFichaTurquia;
+    private javax.swing.JLabel lblFichaUcrania;
+    private javax.swing.JLabel lblFichaUruguay;
+    private javax.swing.JLabel lblFichaVenezuela;
+    private javax.swing.JLabel lblFichaVietnam;
     private javax.swing.JLabel lblFilipinas;
     private javax.swing.JLabel lblFinlandia;
     private javax.swing.JLabel lblFlorida;
