@@ -57,8 +57,7 @@ public class Dados extends javax.swing.JInternalFrame {
                     }
                     else{
                         nombre = "dadoDefensa"+num;
-            }
-            System.out.println(nombre);
+            }           
             for(int j=0; j<componentes.length;j++){                
                 if(componentes[j] instanceof JLabel) 
                 { 
@@ -68,7 +67,7 @@ public class Dados extends javax.swing.JInternalFrame {
                     if(label.getName()!=null && nombre.equalsIgnoreCase(label.getName())){
                           
                           String rutaImagen= "/imagenes/Dados/dado"+dados[i]+".png";
-                          System.out.println(rutaImagen);
+                          
                           label.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
                           label.setVisible(true);
                     }
@@ -122,104 +121,61 @@ public class Dados extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("DADOS");
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         dadoAtaque2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado2.png"))); // NOI18N
         dadoAtaque2.setName("dadoAtaque2"); // NOI18N
+        jPanel1.add(dadoAtaque2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 101, -1, -1));
 
         dadoAtaque1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado5.png"))); // NOI18N
         dadoAtaque1.setName("dadoAtaque1"); // NOI18N
+        jPanel1.add(dadoAtaque1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 52, -1, -1));
 
         dadoAtaque4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado3.png"))); // NOI18N
         dadoAtaque4.setName("dadoAtaque4"); // NOI18N
+        jPanel1.add(dadoAtaque4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 197, -1, -1));
 
         dadoAtaque3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado6.png"))); // NOI18N
         dadoAtaque3.setName("dadoAtaque3"); // NOI18N
+        jPanel1.add(dadoAtaque3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         dadoDefensa3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado2.png"))); // NOI18N
         dadoDefensa3.setName("dadoDefensa3"); // NOI18N
+        jPanel1.add(dadoDefensa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, -1, -1));
 
         dadoDefensa4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado4.png"))); // NOI18N
         dadoDefensa4.setName("dadoDefensa4"); // NOI18N
+        jPanel1.add(dadoDefensa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 199, -1, -1));
 
         dadoDefensa2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado3.png"))); // NOI18N
         dadoDefensa2.setName("dadoDefensa2"); // NOI18N
+        jPanel1.add(dadoDefensa2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 101, -1, -1));
 
         dadoDefensa1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Dados/dado1.png"))); // NOI18N
         dadoDefensa1.setName("dadoDefensa1"); // NOI18N
+        jPanel1.add(dadoDefensa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 52, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Ataque");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 84, 30));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Defensa");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dadoAtaque2)
-                            .addComponent(dadoAtaque1)
-                            .addComponent(dadoAtaque3)
-                            .addComponent(dadoAtaque4)))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dadoDefensa3)
-                            .addComponent(dadoDefensa4)
-                            .addComponent(dadoDefensa1)
-                            .addComponent(dadoDefensa2))
-                        .addGap(36, 36, 36))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dadoAtaque1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dadoDefensa1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dadoDefensa2)
-                    .addComponent(dadoAtaque2))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(dadoDefensa3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dadoDefensa4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(dadoAtaque3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dadoAtaque4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 11, 86, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
         );
 
         pack();

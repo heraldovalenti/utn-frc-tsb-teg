@@ -72,8 +72,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             return;
         } 
         HiloDados hilo = new HiloDados(ataque, defensa,dados);
-        hilo.start();
-        //dados.cargarDados(ataque, defensa);
+        hilo.start();       
         
     }
     private Jugador obtenerJugadorActual(){
@@ -305,9 +304,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         pais.setJugador(jug);
         paises.add(pais);
         actualizarFichas(paises);
-        cargarDados(simularDados(3),simularDados(4));
+        cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
     }//GEN-LAST:event_jButton1ActionPerformed
     private int[] simularDados(int cant){
+        
         int[] dados = new int[cant];
         for(int i = 0; i< cant; i++){          
             dados[i] = (int)Math.floor(Math.random()*6+1); 
