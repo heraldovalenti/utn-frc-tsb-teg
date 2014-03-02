@@ -5,8 +5,10 @@
 package juego.mecanicas.situacion;
 
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import juego.Juego;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
@@ -25,7 +27,7 @@ public class Descanso implements Situacion {
 
     public Descanso() {
         if (descansos == null) {
-            List<Jugador> jugadores = Juego.getInstancia().getJugadores();
+            List<Jugador> jugadores = new ArrayList(Juego.getInstancia().getGestorJugadores().getJugadores());
             descansos = new int[jugadores.size()];
             colores = new Color[jugadores.size()];
             maxDescansos = 0;
@@ -96,7 +98,7 @@ public class Descanso implements Situacion {
      */
     private static void test() {
         Juego j = Juego.getInstancia();
-        List<Jugador> jugadores = new LinkedList();
+        Set<Jugador> jugadores = new HashSet<>();
         Jugador j1, j2, j3;
         j1 = new Jugador();
         j1.setColor(Color.BLUE);
@@ -107,7 +109,7 @@ public class Descanso implements Situacion {
         jugadores.add(j1);
         jugadores.add(j2);
         jugadores.add(j3);
-        j.setJugadores(jugadores);
+        j.getGestorJugadores().setJugadores(jugadores);
         Color colorPenalizado = null;
         System.out.println("j1="+j1.getColor()+";j2="+j2.getColor()+";j3="+j3.getColor());
 

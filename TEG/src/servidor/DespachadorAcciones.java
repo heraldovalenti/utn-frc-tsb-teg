@@ -12,6 +12,7 @@ import com.Accionable;
  */
 public class DespachadorAcciones implements Runnable {
 
+    private Thread hilo;
     private ColaAcciones colaAcciones;
     private boolean banderaEjecucion;
 
@@ -78,12 +79,16 @@ public class DespachadorAcciones implements Runnable {
             if (entradasPendientes()) {
                 despacharEntradas();
             }
-            /*
+            
             try {
-                sleep(conf.Configuracion.getInstancia().tiempoEspera());
+                hilo.sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
                 System.err.println("Error tratando de dormir: " + ex.getMessage());
-            } */
+            }
         }
+    }
+    
+    public void setHilo(Thread hilo) {
+        this.hilo = hilo;
     }
 }

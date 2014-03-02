@@ -19,6 +19,7 @@ import servidor.ColaAcciones;
  */
 public class ConexionServidor implements Runnable {
 
+    private Thread hilo;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -174,12 +175,16 @@ public class ConexionServidor implements Runnable {
             if (salidasEnEspera()) {
                 enviarAccionable();
             }
-            /*try {
-                sleep(conf.Configuracion.getInstancia().tiempoEspera());
+            try {
+                hilo.sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
                 System.err.println("error tratando de dormir: " + ex.getMessage());
-            }*/
+            }
         }
+    }
+    
+    public void setHilo(Thread hilo) {
+        this.hilo = hilo;
     }
 
     public void setConexionId(int id) {

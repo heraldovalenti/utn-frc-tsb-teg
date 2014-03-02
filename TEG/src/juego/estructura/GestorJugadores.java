@@ -16,6 +16,14 @@ import java.util.Set;
 public class GestorJugadores {
 
     private static Set<Jugador> conjuntoJugadores = new HashSet<>(8);
+    
+    public Set<Jugador> getJugadores() {
+        return conjuntoJugadores;
+    }
+    
+    public void setJugadores(Set<Jugador> jugadores) {
+        conjuntoJugadores = jugadores;
+    }
 
     public static void añadirJugador(Jugador jugador) {
         conjuntoJugadores.add(jugador);

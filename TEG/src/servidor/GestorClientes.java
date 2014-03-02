@@ -6,7 +6,9 @@ package servidor;
 
 import com.Accionable;
 import com.cliente.CerrarConexion;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import servidor.control.ControlInicioConexion;
 
 /**
@@ -15,6 +17,7 @@ import servidor.control.ControlInicioConexion;
  */
 public class GestorClientes implements Runnable {
 
+    private Thread hilo;
     private LinkedList<ConexionCliente> conexionesCliente;
     private ConexionCliente conexionAAtender;
     private ColaAcciones colaAcciones;
@@ -151,7 +154,7 @@ public class GestorClientes implements Runnable {
     
     public boolean aliasDisponible(String alias) {
         for (ConexionCliente cc : conexionesCliente) {
-            if (cc.getAlias().equals(alias)) {
+            if (cc.getAlias() != null && cc.getAlias().equals(alias)) {
                 return false;
             }
         }
@@ -209,11 +212,23 @@ public class GestorClientes implements Runnable {
     }
     
     /**
-     * 
-     * @return 
+     * Informa si hay conexiones establecidas con clientes.
+     * @return true si hay alguna conexion establecida, false en otro caso.
      */
     public boolean conexionesEstablecidas() {
         return conexionesCliente.size() != 0;
+    }
+    
+    /**
+     * Informa el identificador de las conexiones establecidas con clientes.
+     * @return un conjunto con los id de las conexiones establecidas.
+     */
+    public Set<Integer> getIdConexionesEstablecidas() {
+        Set<Integer> res = new HashSet<>();
+        for (ConexionCliente cc : conexionesCliente) {
+            res.add(cc.getId());
+        }
+        return res;
     }
 
     @Override
@@ -226,11 +241,15 @@ public class GestorClientes implements Runnable {
             if (salidasEnEspera()) {
                 enviarAccionable();
             }
-            /*try {
-                sleep(conf.Configuracion.getInstancia().tiempoEspera());
+            try {
+                hilo.sleep(conf.Configuracion.getInstancia().tiempoEspera());
             } catch (InterruptedException ex) {
                 System.err.println("Error tratando de dormir: " + ex.getMessage());
-            }*/
+            }
         }
+    }
+    
+    public void setHilo(Thread hilo) {
+        this.hilo = hilo;
     }
 }
