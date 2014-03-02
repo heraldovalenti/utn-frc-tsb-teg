@@ -87,7 +87,7 @@ public class Mapa extends javax.swing.JPanel {
                 if(componentes[i] instanceof JLabel) 
                 { 
                     JLabel label = ((JLabel) componentes[i]);
-                    if(pais.getNombre().equalsIgnoreCase(label.getName())){
+                    if(pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
                            cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos());
                     }
                 } 
@@ -101,7 +101,7 @@ public class Mapa extends javax.swing.JPanel {
                      
                     if(hijos[j] instanceof JLabel) {                      
                          JLabel label2= ((JLabel) hijos[j]);
-                         if(pais.getNombre().equalsIgnoreCase(label2.getName())){
+                         if(pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
                                cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos());
                          }
                     }
@@ -117,6 +117,37 @@ public class Mapa extends javax.swing.JPanel {
             if(pais.getNombre().equalsIgnoreCase(nombre))return pais;
         }
         return null;
+    }
+    private void mostrarFichas(){
+        Component[] componentes = this.getComponents();        
+         for(int i=0; i<componentes.length;i++){ 
+                Component[] hijos = new Component[0];
+                if(componentes[i] instanceof JLabel) 
+                { 
+                    JLabel label = ((JLabel) componentes[i]);
+                    if(label.getName()!= null){
+                           label.setVisible(true);
+                    }
+                } 
+                else{
+                    if(componentes[i] instanceof JPanel){
+                        JPanel panel = ((JPanel) componentes[i]);
+                        hijos = panel.getComponents();
+                    } 
+                }
+                for(int j = 0 ; j<hijos.length; j++){      
+                     
+                    if(hijos[j] instanceof JLabel) {                      
+                         JLabel label2= ((JLabel) hijos[j]);
+                         if(label2.getName()!= null){
+                               label2.setVisible(true);
+                         }
+                    }
+                    
+                }
+               
+            }
+        
     }
 
     /**
@@ -285,6 +316,11 @@ public class Mapa extends javax.swing.JPanel {
 
         panelAmericaDelNorrte.setEnabled(false);
         panelAmericaDelNorrte.setOpaque(false);
+        panelAmericaDelNorrte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
+        });
         panelAmericaDelNorrte.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblLabrador.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -532,6 +568,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblIslandiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblIslandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 70, 64));
 
@@ -546,6 +585,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblMexicoMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelCentroAmerica.add(lblMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 50));
 
@@ -556,6 +598,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblHondurasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelCentroAmerica.add(lblHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 30, 30));
@@ -568,6 +613,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblElSalvadorMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelCentroAmerica.add(lblElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 40, 20));
 
@@ -577,6 +625,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblNicaraguaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelCentroAmerica.add(lblNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 60, 40));
@@ -589,6 +640,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblCubaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelCentroAmerica.add(lblCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 70, 20));
 
@@ -599,6 +653,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblJamaicaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelCentroAmerica.add(lblJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 50, 40));
@@ -639,6 +696,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblColombiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblColombiaMouseExited(evt);
+            }
         });
         panelAmericaDelSur.add(lblColombia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, 100, 50));
 
@@ -648,6 +708,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblArgentinaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAmericaDelSur.add(lblArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 30, 80));
@@ -659,6 +722,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblVenezuelaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblColombiaMouseExited(evt);
+            }
         });
         panelAmericaDelSur.add(lblVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 60, 50));
 
@@ -668,6 +734,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblBrasilMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblColombiaMouseExited(evt);
             }
         });
         panelAmericaDelSur.add(lblBrasil, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 90, 50));
@@ -679,6 +748,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblBoliviaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAmericaDelSur.add(lblBolivia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 40, 40));
 
@@ -688,6 +760,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblParaguayMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAmericaDelSur.add(lblParaguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 40, 40));
@@ -699,6 +774,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblChileMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAmericaDelSur.add(lblChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 30, 90));
 
@@ -708,6 +786,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblUruguayMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAmericaDelSur.add(lblUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 50, 30));
@@ -756,6 +837,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSaharaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAfrica.add(lblSahara, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, 70, 80));
 
@@ -765,6 +849,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblEgiptoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAfrica.add(lblEgipto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 16, 100, 40));
@@ -776,6 +863,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblEtiopiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAfrica.add(lblEtiopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 64, 100, 30));
 
@@ -785,6 +875,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblNigeriaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAfrica.add(lblNigeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 80, 40));
@@ -796,6 +889,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblAngolaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAfrica.add(lblAngola, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 70, 30));
 
@@ -805,6 +901,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblMauritaniaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAfrica.add(lblMauritania, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 70, 30));
@@ -816,6 +915,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSudafricaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAfrica.add(lblSudafrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 50, 50));
 
@@ -825,6 +927,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblMadagascarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAfrica.add(lblMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 60, 50));
@@ -873,6 +978,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblIndiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblIndia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 36, 58));
 
@@ -882,6 +990,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblVietnamMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblVietnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 70, 70));
@@ -893,6 +1004,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblMalasiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 264, 50, 50));
 
@@ -902,6 +1016,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblCoreaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblCorea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 50, 80));
@@ -913,6 +1030,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblJaponMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 20, 90));
 
@@ -922,6 +1042,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblKamtchatkaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblKamtchatka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 50, 100));
@@ -933,6 +1056,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblChukchiMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblChukchi, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 60, 40));
 
@@ -942,6 +1068,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblChinaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblChina, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 60, 130));
@@ -953,6 +1082,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblTurquiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 40, 50));
 
@@ -962,6 +1094,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblArabiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblArabia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
@@ -973,6 +1108,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblIsraelMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblIsrael, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 40, 50));
 
@@ -982,6 +1120,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblIranMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 30, 40));
@@ -993,6 +1134,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblRusiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblRusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 50, 70));
 
@@ -1003,6 +1147,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblChecheniaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelAsia.add(lblChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 60, 50));
 
@@ -1012,6 +1159,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSiberiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelAsia.add(lblSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 50, 40));
@@ -1088,6 +1238,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSumatraMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelOceania.add(lblSumatra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 49, 36));
 
@@ -1097,6 +1250,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblFilipinasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelOceania.add(lblFilipinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 1, 50, 40));
@@ -1108,6 +1264,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblTongaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelOceania.add(lblTonga, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 60, 45));
 
@@ -1117,6 +1276,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblAustraliaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelOceania.add(lblAustralia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 131, 71));
@@ -1128,6 +1290,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblTasmaniaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         panelOceania.add(lblTasmania, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 60, 23));
 
@@ -1137,6 +1302,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblNuevaZelandiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         panelOceania.add(lblNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 205, 100, 35));
@@ -1210,6 +1378,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblUcraniaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblUcrania, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 180, 40, 60));
 
@@ -1219,6 +1390,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblPoloniaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblPolonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 50, 40));
@@ -1230,6 +1404,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSerbiaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, 50, 30));
 
@@ -1239,6 +1416,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblFinlandiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblFinlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 120, 50, 60));
@@ -1250,6 +1430,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblNoruegaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblNoruega, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 50, 80));
 
@@ -1259,6 +1442,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblGranBretañaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblGranBretaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 40, 70));
@@ -1270,6 +1456,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblIrlandaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblIrlanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 40, 40));
 
@@ -1279,6 +1468,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblAlemaniaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblAlemania, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 40, 70));
@@ -1290,6 +1482,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblFranciaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, 40, 60));
 
@@ -1299,6 +1494,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblEspañaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblEspaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 340, 60, 60));
@@ -1310,6 +1508,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblPortugalMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblPortugal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 20, 70));
 
@@ -1319,6 +1520,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblItaliaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 30, 70));
@@ -1330,6 +1534,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblCroaciaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblCroacia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 310, 30, 50));
 
@@ -1340,6 +1547,9 @@ public class Mapa extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblAlbaniaMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
+            }
         });
         add(lblAlbania, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 270, 40, 70));
 
@@ -1349,6 +1559,9 @@ public class Mapa extends javax.swing.JPanel {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblBielorrusiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblJaponMouseExited(evt);
             }
         });
         add(lblBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 30, 80));
@@ -1647,291 +1860,371 @@ public class Mapa extends javax.swing.JPanel {
 
     private void lblAlaskaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlaskaMouseEntered
         principal.cargarInformacionPais("ALASKA");
+        lblFichaAlaska.setVisible(false);
     }//GEN-LAST:event_lblAlaskaMouseEntered
 
     private void lblCanadaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanadaMouseEntered
         principal.cargarInformacionPais("CANADA");
+        lblFichaCanda.setVisible(false);
     }//GEN-LAST:event_lblCanadaMouseEntered
 
     private void lblTerranovaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTerranovaMouseEntered
         principal.cargarInformacionPais("TERRANOVA");
+        lblFichaTerranova.setVisible(false);
     }//GEN-LAST:event_lblTerranovaMouseEntered
 
     private void lblOregonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOregonMouseEntered
         principal.cargarInformacionPais("OREGON");
+        lblFichaOregon.setVisible(false);
     }//GEN-LAST:event_lblOregonMouseEntered
 
     private void lblFloridaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseEntered
         principal.cargarInformacionPais("FLORIDA");
+        lblFichaFlorida.setVisible(false);
     }//GEN-LAST:event_lblFloridaMouseEntered
 
     private void lblGroenlandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroenlandiaMouseEntered
         principal.cargarInformacionPais("GROENLANDIA");
+        lblFichaGroenlandia.setVisible(false);
     }//GEN-LAST:event_lblGroenlandiaMouseEntered
 
     private void lblNewYorkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseEntered
         principal.cargarInformacionPais("NEW YORK");
+        lblFichaNuevaYork.setVisible(false);
     }//GEN-LAST:event_lblNewYorkMouseEntered
 
     private void lblLasVegasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLasVegasMouseEntered
        principal.cargarInformacionPais("LAS VEGAS");
+       lblFichaLasVegas.setVisible(false);
     }//GEN-LAST:event_lblLasVegasMouseEntered
 
     private void lblIslaVictoriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslaVictoriaMouseEntered
         principal.cargarInformacionPais("ISLA VICTORIA");
+        lblFichaIslaVictoria.setVisible(false);
     }//GEN-LAST:event_lblIslaVictoriaMouseEntered
 
     private void lblChicagoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChicagoMouseEntered
         principal.cargarInformacionPais("CHICAGO");
+        lblFichaChicago.setVisible(false);
     }//GEN-LAST:event_lblChicagoMouseEntered
 
     private void lblCaliforniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCaliforniaMouseEntered
        principal.cargarInformacionPais("CALIFORNIA");
+       lblFichaCalifornia.setVisible(false);
     }//GEN-LAST:event_lblCaliforniaMouseEntered
 
     private void lblLabradorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLabradorMouseEntered
         principal.cargarInformacionPais("LABRADOR");
+        lblFichaLabrador.setVisible(false);
     }//GEN-LAST:event_lblLabradorMouseEntered
 
     private void lblMexicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMexicoMouseEntered
         principal.cargarInformacionPais("MEXICO");
+        lblFichaMexico.setVisible(false);
     }//GEN-LAST:event_lblMexicoMouseEntered
 
     private void lblHondurasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHondurasMouseEntered
         principal.cargarInformacionPais("HONDURAS");
+        lblFichaHonduras.setVisible(false);
     }//GEN-LAST:event_lblHondurasMouseEntered
 
     private void lblElSalvadorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblElSalvadorMouseEntered
         principal.cargarInformacionPais("EL SALVADOR");
+        lblFichaElSalvador.setVisible(false);
     }//GEN-LAST:event_lblElSalvadorMouseEntered
 
     private void lblNicaraguaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicaraguaMouseEntered
         principal.cargarInformacionPais("NICARAGUA");
+        lblFichaNicaragua.setVisible(false);
     }//GEN-LAST:event_lblNicaraguaMouseEntered
 
     private void lblCubaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCubaMouseEntered
        principal.cargarInformacionPais("CUBA");
+       lblFichaCuba.setVisible(false);
     }//GEN-LAST:event_lblCubaMouseEntered
 
     private void lblJamaicaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJamaicaMouseEntered
         principal.cargarInformacionPais("JAMAICA");
+        lblFichaJamaica.setVisible(false);
     }//GEN-LAST:event_lblJamaicaMouseEntered
 
     private void lblVenezuelaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVenezuelaMouseEntered
          principal.cargarInformacionPais("Venezuela");
+         lblFichaVenezuela.setVisible(false);
     }//GEN-LAST:event_lblVenezuelaMouseEntered
 
     private void lblSaharaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaharaMouseEntered
         principal.cargarInformacionPais("Sahara");
+        lblFichaSahara.setVisible(false);
     }//GEN-LAST:event_lblSaharaMouseEntered
 
     private void lblSumatraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSumatraMouseEntered
         principal.cargarInformacionPais("Sumatra");
+        lblFichaSumatra.setVisible(false);
     }//GEN-LAST:event_lblSumatraMouseEntered
 
     private void lblPortugalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPortugalMouseEntered
        principal.cargarInformacionPais("Portugal");
+       lblFichaPortugal.setVisible(false);
     }//GEN-LAST:event_lblPortugalMouseEntered
 
     private void lblIrakMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrakMouseEntered
          principal.cargarInformacionPais("Irak");
+         lblFichaIrak.setVisible(false);
     }//GEN-LAST:event_lblIrakMouseEntered
 
     private void lblIslandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslandiaMouseEntered
         principal.cargarInformacionPais("Islandia");
+        lblFichaIslandia.setVisible(false);
     }//GEN-LAST:event_lblIslandiaMouseEntered
 
     private void lblNoruegaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoruegaMouseEntered
        principal.cargarInformacionPais("Noruega");
+       lblFichaNoruega.setVisible(false);
     }//GEN-LAST:event_lblNoruegaMouseEntered
 
     private void lblIrlandaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrlandaMouseEntered
         principal.cargarInformacionPais("Irlanda");
+        lblFichaIrlanda.setVisible(false);
     }//GEN-LAST:event_lblIrlandaMouseEntered
 
     private void lblGranBretañaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGranBretañaMouseEntered
         principal.cargarInformacionPais("Gran Bretaña");
+        lblFichaGranBretaña.setVisible(false);
     }//GEN-LAST:event_lblGranBretañaMouseEntered
 
     private void lblEspañaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEspañaMouseEntered
         principal.cargarInformacionPais("España");
+        lblFichaEspaña.setVisible(false);
     }//GEN-LAST:event_lblEspañaMouseEntered
 
     private void lblFranciaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFranciaMouseEntered
         principal.cargarInformacionPais("Francia");
+        lblFichaFrancia.setVisible(false);
     }//GEN-LAST:event_lblFranciaMouseEntered
 
     private void lblAlemaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlemaniaMouseEntered
         principal.cargarInformacionPais("Alemania");
+        lblFichaAlemania.setVisible(false);
     }//GEN-LAST:event_lblAlemaniaMouseEntered
 
     private void lblSerbiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSerbiaMouseEntered
         principal.cargarInformacionPais("Serbia");
+        lblFichaSerbia.setVisible(false);
     }//GEN-LAST:event_lblSerbiaMouseEntered
 
     private void lblCroaciaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCroaciaMouseEntered
         principal.cargarInformacionPais("Croacia");
+        lblFichaCroacia.setVisible(false);
     }//GEN-LAST:event_lblCroaciaMouseEntered
 
     private void lblItaliaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblItaliaMouseEntered
         principal.cargarInformacionPais("Italia");
+        lblFichaItalia.setVisible(false);
     }//GEN-LAST:event_lblItaliaMouseEntered
 
     private void lblPoloniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPoloniaMouseEntered
         principal.cargarInformacionPais("Polonia");
+        lblFichaPolonia.setVisible(false);
     }//GEN-LAST:event_lblPoloniaMouseEntered
 
     private void lblUcraniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUcraniaMouseEntered
         principal.cargarInformacionPais("Ucrania");
+        lblFichaUcrania.setVisible(false);
     }//GEN-LAST:event_lblUcraniaMouseEntered
 
     private void lblBielorrusiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBielorrusiaMouseEntered
         principal.cargarInformacionPais("Bielorrusia");
+        lblFichaBielorrusia.setVisible(false);
     }//GEN-LAST:event_lblBielorrusiaMouseEntered
 
     private void lblFinlandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFinlandiaMouseEntered
         principal.cargarInformacionPais("Finlandia");
+        lblFichaFinlandia.setVisible(false);
     }//GEN-LAST:event_lblFinlandiaMouseEntered
 
     private void lblAlbaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlbaniaMouseEntered
         principal.cargarInformacionPais("Albania");
+        lblFichaAlbania.setVisible(false);
     }//GEN-LAST:event_lblAlbaniaMouseEntered
 
     private void lblIsraelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIsraelMouseEntered
         principal.cargarInformacionPais("Israel");
+        lblFichaIsrael.setVisible(false);
     }//GEN-LAST:event_lblIsraelMouseEntered
 
     private void lblArabiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArabiaMouseEntered
         principal.cargarInformacionPais("Arabia");
+        lblFichaArabia.setVisible(false);
     }//GEN-LAST:event_lblArabiaMouseEntered
 
     private void lblTurquiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTurquiaMouseEntered
         principal.cargarInformacionPais("Turquia");
+        lblFichaTurquia.setVisible(false);
     }//GEN-LAST:event_lblTurquiaMouseEntered
 
     private void lblMalasiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMalasiaMouseEntered
         principal.cargarInformacionPais("Malasia");
+        lblFichaMalasia.setVisible(false);
     }//GEN-LAST:event_lblMalasiaMouseEntered
 
     private void lblIndiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIndiaMouseEntered
         principal.cargarInformacionPais("India");
+        lblFichaIndia.setVisible(false);
     }//GEN-LAST:event_lblIndiaMouseEntered
 
     private void lblVietnamMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVietnamMouseEntered
         principal.cargarInformacionPais("Vietnam");
+        lblFichaVietnam.setVisible(false);
     }//GEN-LAST:event_lblVietnamMouseEntered
 
     private void lblCoreaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCoreaMouseEntered
         principal.cargarInformacionPais("Corea");
+        lblFichaCorea.setVisible(false);
     }//GEN-LAST:event_lblCoreaMouseEntered
 
     private void lblJaponMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseEntered
         principal.cargarInformacionPais("Japon");
+        lblFichaJapon.setVisible(false);
     }//GEN-LAST:event_lblJaponMouseEntered
 
     private void lblKamtchatkaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKamtchatkaMouseEntered
         principal.cargarInformacionPais("Kamtchatka");
+        lblFichaKamtchatcka.setVisible(false);
     }//GEN-LAST:event_lblKamtchatkaMouseEntered
 
     private void lblChukchiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChukchiMouseEntered
         principal.cargarInformacionPais("Chukchi");
+        lblFichaChukChi.setVisible(false);
     }//GEN-LAST:event_lblChukchiMouseEntered
 
     private void lblChecheniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChecheniaMouseEntered
         principal.cargarInformacionPais("Chechenia");
+        lblFichaChechenia.setVisible(false);
     }//GEN-LAST:event_lblChecheniaMouseEntered
 
     private void lblSiberiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiberiaMouseEntered
         principal.cargarInformacionPais("Siberia");
+        lblFichaSiberia.setVisible(false);
     }//GEN-LAST:event_lblSiberiaMouseEntered
 
     private void lblRusiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRusiaMouseEntered
         principal.cargarInformacionPais("Rusia");
+        lblFichaRusia.setVisible(false);
     }//GEN-LAST:event_lblRusiaMouseEntered
 
     private void lblIranMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIranMouseEntered
         principal.cargarInformacionPais("Iran");
+        lblFichaIran.setVisible(false);
     }//GEN-LAST:event_lblIranMouseEntered
 
     private void lblChinaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChinaMouseEntered
         principal.cargarInformacionPais("China");
+        lblFichaChina.setVisible(false);
     }//GEN-LAST:event_lblChinaMouseEntered
 
     private void lblFilipinasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFilipinasMouseEntered
         principal.cargarInformacionPais("Filipinas");
+        lblFichaFilipinas.setVisible(false);
     }//GEN-LAST:event_lblFilipinasMouseEntered
 
     private void lblTongaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTongaMouseEntered
         principal.cargarInformacionPais("Tonga");
+        lblFichaTonga.setVisible(false);
     }//GEN-LAST:event_lblTongaMouseEntered
 
     private void lblAustraliaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAustraliaMouseEntered
         principal.cargarInformacionPais("Australia");
+        lblFichaAustralia.setVisible(false);
     }//GEN-LAST:event_lblAustraliaMouseEntered
 
     private void lblTasmaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTasmaniaMouseEntered
         principal.cargarInformacionPais("Tasmania");
+        lblFichaTasmania.setVisible(false);
     }//GEN-LAST:event_lblTasmaniaMouseEntered
 
     private void lblNuevaZelandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaZelandiaMouseEntered
         principal.cargarInformacionPais("Nueva Zelanda");
+        lblFichaNuevaZelandia.setVisible(false);
     }//GEN-LAST:event_lblNuevaZelandiaMouseEntered
 
     private void lblMadagascarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMadagascarMouseEntered
         principal.cargarInformacionPais("Madagascar");
+        lblFichaMadagascar.setVisible(false);
     }//GEN-LAST:event_lblMadagascarMouseEntered
 
     private void lblSudafricaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSudafricaMouseEntered
         principal.cargarInformacionPais("Sudafrica");
+        lblFichaSudafrica.setVisible(false);
     }//GEN-LAST:event_lblSudafricaMouseEntered
 
     private void lblMauritaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMauritaniaMouseEntered
         principal.cargarInformacionPais("Mauritania");
+        lblFichaMauritania.setVisible(false);
     }//GEN-LAST:event_lblMauritaniaMouseEntered
 
     private void lblAngolaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAngolaMouseEntered
         principal.cargarInformacionPais("Angola");
+        lblFichaAngola.setVisible(false);
     }//GEN-LAST:event_lblAngolaMouseEntered
 
     private void lblEtiopiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEtiopiaMouseEntered
         principal.cargarInformacionPais("Etipia");
+        lblFichaEtiopia.setVisible(false);
     }//GEN-LAST:event_lblEtiopiaMouseEntered
 
     private void lblEgiptoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEgiptoMouseEntered
         principal.cargarInformacionPais("Egipto");
+        lblFichaEgipto.setVisible(false);
     }//GEN-LAST:event_lblEgiptoMouseEntered
 
     private void lblNigeriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNigeriaMouseEntered
         principal.cargarInformacionPais("Nigeria");
+        lblFichaNigeria.setVisible(false);
     }//GEN-LAST:event_lblNigeriaMouseEntered
 
     private void lblBrasilMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBrasilMouseEntered
         principal.cargarInformacionPais("Brasil");
+        lblFichaBrasil.setVisible(false);
     }//GEN-LAST:event_lblBrasilMouseEntered
 
     private void lblColombiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseEntered
         principal.cargarInformacionPais("Colombia");
+        lblFichaColombia.setVisible(false);
     }//GEN-LAST:event_lblColombiaMouseEntered
 
     private void lblBoliviaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBoliviaMouseEntered
         principal.cargarInformacionPais("Bolivia");
+        lblFichaBolivia.setVisible(false);
     }//GEN-LAST:event_lblBoliviaMouseEntered
 
     private void lblChileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChileMouseEntered
         principal.cargarInformacionPais("Chile");
+        lblFichaChile.setVisible(false);
     }//GEN-LAST:event_lblChileMouseEntered
 
     private void lblParaguayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblParaguayMouseEntered
         principal.cargarInformacionPais("Paraguay");
+        lblFichaParaguay.setVisible(false);
     }//GEN-LAST:event_lblParaguayMouseEntered
 
     private void lblArgentinaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArgentinaMouseEntered
         principal.cargarInformacionPais("Argentina");
+        lblFichaArgentina.setVisible(false);
     }//GEN-LAST:event_lblArgentinaMouseEntered
 
     private void lblUruguayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUruguayMouseEntered
         principal.cargarInformacionPais("Uruguay");
+        lblFichaUruguay.setVisible(false);
     }//GEN-LAST:event_lblUruguayMouseEntered
+
+    private void lblColombiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseExited
+        lblFichaColombia.setVisible(true);
+    }//GEN-LAST:event_lblColombiaMouseExited
+
+    private void lblJaponMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseExited
+        mostrarFichas();
+    }//GEN-LAST:event_lblJaponMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
