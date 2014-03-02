@@ -77,8 +77,14 @@ public class ControlConexion {
         try {
             conexionServidor.conectar(direccionServidor);
             
-            new Thread(conexionServidor).start();
-            new Thread(despachadorAcciones).start();
+            Thread t1 = new Thread(conexionServidor);
+            conexionServidor.setHilo(t1);
+            Thread t2 = new Thread(despachadorAcciones);
+            despachadorAcciones.setHilo(t2);
+            t1.start();
+            t2.start();
+            //new Thread(conexionServidor).start();
+            //new Thread(despachadorAcciones).start();
         } catch (IOException ex) {
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error estableciendo conexión con el servidor.", ex));
             JOptionPane.showMessageDialog(salaEspera, "Error estableciendo conexión con el servidor:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
