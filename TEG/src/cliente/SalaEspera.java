@@ -134,7 +134,7 @@ public class SalaEspera extends javax.swing.JFrame {
      * Solicita al jugador el ingreso de un alias.
      */
     private void solicitarAlias() {
-        ClienteManager.getInstance().getControlAlias().solicitarAlias();
+        ClienteManager.getInstance().getControlAlias().reingresarAlias();
     }
 
     public void mostrarChat(String chat) {

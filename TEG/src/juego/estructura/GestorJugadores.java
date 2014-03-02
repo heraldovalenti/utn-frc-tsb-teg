@@ -14,4 +14,12 @@ import java.util.List;
  */
 public class GestorJugadores {
     private List<Jugador> listaJugadores;
+    
+    public List<Jugador> getJugadores() {
+        return this.listaJugadores;
+    }
+    
+    public void setJugadores(List<Jugador> jugadores) {
+        this.listaJugadores = jugadores;
+    }
 }

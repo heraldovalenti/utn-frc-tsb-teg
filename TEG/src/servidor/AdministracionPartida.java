@@ -4,6 +4,7 @@
  */
 package servidor;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.text.DefaultCaret;
@@ -42,9 +43,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Agrega un listener de click al menu iniciar servidor.
      */
     private void addListenerToMenuIniciarServidor() {
-        this.menuItemServidorIniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.menuItemServidorIniciar.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 iniciarServidor();
             }
         });
@@ -54,9 +55,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Agrega un listener de click al menu detener servidor.
      */
     private void addListenerToMenuDetenerServidor() {
-        this.menuItemServidorDetener.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.menuItemServidorDetener.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 detenerServidor();
             }
         });
@@ -66,9 +67,9 @@ public class AdministracionPartida extends javax.swing.JFrame {
      * Agrega un listener de click al menu reiniciar servidor.
      */
     private void addListenerToMenuReiniciarServidor() {
-        this.menuItemServidorReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.menuItemServidorReiniciar.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 reiniciarServidor();
             }
         });
@@ -107,6 +108,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
             detenerServidor();
             iniciarServidor();
         }
+        actualizarEstadoServidor();
     }
 
     /**

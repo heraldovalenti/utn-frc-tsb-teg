@@ -20,7 +20,7 @@ public class Crisis implements Situacion {
     private List<Jugador> jugadoresEnCrisis;
 
     public Crisis() {
-        List<Jugador> jugadoresJuego = Juego.getInstancia().getJugadores();
+        List<Jugador> jugadoresJuego = Juego.getInstancia().getGestorJugadores().getJugadores();
         int[] tiradas = new int[jugadoresJuego.size()];
         int tiradaMasBaja = 10;
         for (int i = 0; i < tiradas.length; i++) {

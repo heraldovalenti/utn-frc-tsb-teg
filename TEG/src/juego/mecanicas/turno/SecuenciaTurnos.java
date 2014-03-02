@@ -32,7 +32,7 @@ public class SecuenciaTurnos {
         secuencia = new LinkedList();
         actual = 0;
         contadorRondas = 1;
-        List<Jugador> listaJugadores = new LinkedList(Juego.getInstancia().getJugadores());
+        List<Jugador> listaJugadores = new LinkedList(Juego.getInstancia().getGestorJugadores().getJugadores());
         while (!listaJugadores.isEmpty()) {
             double rnd = Math.random();
             double dRes = rnd * listaJugadores.size();
@@ -89,7 +89,7 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(4, "Bren", Color.GREEN));
         jugadores.add(new Jugador(5, "Lulu", Color.WHITE));
         jugadores.add(new Jugador(6, "Gato", Color.RED));
-        j.setJugadores(jugadores);
+        j.getGestorJugadores().setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
 
         System.out.println("secuencia: ");
