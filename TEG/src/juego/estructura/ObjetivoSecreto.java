@@ -5,9 +5,11 @@
  */
 package juego.estructura;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import juego.mecanicas.turno.SecuenciaTurnos;
 
 /**
  *
@@ -20,20 +22,23 @@ public class ObjetivoSecreto {
     private int nroObjetivo;
     private String descripcion;
     private Map<Continente, Integer> paisesPorContinenteAOcupar;
+    private Color colorADestruir;
     private Jugador jugadorADestruir;
     private int paisesAOcupar;
     private int islasAOcupar;
+    private boolean destruirIzquierda;
     //private Map<Continente, Integer> islasPorContinenteAOcupar;
 
     public ObjetivoSecreto() {
     }
 
-    public ObjetivoSecreto(int nroObjetivo, String descripcion, Map<Continente, Integer> paisesPorContinenteAOcupar, Jugador jugadorADestruir, int paisesAOcupar, int islasAOcupar) {
+    public ObjetivoSecreto(int nroObjetivo, String descripcion, Map<Continente, Integer> paisesPorContinenteAOcupar, Color colorADestruir, int paisesAOcupar, int islasAOcupar, boolean destruirIzquierda) {
         this.nroObjetivo = nroObjetivo;
         this.descripcion = descripcion;
         this.paisesPorContinenteAOcupar = paisesPorContinenteAOcupar;
-        this.jugadorADestruir = jugadorADestruir;
         this.paisesAOcupar = paisesAOcupar;
+        this.colorADestruir = colorADestruir;
+        this.destruirIzquierda = destruirIzquierda;
         // this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
     }
 
@@ -69,13 +74,6 @@ public class ObjetivoSecreto {
         this.paisesAOcupar = paisesAOcupar;
     }
 
-//    public Map<Continente, Integer> getIslasPorContinenteAOcupar() {
-//        return islasPorContinenteAOcupar;
-//    }
-//
-//    public void setIslasPorContinenteAOcupar(Map<Continente, Integer> islasPorContinenteAOcupar) {
-//        this.islasPorContinenteAOcupar = islasPorContinenteAOcupar;
-//    }
     public String getDescripcion() {
         return descripcion;
     }
@@ -107,6 +105,7 @@ public class ObjetivoSecreto {
     }
 
     public boolean comprobarVictoria(Jugador jugador) {
+        SecuenciaTurnos secuencia = SecuenciaTurnos.getInstancia();
         Set<Pais> conjuntoPaises;
         Set<Continente> conjuntoContinentes;
         if (paisesPorContinenteAOcupar != null) {
@@ -132,11 +131,23 @@ public class ObjetivoSecreto {
                 }
             }
         }
+        if (colorADestruir != null && jugadorADestruir == null) {
+            if (jugador.getColor().equals(colorADestruir)) {
+                jugadorADestruir = secuencia.getJugadorAnterior(jugador);
+            } else {
+                jugadorADestruir = GestorJugadores.obtenerPorColor(colorADestruir);
+            }
+        }
+        if (destruirIzquierda && jugadorADestruir == null) {
+            jugadorADestruir = secuencia.getJugadorSiguiente(jugador);
+        }
         if (jugadorADestruir != null) {
-            int cantidadPaises = jugadorADestruir.getConjuntoPaises().size();
-            if (cantidadPaises > 0) {
+            if (jugadorADestruir.getCantidadPaises() > 0) {
                 return false;
             }
+        }
+        if (jugadorADestruir.getCantidadPaises() > 0) {
+            return false;
         }
         if (islasAOcupar > 0) {
             conjuntoPaises = jugador.obtenerIslasOcupadas();
