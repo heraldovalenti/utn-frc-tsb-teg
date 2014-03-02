@@ -6,6 +6,8 @@
 
 package juego.mecanicas.turno;
 
+import juego.estructura.Pais;
+
 /**
  *
  * @author Daniel
@@ -23,7 +25,26 @@ public class GestorTurno {
     private static final int ACCION_REAGRUPAR = 1;
     private static final int ACCION_CANJEAR_TARJETA = 1;
     
-    private static final boolean[][] permisos = new boolean[4][5];
+    private static final boolean[][] permisos = new boolean[5][5];
     
+    public void atacar(Pais origen, Pais destino, int cantidadEjercitos){
+        
+    }
+    public void colocarEjercitos(Pais pais){
+        
+    }
+    public void canjearEjercitosPorMisil(Pais pais){
+        
+    }
+    public void canjearMisilPorEjercito(Pais pais){
+        
+    }
     
+    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos){
+        
+    }
+    
+    public void lanzarMisil(Pais origen, Pais destino){
+        
+    }
 }
