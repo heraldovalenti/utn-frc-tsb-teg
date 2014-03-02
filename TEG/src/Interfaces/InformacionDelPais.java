@@ -21,7 +21,7 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
      */
     public InformacionDelPais(JMenuItem menu) {
         initComponents();
-        this.setSize(200, 215);      
+        this.setSize(200, 250);      
         this.menu = menu;
     }
     
@@ -53,18 +53,13 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
         lblDueño = new javax.swing.JLabel();
         lblCantidad = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblMisiles = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("INFORMACION");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Información.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
@@ -73,6 +68,13 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
         });
 
         lblPais.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -80,13 +82,20 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
         lblPais.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPais.setToolTipText("");
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("DUEÑO:");
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("TROPAS:");
 
         lblDueño.setText("Dueño");
 
         lblCantidad.setText("Cantidad");
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("MISILES:");
+
+        lblMisiles.setText("Misiles");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,13 +108,15 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
                         .addComponent(lblPais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDueño, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
+                            .addComponent(lblCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                            .addComponent(lblMisiles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -127,7 +138,11 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(lblCantidad))
-                .addGap(26, 26, 26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblMisiles))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,12 +164,14 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblDueño;
     private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblMisiles;
     private javax.swing.JLabel lblPais;
     // End of variables declaration//GEN-END:variables
 }
