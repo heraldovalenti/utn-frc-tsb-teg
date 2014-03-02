@@ -17,7 +17,8 @@ public class Jugador {
     private int nroJugador;
     private String nombre;
     private Color color;
-    private Set<Pais> conjuntoPaises;
+    private Set<Pais> conjuntoPaises = new HashSet<>(96);
+    private ObjetivoSecreto objetivoSecreto;
 
     public Jugador() {
     }
@@ -64,6 +65,18 @@ public class Jugador {
         this.conjuntoPaises = conjuntoPaises;
     }
 
+    public ObjetivoSecreto getObjetivoSecreto() {
+        return objetivoSecreto;
+    }
+
+    public void setObjetivoSecreto(ObjetivoSecreto objetivoSecreto) {
+        this.objetivoSecreto = objetivoSecreto;
+    }
+
+    public int getCantidadPaises() {
+        return conjuntoPaises.size();
+    }
+
     public Set<Continente> obtenerContinentesOcupados() {
         Set<Continente> conjuntoContinentes = new HashSet<>();
         for (Pais pais : conjuntoPaises) {
@@ -90,6 +103,10 @@ public class Jugador {
             }
         }
         return conjuntoContinentes;
+    }
+
+    public boolean comprobarObjetivoComun() {
+        return (getCantidadPaises() >= 45);
     }
 
     @Override
