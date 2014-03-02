@@ -13,8 +13,7 @@ import juego.estructura.ObjetivoSecreto;
  * @author Emanuel
  */
 public class FachadaInterface {
-    public static List<ObjetivoSecreto> obtenerObjetivos(){
-        
+    public static List<ObjetivoSecreto> obtenerObjetivos(){     
         return GestorObjetivosSecretos.getListaObjetivos();
     }
 }
