@@ -2,6 +2,7 @@ package Interfaces;
 
 
 import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,16 +14,16 @@ import javax.swing.BorderFactory;
  * @author Emanuel
  */
 public class InterfaceObjetivo extends javax.swing.JInternalFrame {
-
+    private JMenuItem menu;
     /**
      * Creates new form GUIObjetivo
      */
     
-    public InterfaceObjetivo(String objetivo) {
+    public InterfaceObjetivo(String objetivo,JMenuItem menu) {
         initComponents();       
         jTextArea2.setEditable(false);
         jTextArea2.setText(objetivo);
-        
+        this.menu = menu;
     }
    
 
@@ -43,7 +44,24 @@ public class InterfaceObjetivo extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("MISION");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo.jpg"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo2.jpg"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
@@ -82,10 +100,10 @@ public class InterfaceObjetivo extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,6 +119,11 @@ public class InterfaceObjetivo extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        menu.setEnabled(true);
+    }//GEN-LAST:event_formInternalFrameClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

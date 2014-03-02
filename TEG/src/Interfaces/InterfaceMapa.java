@@ -2,6 +2,8 @@ package Interfaces;
 
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import juego.estructura.Pais;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,6 +16,7 @@ import java.awt.Dimension;
  */
 public class InterfaceMapa extends javax.swing.JInternalFrame {
     private InterfacePrincipal principal;
+    private Mapa mapa;
     /**
      * Creates new form GUIMapa
      */
@@ -27,13 +30,16 @@ public class InterfaceMapa extends javax.swing.JInternalFrame {
     }
     
     private void obtenerMapa(){
-        Mapa mapa = new Mapa(principal);
+        mapa = new Mapa(principal);
         jScrollPane2.setViewportView(mapa);
         //this.setContentPane(mapa);        
         
         //panelMapa.add(mapa);
         //panelMapa.repaint();
         //
+    }
+    public void actualizarFichas(ArrayList<Pais> paises){
+        mapa.actualizarFichas(paises);
     }
 
     /**

@@ -10,13 +10,24 @@ package Interfaces;
  * @author Emanuel
  */
 public class Chat extends javax.swing.JInternalFrame {
-
+    private InterfacePrincipal padre;
     /**
      * Creates new form Chat
      */
-    public Chat() {
+    public Chat(InterfacePrincipal padre) {
         initComponents();
         this.setSize(1018, 160);
+        this.padre = padre;
+    }
+    public void cargarChat(String chat){
+        txtChat.append(chat);
+
+    }
+    private void envioChat(){
+        String envioChat = txtEnvioChat.getText()+"\n";
+        if(envioChat.compareTo("") == 0) return;
+        padre.enviarChat(envioChat);
+        txtEnvioChat.setText("");
     }
 
     /**
@@ -29,7 +40,7 @@ public class Chat extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtChat = new javax.swing.JTextArea();
         txtEnvioChat = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
 
@@ -38,16 +49,28 @@ public class Chat extends javax.swing.JInternalFrame {
         setTitle("CHAT");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Chat2.png"))); // NOI18N
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 204));
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtChat.setEditable(false);
+        txtChat.setBackground(new java.awt.Color(255, 255, 204));
+        txtChat.setColumns(20);
+        txtChat.setLineWrap(true);
+        txtChat.setRows(5);
+        jScrollPane1.setViewportView(txtChat);
 
         txtEnvioChat.setBackground(new java.awt.Color(255, 255, 204));
         txtEnvioChat.setToolTipText("");
+        txtEnvioChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEnvioChatActionPerformed(evt);
+            }
+        });
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/enviar.png"))); // NOI18N
         btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,15 +95,24 @@ public class Chat extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnviar)
                     .addComponent(txtEnvioChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+         envioChat();
+    }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void txtEnvioChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnvioChatActionPerformed
+        envioChat();
+    }//GEN-LAST:event_txtEnvioChatActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtChat;
     private javax.swing.JTextField txtEnvioChat;
     // End of variables declaration//GEN-END:variables
 }
