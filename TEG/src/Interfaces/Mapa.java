@@ -87,7 +87,7 @@ public class Mapa extends javax.swing.JPanel {
                 if(componentes[i] instanceof JLabel) 
                 { 
                     JLabel label = ((JLabel) componentes[i]);
-                    if(pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
+                    if(label.getName()!=null && pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
                            cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos());
                     }
                 } 
@@ -101,7 +101,7 @@ public class Mapa extends javax.swing.JPanel {
                      
                     if(hijos[j] instanceof JLabel) {                      
                          JLabel label2= ((JLabel) hijos[j]);
-                         if(pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
+                         if(label2.getName()!=null && pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
                                cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos());
                          }
                     }
@@ -353,7 +353,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblTerranovaMouseEntered(evt);
             }
         });
-        panelAmericaDelNorrte.add(lblTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 83, 76));
+        panelAmericaDelNorrte.add(lblTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 90, 80, 76));
 
         lblNewYork.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -383,7 +383,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblCanadaMouseEntered(evt);
             }
         });
-        panelAmericaDelNorrte.add(lblCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 60, 90, 59));
+        panelAmericaDelNorrte.add(lblCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 60, 80, 59));
 
         lblIslaVictoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
