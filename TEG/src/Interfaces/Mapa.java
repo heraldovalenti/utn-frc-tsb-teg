@@ -38,6 +38,7 @@ public class Mapa extends javax.swing.JPanel {
    private void cargarFichaEnPais(JLabel label, Color col, int cantidad){
         String color;        
         String rutaImagen;
+        label.setForeground(Color.BLACK);
         if(cantidad == 0){
             rutaImagen = "/imagenes/fichas/fichaGenericaTransparente.png";
         }
@@ -52,6 +53,7 @@ public class Mapa extends javax.swing.JPanel {
                 else{
                     if(col.equals(Color.black)){
                         color = "Negra";
+                        label.setForeground(Color.WHITE);
                     }
                     else{
                         if(col.equals(Color.WHITE)){
@@ -68,10 +70,12 @@ public class Mapa extends javax.swing.JPanel {
                     }
                 }
             }
-            rutaImagen= "/imagenes/fichas/ficha"+color+cantidad+".png";
+            rutaImagen= "/imagenes/fichas/ficha"+color+".png";
         }
         try{
+            label.setText(String.valueOf(cantidad));
             label.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+            
         }
         catch(Exception e){
             e.printStackTrace();
@@ -323,6 +327,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblLabrador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLabrador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblLabradorMouseClicked(evt);
@@ -333,6 +338,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblLabrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 70, 20));
 
+        lblAlaska.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAlaska.setToolTipText("");
         lblAlaska.setName(""); // NOI18N
         lblAlaska.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -345,6 +351,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblAlaska, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 40));
 
+        lblTerranova.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblTerranova.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTerranovaMouseClicked(evt);
@@ -355,6 +362,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 90, 80, 76));
 
+        lblNewYork.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNewYork.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNewYorkMouseClicked(evt);
@@ -365,6 +373,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblNewYork, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 94, 60));
 
+        lblGroenlandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblGroenlandia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblGroenlandiaMouseClicked(evt);
@@ -375,6 +384,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblGroenlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 106, 50));
 
+        lblCanada.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCanada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCanadaMouseClicked(evt);
@@ -385,6 +395,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 60, 80, 59));
 
+        lblIslaVictoria.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIslaVictoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIslaVictoriaMouseClicked(evt);
@@ -395,6 +406,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblIslaVictoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 83, 37));
 
+        lblLasVegas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLasVegas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblLasVegasMouseClicked(evt);
@@ -405,6 +417,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 77, 41));
 
+        lblOregon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblOregon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblOregonMouseClicked(evt);
@@ -415,6 +428,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblOregon, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 88, 56));
 
+        lblChicago.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChicago.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblChicagoMouseClicked(evt);
@@ -425,6 +439,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblChicago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 48, 34));
 
+        lblCalifornia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCalifornia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCaliforniaMouseClicked(evt);
@@ -435,6 +450,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblCalifornia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 100, 20));
 
+        lblFlorida.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFlorida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFloridaMouseClicked(evt);
@@ -445,122 +461,178 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelNorrte.add(lblFlorida, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 61, 19));
 
+        lblFichaAlaska.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAlaska.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja6.png"))); // NOI18N
+        lblFichaAlaska.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaAlaska.setName("Alaska"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaAlaska, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 30, 30));
 
-        lblFichaCanda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblFichaCanda.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
         lblFichaCanda.setToolTipText("");
+        lblFichaCanda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCanda.setName("Canada"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaCanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
 
+        lblFichaOregon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaOregon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja4.png"))); // NOI18N
+        lblFichaOregon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaOregon.setName("Oregon"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaOregon, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 145, -1, 40));
 
+        lblFichaTerranova.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaTerranova.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja3.png"))); // NOI18N
+        lblFichaTerranova.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaTerranova.setName("Terranova"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 115, 40, 40));
 
+        lblFichaIslaVictoria.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIslaVictoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja2.png"))); // NOI18N
+        lblFichaIslaVictoria.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIslaVictoria.setName("IslaVictoria"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaIslaVictoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 5, 40, 40));
 
+        lblFichaLabrador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaLabrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja1.png"))); // NOI18N
+        lblFichaLabrador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaLabrador.setName("Labrador"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaLabrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 45, 30, 30));
 
+        lblFichaGroenlandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaGroenlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja10.png"))); // NOI18N
+        lblFichaGroenlandia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaGroenlandia.setName("Groenlandia"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaGroenlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
 
+        lblFichaNuevaYork.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNuevaYork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja9.png"))); // NOI18N
+        lblFichaNuevaYork.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNuevaYork.setName("NuevaYork"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaNuevaYork, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, -1));
 
+        lblFichaChicago.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaChicago.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja6.png"))); // NOI18N
+        lblFichaChicago.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChicago.setName("Chicago"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaChicago, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 165, 30, 40));
 
+        lblFichaLasVegas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaLasVegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja3.png"))); // NOI18N
+        lblFichaLasVegas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaLasVegas.setName("LasVegas"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 195, 30, 40));
 
+        lblFichaFlorida.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaFlorida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja2.png"))); // NOI18N
+        lblFichaFlorida.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaFlorida.setName("Florida"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaFlorida, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 215, -1, 30));
 
+        lblFichaCalifornia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCalifornia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja1.png"))); // NOI18N
+        lblFichaCalifornia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCalifornia.setName("California"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaCalifornia, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 235, 30, 40));
 
         add(panelAmericaDelNorrte, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 21, 360, 270));
 
+        lblFichaIslandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIslandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaGenericaTransparente.png"))); // NOI18N
+        lblFichaIslandia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIslandia.setName("Islandia"); // NOI18N
         add(lblFichaIslandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 40, 40));
 
+        lblFichaNoruega.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNoruega.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde4.png"))); // NOI18N
+        lblFichaNoruega.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNoruega.setName("Noruega"); // NOI18N
         add(lblFichaNoruega, new org.netbeans.lib.awtextra.AbsoluteConstraints(544, 105, 70, 60));
 
+        lblFichaBielorrusia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaBielorrusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde3.png"))); // NOI18N
+        lblFichaBielorrusia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaBielorrusia.setName("Bielorrusia"); // NOI18N
         add(lblFichaBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, -1, -1));
 
+        lblFichaIrlanda.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIrlanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde6.png"))); // NOI18N
+        lblFichaIrlanda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIrlanda.setName("Irlanda"); // NOI18N
         add(lblFichaIrlanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 205, 30, 40));
 
+        lblFichaGranBretaña.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaGranBretaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaGranBretaña.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaGranBretaña.setName("GranBretaña"); // NOI18N
         add(lblFichaGranBretaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, -1, -1));
 
+        lblFichaFrancia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaFrancia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde1.png"))); // NOI18N
+        lblFichaFrancia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaFrancia.setName("Francia"); // NOI18N
         add(lblFichaFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 295, -1, 30));
 
+        lblFichaEspaña.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaEspaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde2.png"))); // NOI18N
+        lblFichaEspaña.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaEspaña.setName("España"); // NOI18N
         add(lblFichaEspaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 355, 50, 30));
 
+        lblFichaPortugal.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaPortugal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde5.png"))); // NOI18N
+        lblFichaPortugal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaPortugal.setName("Portugal"); // NOI18N
         add(lblFichaPortugal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 350, 30, -1));
 
+        lblFichaUcrania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaUcrania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaUcrania.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaUcrania.setName("Ucrania"); // NOI18N
         add(lblFichaUcrania, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 185, -1, 50));
 
+        lblFichaCroacia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCroacia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde8.png"))); // NOI18N
+        lblFichaCroacia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCroacia.setName("Croacia"); // NOI18N
         add(lblFichaCroacia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 305, 30, 50));
 
+        lblFichaItalia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaItalia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde9.png"))); // NOI18N
+        lblFichaItalia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaItalia.setName("Italia"); // NOI18N
         add(lblFichaItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 335, 30, 40));
 
+        lblFichaPolonia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaPolonia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde3.png"))); // NOI18N
+        lblFichaPolonia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaPolonia.setName("Polonia"); // NOI18N
         add(lblFichaPolonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 215, 30, 40));
 
+        lblFichaAlemania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAlemania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde10.png"))); // NOI18N
+        lblFichaAlemania.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaAlemania.setName("Alemania"); // NOI18N
         add(lblFichaAlemania, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 235, 30, 50));
 
+        lblFichaSerbia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaSerbia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaSerbia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSerbia.setName("Serbia"); // NOI18N
         add(lblFichaSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 255, 30, 40));
 
+        lblFichaAlbania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAlbania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde4.png"))); // NOI18N
+        lblFichaAlbania.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaAlbania.setName("Albania"); // NOI18N
         add(lblFichaAlbania, new org.netbeans.lib.awtextra.AbsoluteConstraints(675, 275, 30, 40));
 
+        lblFichaFinlandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaFinlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
+        lblFichaFinlandia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaFinlandia.setName("Finlandia"); // NOI18N
         add(lblFichaFinlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 30, 40));
 
+        lblIslandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIslandia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIslandiaMouseClicked(evt);
@@ -577,6 +649,7 @@ public class Mapa extends javax.swing.JPanel {
         panelCentroAmerica.setOpaque(false);
         panelCentroAmerica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblMexico.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMexico.setName(""); // NOI18N
         lblMexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -591,6 +664,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 50));
 
+        lblHonduras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblHonduras.setName(""); // NOI18N
         lblHonduras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -605,6 +679,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 30, 30));
 
+        lblElSalvador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblElSalvador.setName(""); // NOI18N
         lblElSalvador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -619,6 +694,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 40, 20));
 
+        lblNicaragua.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNicaragua.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNicaraguaMouseClicked(evt);
@@ -632,6 +708,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 60, 40));
 
+        lblCuba.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCuba.setName(""); // NOI18N
         lblCuba.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -646,6 +723,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 70, 20));
 
+        lblJamaica.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblJamaica.setName(""); // NOI18N
         lblJamaica.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -660,27 +738,39 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelCentroAmerica.add(lblJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 50, 40));
 
+        lblFichaMexico.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaMexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaMexico.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMexico.setName("Mexico"); // NOI18N
         panelCentroAmerica.add(lblFichaMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 25, -1, 30));
 
+        lblFichaHonduras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaHonduras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
+        lblFichaHonduras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaHonduras.setName("Honduras"); // NOI18N
         panelCentroAmerica.add(lblFichaHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 30));
 
+        lblFichaElSalvador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaElSalvador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
+        lblFichaElSalvador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaElSalvador.setName("ElSalvador"); // NOI18N
         panelCentroAmerica.add(lblFichaElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 30, -1));
 
+        lblFichaNicaragua.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNicaragua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaNicaragua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNicaragua.setName("Nicaragua"); // NOI18N
         panelCentroAmerica.add(lblFichaNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 95, 30, 40));
 
+        lblFichaJamaica.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaJamaica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
+        lblFichaJamaica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaJamaica.setName("Jamaica"); // NOI18N
         panelCentroAmerica.add(lblFichaJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 65, 30, 40));
 
+        lblFichaCuba.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCuba.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul8.png"))); // NOI18N
+        lblFichaCuba.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCuba.setName("Cuba"); // NOI18N
         panelCentroAmerica.add(lblFichaCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, -5, -1, 40));
 
@@ -689,6 +779,7 @@ public class Mapa extends javax.swing.JPanel {
         panelAmericaDelSur.setOpaque(false);
         panelAmericaDelSur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblColombia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblColombia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblColombiaMouseClicked(evt);
@@ -702,6 +793,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblColombia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, 100, 50));
 
+        lblArgentina.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblArgentina.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblArgentinaMouseClicked(evt);
@@ -715,6 +807,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 30, 80));
 
+        lblVenezuela.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblVenezuela.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblVenezuelaMouseClicked(evt);
@@ -726,8 +819,9 @@ public class Mapa extends javax.swing.JPanel {
                 lblColombiaMouseExited(evt);
             }
         });
-        panelAmericaDelSur.add(lblVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 60, 50));
+        panelAmericaDelSur.add(lblVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 60, 40));
 
+        lblBrasil.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblBrasil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblBrasilMouseClicked(evt);
@@ -741,6 +835,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblBrasil, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 90, 50));
 
+        lblBolivia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblBolivia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblBoliviaMouseClicked(evt);
@@ -754,6 +849,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblBolivia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 40, 40));
 
+        lblParaguay.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblParaguay.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblParaguayMouseClicked(evt);
@@ -767,6 +863,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblParaguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 40, 40));
 
+        lblChile.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblChileMouseClicked(evt);
@@ -780,6 +877,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 30, 90));
 
+        lblUruguay.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUruguay.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblUruguayMouseClicked(evt);
@@ -793,35 +891,51 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAmericaDelSur.add(lblUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 50, 30));
 
+        lblFichaColombia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaColombia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla1.png"))); // NOI18N
+        lblFichaColombia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaColombia.setName("Colombia"); // NOI18N
         panelAmericaDelSur.add(lblFichaColombia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 15, 30, 50));
 
+        lblFichaVenezuela.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaVenezuela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla10.png"))); // NOI18N
+        lblFichaVenezuela.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaVenezuela.setName("Venezuela"); // NOI18N
         panelAmericaDelSur.add(lblFichaVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 40, 30));
 
+        lblFichaBrasil.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaBrasil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla3.png"))); // NOI18N
+        lblFichaBrasil.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaBrasil.setName("Brasil"); // NOI18N
         panelAmericaDelSur.add(lblFichaBrasil, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 85, 40, 40));
 
+        lblFichaParaguay.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaParaguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla6.png"))); // NOI18N
+        lblFichaParaguay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaParaguay.setName("Paraguay"); // NOI18N
         panelAmericaDelSur.add(lblFichaParaguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 125, 30, 40));
 
+        lblFichaUruguay.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaUruguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla5.png"))); // NOI18N
+        lblFichaUruguay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaUruguay.setName("Uruguay"); // NOI18N
         panelAmericaDelSur.add(lblFichaUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 165, 30, 40));
 
+        lblFichaArgentina.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaArgentina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla2.png"))); // NOI18N
+        lblFichaArgentina.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaArgentina.setName("Argentina"); // NOI18N
         panelAmericaDelSur.add(lblFichaArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 175, 30, 40));
 
+        lblFichaBolivia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaBolivia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla4.png"))); // NOI18N
+        lblFichaBolivia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaBolivia.setName("Bolivia"); // NOI18N
         panelAmericaDelSur.add(lblFichaBolivia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 30, -1));
 
+        lblFichaChile.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaChile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla9.png"))); // NOI18N
+        lblFichaChile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChile.setName("Chile"); // NOI18N
         panelAmericaDelSur.add(lblFichaChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 135, -1, 40));
 
@@ -830,6 +944,7 @@ public class Mapa extends javax.swing.JPanel {
         panelAfrica.setOpaque(false);
         panelAfrica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblSahara.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSahara.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSaharaMouseClicked(evt);
@@ -843,6 +958,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblSahara, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, 70, 80));
 
+        lblEgipto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblEgipto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblEgiptoMouseClicked(evt);
@@ -856,6 +972,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblEgipto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 16, 100, 40));
 
+        lblEtiopia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblEtiopia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblEtiopiaMouseClicked(evt);
@@ -869,6 +986,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblEtiopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 64, 100, 30));
 
+        lblNigeria.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNigeria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNigeriaMouseClicked(evt);
@@ -882,6 +1000,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblNigeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 80, 40));
 
+        lblAngola.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAngola.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAngolaMouseClicked(evt);
@@ -895,6 +1014,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblAngola, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 70, 30));
 
+        lblMauritania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMauritania.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblMauritaniaMouseClicked(evt);
@@ -908,6 +1028,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblMauritania, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 70, 30));
 
+        lblSudafrica.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSudafrica.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSudafricaMouseClicked(evt);
@@ -921,6 +1042,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblSudafrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 50, 50));
 
+        lblMadagascar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMadagascar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblMadagascarMouseClicked(evt);
@@ -934,35 +1056,51 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAfrica.add(lblMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 60, 50));
 
+        lblFichaSahara.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaSahara.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra10.png"))); // NOI18N
+        lblFichaSahara.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSahara.setName("Sahara"); // NOI18N
         panelAfrica.add(lblFichaSahara, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 45, 30, 40));
 
+        lblFichaEgipto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaEgipto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra8.png"))); // NOI18N
+        lblFichaEgipto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaEgipto.setName("Egipto"); // NOI18N
         panelAfrica.add(lblFichaEgipto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
 
+        lblFichaEtiopia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaEtiopia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra7.png"))); // NOI18N
+        lblFichaEtiopia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaEtiopia.setName("Etiopia"); // NOI18N
         panelAfrica.add(lblFichaEtiopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, -1, -1));
 
+        lblFichaNigeria.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNigeria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra6.png"))); // NOI18N
+        lblFichaNigeria.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNigeria.setName("Nigeria"); // NOI18N
         panelAfrica.add(lblFichaNigeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 105, -1, 40));
 
+        lblFichaAngola.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAngola.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra8.png"))); // NOI18N
+        lblFichaAngola.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaAngola.setName("Angola"); // NOI18N
         panelAfrica.add(lblFichaAngola, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 85, -1, 40));
 
+        lblFichaMauritania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaMauritania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra10.png"))); // NOI18N
+        lblFichaMauritania.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMauritania.setName("Mauritania"); // NOI18N
         panelAfrica.add(lblFichaMauritania, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 30, -1));
 
+        lblFichaSudafrica.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaSudafrica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra7.png"))); // NOI18N
+        lblFichaSudafrica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSudafrica.setName("Sudafrica"); // NOI18N
         panelAfrica.add(lblFichaSudafrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 180, 30, 30));
 
+        lblFichaMadagascar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaMadagascar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra9.png"))); // NOI18N
+        lblFichaMadagascar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMadagascar.setName("Madagascar"); // NOI18N
         panelAfrica.add(lblFichaMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 165, 30, 30));
 
@@ -971,6 +1109,7 @@ public class Mapa extends javax.swing.JPanel {
         panelAsia.setOpaque(false);
         panelAsia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblIndia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIndia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIndiaMouseClicked(evt);
@@ -984,6 +1123,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblIndia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 36, 58));
 
+        lblVietnam.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblVietnam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblVietnamMouseClicked(evt);
@@ -997,6 +1137,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblVietnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 70, 70));
 
+        lblMalasia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMalasia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblMalasiaMouseClicked(evt);
@@ -1010,6 +1151,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 264, 50, 50));
 
+        lblCorea.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCorea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCoreaMouseClicked(evt);
@@ -1023,6 +1165,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblCorea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 50, 80));
 
+        lblJapon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblJapon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblJaponMouseClicked(evt);
@@ -1036,6 +1179,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 20, 90));
 
+        lblKamtchatka.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblKamtchatka.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblKamtchatkaMouseClicked(evt);
@@ -1049,6 +1193,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblKamtchatka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 50, 100));
 
+        lblChukchi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChukchi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblChukchiMouseClicked(evt);
@@ -1062,6 +1207,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblChukchi, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 60, 40));
 
+        lblChina.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChina.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblChinaMouseClicked(evt);
@@ -1075,6 +1221,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblChina, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 60, 130));
 
+        lblTurquia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblTurquia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTurquiaMouseClicked(evt);
@@ -1088,6 +1235,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 40, 50));
 
+        lblArabia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblArabia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblArabiaMouseClicked(evt);
@@ -1101,6 +1249,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblArabia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
 
+        lblIsrael.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIsrael.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIsraelMouseClicked(evt);
@@ -1114,6 +1263,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblIsrael, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 40, 50));
 
+        lblIran.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIran.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIranMouseClicked(evt);
@@ -1127,6 +1277,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 30, 40));
 
+        lblRusia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRusia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblRusiaMouseClicked(evt);
@@ -1140,6 +1291,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblRusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 50, 70));
 
+        lblChechenia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChechenia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblChecheniaMouseClicked(evt);
@@ -1153,6 +1305,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 60, 50));
 
+        lblSiberia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSiberia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSiberiaMouseClicked(evt);
@@ -1166,63 +1319,93 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelAsia.add(lblSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 50, 40));
 
+        lblFichaChukChi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaChukChi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul5.png"))); // NOI18N
+        lblFichaChukChi.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChukChi.setName("Chukchi"); // NOI18N
         panelAsia.add(lblFichaChukChi, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 40, 30));
 
+        lblFichaKamtchatcka.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaKamtchatcka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
+        lblFichaKamtchatcka.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaKamtchatcka.setName("Kamtchatcka"); // NOI18N
         panelAsia.add(lblFichaKamtchatcka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
+        lblFichaSiberia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaSiberia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
+        lblFichaSiberia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSiberia.setName("Siberia"); // NOI18N
         panelAsia.add(lblFichaSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 5, 30, 40));
 
+        lblFichaChina.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaChina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla4.png"))); // NOI18N
+        lblFichaChina.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChina.setName("China"); // NOI18N
         panelAsia.add(lblFichaChina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 155, -1, 40));
 
+        lblFichaChechenia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaChechenia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla9.png"))); // NOI18N
+        lblFichaChechenia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChechenia.setName("Chechenia"); // NOI18N
         panelAsia.add(lblFichaChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 30, -1));
 
+        lblFichaCorea.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCorea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla7.png"))); // NOI18N
+        lblFichaCorea.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCorea.setName("Corea"); // NOI18N
         panelAsia.add(lblFichaCorea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 30, -1));
 
+        lblFichaMalasia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaMalasia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca2.png"))); // NOI18N
+        lblFichaMalasia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMalasia.setName("Malasia"); // NOI18N
         panelAsia.add(lblFichaMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 265, 30, 40));
 
+        lblFichaRusia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaRusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra4.png"))); // NOI18N
+        lblFichaRusia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaRusia.setName("Rusia"); // NOI18N
         panelAsia.add(lblFichaRusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 135, -1, 30));
 
+        lblFichaIran.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
+        lblFichaIran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIran.setName("Iran"); // NOI18N
         panelAsia.add(lblFichaIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 195, 30, 50));
 
+        lblFichaTurquia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaTurquia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
+        lblFichaTurquia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaTurquia.setName("Turquia"); // NOI18N
         panelAsia.add(lblFichaTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 295, 30, 40));
 
+        lblFichaVietnam.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaVietnam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja7.png"))); // NOI18N
+        lblFichaVietnam.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaVietnam.setName("Vietnam"); // NOI18N
         panelAsia.add(lblFichaVietnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 315, 30, 40));
 
+        lblFichaIndia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIndia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja9.png"))); // NOI18N
+        lblFichaIndia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIndia.setName("India"); // NOI18N
         panelAsia.add(lblFichaIndia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 335, -1, 40));
 
+        lblFichaIsrael.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIsrael.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca4.png"))); // NOI18N
+        lblFichaIsrael.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIsrael.setName("Israel"); // NOI18N
         panelAsia.add(lblFichaIsrael, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 325, -1, 40));
 
+        lblFichaArabia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaArabia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca9.png"))); // NOI18N
+        lblFichaArabia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaArabia.setName("Arabia"); // NOI18N
         panelAsia.add(lblFichaArabia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 375, -1, 30));
 
+        lblFichaJapon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaJapon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla3.png"))); // NOI18N
+        lblFichaJapon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaJapon.setName("Japon"); // NOI18N
         panelAsia.add(lblFichaJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 175, 30, 30));
 
@@ -1231,6 +1414,7 @@ public class Mapa extends javax.swing.JPanel {
         panelOceania.setOpaque(false);
         panelOceania.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblSumatra.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSumatra.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSumatraMouseClicked(evt);
@@ -1244,6 +1428,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblSumatra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 49, 36));
 
+        lblFilipinas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFilipinas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFilipinasMouseClicked(evt);
@@ -1257,6 +1442,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblFilipinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 1, 50, 40));
 
+        lblTonga.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblTonga.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTongaMouseClicked(evt);
@@ -1270,6 +1456,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblTonga, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 60, 45));
 
+        lblAustralia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAustralia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAustraliaMouseClicked(evt);
@@ -1283,6 +1470,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblAustralia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 131, 71));
 
+        lblTasmania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblTasmania.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTasmaniaMouseClicked(evt);
@@ -1296,6 +1484,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblTasmania, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 60, 23));
 
+        lblNuevaZelandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNuevaZelandia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNuevaZelandiaMouseClicked(evt);
@@ -1309,27 +1498,39 @@ public class Mapa extends javax.swing.JPanel {
         });
         panelOceania.add(lblNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 205, 100, 35));
 
+        lblFichaSumatra.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaSumatra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca8.png"))); // NOI18N
+        lblFichaSumatra.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSumatra.setName("Sumatra"); // NOI18N
         panelOceania.add(lblFichaSumatra, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 45, 30, 30));
 
+        lblFichaFilipinas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaFilipinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca8.png"))); // NOI18N
+        lblFichaFilipinas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaFilipinas.setName("Filipinas"); // NOI18N
         panelOceania.add(lblFichaFilipinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 5, -1, 40));
 
+        lblFichaTonga.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaTonga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca9.png"))); // NOI18N
+        lblFichaTonga.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaTonga.setName("Tonga"); // NOI18N
         panelOceania.add(lblFichaTonga, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 35, -1, 40));
 
+        lblFichaAustralia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAustralia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca5.png"))); // NOI18N
+        lblFichaAustralia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaAustralia.setName("Australia"); // NOI18N
         panelOceania.add(lblFichaAustralia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 30, -1));
 
+        lblFichaTasmania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaTasmania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca7.png"))); // NOI18N
+        lblFichaTasmania.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaTasmania.setName("Tasmania"); // NOI18N
         panelOceania.add(lblFichaTasmania, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 165, 30, 50));
 
+        lblFichaNuevaZelandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNuevaZelandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca5.png"))); // NOI18N
+        lblFichaNuevaZelandia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNuevaZelandia.setName("NuevaZelandia"); // NOI18N
         panelOceania.add(lblFichaNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 205, -1, 30));
 
@@ -1337,6 +1538,7 @@ public class Mapa extends javax.swing.JPanel {
 
         panelAsia2.setOpaque(false);
 
+        lblIrak.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIrak.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIrakMouseClicked(evt);
@@ -1346,7 +1548,9 @@ public class Mapa extends javax.swing.JPanel {
             }
         });
 
+        lblFichaIrak.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIrak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja8.png"))); // NOI18N
+        lblFichaIrak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIrak.setName("Irak"); // NOI18N
 
         javax.swing.GroupLayout panelAsia2Layout = new javax.swing.GroupLayout(panelAsia2);
@@ -1371,6 +1575,7 @@ public class Mapa extends javax.swing.JPanel {
 
         add(panelAsia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, 40, 80));
 
+        lblUcrania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUcrania.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblUcraniaMouseClicked(evt);
@@ -1384,6 +1589,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblUcrania, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 180, 40, 60));
 
+        lblPolonia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPolonia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblPoloniaMouseClicked(evt);
@@ -1397,6 +1603,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblPolonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 50, 40));
 
+        lblSerbia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSerbia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSerbiaMouseClicked(evt);
@@ -1410,6 +1617,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, 50, 30));
 
+        lblFinlandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFinlandia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFinlandiaMouseClicked(evt);
@@ -1423,6 +1631,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblFinlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 120, 50, 60));
 
+        lblNoruega.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNoruega.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNoruegaMouseClicked(evt);
@@ -1436,6 +1645,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblNoruega, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 50, 80));
 
+        lblGranBretaña.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblGranBretaña.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblGranBretañaMouseClicked(evt);
@@ -1449,6 +1659,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblGranBretaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 40, 70));
 
+        lblIrlanda.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIrlanda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIrlandaMouseClicked(evt);
@@ -1462,6 +1673,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblIrlanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 40, 40));
 
+        lblAlemania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAlemania.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAlemaniaMouseClicked(evt);
@@ -1475,6 +1687,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblAlemania, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 40, 70));
 
+        lblFrancia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFrancia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFranciaMouseClicked(evt);
@@ -1488,6 +1701,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, 40, 60));
 
+        lblEspaña.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblEspaña.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblEspañaMouseClicked(evt);
@@ -1501,6 +1715,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblEspaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 340, 60, 60));
 
+        lblPortugal.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPortugal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblPortugalMouseClicked(evt);
@@ -1514,6 +1729,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblPortugal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 20, 70));
 
+        lblItalia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblItalia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblItaliaMouseClicked(evt);
@@ -1527,6 +1743,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 30, 70));
 
+        lblCroacia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCroacia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCroaciaMouseClicked(evt);
@@ -1540,6 +1757,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblCroacia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 310, 30, 50));
 
+        lblAlbania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAlbania.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAlbaniaMouseClicked(evt);
@@ -1553,6 +1771,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblAlbania, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 270, 40, 70));
 
+        lblBielorrusia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblBielorrusia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblBielorrusiaMouseClicked(evt);
@@ -1566,6 +1785,7 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 30, 80));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/teg3.jpg"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 710));
     }// </editor-fold>//GEN-END:initComponents
@@ -2220,6 +2440,8 @@ public class Mapa extends javax.swing.JPanel {
 
     private void lblColombiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseExited
         lblFichaColombia.setVisible(true);
+        lblFichaVenezuela.setVisible(true);
+        lblFichaBrasil.setVisible(true);
     }//GEN-LAST:event_lblColombiaMouseExited
 
     private void lblJaponMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseExited

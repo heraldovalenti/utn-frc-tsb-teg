@@ -32,6 +32,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private InterfaceMapa mapa;
     private Chat chat;
     private Seleccion seleccion;
+    private Dados dados;
     
     /**
      * Creates new form GUI
@@ -43,39 +44,50 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         actualizarJugadores(simularJugadores());
     }    
     
-    private void agregarGuis(){
-       mapa =  new InterfaceMapa(this);
-       mapa.setVisible(true);
-       desktop.add(mapa);
-       jugadores =  new Jugadores();
-       jugadores.setVisible(true);
-       desktop.add(jugadores);
-       chat =  new Chat(this);
-       chat.setVisible(true);
-       desktop.add(chat);
-       seleccion =  new Seleccion();
-       mapa.setVisible(true);
-       desktop.add(seleccion);       
-       ubicarGuis(mapa, 0,0);
-       ubicarGuis(jugadores,mapa.getSize().width,0);
-       ubicarGuis(chat,0,mapa.getSize().height);
-       ubicarGuis(seleccion,chat.getSize().width,jugadores.getSize().height); 
-    }
-    
-    private void ubicarGuis(JInternalFrame frame, int ubicacionH, int ubicacionV){        
-        frame.setLocation(ubicacionH, ubicacionV);
-        frame.setVisible(true);
-       
-        try {
-            frame.setSelected(true);
-        } catch (PropertyVetoException ex) {
-        }
-    }    
+   
     public void cargarChat(String msg){
         chat.cargarChat(msg);
     }
     public void actualizarJugadores(ArrayList<Jugador> jug){
         jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+    }
+    public void enviarChat(String envioChat){
+        //aca va a la clase de heraldo
+        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
+        String quienDice = "Emanuel: ";
+        cargarChat(quienDice+envioChat);
+    }
+    public void actualizarFichas(ArrayList<Pais> paises){
+        mapa.actualizarFichas(paises);
+    }
+      public void cargarInformacionPais(String pais){
+        if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
+    }
+    public void cargarDados(int[]ataque, int [] defensa){
+        try {          
+            dados.setMaximum(true);
+            dados.setSize(new Dimension(195,295));
+            ubicarGuis(dados,mapa.getWidth()-dados.getWidth(),mapa.getHeight()-dados.getHeight());
+        } catch (PropertyVetoException ex) {            
+            return;
+        } 
+        HiloDados hilo = new HiloDados(ataque, defensa,dados);
+        hilo.start();       
+        
+    }
+    private Jugador obtenerJugadorActual(){
+        //return SecuenciaTurnos.getInstancia().getActual();
+        return simularJugadores().get(0);
+    }
+    private List<ObjetivoSecreto> obtenerObjetivos(){
+        return FachadaInterface.obtenerObjetivos();
+    }
+  
+    private ObjetivoSecreto obtenerObjetivo(){
+        //return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
+        ObjetivoSecreto obj =new ObjetivoSecreto();
+        obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
+        return obj; 
     }
     private ArrayList<Jugador> simularJugadores(){
         ArrayList<Jugador> jugadores = new ArrayList<Jugador>(); 
@@ -114,31 +126,43 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         return jugadores;
         
     }
-    public void enviarChat(String envioChat){
-        //aca va a la clase de heraldo
-        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
-        String quienDice = "Emanuel: ";
-        cargarChat(quienDice+envioChat);
+     private void agregarGuis(){
+       mapa =  new InterfaceMapa(this);
+       mapa.setVisible(true);
+       desktop.add(mapa);
+       jugadores =  new Jugadores();
+       jugadores.setVisible(true);
+       desktop.add(jugadores);
+       chat =  new Chat(this);
+       chat.setVisible(true);
+       desktop.add(chat);
+       seleccion =  new Seleccion();
+       mapa.setVisible(true);
+       desktop.add(seleccion);
+       dados = new Dados();
+       dados.setVisible(true);
+       desktop.add(dados);    
+       ubicarGuis(mapa, 0,0);
+       ubicarGuis(jugadores,mapa.getSize().width,0);
+       ubicarGuis(chat,0,mapa.getSize().height);
+       ubicarGuis(seleccion,chat.getSize().width,jugadores.getSize().height); 
+       ubicarGuis(dados,mapa.getWidth()-dados.getWidth(),mapa.getHeight()-dados.getHeight());
+        try {
+            dados.setIcon(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(InterfacePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    public void actualizarFichas(ArrayList<Pais> paises){
-        mapa.actualizarFichas(paises);
-    }
-    private Jugador obtenerJugadorActual(){
-        //return SecuenciaTurnos.getInstancia().getActual();
-        return simularJugadores().get(0);
-    }
-    private List<ObjetivoSecreto> obtenerObjetivos(){
-        return FachadaInterface.obtenerObjetivos();
-    }
-    public void cargarInformacionPais(String pais){
-        if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
-    }
-    private ObjetivoSecreto obtenerObjetivo(){
-        //return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
-        ObjetivoSecreto obj =new ObjetivoSecreto();
-        obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
-        return obj; 
-    }
+    
+    private void ubicarGuis(JInternalFrame frame, int ubicacionH, int ubicacionV){        
+        frame.setLocation(ubicacionH, ubicacionV);
+        frame.setVisible(true);
+       
+        try {
+            frame.setSelected(true);
+        } catch (PropertyVetoException ex) {
+        }
+    }    
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -280,8 +304,17 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         pais.setJugador(jug);
         paises.add(pais);
         actualizarFichas(paises);
+        cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    private int[] simularDados(int cant){
+        
+        int[] dados = new int[cant];
+        for(int i = 0; i< cant; i++){          
+            dados[i] = (int)Math.floor(Math.random()*6+1); 
+        }
+        return dados;
+       
+    }
     /**
      * @param args the command line arguments
      */
