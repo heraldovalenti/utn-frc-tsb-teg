@@ -1,0 +1,7 @@
+syntax: glob
+TEG/build/
+TEG/nbproject/
+TEG/dist/
+TEG/build.xml
+TEG/manifest.mf
+syntax: regexp
