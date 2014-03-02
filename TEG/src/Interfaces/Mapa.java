@@ -726,7 +726,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblColombiaMouseExited(evt);
             }
         });
-        panelAmericaDelSur.add(lblVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 60, 50));
+        panelAmericaDelSur.add(lblVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 60, 40));
 
         lblBrasil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2220,6 +2220,8 @@ public class Mapa extends javax.swing.JPanel {
 
     private void lblColombiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseExited
         lblFichaColombia.setVisible(true);
+        lblFichaVenezuela.setVisible(true);
+        lblFichaBrasil.setVisible(true);
     }//GEN-LAST:event_lblColombiaMouseExited
 
     private void lblJaponMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseExited
