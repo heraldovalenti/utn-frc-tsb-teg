@@ -54,9 +54,14 @@ public class ControlEjecucionServidor {
             return;
         }
         
+        
+        Thread t2 = new Thread(gestorClientes);
+        gestorClientes.setHilo(t2);
+        Thread t3 = new Thread(despachadorAcciones);
+        despachadorAcciones.setHilo(t3);
         new Thread(servidor).start();
-        new Thread(gestorClientes).start();
-        new Thread(despachadorAcciones).start();
+        t2.start();
+        t3.start();
         
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor iniciado."));
