@@ -13,7 +13,7 @@ import cliente.ClienteManager;
 public class FachadaInterfacePrincipal {
     
     public static void mostrarChat(String chat) {
-        ClienteManager.getInstance().getInterfacePrincipal();
+        ClienteManager.getInstance().getInterfacePrincipal().cargarChat(chat);
     }
     
 }
