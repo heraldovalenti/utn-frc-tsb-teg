@@ -4,6 +4,7 @@
  */
 package cliente;
 
+import Interfaces.InterfacePrincipal;
 import cliente.control.ControlAlias;
 import cliente.control.ControlInicio;
 import com.Accionable;
@@ -37,7 +38,6 @@ public class ClienteManager {
         salaEspera = new SalaEspera();
         controlAlias = new ControlAlias();
         juego = Juego.getInstancia();
-        jugador = new Jugador();
     }
     private SalaEspera salaEspera;
     private ConexionServidor conexionServidor;
@@ -47,6 +47,7 @@ public class ClienteManager {
     private String estado;
     private ControlAlias controlAlias;
     private Juego juego;
+    private InterfacePrincipal interfacePrincipal;
     private Jugador jugador;
     
     /**
@@ -115,5 +116,9 @@ public class ClienteManager {
 
     public Jugador getJugador() {
         return jugador;
+    }
+    
+    public InterfacePrincipal getInterfacePrincipal() {
+        return this.interfacePrincipal;
     }
 }
