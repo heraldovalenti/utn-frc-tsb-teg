@@ -24,7 +24,8 @@ public class Dados extends javax.swing.JInternalFrame {
      */
     public Dados() {
         initComponents();
-        this.setSize(195,300);    
+        this.setSize(195,300); 
+        this.setMaximumSize(new Dimension(195,300));  
         deshabilitar();     
     }
     public void deshabilitar(){

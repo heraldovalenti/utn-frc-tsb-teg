@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import juego.estructura.Pais;
 
 /*
@@ -25,6 +26,8 @@ import juego.estructura.Pais;
 public class Mapa extends javax.swing.JPanel {
     private ImageIcon imagen;
     private InterfacePrincipal principal;
+    private boolean mostrarFichas = true;
+    private boolean mostrarMisiles = true;
     /**
      * Creates new form Mapa
      */
@@ -35,25 +38,45 @@ public class Mapa extends javax.swing.JPanel {
        
       
    }
-   private void cargarFichaEnPais(JLabel label, Color col, int cantidad){
-        String color;        
+   private void cargarFichaEnPais(JLabel label, Color col, int cantidad,boolean mostrar){
+        String color = obtenerStringColor(col);       
         String rutaImagen;
         label.setForeground(Color.BLACK);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setVerticalTextPosition(SwingConstants.CENTER);
         if(cantidad == 0){
             rutaImagen = "/imagenes/fichas/fichaGenericaTransparente.png";
+           
         }
         else{
-            if(col.equals(Color.RED)){
+            if(col.equals(Color.black)){
+                label.setForeground(Color.WHITE);
+            }            
+           rutaImagen= "/imagenes/fichas/ficha"+color+".png";
+           label.setText(String.valueOf(cantidad));
+        }
+        try{
+            
+            label.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        label.setVisible(mostrar);
+    }
+    private String obtenerStringColor(Color col){
+        String color ="";  
+        if(col.equals(Color.RED)){
             color = "Roja";
             }
-            else{
+        else{
                 if(col.equals(Color.BLUE)){
                     color = "Azul";
                 }
                 else{
                     if(col.equals(Color.black)){
-                        color = "Negra";
-                        label.setForeground(Color.WHITE);
+                        color = "Negra";                      
                     }
                     else{
                         if(col.equals(Color.WHITE)){
@@ -69,20 +92,38 @@ public class Mapa extends javax.swing.JPanel {
                         }
                     }
                 }
-            }
-            rutaImagen= "/imagenes/fichas/ficha"+color+".png";
+         }
+        return color;
+    }
+     private void cargarMisilesEnPais(JLabel label, Color col, int cantidad, boolean mostrar){
+        String color = obtenerStringColor(col);       
+        String rutaImagen;
+        label.setForeground(Color.BLACK);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setVerticalTextPosition(SwingConstants.CENTER);
+        if(cantidad == 0){
+            label.setVisible(false);
+            return;
+        }
+        else{
+            label.setVisible(mostrar);
+            if(col.equals(Color.black)){
+                label.setForeground(Color.WHITE);
+            }            
+           rutaImagen= "/imagenes/misil/misil"+color+".png";
+           label.setText(String.valueOf(cantidad));
         }
         try{
-            label.setText(String.valueOf(cantidad));
+            
             label.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
             
         }
         catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }   
   
-    public void actualizarFichas(ArrayList<Pais> paises){
+    public void actualizarFichas(ArrayList<Pais> paises, boolean mostrarFichas, boolean mostrarMisiles){
         Component[] componentes = this.getComponents();        
         for(Pais pais : paises){
             for(int i=0; i<componentes.length;i++){ 
@@ -91,8 +132,19 @@ public class Mapa extends javax.swing.JPanel {
                 if(componentes[i] instanceof JLabel) 
                 { 
                     JLabel label = ((JLabel) componentes[i]);
-                    if(label.getName()!=null && pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
-                           cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos());
+                    if(label.getName()!=null){
+                           if(pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
+                               cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos(), mostrarFichas);
+                           }
+                           else{
+                               String nombre = "Misil"+pais.getNombre().trim(); 
+                               System.out.println(nombre);
+                               System.out.println(label.getName().trim());                              
+                               if(nombre.equalsIgnoreCase(label.getName().trim())){
+                                    cargarMisilesEnPais(label, pais.getJugador().getColor(), pais.getCantidadMisiles(), mostrarMisiles);
+                               }
+                           }
+
                     }
                 } 
                 else{
@@ -104,10 +156,21 @@ public class Mapa extends javax.swing.JPanel {
                 for(int j = 0 ; j<hijos.length; j++){      
                      
                     if(hijos[j] instanceof JLabel) {                      
-                         JLabel label2= ((JLabel) hijos[j]);
-                         if(label2.getName()!=null && pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
-                               cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos());
-                         }
+                        JLabel label2= ((JLabel) hijos[j]);
+                        if(label2.getName()!=null){
+                           if(pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
+                               cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos(), mostrarFichas);
+                           }
+                           else{
+                               String nombre = "Misil"+pais.getNombre().trim(); 
+                               System.out.println(nombre);
+                               System.out.println(label2.getName().trim());                              
+                               if(nombre.equalsIgnoreCase(label2.getName().trim())){
+                                    cargarMisilesEnPais(label2, pais.getJugador().getColor(), pais.getCantidadMisiles(),  mostrarMisiles);
+                               }
+                           }
+
+                    }
                     }
                     
                 }
@@ -116,21 +179,32 @@ public class Mapa extends javax.swing.JPanel {
         }
 
     }
+   
     private Pais obtenerPais(ArrayList<Pais> paises,String nombre){
         for(Pais pais : paises){
             if(pais.getNombre().equalsIgnoreCase(nombre))return pais;
         }
         return null;
     }
-    private void mostrarFichas(){
+    //Vuelve a mostrar los labels que se ocultan a medida que pasamos con el mouse
+    //por encima de un pais
+    public void mostrarFichas(boolean mostrarFicha, boolean mostrarMisile){
+        this.mostrarFichas = mostrarFicha;
+        this.mostrarMisiles = mostrarMisile;
         Component[] componentes = this.getComponents();        
          for(int i=0; i<componentes.length;i++){ 
                 Component[] hijos = new Component[0];
                 if(componentes[i] instanceof JLabel) 
                 { 
                     JLabel label = ((JLabel) componentes[i]);
-                    if(label.getName()!= null){
-                           label.setVisible(true);
+                     if(label.getName()!=null){
+                           if(label.getName().trim().contains("Misil")){
+                               label.setVisible(mostrarMisiles);
+                           }
+                           else{
+                               label.setVisible(mostrarFichas);
+                           }
+
                     }
                 } 
                 else{
@@ -143,9 +217,18 @@ public class Mapa extends javax.swing.JPanel {
                      
                     if(hijos[j] instanceof JLabel) {                      
                          JLabel label2= ((JLabel) hijos[j]);
-                         if(label2.getName()!= null){
-                               label2.setVisible(true);
-                         }
+                         if(label2.getName()!=null){
+                            if(label2.getName()!=null){
+                                if(label2.getName().trim().contains("Misil")){
+                                    label2.setVisible(mostrarMisiles);
+                                }
+                                else{
+                                     label2.setVisible(mostrarFichas);
+                                }
+
+                            }
+
+                        }
                     }
                     
                 }
@@ -188,6 +271,18 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaLasVegas = new javax.swing.JLabel();
         lblFichaFlorida = new javax.swing.JLabel();
         lblFichaCalifornia = new javax.swing.JLabel();
+        lblMisilOregon = new javax.swing.JLabel();
+        lblMisilCanada = new javax.swing.JLabel();
+        lblMisilAlask = new javax.swing.JLabel();
+        lblMisilIslaVictoria = new javax.swing.JLabel();
+        lblMisilGroenlandia = new javax.swing.JLabel();
+        lblMisilTerranova = new javax.swing.JLabel();
+        lblMisilChicago = new javax.swing.JLabel();
+        lblMisilNuevaYork = new javax.swing.JLabel();
+        lblMisilLasVegas = new javax.swing.JLabel();
+        lblMisilCalifornia = new javax.swing.JLabel();
+        lblMisilLabrador = new javax.swing.JLabel();
+        lblMisilFlorida = new javax.swing.JLabel();
         lblFichaIslandia = new javax.swing.JLabel();
         lblFichaNoruega = new javax.swing.JLabel();
         lblFichaBielorrusia = new javax.swing.JLabel();
@@ -205,6 +300,22 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaAlbania = new javax.swing.JLabel();
         lblFichaFinlandia = new javax.swing.JLabel();
         lblIslandia = new javax.swing.JLabel();
+        lblMisilBielorrusia = new javax.swing.JLabel();
+        lblMisilFinlandia = new javax.swing.JLabel();
+        lblMisilNoruega = new javax.swing.JLabel();
+        lblMisilIslandia = new javax.swing.JLabel();
+        lblMisilIrlanda = new javax.swing.JLabel();
+        lblMisilPortugal = new javax.swing.JLabel();
+        lblMisilEspaña = new javax.swing.JLabel();
+        lblMisilFrancia = new javax.swing.JLabel();
+        lblMisilPolonia = new javax.swing.JLabel();
+        lblMisilAlbania = new javax.swing.JLabel();
+        lblMisilSerbia = new javax.swing.JLabel();
+        lblMisilAlemania = new javax.swing.JLabel();
+        lblMisilItalia = new javax.swing.JLabel();
+        lblMisilGranBretaña = new javax.swing.JLabel();
+        lblMisilCroacia = new javax.swing.JLabel();
+        lblMisilUcrania = new javax.swing.JLabel();
         panelCentroAmerica = new javax.swing.JPanel();
         lblMexico = new javax.swing.JLabel();
         lblHonduras = new javax.swing.JLabel();
@@ -218,6 +329,12 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaNicaragua = new javax.swing.JLabel();
         lblFichaJamaica = new javax.swing.JLabel();
         lblFichaCuba = new javax.swing.JLabel();
+        lblMisilMexico = new javax.swing.JLabel();
+        lblMisilCuba = new javax.swing.JLabel();
+        lblMisilHonduras = new javax.swing.JLabel();
+        lblMisilElSalvador = new javax.swing.JLabel();
+        lblMisilNicaragua = new javax.swing.JLabel();
+        lblMisilJamaica = new javax.swing.JLabel();
         panelAmericaDelSur = new javax.swing.JPanel();
         lblColombia = new javax.swing.JLabel();
         lblArgentina = new javax.swing.JLabel();
@@ -235,6 +352,14 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaArgentina = new javax.swing.JLabel();
         lblFichaBolivia = new javax.swing.JLabel();
         lblFichaChile = new javax.swing.JLabel();
+        lblMisilColombia = new javax.swing.JLabel();
+        lblMisilBrasil = new javax.swing.JLabel();
+        lblMisilVenezuela = new javax.swing.JLabel();
+        lblMisilChile = new javax.swing.JLabel();
+        lblMisilBolivia = new javax.swing.JLabel();
+        lblMisilParaguay = new javax.swing.JLabel();
+        lblMisilArgentina = new javax.swing.JLabel();
+        lblMisilUruguay = new javax.swing.JLabel();
         panelAfrica = new javax.swing.JPanel();
         lblSahara = new javax.swing.JLabel();
         lblEgipto = new javax.swing.JLabel();
@@ -252,6 +377,14 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaMauritania = new javax.swing.JLabel();
         lblFichaSudafrica = new javax.swing.JLabel();
         lblFichaMadagascar = new javax.swing.JLabel();
+        lblMisilSahara = new javax.swing.JLabel();
+        lblMisilEgipto = new javax.swing.JLabel();
+        lblMisilEtiopia = new javax.swing.JLabel();
+        lblMisilNigeria = new javax.swing.JLabel();
+        lblMisilAngola = new javax.swing.JLabel();
+        lblMisilMauritania = new javax.swing.JLabel();
+        lblMisilSudafrica = new javax.swing.JLabel();
+        lblMisilMadagascar = new javax.swing.JLabel();
         panelAsia = new javax.swing.JPanel();
         lblIndia = new javax.swing.JLabel();
         lblVietnam = new javax.swing.JLabel();
@@ -283,6 +416,21 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaIsrael = new javax.swing.JLabel();
         lblFichaArabia = new javax.swing.JLabel();
         lblFichaJapon = new javax.swing.JLabel();
+        lblMisilCorea = new javax.swing.JLabel();
+        lblMisilKamtchatka = new javax.swing.JLabel();
+        lblMisilChukchi = new javax.swing.JLabel();
+        lblMisilSiberia = new javax.swing.JLabel();
+        lblMisilChechenia = new javax.swing.JLabel();
+        lblMisilRusia = new javax.swing.JLabel();
+        lblMisilIran = new javax.swing.JLabel();
+        lblMisilMalasia = new javax.swing.JLabel();
+        lblMisilVietnam = new javax.swing.JLabel();
+        lblMisilIndia = new javax.swing.JLabel();
+        lblMisilTurquia = new javax.swing.JLabel();
+        lblMisilIsrael = new javax.swing.JLabel();
+        lblMisilArabia = new javax.swing.JLabel();
+        lblMisilJapon = new javax.swing.JLabel();
+        lblMisilChina = new javax.swing.JLabel();
         panelOceania = new javax.swing.JPanel();
         lblSumatra = new javax.swing.JLabel();
         lblFilipinas = new javax.swing.JLabel();
@@ -296,9 +444,16 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaAustralia = new javax.swing.JLabel();
         lblFichaTasmania = new javax.swing.JLabel();
         lblFichaNuevaZelandia = new javax.swing.JLabel();
+        lblMisilAustralia = new javax.swing.JLabel();
+        lblMisilFilipinas = new javax.swing.JLabel();
+        lblMisilSumatra = new javax.swing.JLabel();
+        lblMisilTasmania = new javax.swing.JLabel();
+        lblMisilNuevaZelandia = new javax.swing.JLabel();
+        lblMisilTonga = new javax.swing.JLabel();
         panelAsia2 = new javax.swing.JPanel();
         lblIrak = new javax.swing.JLabel();
         lblFichaIrak = new javax.swing.JLabel();
+        lblMisilIrak = new javax.swing.JLabel();
         lblUcrania = new javax.swing.JLabel();
         lblPolonia = new javax.swing.JLabel();
         lblSerbia = new javax.swing.JLabel();
@@ -415,7 +570,7 @@ public class Mapa extends javax.swing.JPanel {
                 lblLasVegasMouseEntered(evt);
             }
         });
-        panelAmericaDelNorrte.add(lblLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 77, 41));
+        panelAmericaDelNorrte.add(lblLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 77, 30));
 
         lblOregon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblOregon.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -534,6 +689,58 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaCalifornia.setName("California"); // NOI18N
         panelAmericaDelNorrte.add(lblFichaCalifornia, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 235, 30, 40));
 
+        lblMisilOregon.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblMisilOregon.setForeground(new java.awt.Color(255, 255, 255));
+        lblMisilOregon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilOregon.setText("4");
+        lblMisilOregon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblMisilOregon.setName("MisilOregon"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilOregon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 20, 50));
+
+        lblMisilCanada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilCanada.setName("MisilCanada"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilCanada, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 20, -1));
+
+        lblMisilAlask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilAlask.setName("MisilAlaska"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilAlask, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 20, -1));
+
+        lblMisilIslaVictoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilIslaVictoria.setName("MisilIslaVictoria"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilIslaVictoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, -1, 50));
+
+        lblMisilGroenlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilGroenlandia.setName("MisilGroenlandia"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilGroenlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+
+        lblMisilTerranova.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilTerranova.setName("MisilTerranova"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilTerranova, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, -1, -1));
+
+        lblMisilChicago.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilChicago.setName("MisilChicago"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilChicago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 20, 40));
+
+        lblMisilNuevaYork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilNuevaYork.setName("MisilNuevaYork"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilNuevaYork, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, -1, 40));
+
+        lblMisilLasVegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilLasVegas.setName("MisilLasVegas"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilLasVegas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 20, -1));
+
+        lblMisilCalifornia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilCalifornia.setName("MisilCalifornia"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilCalifornia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 20, 30));
+
+        lblMisilLabrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilLabrador.setName("MisilLabrador"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilLabrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 20, 30));
+
+        lblMisilFlorida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilFlorida.setName("MisilFlorida"); // NOI18N
+        panelAmericaDelNorrte.add(lblMisilFlorida, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 210, 20, 40));
+
         add(panelAmericaDelNorrte, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 21, 360, 270));
 
         lblFichaIslandia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -570,7 +777,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaFrancia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde1.png"))); // NOI18N
         lblFichaFrancia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaFrancia.setName("Francia"); // NOI18N
-        add(lblFichaFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 295, -1, 30));
+        add(lblFichaFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 295, 30, 40));
 
         lblFichaEspaña.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaEspaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde2.png"))); // NOI18N
@@ -600,7 +807,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaItalia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde9.png"))); // NOI18N
         lblFichaItalia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaItalia.setName("Italia"); // NOI18N
-        add(lblFichaItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 335, 30, 40));
+        add(lblFichaItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 345, -1, 40));
 
         lblFichaPolonia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaPolonia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde3.png"))); // NOI18N
@@ -618,7 +825,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaSerbia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde7.png"))); // NOI18N
         lblFichaSerbia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaSerbia.setName("Serbia"); // NOI18N
-        add(lblFichaSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 255, 30, 40));
+        add(lblFichaSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 255, 30, 40));
 
         lblFichaAlbania.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaAlbania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaVerde4.png"))); // NOI18N
@@ -645,6 +852,72 @@ public class Mapa extends javax.swing.JPanel {
             }
         });
         add(lblIslandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 70, 64));
+
+        lblMisilBielorrusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilBielorrusia.setName("MisilBielorrusia"); // NOI18N
+        add(lblMisilBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 90, -1, 50));
+
+        lblMisilFinlandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilFinlandia.setName("MisilFinlandia"); // NOI18N
+        add(lblMisilFinlandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 20, 40));
+
+        lblMisilNoruega.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilNoruega.setName("MisilNoruega"); // NOI18N
+        add(lblMisilNoruega, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 90, 20, 40));
+
+        lblMisilIslandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilIslandia.setName("MisilIslandia"); // NOI18N
+        add(lblMisilIslandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(455, 90, 20, 50));
+
+        lblMisilIrlanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilIrlanda.setToolTipText("");
+        lblMisilIrlanda.setName("MisilIrlanda"); // NOI18N
+        add(lblMisilIrlanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 20, 40));
+
+        lblMisilPortugal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilPortugal.setName("MisilPortugal"); // NOI18N
+        add(lblMisilPortugal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 380, 20, 40));
+
+        lblMisilEspaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilEspaña.setName("MisilEspaña"); // NOI18N
+        add(lblMisilEspaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 350, 20, 40));
+
+        lblMisilFrancia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilFrancia.setName("MisilFrancia"); // NOI18N
+        add(lblMisilFrancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, 20, 30));
+
+        lblMisilPolonia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilPolonia.setName("MisilPolonia"); // NOI18N
+        add(lblMisilPolonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(645, 240, -1, 50));
+
+        lblMisilAlbania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilAlbania.setName("MisilAlbania"); // NOI18N
+        add(lblMisilAlbania, new org.netbeans.lib.awtextra.AbsoluteConstraints(675, 310, 20, 40));
+
+        lblMisilSerbia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilSerbia.setName("MisilSerbia"); // NOI18N
+        add(lblMisilSerbia, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, 20, 40));
+
+        lblMisilAlemania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilAlemania.setToolTipText("");
+        lblMisilAlemania.setName("MisilAlemania"); // NOI18N
+        add(lblMisilAlemania, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 20, 40));
+
+        lblMisilItalia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilItalia.setName("MisilItalia"); // NOI18N
+        add(lblMisilItalia, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 320, 20, 30));
+
+        lblMisilGranBretaña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilGranBretaña.setName("MisilGranBretaña"); // NOI18N
+        add(lblMisilGranBretaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 20, 30));
+
+        lblMisilCroacia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilCroacia.setName("MisilCroacia"); // NOI18N
+        add(lblMisilCroacia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 340, 20, 40));
+
+        lblMisilUcrania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilVerde.png"))); // NOI18N
+        lblMisilUcrania.setName("MisilUcrania"); // NOI18N
+        add(lblMisilUcrania, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 150, -1, 50));
 
         panelCentroAmerica.setOpaque(false);
         panelCentroAmerica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -748,19 +1021,19 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaHonduras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
         lblFichaHonduras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaHonduras.setName("Honduras"); // NOI18N
-        panelCentroAmerica.add(lblFichaHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 30));
+        panelCentroAmerica.add(lblFichaHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 50, 30, 30));
 
         lblFichaElSalvador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaElSalvador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
         lblFichaElSalvador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaElSalvador.setName("ElSalvador"); // NOI18N
-        panelCentroAmerica.add(lblFichaElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 30, -1));
+        panelCentroAmerica.add(lblFichaElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 30, -1));
 
         lblFichaNicaragua.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaNicaragua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul7.png"))); // NOI18N
         lblFichaNicaragua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNicaragua.setName("Nicaragua"); // NOI18N
-        panelCentroAmerica.add(lblFichaNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 95, 30, 40));
+        panelCentroAmerica.add(lblFichaNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 95, 40, 40));
 
         lblFichaJamaica.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaJamaica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul4.png"))); // NOI18N
@@ -773,6 +1046,31 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaCuba.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaCuba.setName("Cuba"); // NOI18N
         panelCentroAmerica.add(lblFichaCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, -5, -1, 40));
+
+        lblMisilMexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilMexico.setName("MisilMexico"); // NOI18N
+        panelCentroAmerica.add(lblMisilMexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
+
+        lblMisilCuba.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilCuba.setName("MisilCuba"); // NOI18N
+        panelCentroAmerica.add(lblMisilCuba, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, 50));
+
+        lblMisilHonduras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilHonduras.setName("MisilHonduras"); // NOI18N
+        panelCentroAmerica.add(lblMisilHonduras, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 30, -1, 40));
+
+        lblMisilElSalvador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilElSalvador.setName("MisilElSalvador"); // NOI18N
+        panelCentroAmerica.add(lblMisilElSalvador, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 20, 50));
+
+        lblMisilNicaragua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilNicaragua.setName("MisilNicaragua"); // NOI18N
+        panelCentroAmerica.add(lblMisilNicaragua, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, 40));
+
+        lblMisilJamaica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilJamaica.setToolTipText("");
+        lblMisilJamaica.setName("MisilJamaica"); // NOI18N
+        panelCentroAmerica.add(lblMisilJamaica, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 70, 20, 40));
 
         add(panelCentroAmerica, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 217, 140));
 
@@ -925,7 +1223,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaArgentina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla2.png"))); // NOI18N
         lblFichaArgentina.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaArgentina.setName("Argentina"); // NOI18N
-        panelAmericaDelSur.add(lblFichaArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 175, 30, 40));
+        panelAmericaDelSur.add(lblFichaArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 185, -1, 40));
 
         lblFichaBolivia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaBolivia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla4.png"))); // NOI18N
@@ -938,6 +1236,38 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaChile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChile.setName("Chile"); // NOI18N
         panelAmericaDelSur.add(lblFichaChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 135, -1, 40));
+
+        lblMisilColombia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilColombia.setName("MisilColombia"); // NOI18N
+        panelAmericaDelSur.add(lblMisilColombia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 20, 40));
+
+        lblMisilBrasil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilBrasil.setName("MisilBrasil"); // NOI18N
+        panelAmericaDelSur.add(lblMisilBrasil, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 20, -1));
+
+        lblMisilVenezuela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilVenezuela.setName("MisilVenezuela"); // NOI18N
+        panelAmericaDelSur.add(lblMisilVenezuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, -1, 60));
+
+        lblMisilChile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilChile.setName("MisilChile"); // NOI18N
+        panelAmericaDelSur.add(lblMisilChile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 20, -1));
+
+        lblMisilBolivia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilBolivia.setName("MisilBolivia"); // NOI18N
+        panelAmericaDelSur.add(lblMisilBolivia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 20, -1));
+
+        lblMisilParaguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilParaguay.setName("MisilParaguay"); // NOI18N
+        panelAmericaDelSur.add(lblMisilParaguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 120, 20, 50));
+
+        lblMisilArgentina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilArgentina.setName("MisilArgentina"); // NOI18N
+        panelAmericaDelSur.add(lblMisilArgentina, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 160, 20, 40));
+
+        lblMisilUruguay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilUruguay.setName("MisilUruguay"); // NOI18N
+        panelAmericaDelSur.add(lblMisilUruguay, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 20, -1));
 
         add(panelAmericaDelSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 430, 240, 280));
 
@@ -1103,6 +1433,39 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaMadagascar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMadagascar.setName("Madagascar"); // NOI18N
         panelAfrica.add(lblFichaMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 165, 30, 30));
+
+        lblMisilSahara.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilSahara.setName("MisilSahara"); // NOI18N
+        panelAfrica.add(lblMisilSahara, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 20, 50));
+
+        lblMisilEgipto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilEgipto.setName("MisilEgipto"); // NOI18N
+        panelAfrica.add(lblMisilEgipto, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, -1, 30));
+
+        lblMisilEtiopia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilEtiopia.setName("MisilEtiopia"); // NOI18N
+        panelAfrica.add(lblMisilEtiopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, 30));
+
+        lblMisilNigeria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilNigeria.setToolTipText("");
+        lblMisilNigeria.setName("MisilNigeria"); // NOI18N
+        panelAfrica.add(lblMisilNigeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, 40));
+
+        lblMisilAngola.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilAngola.setName("MisilAngola"); // NOI18N
+        panelAfrica.add(lblMisilAngola, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, 40));
+
+        lblMisilMauritania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilMauritania.setName("MisilMauritania"); // NOI18N
+        panelAfrica.add(lblMisilMauritania, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 20, 50));
+
+        lblMisilSudafrica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilSudafrica.setName("MisilSudafrica"); // NOI18N
+        panelAfrica.add(lblMisilSudafrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 150, -1, 50));
+
+        lblMisilMadagascar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilMadagascar.setName("MisilMadagascar"); // NOI18N
+        panelAfrica.add(lblMisilMadagascar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, 50));
 
         add(panelAfrica, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, 280, 240));
 
@@ -1347,7 +1710,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaChechenia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla9.png"))); // NOI18N
         lblFichaChechenia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaChechenia.setName("Chechenia"); // NOI18N
-        panelAsia.add(lblFichaChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 30, -1));
+        panelAsia.add(lblFichaChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 30, -1));
 
         lblFichaCorea.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaCorea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAmarilla7.png"))); // NOI18N
@@ -1359,7 +1722,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaMalasia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca2.png"))); // NOI18N
         lblFichaMalasia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaMalasia.setName("Malasia"); // NOI18N
-        panelAsia.add(lblFichaMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 265, 30, 40));
+        panelAsia.add(lblFichaMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 275, 30, 40));
 
         lblFichaRusia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaRusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaNegra4.png"))); // NOI18N
@@ -1371,13 +1734,13 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaIran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
         lblFichaIran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIran.setName("Iran"); // NOI18N
-        panelAsia.add(lblFichaIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 195, 30, 50));
+        panelAsia.add(lblFichaIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 215, 30, 30));
 
         lblFichaTurquia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaTurquia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja5.png"))); // NOI18N
         lblFichaTurquia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaTurquia.setName("Turquia"); // NOI18N
-        panelAsia.add(lblFichaTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 295, 30, 40));
+        panelAsia.add(lblFichaTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 265, 30, 70));
 
         lblFichaVietnam.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaVietnam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja7.png"))); // NOI18N
@@ -1408,6 +1771,67 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaJapon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaJapon.setName("Japon"); // NOI18N
         panelAsia.add(lblFichaJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 175, 30, 30));
+
+        lblMisilCorea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilCorea.setName("MisilCorea"); // NOI18N
+        panelAsia.add(lblMisilCorea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, 40));
+
+        lblMisilKamtchatka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilKamtchatka.setName("MisilKamtchatka"); // NOI18N
+        panelAsia.add(lblMisilKamtchatka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 20, 40));
+
+        lblMisilChukchi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilChukchi.setName("MisilChukchi"); // NOI18N
+        panelAsia.add(lblMisilChukchi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 20, 40));
+
+        lblMisilSiberia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAzul.png"))); // NOI18N
+        lblMisilSiberia.setName("MisilSiberia"); // NOI18N
+        panelAsia.add(lblMisilSiberia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 20, 50));
+
+        lblMisilChechenia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilChechenia.setName("MisilChechenia"); // NOI18N
+        panelAsia.add(lblMisilChechenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 20, 50));
+
+        lblMisilRusia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilNegra.png"))); // NOI18N
+        lblMisilRusia.setName("MisilRusia"); // NOI18N
+        panelAsia.add(lblMisilRusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, 50));
+
+        lblMisilIran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilIran.setName("MisilIran"); // NOI18N
+        panelAsia.add(lblMisilIran, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, -1, 60));
+
+        lblMisilMalasia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilMalasia.setToolTipText("");
+        lblMisilMalasia.setName("MisilMalasia"); // NOI18N
+        panelAsia.add(lblMisilMalasia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, 40));
+
+        lblMisilVietnam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilVietnam.setName("MisilVietnam"); // NOI18N
+        panelAsia.add(lblMisilVietnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, 60));
+
+        lblMisilIndia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilIndia.setName("MisilIndia"); // NOI18N
+        panelAsia.add(lblMisilIndia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, -1, -1));
+
+        lblMisilTurquia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilTurquia.setName("MisilTurquia"); // NOI18N
+        panelAsia.add(lblMisilTurquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 20, 50));
+
+        lblMisilIsrael.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilIsrael.setName("MisilIsrael"); // NOI18N
+        panelAsia.add(lblMisilIsrael, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 290, -1, 50));
+
+        lblMisilArabia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilArabia.setName("MisilArabia"); // NOI18N
+        panelAsia.add(lblMisilArabia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, -1, 40));
+
+        lblMisilJapon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilJapon.setName("MisilJapon"); // NOI18N
+        panelAsia.add(lblMisilJapon, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 130, 20, 60));
+
+        lblMisilChina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilAmarilla.png"))); // NOI18N
+        lblMisilChina.setName("MisilChina"); // NOI18N
+        panelAsia.add(lblMisilChina, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 190, 20, 40));
 
         add(panelAsia, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 280, 430));
 
@@ -1532,7 +1956,31 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaNuevaZelandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaBlanca5.png"))); // NOI18N
         lblFichaNuevaZelandia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaNuevaZelandia.setName("NuevaZelandia"); // NOI18N
-        panelOceania.add(lblFichaNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 205, -1, 30));
+        panelOceania.add(lblFichaNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 205, 40, 30));
+
+        lblMisilAustralia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilAustralia.setName("MisilAustralia"); // NOI18N
+        panelOceania.add(lblMisilAustralia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 20, -1));
+
+        lblMisilFilipinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilFilipinas.setName("MisilFIlipinas"); // NOI18N
+        panelOceania.add(lblMisilFilipinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
+
+        lblMisilSumatra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilSumatra.setName("MisilSUmatra"); // NOI18N
+        panelOceania.add(lblMisilSumatra, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 20, 50));
+
+        lblMisilTasmania.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilTasmania.setName("MisilTasmania"); // NOI18N
+        panelOceania.add(lblMisilTasmania, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 20, 40));
+
+        lblMisilNuevaZelandia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilNuevaZelandia.setName("MisilNuevaZelandia"); // NOI18N
+        panelOceania.add(lblMisilNuevaZelandia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 20, 50));
+
+        lblMisilTonga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilBlanca.png"))); // NOI18N
+        lblMisilTonga.setName("MisilTonga"); // NOI18N
+        panelOceania.add(lblMisilTonga, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 20, -1));
 
         add(panelOceania, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 230, 240));
 
@@ -1553,21 +2001,28 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaIrak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIrak.setName("Irak"); // NOI18N
 
+        lblMisilIrak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
+        lblMisilIrak.setName("MisilIrak"); // NOI18N
+
         javax.swing.GroupLayout panelAsia2Layout = new javax.swing.GroupLayout(panelAsia2);
         panelAsia2.setLayout(panelAsia2Layout);
         panelAsia2Layout.setHorizontalGroup(
             panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAsia2Layout.createSequentialGroup()
-                .addGroup(panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblIrak, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFichaIrak))
+                .addGroup(panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(lblFichaIrak)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAsia2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblMisilIrak)))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         panelAsia2Layout.setVerticalGroup(
             panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAsia2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, 7, Short.MAX_VALUE)
+                .addComponent(lblMisilIrak, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFichaIrak)
                 .addGap(31, 31, 31))
@@ -2081,371 +2536,444 @@ public class Mapa extends javax.swing.JPanel {
     private void lblAlaskaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlaskaMouseEntered
         principal.cargarInformacionPais("ALASKA");
         lblFichaAlaska.setVisible(false);
+        lblMisilAlask.setVisible(false);
     }//GEN-LAST:event_lblAlaskaMouseEntered
 
     private void lblCanadaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanadaMouseEntered
         principal.cargarInformacionPais("CANADA");
         lblFichaCanda.setVisible(false);
+        lblMisilCanada.setVisible(false);        
     }//GEN-LAST:event_lblCanadaMouseEntered
 
     private void lblTerranovaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTerranovaMouseEntered
         principal.cargarInformacionPais("TERRANOVA");
         lblFichaTerranova.setVisible(false);
+        lblMisilTerranova.setVisible(false);
     }//GEN-LAST:event_lblTerranovaMouseEntered
 
     private void lblOregonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOregonMouseEntered
         principal.cargarInformacionPais("OREGON");
-        lblFichaOregon.setVisible(false);
+        lblMisilOregon.setVisible(false);
     }//GEN-LAST:event_lblOregonMouseEntered
 
     private void lblFloridaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseEntered
         principal.cargarInformacionPais("FLORIDA");
-        lblFichaFlorida.setVisible(false);
+        lblMisilFlorida.setVisible(false);
     }//GEN-LAST:event_lblFloridaMouseEntered
 
     private void lblGroenlandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroenlandiaMouseEntered
         principal.cargarInformacionPais("GROENLANDIA");
         lblFichaGroenlandia.setVisible(false);
+        lblMisilGroenlandia.setVisible(false);
     }//GEN-LAST:event_lblGroenlandiaMouseEntered
 
     private void lblNewYorkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseEntered
         principal.cargarInformacionPais("NEW YORK");
         lblFichaNuevaYork.setVisible(false);
+        lblMisilNuevaYork.setVisible(false);
     }//GEN-LAST:event_lblNewYorkMouseEntered
 
     private void lblLasVegasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLasVegasMouseEntered
        principal.cargarInformacionPais("LAS VEGAS");
        lblFichaLasVegas.setVisible(false);
+       lblMisilLasVegas.setVisible(false);
     }//GEN-LAST:event_lblLasVegasMouseEntered
 
     private void lblIslaVictoriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslaVictoriaMouseEntered
         principal.cargarInformacionPais("ISLA VICTORIA");
         lblFichaIslaVictoria.setVisible(false);
+        lblMisilIslaVictoria.setVisible(false);
     }//GEN-LAST:event_lblIslaVictoriaMouseEntered
 
     private void lblChicagoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChicagoMouseEntered
         principal.cargarInformacionPais("CHICAGO");
         lblFichaChicago.setVisible(false);
+        lblMisilChicago.setVisible(false);
     }//GEN-LAST:event_lblChicagoMouseEntered
 
     private void lblCaliforniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCaliforniaMouseEntered
        principal.cargarInformacionPais("CALIFORNIA");
        lblFichaCalifornia.setVisible(false);
+       lblMisilCalifornia.setVisible(false);
     }//GEN-LAST:event_lblCaliforniaMouseEntered
 
     private void lblLabradorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLabradorMouseEntered
         principal.cargarInformacionPais("LABRADOR");
         lblFichaLabrador.setVisible(false);
+        lblMisilLabrador.setVisible(false);
     }//GEN-LAST:event_lblLabradorMouseEntered
 
     private void lblMexicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMexicoMouseEntered
         principal.cargarInformacionPais("MEXICO");
         lblFichaMexico.setVisible(false);
+        lblMisilMexico.setVisible(false);
     }//GEN-LAST:event_lblMexicoMouseEntered
 
     private void lblHondurasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHondurasMouseEntered
         principal.cargarInformacionPais("HONDURAS");
         lblFichaHonduras.setVisible(false);
+        lblMisilHonduras.setVisible(false);
     }//GEN-LAST:event_lblHondurasMouseEntered
 
     private void lblElSalvadorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblElSalvadorMouseEntered
         principal.cargarInformacionPais("EL SALVADOR");
         lblFichaElSalvador.setVisible(false);
+        lblMisilElSalvador.setVisible(false);
     }//GEN-LAST:event_lblElSalvadorMouseEntered
 
     private void lblNicaraguaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicaraguaMouseEntered
         principal.cargarInformacionPais("NICARAGUA");
         lblFichaNicaragua.setVisible(false);
+        lblMisilNicaragua.setVisible(false);
     }//GEN-LAST:event_lblNicaraguaMouseEntered
 
     private void lblCubaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCubaMouseEntered
        principal.cargarInformacionPais("CUBA");
        lblFichaCuba.setVisible(false);
+       lblMisilCuba.setVisible(false);
     }//GEN-LAST:event_lblCubaMouseEntered
 
     private void lblJamaicaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJamaicaMouseEntered
         principal.cargarInformacionPais("JAMAICA");
         lblFichaJamaica.setVisible(false);
+        lblMisilJamaica.setVisible(false);
     }//GEN-LAST:event_lblJamaicaMouseEntered
 
     private void lblVenezuelaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVenezuelaMouseEntered
          principal.cargarInformacionPais("Venezuela");
          lblFichaVenezuela.setVisible(false);
+         lblMisilVenezuela.setVisible(false);
     }//GEN-LAST:event_lblVenezuelaMouseEntered
 
     private void lblSaharaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaharaMouseEntered
         principal.cargarInformacionPais("Sahara");
         lblFichaSahara.setVisible(false);
+        lblMisilSahara.setVisible(false);
     }//GEN-LAST:event_lblSaharaMouseEntered
 
     private void lblSumatraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSumatraMouseEntered
         principal.cargarInformacionPais("Sumatra");
         lblFichaSumatra.setVisible(false);
+        lblMisilSumatra.setVisible(false);
     }//GEN-LAST:event_lblSumatraMouseEntered
 
     private void lblPortugalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPortugalMouseEntered
        principal.cargarInformacionPais("Portugal");
        lblFichaPortugal.setVisible(false);
+       lblMisilPortugal.setVisible(false);
     }//GEN-LAST:event_lblPortugalMouseEntered
 
     private void lblIrakMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrakMouseEntered
          principal.cargarInformacionPais("Irak");
          lblFichaIrak.setVisible(false);
+         lblMisilIrak.setVisible(false);
     }//GEN-LAST:event_lblIrakMouseEntered
 
     private void lblIslandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslandiaMouseEntered
         principal.cargarInformacionPais("Islandia");
         lblFichaIslandia.setVisible(false);
+        lblMisilIslandia.setVisible(false);
     }//GEN-LAST:event_lblIslandiaMouseEntered
 
     private void lblNoruegaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoruegaMouseEntered
        principal.cargarInformacionPais("Noruega");
        lblFichaNoruega.setVisible(false);
+       lblMisilNoruega.setVisible(false);
     }//GEN-LAST:event_lblNoruegaMouseEntered
 
     private void lblIrlandaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrlandaMouseEntered
         principal.cargarInformacionPais("Irlanda");
         lblFichaIrlanda.setVisible(false);
+        lblMisilIrlanda.setVisible(false);
     }//GEN-LAST:event_lblIrlandaMouseEntered
 
     private void lblGranBretañaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGranBretañaMouseEntered
         principal.cargarInformacionPais("Gran Bretaña");
         lblFichaGranBretaña.setVisible(false);
+        lblMisilGranBretaña.setVisible(false);
     }//GEN-LAST:event_lblGranBretañaMouseEntered
 
     private void lblEspañaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEspañaMouseEntered
         principal.cargarInformacionPais("España");
         lblFichaEspaña.setVisible(false);
+        lblMisilEspaña.setVisible(false);
     }//GEN-LAST:event_lblEspañaMouseEntered
 
     private void lblFranciaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFranciaMouseEntered
         principal.cargarInformacionPais("Francia");
         lblFichaFrancia.setVisible(false);
+        lblMisilFrancia.setVisible(false);
     }//GEN-LAST:event_lblFranciaMouseEntered
 
     private void lblAlemaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlemaniaMouseEntered
         principal.cargarInformacionPais("Alemania");
         lblFichaAlemania.setVisible(false);
+        lblMisilAlemania.setVisible(false);
     }//GEN-LAST:event_lblAlemaniaMouseEntered
 
     private void lblSerbiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSerbiaMouseEntered
         principal.cargarInformacionPais("Serbia");
         lblFichaSerbia.setVisible(false);
+        lblMisilSerbia.setVisible(false);
     }//GEN-LAST:event_lblSerbiaMouseEntered
 
     private void lblCroaciaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCroaciaMouseEntered
         principal.cargarInformacionPais("Croacia");
         lblFichaCroacia.setVisible(false);
+        lblMisilCroacia.setVisible(false);
     }//GEN-LAST:event_lblCroaciaMouseEntered
 
     private void lblItaliaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblItaliaMouseEntered
         principal.cargarInformacionPais("Italia");
         lblFichaItalia.setVisible(false);
+        lblMisilItalia.setVisible(false);
     }//GEN-LAST:event_lblItaliaMouseEntered
 
     private void lblPoloniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPoloniaMouseEntered
         principal.cargarInformacionPais("Polonia");
         lblFichaPolonia.setVisible(false);
+        lblMisilPolonia.setVisible(false);
     }//GEN-LAST:event_lblPoloniaMouseEntered
 
     private void lblUcraniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUcraniaMouseEntered
         principal.cargarInformacionPais("Ucrania");
         lblFichaUcrania.setVisible(false);
+        lblMisilUcrania.setVisible(false);
     }//GEN-LAST:event_lblUcraniaMouseEntered
 
     private void lblBielorrusiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBielorrusiaMouseEntered
         principal.cargarInformacionPais("Bielorrusia");
         lblFichaBielorrusia.setVisible(false);
+        lblMisilBielorrusia.setVisible(false);
     }//GEN-LAST:event_lblBielorrusiaMouseEntered
 
     private void lblFinlandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFinlandiaMouseEntered
         principal.cargarInformacionPais("Finlandia");
         lblFichaFinlandia.setVisible(false);
+        lblMisilFinlandia.setVisible(false);
     }//GEN-LAST:event_lblFinlandiaMouseEntered
 
     private void lblAlbaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlbaniaMouseEntered
         principal.cargarInformacionPais("Albania");
         lblFichaAlbania.setVisible(false);
+        lblMisilAlbania.setVisible(false);
     }//GEN-LAST:event_lblAlbaniaMouseEntered
 
     private void lblIsraelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIsraelMouseEntered
         principal.cargarInformacionPais("Israel");
         lblFichaIsrael.setVisible(false);
+        lblMisilIsrael.setVisible(false);
     }//GEN-LAST:event_lblIsraelMouseEntered
 
     private void lblArabiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArabiaMouseEntered
         principal.cargarInformacionPais("Arabia");
         lblFichaArabia.setVisible(false);
+        lblMisilArabia.setVisible(false);
     }//GEN-LAST:event_lblArabiaMouseEntered
 
     private void lblTurquiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTurquiaMouseEntered
         principal.cargarInformacionPais("Turquia");
         lblFichaTurquia.setVisible(false);
+        lblMisilTurquia.setVisible(false);
     }//GEN-LAST:event_lblTurquiaMouseEntered
 
     private void lblMalasiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMalasiaMouseEntered
         principal.cargarInformacionPais("Malasia");
         lblFichaMalasia.setVisible(false);
+        lblMisilMalasia.setVisible(false);
     }//GEN-LAST:event_lblMalasiaMouseEntered
 
     private void lblIndiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIndiaMouseEntered
         principal.cargarInformacionPais("India");
         lblFichaIndia.setVisible(false);
+        lblMisilIndia.setVisible(false);
     }//GEN-LAST:event_lblIndiaMouseEntered
 
     private void lblVietnamMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVietnamMouseEntered
         principal.cargarInformacionPais("Vietnam");
         lblFichaVietnam.setVisible(false);
+        lblMisilVietnam.setVisible(false);
     }//GEN-LAST:event_lblVietnamMouseEntered
 
     private void lblCoreaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCoreaMouseEntered
         principal.cargarInformacionPais("Corea");
         lblFichaCorea.setVisible(false);
+        lblMisilCorea.setVisible(false);
     }//GEN-LAST:event_lblCoreaMouseEntered
 
     private void lblJaponMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseEntered
         principal.cargarInformacionPais("Japon");
         lblFichaJapon.setVisible(false);
+        lblMisilJapon.setVisible(false);
     }//GEN-LAST:event_lblJaponMouseEntered
 
     private void lblKamtchatkaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKamtchatkaMouseEntered
         principal.cargarInformacionPais("Kamtchatka");
         lblFichaKamtchatcka.setVisible(false);
+        lblMisilKamtchatka.setVisible(false);
     }//GEN-LAST:event_lblKamtchatkaMouseEntered
 
     private void lblChukchiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChukchiMouseEntered
         principal.cargarInformacionPais("Chukchi");
         lblFichaChukChi.setVisible(false);
+        lblMisilChukchi.setVisible(false);
     }//GEN-LAST:event_lblChukchiMouseEntered
 
     private void lblChecheniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChecheniaMouseEntered
         principal.cargarInformacionPais("Chechenia");
         lblFichaChechenia.setVisible(false);
+        lblMisilChechenia.setVisible(false);
     }//GEN-LAST:event_lblChecheniaMouseEntered
 
     private void lblSiberiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiberiaMouseEntered
         principal.cargarInformacionPais("Siberia");
         lblFichaSiberia.setVisible(false);
+        lblMisilSiberia.setVisible(false);
     }//GEN-LAST:event_lblSiberiaMouseEntered
 
     private void lblRusiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRusiaMouseEntered
         principal.cargarInformacionPais("Rusia");
         lblFichaRusia.setVisible(false);
+        lblMisilRusia.setVisible(false);
     }//GEN-LAST:event_lblRusiaMouseEntered
 
     private void lblIranMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIranMouseEntered
         principal.cargarInformacionPais("Iran");
         lblFichaIran.setVisible(false);
+        lblMisilIran.setVisible(false);
     }//GEN-LAST:event_lblIranMouseEntered
 
     private void lblChinaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChinaMouseEntered
         principal.cargarInformacionPais("China");
         lblFichaChina.setVisible(false);
+        lblMisilChina.setVisible(false);
     }//GEN-LAST:event_lblChinaMouseEntered
 
     private void lblFilipinasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFilipinasMouseEntered
         principal.cargarInformacionPais("Filipinas");
         lblFichaFilipinas.setVisible(false);
+        lblMisilFilipinas.setVisible(false);
     }//GEN-LAST:event_lblFilipinasMouseEntered
 
     private void lblTongaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTongaMouseEntered
         principal.cargarInformacionPais("Tonga");
         lblFichaTonga.setVisible(false);
+        lblMisilTonga.setVisible(false);
     }//GEN-LAST:event_lblTongaMouseEntered
 
     private void lblAustraliaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAustraliaMouseEntered
         principal.cargarInformacionPais("Australia");
         lblFichaAustralia.setVisible(false);
+        lblMisilAustralia.setVisible(false);
     }//GEN-LAST:event_lblAustraliaMouseEntered
 
     private void lblTasmaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTasmaniaMouseEntered
         principal.cargarInformacionPais("Tasmania");
         lblFichaTasmania.setVisible(false);
+        lblMisilTasmania.setVisible(false);
     }//GEN-LAST:event_lblTasmaniaMouseEntered
 
     private void lblNuevaZelandiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaZelandiaMouseEntered
         principal.cargarInformacionPais("Nueva Zelanda");
         lblFichaNuevaZelandia.setVisible(false);
+        lblMisilNuevaZelandia.setVisible(false);
     }//GEN-LAST:event_lblNuevaZelandiaMouseEntered
 
     private void lblMadagascarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMadagascarMouseEntered
         principal.cargarInformacionPais("Madagascar");
         lblFichaMadagascar.setVisible(false);
+        lblMisilMadagascar.setVisible(false);
     }//GEN-LAST:event_lblMadagascarMouseEntered
 
     private void lblSudafricaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSudafricaMouseEntered
         principal.cargarInformacionPais("Sudafrica");
         lblFichaSudafrica.setVisible(false);
+        lblMisilSudafrica.setVisible(false);
     }//GEN-LAST:event_lblSudafricaMouseEntered
 
     private void lblMauritaniaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMauritaniaMouseEntered
         principal.cargarInformacionPais("Mauritania");
         lblFichaMauritania.setVisible(false);
+        lblMisilMauritania.setVisible(false);
     }//GEN-LAST:event_lblMauritaniaMouseEntered
 
     private void lblAngolaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAngolaMouseEntered
         principal.cargarInformacionPais("Angola");
         lblFichaAngola.setVisible(false);
+        lblMisilAngola.setVisible(false);
     }//GEN-LAST:event_lblAngolaMouseEntered
 
     private void lblEtiopiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEtiopiaMouseEntered
         principal.cargarInformacionPais("Etipia");
         lblFichaEtiopia.setVisible(false);
+        lblMisilEtiopia.setVisible(false);
     }//GEN-LAST:event_lblEtiopiaMouseEntered
 
     private void lblEgiptoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEgiptoMouseEntered
         principal.cargarInformacionPais("Egipto");
         lblFichaEgipto.setVisible(false);
+        lblMisilEgipto.setVisible(false);
     }//GEN-LAST:event_lblEgiptoMouseEntered
 
     private void lblNigeriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNigeriaMouseEntered
         principal.cargarInformacionPais("Nigeria");
         lblFichaNigeria.setVisible(false);
+        lblMisilNigeria.setVisible(false);
     }//GEN-LAST:event_lblNigeriaMouseEntered
 
     private void lblBrasilMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBrasilMouseEntered
         principal.cargarInformacionPais("Brasil");
         lblFichaBrasil.setVisible(false);
+        lblMisilBrasil.setVisible(false);
     }//GEN-LAST:event_lblBrasilMouseEntered
 
     private void lblColombiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseEntered
         principal.cargarInformacionPais("Colombia");
         lblFichaColombia.setVisible(false);
+        lblMisilColombia.setVisible(false);
     }//GEN-LAST:event_lblColombiaMouseEntered
 
     private void lblBoliviaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBoliviaMouseEntered
         principal.cargarInformacionPais("Bolivia");
         lblFichaBolivia.setVisible(false);
+        lblMisilBolivia.setVisible(false);
     }//GEN-LAST:event_lblBoliviaMouseEntered
 
     private void lblChileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChileMouseEntered
         principal.cargarInformacionPais("Chile");
         lblFichaChile.setVisible(false);
+        lblMisilChile.setVisible(false);
     }//GEN-LAST:event_lblChileMouseEntered
 
     private void lblParaguayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblParaguayMouseEntered
         principal.cargarInformacionPais("Paraguay");
         lblFichaParaguay.setVisible(false);
+        lblMisilParaguay.setVisible(false);
     }//GEN-LAST:event_lblParaguayMouseEntered
 
     private void lblArgentinaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArgentinaMouseEntered
         principal.cargarInformacionPais("Argentina");
         lblFichaArgentina.setVisible(false);
+        lblMisilArgentina.setVisible(false);
     }//GEN-LAST:event_lblArgentinaMouseEntered
 
     private void lblUruguayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUruguayMouseEntered
         principal.cargarInformacionPais("Uruguay");
         lblFichaUruguay.setVisible(false);
+        lblMisilUruguay.setVisible(false);
     }//GEN-LAST:event_lblUruguayMouseEntered
 
     private void lblColombiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseExited
-        lblFichaColombia.setVisible(true);
-        lblFichaVenezuela.setVisible(true);
-        lblFichaBrasil.setVisible(true);
+        lblFichaColombia.setVisible(mostrarFichas);
+        lblMisilColombia.setVisible(mostrarMisiles);
+        lblFichaVenezuela.setVisible(mostrarFichas);
+        lblMisilVenezuela.setVisible(mostrarMisiles);
+        lblFichaBrasil.setVisible(mostrarFichas);
+        lblMisilBrasil.setVisible(mostrarMisiles);
     }//GEN-LAST:event_lblColombiaMouseExited
 
     private void lblJaponMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseExited
-        mostrarFichas();
+        mostrarFichas(mostrarFichas, mostrarMisiles);
     }//GEN-LAST:event_lblJaponMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2571,6 +3099,78 @@ public class Mapa extends javax.swing.JPanel {
     private javax.swing.JLabel lblMalasia;
     private javax.swing.JLabel lblMauritania;
     private javax.swing.JLabel lblMexico;
+    private javax.swing.JLabel lblMisilAlask;
+    private javax.swing.JLabel lblMisilAlbania;
+    private javax.swing.JLabel lblMisilAlemania;
+    private javax.swing.JLabel lblMisilAngola;
+    private javax.swing.JLabel lblMisilArabia;
+    private javax.swing.JLabel lblMisilArgentina;
+    private javax.swing.JLabel lblMisilAustralia;
+    private javax.swing.JLabel lblMisilBielorrusia;
+    private javax.swing.JLabel lblMisilBolivia;
+    private javax.swing.JLabel lblMisilBrasil;
+    private javax.swing.JLabel lblMisilCalifornia;
+    private javax.swing.JLabel lblMisilCanada;
+    private javax.swing.JLabel lblMisilChechenia;
+    private javax.swing.JLabel lblMisilChicago;
+    private javax.swing.JLabel lblMisilChile;
+    private javax.swing.JLabel lblMisilChina;
+    private javax.swing.JLabel lblMisilChukchi;
+    private javax.swing.JLabel lblMisilColombia;
+    private javax.swing.JLabel lblMisilCorea;
+    private javax.swing.JLabel lblMisilCroacia;
+    private javax.swing.JLabel lblMisilCuba;
+    private javax.swing.JLabel lblMisilEgipto;
+    private javax.swing.JLabel lblMisilElSalvador;
+    private javax.swing.JLabel lblMisilEspaña;
+    private javax.swing.JLabel lblMisilEtiopia;
+    private javax.swing.JLabel lblMisilFilipinas;
+    private javax.swing.JLabel lblMisilFinlandia;
+    private javax.swing.JLabel lblMisilFlorida;
+    private javax.swing.JLabel lblMisilFrancia;
+    private javax.swing.JLabel lblMisilGranBretaña;
+    private javax.swing.JLabel lblMisilGroenlandia;
+    private javax.swing.JLabel lblMisilHonduras;
+    private javax.swing.JLabel lblMisilIndia;
+    private javax.swing.JLabel lblMisilIrak;
+    private javax.swing.JLabel lblMisilIran;
+    private javax.swing.JLabel lblMisilIrlanda;
+    private javax.swing.JLabel lblMisilIslaVictoria;
+    private javax.swing.JLabel lblMisilIslandia;
+    private javax.swing.JLabel lblMisilIsrael;
+    private javax.swing.JLabel lblMisilItalia;
+    private javax.swing.JLabel lblMisilJamaica;
+    private javax.swing.JLabel lblMisilJapon;
+    private javax.swing.JLabel lblMisilKamtchatka;
+    private javax.swing.JLabel lblMisilLabrador;
+    private javax.swing.JLabel lblMisilLasVegas;
+    private javax.swing.JLabel lblMisilMadagascar;
+    private javax.swing.JLabel lblMisilMalasia;
+    private javax.swing.JLabel lblMisilMauritania;
+    private javax.swing.JLabel lblMisilMexico;
+    private javax.swing.JLabel lblMisilNicaragua;
+    private javax.swing.JLabel lblMisilNigeria;
+    private javax.swing.JLabel lblMisilNoruega;
+    private javax.swing.JLabel lblMisilNuevaYork;
+    private javax.swing.JLabel lblMisilNuevaZelandia;
+    private javax.swing.JLabel lblMisilOregon;
+    private javax.swing.JLabel lblMisilParaguay;
+    private javax.swing.JLabel lblMisilPolonia;
+    private javax.swing.JLabel lblMisilPortugal;
+    private javax.swing.JLabel lblMisilRusia;
+    private javax.swing.JLabel lblMisilSahara;
+    private javax.swing.JLabel lblMisilSerbia;
+    private javax.swing.JLabel lblMisilSiberia;
+    private javax.swing.JLabel lblMisilSudafrica;
+    private javax.swing.JLabel lblMisilSumatra;
+    private javax.swing.JLabel lblMisilTasmania;
+    private javax.swing.JLabel lblMisilTerranova;
+    private javax.swing.JLabel lblMisilTonga;
+    private javax.swing.JLabel lblMisilTurquia;
+    private javax.swing.JLabel lblMisilUcrania;
+    private javax.swing.JLabel lblMisilUruguay;
+    private javax.swing.JLabel lblMisilVenezuela;
+    private javax.swing.JLabel lblMisilVietnam;
     private javax.swing.JLabel lblNewYork;
     private javax.swing.JLabel lblNicaragua;
     private javax.swing.JLabel lblNigeria;
