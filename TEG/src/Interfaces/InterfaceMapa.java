@@ -16,7 +16,7 @@ import juego.estructura.Pais;
  */
 public class InterfaceMapa extends javax.swing.JInternalFrame {
     private InterfacePrincipal principal;
-    private Mapa mapa;
+    private Mapa mapa;   
     /**
      * Creates new form GUIMapa
      */
@@ -38,8 +38,12 @@ public class InterfaceMapa extends javax.swing.JInternalFrame {
         //panelMapa.repaint();
         //
     }
-    public void actualizarFichas(ArrayList<Pais> paises){
-        mapa.actualizarFichas(paises);
+    //metodoProvisorio
+    public void ocultar(boolean mostrarFichas, boolean mostrarMisiles){
+        mapa.mostrarFichas(mostrarFichas, mostrarMisiles);
+    }
+    public void actualizarFichas(ArrayList<Pais> paises, boolean mostrarFichas, boolean mostrarMisiles){
+        mapa.actualizarFichas(paises,mostrarFichas, mostrarMisiles);
     }
 
     /**

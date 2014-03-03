@@ -33,6 +33,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private Chat chat;
     private Seleccion seleccion;
     private Dados dados;
+    private boolean mostrarFichas = true;
+    private boolean mostrarMisiles = true;
     
     /**
      * Creates new form GUI
@@ -58,7 +60,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         cargarChat(quienDice+envioChat);
     }
     public void actualizarFichas(ArrayList<Pais> paises){
-        mapa.actualizarFichas(paises);
+        mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
     }
       public void cargarInformacionPais(String pais){
         if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
@@ -182,6 +184,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         menuObjetivo = new javax.swing.JMenuItem();
         menuObjetivos = new javax.swing.JMenuItem();
         menuInformacion = new javax.swing.JMenuItem();
+        menu4 = new javax.swing.JMenuItem();
+        menu5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("T.E.G  Plan Táctico y Estratégico de la Guerra");
@@ -237,6 +241,24 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(menuInformacion);
+
+        menu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/chek.jpg"))); // NOI18N
+        menu4.setText("Mosrar Fichas");
+        menu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menu4);
+
+        menu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/chek.jpg"))); // NOI18N
+        menu5.setText("Mostrar Misiles");
+        menu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menu5);
 
         jMenuBar1.add(jMenu2);
 
@@ -294,18 +316,47 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
         pais.setJugador(jug);
         pais.setCantidadEjercitos(1);
+        pais.setCantidadMisiles(9);
         paises.add(pais);
         pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
         pais.setJugador(jug);
         pais.setCantidadEjercitos(2);
+         pais.setCantidadMisiles(5);
         paises.add(pais);
         pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
         pais.setCantidadEjercitos(3);
         pais.setJugador(jug);
+        pais.setCantidadMisiles(4);
         paises.add(pais);
         actualizarFichas(paises);
         cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void menu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu4ActionPerformed
+        mostrarFichas = !mostrarFichas;
+        String rutaImagen = "";
+        if(mostrarFichas){
+            rutaImagen ="/imagenes/chek.png";
+        }
+        else{
+            rutaImagen ="/imagenes/noChek.png";
+        }
+        mapa.ocultar(mostrarFichas, mostrarMisiles);
+        menu4.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+    }//GEN-LAST:event_menu4ActionPerformed
+
+    private void menu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu5ActionPerformed
+         mostrarMisiles = !mostrarMisiles;
+        String rutaImagen = "";
+        if(mostrarMisiles){
+            rutaImagen ="/imagenes/chek.png";
+        }
+        else{
+            rutaImagen ="/imagenes/noChek.png";
+        }
+        mapa.ocultar(mostrarFichas, mostrarMisiles);
+        menu5.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+    }//GEN-LAST:event_menu5ActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
@@ -356,6 +407,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem menu4;
+    private javax.swing.JMenuItem menu5;
     private javax.swing.JMenuItem menuInformacion;
     private javax.swing.JMenuItem menuObjetivo;
     private javax.swing.JMenuItem menuObjetivos;
