@@ -24,8 +24,8 @@ public class HiloDados extends Thread{
    {
       int i = 0;
       dados.deshabilitar();
-      while(i<15){
-          try {
+      while(i<20){
+          try {              
               dados.simularTirada(ataque.length, defensa.length);
               Thread.sleep(70);
               i++;
