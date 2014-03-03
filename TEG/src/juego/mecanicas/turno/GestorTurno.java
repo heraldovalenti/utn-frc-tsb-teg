@@ -27,22 +27,22 @@ import juego.mecanicas.movimiento.ControlMovimiento;
  */
 public class GestorTurno {
 
-    private static final int FUERA_TURNO = 0;
-    private static final int ETAPA_INCORPORAR_EJERCITOS = 1;
-    private static final int ETAPA_ATACAR = 2;
-    private static final int ETAPA_REAGRUPAR = 3;
-    private static final int ETAPA_SOLICITAR_TARJETA = 4;
+    public static final int FUERA_TURNO = 0;
+    public static final int ETAPA_INCORPORAR_EJERCITOS = 1;
+    public static final int ETAPA_ATACAR = 2;
+    public static final int ETAPA_REAGRUPAR = 3;
+    public static final int ETAPA_SOLICITAR_TARJETA = 4;
 
-    private static final int ACCION_ATACAR = 1;
-    private static final int ACCION_LANZAR_MISIL = 2;
-    private static final int ACCION_SOLICITAR_TARJETA = 3;
-    private static final int ACCION_INCORPORAR_EJERCITOS = 4;
-    private static final int ACCION_REAGRUPAR = 5;
-    private static final int ACCION_CANJEAR_TARJETA = 6;
-    private static final int ACCION_CANJEAR_MISIL_POR_EJERCITO = 7;
-    private static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 8;
+    public static final int ACCION_ATACAR = 1;
+    public static final int ACCION_LANZAR_MISIL = 2;
+    public static final int ACCION_SOLICITAR_TARJETA = 3;
+    public static final int ACCION_INCORPORAR_EJERCITOS = 4;
+    public static final int ACCION_REAGRUPAR = 5;
+    public static final int ACCION_CANJEAR_TARJETA = 6;
+    public static final int ACCION_CANJEAR_MISIL_POR_EJERCITO = 7;
+    public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 8;
 
-    private static int etapaActual;
+    public static int etapaActual;
 
     private static boolean[][] permisos;
 

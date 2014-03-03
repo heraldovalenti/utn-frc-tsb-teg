@@ -29,9 +29,9 @@ public class AccionableAtaque implements Accionable {
 
     @Override
     public void accionar() {
-        ControlAtaque control = new ControlAtaque(origenCliente, destinoCliente);
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
+        ControlAtaque control = new ControlAtaque(origenServidor, destinoServidor);
         if (control.ataqueValido()) {
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
@@ -45,6 +45,7 @@ public class AccionableAtaque implements Accionable {
             listaPaises.add(origenServidor);
             listaPaises.add(destinoServidor);
             ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+            
         }
     }
 
