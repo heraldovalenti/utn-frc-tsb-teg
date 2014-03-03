@@ -141,8 +141,7 @@ public class Mapa extends javax.swing.JPanel {
                            }
                            else{
                                String nombre = "Misil"+pais.getNombre().trim(); 
-                               System.out.println(nombre);
-                               System.out.println(label.getName().trim());                              
+                                                        
                                if(nombre.equalsIgnoreCase(label.getName().trim())){
                                     cargarMisilesEnPais(label, pais.getJugador().getColor(), pais.getCantidadMisiles(), mostrarMisiles);
                                }
@@ -166,8 +165,7 @@ public class Mapa extends javax.swing.JPanel {
                            }
                            else{
                                String nombre = "Misil"+pais.getNombre().trim(); 
-                               System.out.println(nombre);
-                               System.out.println(label2.getName().trim());                              
+                                                        
                                if(nombre.equalsIgnoreCase(label2.getName().trim())){
                                     cargarMisilesEnPais(label2, pais.getJugador().getColor(), pais.getCantidadMisiles(),  mostrarMisiles);
                                }

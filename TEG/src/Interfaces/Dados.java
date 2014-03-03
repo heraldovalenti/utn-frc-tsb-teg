@@ -121,6 +121,7 @@ public class Dados extends javax.swing.JInternalFrame {
 
         setIconifiable(true);
         setTitle("DADOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/dados.png"))); // NOI18N
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -176,7 +177,7 @@ public class Dados extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         pack();
