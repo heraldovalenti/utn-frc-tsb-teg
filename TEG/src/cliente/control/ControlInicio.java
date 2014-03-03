@@ -28,6 +28,7 @@ public class ControlInicio {
         mostrarSalaEspera();
         solicitarAlias();
         actualizarEstadoConexion();
+        actualizarAsignacionColor();
     }
 
     /**
@@ -40,18 +41,20 @@ public class ControlInicio {
     }
 
     /**
-     * Solicita un nuevo alias
+     * Solicita un nuevo alias.
      */
     private void solicitarAlias() {
-        ControlAlias controlAlias = ClienteManager.getInstance().getControlAlias();
-        controlAlias.solicitarAlias();
+        ClienteManager.getInstance().getControlAlias().solicitarAlias();
     }
     
     /**
      * Actualiza el estado de la conexión de la ventana de la sala de espera.
      */
     private void actualizarEstadoConexion() {
-        SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
-        salaEspera.actualizarEstadoConexion();
+        ClienteManager.getInstance().getSalaEspera().actualizarEstadoConexion();
+    }
+    
+    private void actualizarAsignacionColor() {
+        ClienteManager.getInstance().getSalaEspera().actualizarAsignacionColor();
     }
 }

@@ -113,10 +113,19 @@ public class ClienteManager {
     public Juego getJuego() {
         return juego;
     }
-
-    public Jugador getJugador() {
-        return jugador;
+    
+    /**
+     * Informa el identificador de la conexion asignado por el servidor.
+     * Este mismo valor es luego utilizado como identificador de los jugadores.
+     * @return el identificador de la conexion.
+     */
+    public int getIdCliente() {
+        return this.conexionServidor.getConexionId();
     }
+
+//    public Jugador getJugador() {
+//        return jugador;
+//    }
     
     public InterfacePrincipal getInterfacePrincipal() {
         return this.interfacePrincipal;

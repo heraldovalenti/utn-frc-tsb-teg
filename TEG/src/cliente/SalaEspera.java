@@ -4,11 +4,14 @@
  */
 package cliente;
 
+import cliente.control.ControlColor;
 import cliente.control.ControlConexion;
 import cliente.control.ControlJuego;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
 import servidor.control.ControlEjecucionServidor;
@@ -28,6 +31,7 @@ public class SalaEspera extends javax.swing.JFrame {
         addListenerToAdministracionPartidaMenu();
         addListenerToAliasMenu();
         addListenerToSalirSalaMenu();
+        addListenerToAdministracionSeleccionColorMenu();
         addListenerToChatPersonal();
         setCaretPolicyToChatArea();
     }
@@ -113,6 +117,18 @@ public class SalaEspera extends javax.swing.JFrame {
     }
 
     /**
+     * Agrega un listener de click al menu de seleccion de color.
+     */
+    private void addListenerToAdministracionSeleccionColorMenu() {
+        this.menuItemSeleccionColor.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seleccionarColor();
+            }
+        });
+    }
+
+    /**
      * Metodo para abrir la ventana de administracion de partida.
      */
     private void abrirVentanaAdministracionPartida() {
@@ -163,7 +179,7 @@ public class SalaEspera extends javax.swing.JFrame {
     }
 
     /**
-     * Da la orden al control de conexión de finalizar la conexión con el 
+     * Da la orden al control de conexión de finalizar la conexión con el
      * servidor.
      */
     private void salirSala() {
@@ -187,6 +203,48 @@ public class SalaEspera extends javax.swing.JFrame {
         } else {
             txtDireccionServidor.setEditable(true);
             btnConexion.setEnabled(true);
+        }
+    }
+
+    /**
+     * Metodo para actualizar la asignacion de color del jugador local.
+     */
+    public void actualizarAsignacionColor() {
+        ControlColor cc = new ControlColor();
+        lblColorAsignado.setText("Color: " + cc.getColorAsignado());
+    }
+
+    /**
+     * Metodo para informar que la asignacion de color ha fallado.
+     */
+    public void informarAsignacionFallida() {
+        JOptionPane.showMessageDialog(this, "El color solicitado ya ha sido "
+                + "asignado a otro jugador.\nSe asignara un color automaticamente.",
+                "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Metodo para ingresar la seleccion de color del jugador.
+     */
+    private void seleccionarColor() {
+        ControlColor cc = new ControlColor();
+        Object[] coloresDisponibles = cc.getColoresDisponibles().toArray();
+        Object[] options = cc.getColoresDisponibles().toArray();
+        for (int i = 0; i < options.length; i++) {
+            options[i] = cc.getNombreColor((Color)options[i]);
+        }
+        if (options.length > 0) {
+            Object initialOption = options[0];
+            int selected = JOptionPane.showOptionDialog(this, "Seleccione un color",
+                    "Selección de color", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, options, initialOption);
+            if (selected != JOptionPane.CLOSED_OPTION) {
+                cc.solicitarColor((Color)coloresDisponibles[selected]);
+            }
+        } else {
+            //No hay colores disponibles para seleccionar.
+            JOptionPane.showMessageDialog(this, "No hay colores disponibles para seleccionar.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -285,10 +343,6 @@ public class SalaEspera extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -353,9 +407,9 @@ public class SalaEspera extends javax.swing.JFrame {
                     .addComponent(lblAlias)
                     .addComponent(lblColorAsignado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                .addComponent(sPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelSalaEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtChatPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

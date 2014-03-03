@@ -4,6 +4,7 @@
  */
 package servidor;
 
+import com.Accionable;
 import com.cliente.RecibirChat;
 import com.servidor.RecibirNuevoClienteEnServidor;
 import logger.Logger;
@@ -68,5 +69,20 @@ public class ServerManager {
         return despachadorAcciones;
     }
     
+    /**
+     * Registra una salida en la cola de acciones.
+     * @param salida la salida a registrarse en la cola.
+     */
+    public void registrarSalida(Accionable salida) {
+        colaAcciones.pushSalida(salida);
+    }
+    
+    /**
+     * Registra una entrada en la cola de acciones.
+     * @param entrada la entrada a registrarse en la cola.
+     */
+    public void registrarEntrada(Accionable entrada) {
+        colaAcciones.pushEntrada(entrada);
+    }
     
 }
