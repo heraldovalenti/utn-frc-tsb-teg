@@ -316,14 +316,17 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
         pais.setJugador(jug);
         pais.setCantidadEjercitos(1);
+        pais.setCantidadMisiles(9);
         paises.add(pais);
         pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
         pais.setJugador(jug);
         pais.setCantidadEjercitos(2);
+         pais.setCantidadMisiles(5);
         paises.add(pais);
         pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
         pais.setCantidadEjercitos(3);
         pais.setJugador(jug);
+        pais.setCantidadMisiles(4);
         paises.add(pais);
         actualizarFichas(paises);
         cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));

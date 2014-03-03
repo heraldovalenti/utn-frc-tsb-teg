@@ -3,6 +3,7 @@ package Interfaces;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,7 +99,9 @@ public class Mapa extends javax.swing.JPanel {
      private void cargarMisilesEnPais(JLabel label, Color col, int cantidad, boolean mostrar){
         String color = obtenerStringColor(col);       
         String rutaImagen;
-        label.setForeground(Color.BLACK);
+        Font fuente =new Font("Arial", Font.BOLD, 15);
+        label.setFont(fuente);
+        label.setForeground(Color.white);
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setVerticalTextPosition(SwingConstants.CENTER);
         if(cantidad == 0){
@@ -107,8 +110,8 @@ public class Mapa extends javax.swing.JPanel {
         }
         else{
             label.setVisible(mostrar);
-            if(col.equals(Color.black)){
-                label.setForeground(Color.WHITE);
+            if(col.equals(Color.white)){
+                label.setForeground(Color.black);
             }            
            rutaImagen= "/imagenes/misil/misil"+color+".png";
            label.setText(String.valueOf(cantidad));
