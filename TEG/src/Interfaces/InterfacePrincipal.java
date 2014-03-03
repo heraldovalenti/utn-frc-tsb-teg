@@ -66,11 +66,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
     }
     public void cargarDados(int[]ataque, int [] defensa){
-        try {          
-            dados.setMaximum(true);
-            dados.setSize(new Dimension(195,295));
-            ubicarGuis(dados,mapa.getWidth()-dados.getWidth(),mapa.getHeight()-dados.getHeight());
+        try {     
+            dados.setIcon(false);                      
         } catch (PropertyVetoException ex) {            
+            ex.printStackTrace();
             return;
         } 
         HiloDados hilo = new HiloDados(ataque, defensa,dados);
@@ -186,6 +185,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         menuInformacion = new javax.swing.JMenuItem();
         menu4 = new javax.swing.JMenuItem();
         menu5 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("T.E.G  Plan Táctico y Estratégico de la Guerra");
@@ -260,6 +260,14 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(menu5);
 
+        jMenuItem1.setText("Tarjetas Paises");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -330,6 +338,14 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         paises.add(pais);
         actualizarFichas(paises);
         cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
+        Tarjeta tarj = new Tarjeta("Alaska");
+        tarj.setVisible(true);
+        desktop.add(tarj);
+        Tarjeta tarj2= new Tarjeta("CANJE");
+        tarj2.setVisible(true);
+        desktop.add(tarj2);
+        ubicarGuis(tarj,mapa.getWidth()/2,mapa.getHeight()/2);
+        ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void menu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu4ActionPerformed
@@ -357,6 +373,13 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         mapa.ocultar(mostrarFichas, mostrarMisiles);
         menu5.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
     }//GEN-LAST:event_menu5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Tarjetas tarjetas = new Tarjetas(null);
+        tarjetas.setVisible(true);
+        desktop.add(tarjetas);
+        ubicarGuis(tarjetas, mapa.getWidth()/2, mapa.getHeight()/2);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
@@ -406,6 +429,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem menu4;
     private javax.swing.JMenuItem menu5;
