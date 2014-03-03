@@ -5,7 +5,21 @@
  */
 package juego.mecanicas.turno;
 
+import cliente.AccionableAtaque;
+import cliente.AccionableCanjePorEjercitos;
+import cliente.AccionableCanjePorMisil;
+import cliente.AccionableCanjeTarjetas;
+import cliente.AccionableLanzarMisil;
+import cliente.AccionableMovimiento;
+import cliente.AccionableRefuerzo;
+import java.util.List;
+import juego.estructura.Canjeable;
+import juego.estructura.GestorPaises;
+import juego.estructura.GestorTarjetas;
+import juego.estructura.Jugador;
 import juego.estructura.Pais;
+import juego.mecanicas.ataque.ControlAtaque;
+import juego.mecanicas.movimiento.ControlMovimiento;
 
 /**
  *
@@ -20,34 +34,91 @@ public class GestorTurno {
     private static final int ETAPA_SOLICITAR_TARJETA = 4;
 
     private static final int ACCION_ATACAR = 1;
-    private static final int ACCION_SOLICITAR_TARJETA = 1;
-    private static final int ACCION_INCORPORAR_EJERCITOS = 1;
-    private static final int ACCION_REAGRUPAR = 1;
-    private static final int ACCION_CANJEAR_TARJETA = 1;
+    private static final int ACCION_LANZAR_MISIL = 2;
+    private static final int ACCION_SOLICITAR_TARJETA = 3;
+    private static final int ACCION_INCORPORAR_EJERCITOS = 4;
+    private static final int ACCION_REAGRUPAR = 5;
+    private static final int ACCION_CANJEAR_TARJETA = 6;
+    private static final int ACCION_CANJEAR_MISIL_POR_EJERCITO = 7;
+    private static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 8;
 
-    private static final boolean[][] permisos = new boolean[5][5];
+    private static int etapaActual;
 
-    public void atacar(Pais origen, Pais destino, int cantidadEjercitos) {
+    private static boolean[][] permisos;
+
+    public static void crearPermisos() {
+        permisos = new boolean[5][8];
+
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_INCORPORAR_EJERCITOS] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_EJERCITO_POR_MISIL] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_MISIL_POR_EJERCITO] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_TARJETA] = true;
+
+        permisos[ETAPA_ATACAR][ACCION_ATACAR] = true;
+        permisos[ETAPA_ATACAR][ACCION_LANZAR_MISIL] = true;
+
+        permisos[ETAPA_REAGRUPAR][ACCION_REAGRUPAR] = true;
+    }
+
+    public void atacar(Pais origen, Pais destino) {
+        if (accionPermitida(ACCION_ATACAR)) {
+            ControlAtaque control = new ControlAtaque(origen, destino);
+            if (control.ataqueValido()) {
+                AccionableAtaque ataque = new AccionableAtaque(origen, destino);
+            }
+        }
+    }
+
+    public void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
+        if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
+            AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
+        }
+    }
+
+    public void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
+        if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
+            if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
+                AccionableCanjePorMisil canje = new AccionableCanjePorMisil(pais, cantidadMisiles);
+            }
+        }
+    }
+
+    public void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
+        if (accionPermitida(ACCION_CANJEAR_MISIL_POR_EJERCITO)) {
+            if (pais.getCantidadMisiles() >= cantidadMisiles) {
+                AccionableCanjePorEjercitos canje = new AccionableCanjePorEjercitos(pais, cantidadMisiles);
+            }
+        }
 
     }
 
-    public void colocarEjercitos(Pais pais) {
-
-    }
-
-    public void canjearEjercitosPorMisil(Pais pais) {
-
-    }
-
-    public void canjearMisilPorEjercito(Pais pais) {
-
-    }
-
-    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos) {
-
+    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
+        if (accionPermitida(ACCION_REAGRUPAR)) {
+            ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
+            if (control.movimientoValido()) {
+                AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
+            }
+        }
     }
 
     public void lanzarMisil(Pais origen, Pais destino) {
-
+        if (accionPermitida(ACCION_LANZAR_MISIL)) {
+            if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3) {
+                AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
+            }
+        }
     }
+
+    public void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
+        if (accionPermitida(ACCION_CANJEAR_TARJETA)) {
+            if (GestorTarjetas.canjeValido(listaTarjetas)) {
+                AccionableCanjeTarjetas canje = new AccionableCanjeTarjetas(jugador, listaTarjetas);
+            }
+        }
+    }
+
+    public boolean accionPermitida(int accion) {
+        return permisos[etapaActual][accion];
+    }
+
 }

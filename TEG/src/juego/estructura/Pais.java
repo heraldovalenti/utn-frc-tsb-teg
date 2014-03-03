@@ -81,8 +81,31 @@ public class Pais {
         this.cantidadMisiles = cantidadMisiles;
     }
 
+    public void añadirEjercitos(int cantidad) {
+        this.cantidadEjercitos += cantidad;
+    }
+
+    public void restarEjercitos(int cantidad) {
+        this.cantidadEjercitos -= cantidad;
+    }
+
+    public void añadirMisiles(int cantidad) {
+        this.cantidadMisiles += cantidad;
+    }
+
+    public void restarMisiles(int cantidad) {
+        this.cantidadMisiles -= cantidad;
+    }
+
     public boolean mismoContinente(Pais otro) {
         return otro.continente.equals(this.continente);
+    }
+
+    public void ocuparPais(Jugador jugador) {
+        this.jugador.quitarPais(this);
+        jugador.añadirPais(this);
+        this.jugador = jugador;
+        this.cantidadEjercitos = 1;
     }
 
     @Override

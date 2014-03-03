@@ -6,6 +6,8 @@ package juego;
 
 import java.util.List;
 import juego.estructura.GestorJugadores;
+import juego.estructura.TarjetaContinente;
+import juego.estructura.TarjetaPais;
 import juego.mecanicas.situacion.Situacion;
 
 /**

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package juego.estructura;
 
 /**
@@ -11,7 +10,10 @@ package juego.estructura;
  * @author Daniel
  */
 public interface Canjeable {
+
     public int getValor();
+
     public int getPeso();
+
     public boolean esComodin();
 }
