@@ -78,6 +78,38 @@ public class Jugador {
         this.objetivoSecreto = objetivoSecreto;
     }
 
+    public int getCantidadCanjes() {
+        return cantidadCanjes;
+    }
+
+    public void setCantidadCanjes(int cantidadCanjes) {
+        this.cantidadCanjes = cantidadCanjes;
+    }
+
+    public List<TarjetaPais> getListaTarjetasPais() {
+        return listaTarjetasPais;
+    }
+
+    public void setListaTarjetasPais(List<TarjetaPais> listaTarjetasPais) {
+        this.listaTarjetasPais = listaTarjetasPais;
+    }
+
+    public List<TarjetaContinente> getListaTarjetaContinentes() {
+        return listaTarjetaContinentes;
+    }
+
+    public void setListaTarjetaContinentes(List<TarjetaContinente> listaTarjetaContinentes) {
+        this.listaTarjetaContinentes = listaTarjetaContinentes;
+    }
+
+    public void añadirPais(Pais pais) {
+        this.conjuntoPaises.add(pais);
+    }
+
+    public void quitarPais(Pais pais) {
+        conjuntoPaises.remove(pais);
+    }
+
     public int getCantidadPaises() {
         return conjuntoPaises.size();
     }
@@ -118,8 +150,10 @@ public class Jugador {
         int cantidadEjercitos = 0;
         if (GestorTarjetas.canjeValido(listaTarjetas)) {
             for (Canjeable tarjeta : listaTarjetas) {
-                if (tarjeta.getClass().equals(TarjetaPais.class)) {
-                    GestorTarjetas.devolverTarjeta((TarjetaPais) tarjeta);
+                if (tarjeta.getClass().equals(TarjetaPais.class
+                )) {
+                    GestorTarjetas.devolverTarjeta(
+                            (TarjetaPais) tarjeta);
                 } else {
                     //Ver como se van a tratar las tarjetas de continentes usadas
                 }

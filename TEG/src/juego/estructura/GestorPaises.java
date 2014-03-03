@@ -128,6 +128,10 @@ public class GestorPaises {
         return limitrofes[origen.getNroPais()][destino.getNroPais()] == 1;
     }
 
+    public static int calcularDistancia(Pais origen, Pais destino) {
+        return limitrofes[origen.getNroPais()][destino.getNroPais()];
+    }
+
     public static List<Pais> crearPaises() {
         listaPaises = new ArrayList<>(72);
         listaPaises.add(new Pais(ALASKA, "Alaska", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
@@ -549,7 +553,7 @@ public class GestorPaises {
         limitrofes[VIETNAM][FILIPINAS] = 1;
     }
 
-    private static void calcularDistancia() {
+    private static void completarDistancias() {
         int provisorio[];
         for (int pasadas = 0; pasadas < 10; pasadas++) {
             for (int i = 0; i < limitrofes.length; i++) {
