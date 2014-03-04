@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servidor;
+package com.cliente;
 
 import cliente.control.ControlAlias;
 import com.Accionable;
@@ -13,13 +13,13 @@ import servidor.control.ControladorAlias;
  *
  * @author heril
  */
-public class SolicitudAlias implements Accionable {
+public class AccionableSolicitudAlias implements Accionable {
 
     private int id;
     private String aliasSolicitado;
     private String aliasAsignado;
 
-    public SolicitudAlias(int id, String alias) {
+    public AccionableSolicitudAlias(int id, String alias) {
         this.id = id;
         this.aliasSolicitado = alias;
         aliasAsignado = null;

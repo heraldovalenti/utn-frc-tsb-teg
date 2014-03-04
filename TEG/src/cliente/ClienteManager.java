@@ -5,10 +5,8 @@
 package cliente;
 
 import Interfaces.InterfacePrincipal;
-import cliente.control.ControlAlias;
 import cliente.control.ControlInicio;
 import com.Accionable;
-import com.servidor.EnviarChat;
 import juego.Juego;
 import juego.estructura.Jugador;
 import logger.Logger;
@@ -37,6 +35,8 @@ public class ClienteManager {
         despachadorAcciones = new servidor.DespachadorAcciones(colaAcciones);
         salaEspera = new SalaEspera();
         juego = Juego.getInstancia();
+        
+        logger.agregarLoggeable(salaEspera);
     }
     private SalaEspera salaEspera;
     private ConexionServidor conexionServidor;
@@ -70,19 +70,6 @@ public class ClienteManager {
      */
     public void registrarEntrada(Accionable entrada) {
         colaAcciones.pushEntrada(entrada);
-    }
-
-    public void enviarChat(String chat) {
-        EnviarChat enviarChat = new EnviarChat(chat);
-        despachadorAcciones.ingresarSalida(enviarChat);
-    }
-
-    public void recibirChat(String chat) {
-        salaEspera.mostrarChat(chat);
-    }
-
-    public void establecerIdentificadorConexion(int id) {
-        conexionServidor.setConexionId(id);
     }
 
     //METODOS SETTERS AND GETTERS - SIEMPRE AL FINAL DE LA CLASE

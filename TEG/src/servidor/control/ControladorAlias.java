@@ -4,6 +4,7 @@
  */
 package servidor.control;
 
+import com.servidor.AccionableEstadoJugadores;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -31,6 +32,7 @@ public class ControladorAlias {
     
     public static void asignarAlias(Integer idJugador, String alias) {
         asignacionesAlias.put(idJugador, alias);
+        AccionableEstadoJugadores.notificarActualizacionJugadores();
     }
     
     private static void actualizarAsignaciones() {
@@ -43,6 +45,14 @@ public class ControladorAlias {
                 asignacionesAlias.remove(i);
             }
         }
+    }
+    
+    public static String getAliasJugador(Integer idJugador) {
+        return asignacionesAlias.get(idJugador);
+    }
+    
+    public static void purgar() {
+        asignacionesAlias = new HashMap<>();
     }
     
 }

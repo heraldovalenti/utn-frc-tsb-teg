@@ -5,16 +5,27 @@
 package servidor;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import javax.management.remote.JMXProviderException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.DefaultCaret;
+import logger.LogItem;
+import logger.Loggeable;
 import servidor.control.ControlEjecucionServidor;
+import servidor.control.ControlInicioJuego;
 
 /**
  *
  * @author heril
  */
-public class AdministracionPartida extends javax.swing.JFrame {
+public class AdministracionPartida extends javax.swing.JFrame implements Loggeable {
+
+    @Override
+    public void procesarLog(LogItem logItem) {
+        txtChatArea.append(logItem.toString() + "\n");
+    }
 
     /**
      * Creates new form SalaEspera
@@ -25,6 +36,8 @@ public class AdministracionPartida extends javax.swing.JFrame {
         addListenerToMenuIniciarServidor();
         addListenerToMenuDetenerServidor();
         addListenerToMenuReiniciarServidor();
+        addListenerToMenuIniciarPartida();
+        setCaretPolicyToChatArea();
     }
 
     /**
@@ -34,7 +47,28 @@ public class AdministracionPartida extends javax.swing.JFrame {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                ControlEjecucionServidor.ocultarVentanaAdministracionPartida();
+                if (!ControlEjecucionServidor.enEjecucion()) {
+                    ControlEjecucionServidor.ocultarVentanaAdministracionPartida();
+                }
+            }
+        });
+    }
+    
+    /**
+     * Establece que el text area de chat auto-scrollee hacia abajo cada vez que
+     * se agrega una linea y es necesario ajustar el scroll para visualizar la
+     * nueva linea.
+     */
+    private void setCaretPolicyToChatArea() {
+        DefaultCaret caret = (DefaultCaret) txtChatArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+    
+    private void addListenerToMenuIniciarPartida() {
+        this.menuItemComenzarPartida.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ControlInicioJuego.iniciarJuego();
             }
         });
     }
@@ -127,6 +161,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
         }
         lblEstadoServidor.setText(txtEstadoServidor.toString());
         lblNumeroJuego.setText(txtNumeroDeJuego.toString());
+        actualizarEstadoJugadores(null);
     }
 
     /**
@@ -141,6 +176,25 @@ public class AdministracionPartida extends javax.swing.JFrame {
         DefaultCaret caret = (DefaultCaret) txtChatPersonal.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         txtChatPersonal.setText("");
+    }
+
+    public void actualizarEstadoJugadores(TableModel model) {
+        if (model == null) {
+            Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
+            Object[][] data = null;
+            model = new DefaultTableModel(data, columnNames);
+        }
+        try {
+            this.tblJugadores.setModel(model);
+        } catch (Exception ex) {
+        }
+    }
+    
+    public void informarJugadoresNoListos() {
+        JOptionPane.showMessageDialog(this, 
+                "Hay jugadores que todavía no están listos.\n"
+                + "No se puede iniciar la partida.", 
+                "Información", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

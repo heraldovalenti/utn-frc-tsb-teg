@@ -4,7 +4,7 @@
  */
 package servidor.control;
 
-import com.cliente.CerrarConexion;
+import com.cliente.AccionableCerrarConexion;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import logger.LogItem;
@@ -101,12 +101,18 @@ public class ControlEjecucionServidor {
         }
         
         servidor.parar();
-        gestorClientes.parar();
         despachadorAcciones.parar();
+        gestorClientes.parar();
         
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor detenido."));
         administracionPartida.actualizarEstadoServidor();
+        
+        ControladorAlias.purgar();
+        ControlEstadoJugadores.purgar();
+        ControlColores.purgar();
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Controladores de inicio purgados."));
     }
     
     /**
