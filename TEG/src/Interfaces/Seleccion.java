@@ -18,7 +18,12 @@ public class Seleccion extends javax.swing.JInternalFrame {
         initComponents();
         this.setSize(250, 160);
     }
-
+    public void cargarDesde(String desde){
+        txtDesde.setText(desde);
+    }
+     public void cargarHasta(String hasta){
+        txtHasta.setText(hasta);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
