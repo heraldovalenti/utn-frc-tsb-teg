@@ -5,7 +5,7 @@
 package Interfaces;
 
 import java.util.ArrayList;
-import juego.TarjetaPais;
+import juego.estructura.TarjetaPais;
 
 /**
  *
