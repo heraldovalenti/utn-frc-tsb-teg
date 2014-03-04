@@ -7,7 +7,7 @@ package cliente.control;
 import cliente.ClienteManager;
 import cliente.ConexionServidor;
 import cliente.SalaEspera;
-import com.cliente.CerrarConexion;
+import com.cliente.AccionableCerrarConexion;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import logger.LogItem;
@@ -157,14 +157,14 @@ public class ControlConexion {
     }
     
     public static void solicitarCierreConexion() {
-        CerrarConexion cc = new CerrarConexion(ClienteManager.getInstance().getConexionServidor().getConexionId(),CerrarConexion.DESCONEXION_MANUAL);
+        AccionableCerrarConexion cc = new AccionableCerrarConexion(ClienteManager.getInstance().getConexionServidor().getConexionId(),AccionableCerrarConexion.DESCONEXION_MANUAL);
         ClienteManager.getInstance().registrarSalida(cc);
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Cierre de conexión solicitado..."));
     }
     
     public static void cerrarConexion(int idConexion, String razon) {
         int idConexionServidor = ClienteManager.getInstance().getConexionServidor().getConexionId();
-        if (idConexionServidor == idConexion) {
+        if (idConexionServidor == idConexion || idConexion == -1) {
             desconectarServidor();
             ClienteManager.getInstance().getSalaEspera().informarCierreConexion(razon);
         }

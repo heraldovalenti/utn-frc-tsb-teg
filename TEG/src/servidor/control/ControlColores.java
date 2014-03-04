@@ -4,7 +4,7 @@
  */
 package servidor.control;
 
-import com.servidor.ColoresDisponibles;
+import com.servidor.AccionableColoresDisponibles;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
@@ -133,6 +133,6 @@ public class ControlColores {
      * para seleccionar.
      */
     private static void informarColoresDisponibles() {
-        ServerManager.getInstance().registrarSalida(new ColoresDisponibles(getColoresDisponibles()));
+        ServerManager.getInstance().registrarSalida(new AccionableColoresDisponibles(getColoresDisponibles()));
     }
 }
