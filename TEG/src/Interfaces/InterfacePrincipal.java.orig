@@ -39,10 +39,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private boolean mostrarFichas = true;
     private boolean mostrarMisiles = true;
     private Refuerzo refuerzo;
-    private Pais paisDesde;
-    private Pais paisHasta;
-    private boolean reagrupar = false;
-    private Reagrupar ventanaReagrupar; 
     
     /**
      * Creates new form GUI
@@ -52,15 +48,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         this.setSize(1330,990);        
         agregarGuis();
         actualizarJugadores(simularJugadores());
-         habilitarBotones();
     }    
-    public void reagrupar(Pais desde, Pais hasta, int cantidad){
-        cerraVentanaReagrupar();
-        FachadaInterface.reagrupar(desde,hasta,cantidad);
-    }
-    public void cerraVentanaReagrupar(){
-        ventanaReagrupar = null;
-    }
     
    
     public void cargarChat(String msg){
@@ -265,22 +253,12 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
         btnReagrupar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/reagrupar2.png"))); // NOI18N
         btnReagrupar.setText("Reagrupar");
-        btnReagrupar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReagruparActionPerformed(evt);
-            }
-        });
 
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
         btnTarjeta.setText("Recoger");
 
         btnFinTurno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/chek.png"))); // NOI18N
         btnFinTurno.setText("Fin Turno");
-        btnFinTurno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinTurnoActionPerformed(evt);
-            }
-        });
 
         btnMision.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/objetivo.png"))); // NOI18N
         btnMision.setText("Objetivo");
@@ -404,15 +382,16 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAtacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAtacar)
+                        .addComponent(btnReagrupar)
+                        .addComponent(btnTarjeta)
+                        .addComponent(btnFinTurno)
+                        .addComponent(btnMision)
+                        .addComponent(btnVerTarjetas)
+                        .addComponent(btnAtacarMisil)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -550,22 +529,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private void btnAtacarMisilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarMisilActionPerformed
         btnAtacar.setEnabled(false);
     }//GEN-LAST:event_btnAtacarMisilActionPerformed
-
-    private void btnFinTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinTurnoActionPerformed
-        refuerzo.setVisible(false);
-        refuerzo = null;
-        paisDesde = null;
-        paisHasta = null;
-        reagrupar = false;
-        FachadaInterface.finalizarTurno();
-        habilitarBotones();
-    }//GEN-LAST:event_btnFinTurnoActionPerformed
-
-    private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
-        reagrupar = true;
-        habilitarBotones();
-        btnReagrupar.setEnabled(false);
-    }//GEN-LAST:event_btnReagruparActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
@@ -577,105 +540,43 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }
     private void habilitarBotones(){
         if(!esMiTurno()){
-            if(reagrupar){
-                btnAtacar.setEnabled(false);
-                btnReagrupar.setEnabled(false);
-                btnAtacarMisil.setEnabled(false);
-                btnTarjeta.setEnabled(false); 
-            }
-            else{
-                btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-                btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
-                habilitarBotonesAtaque();
-            }
-
-        }
-        else{
             btnAtacar.setEnabled(false);
             btnReagrupar.setEnabled(false);
             btnAtacarMisil.setEnabled(false);
             btnTarjeta.setEnabled(false);
-            btnFinTurno.setEnabled(false);       
-        }
-        
+            btnFinTurno.setEnabled(false);
+        }        
     }
-    public void refuerzo(int[] refuerzos){
+    public void refuerzo(int[][] refuerzos){
         if(refuerzo != null){
-            refuerzo.actualizarTropas(refuerzos);
+            refuerzo.dispose();
+            refuerzo = null;
         }
-        else{
-            refuerzo = new Refuerzo(refuerzos);
-            refuerzo.setVisible(true);
-            desktop.add(refuerzo);
-            ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
-        }
-        actualizarFichas(FachadaInterface.getJugadores());
-       
- 
+        refuerzo = new Refuerzo(refuerzos);
+        refuerzo.setVisible(true);
+        desktop.add(refuerzo);
+        ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
+
+      
     }
-    private void habilitarBotonesAtaque(){
-        boolean atacar = false;
-        boolean misil = false;
-        if(FachadaInterface.atacarPermitido()){
-            if(paisDesde != null && paisHasta!= null){
-                if(paisDesde.getCantidadEjercitos() > 1){
-                    atacar = true;
-                }
-                if(paisDesde.getCantidadMisiles()>0){
-                    misil = true;
-                }
-            }
-        }
-        btnAtacar.setEnabled(atacar);
-        btnAtacarMisil.setEnabled(false);
-     
-    }
-    private void reagrupar(Pais pais){
-        if(ventanaReagrupar == null){
-            ventanaReagrupar = new Reagrupar(this,false,this);
-            ventanaReagrupar.setVisible(true);            
-        }
-        ventanaReagrupar.cargarPais(pais);
-    }
-        
     public void obtenerPaisSeleccionado(String p){
         if(!esMiTurno()) return;
         Pais pais = FachadaInterface.obtenerPaisPorNombre(p);
-        
-        if(reagrupar){
+        if(!FachadaInterface.incorporarEjercitosPermitido()){
             if(FachadaInterface.esMiPais(pais)){
-                reagrupar(pais);
+                seleccion.cargarDesde(pais.getNombre());
+            }
+            else{
+                seleccion.cargarHasta(pais.getNombre());
             }
         }
         else{
-            if(!FachadaInterface.incorporarEjercitosPermitido()){
-            
-            habilitarBotonesAtaque();
-            }
-            else{
-                if(FachadaInterface.esMiPais(pais)){
-                   if(refuerzo != null){
-                       if(refuerzo.esAgregar()){
-                           if(refuerzo.cantidadPaisesDisponibles() ==0){
-                               return;
-                           }
-                           FachadaInterface.agregarRefuerzo(pais);
-                       }
-                       else{
-                           FachadaInterface.quitarRefuerzo(pais);
-                       }
-                   }
-                }
+            if(FachadaInterface.esMiPais(pais)){
+               //aca va refuerzo
             }
         }
         
         
-        
-    }
-    private void permitirAtaque(){
-        if(paisDesde!=null && paisHasta != null){
-            
-        }
     }
     private boolean esMiTurno(){
         return FachadaInterface.esMiTurno(FachadaInterface.getJugadorLocal());
