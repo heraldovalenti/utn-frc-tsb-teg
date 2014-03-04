@@ -8,12 +8,13 @@ package Interfaces;
  *
  * @author Emanuel
  */
-public class Refuerzo extends javax.swing.JInternalFrame {   
-    private int [] refuerzos;
+public class Refuerzos extends javax.swing.JDialog {
+   private int [] refuerzos;   
     /**
-     * Creates new form Refuerzo
+     * Creates new form Refuerzos
      */
-    public Refuerzo(int [] refuerzos) {
+    public Refuerzos(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         rbAgregar.setSelected(true);
         this.refuerzos = refuerzos;
@@ -45,7 +46,6 @@ public class Refuerzo extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -64,8 +64,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         rbAgregar = new javax.swing.JRadioButton();
         rbQuitar = new javax.swing.JRadioButton();
 
-        setTitle("Refuerzos");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refuerzos.png"))); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tropas Disponibles"));
 
@@ -184,7 +183,6 @@ public class Refuerzo extends javax.swing.JInternalFrame {
                     .addComponent(txtOceania, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        buttonGroup1.add(rbAgregar);
         rbAgregar.setForeground(new java.awt.Color(51, 153, 0));
         rbAgregar.setText("Agregar");
         rbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +191,6 @@ public class Refuerzo extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonGroup1.add(rbQuitar);
         rbQuitar.setForeground(new java.awt.Color(255, 0, 0));
         rbQuitar.setText("Quitar");
 
@@ -220,7 +217,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbAgregar)
                     .addComponent(rbQuitar))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,8 +231,48 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rbAgregarActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Refuerzos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Refuerzos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Refuerzos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Refuerzos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Refuerzos dialog = new Refuerzos(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

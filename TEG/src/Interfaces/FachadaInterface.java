@@ -6,7 +6,9 @@ package Interfaces;
 
 import cliente.ClienteManager;
 import java.util.List;
+import java.util.Set;
 import juego.estructura.Continente;
+import juego.estructura.GestorJugadores;
 import juego.estructura.GestorObjetivosSecretos;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
@@ -24,7 +26,14 @@ public class FachadaInterface {
     public static boolean atacarPermitido(){     
        return GestorTurno.accionPermitida(GestorTurno.ACCION_ATACAR);
     }
-     public static boolean canjearTarjetaPermitido(){     
+    public static void atacar(Pais atacante, Pais defensa){     
+       GestorTurno.atacar(atacante, defensa);
+    }
+    public static void reagrupar(Pais desde, Pais hasta,int cantidad){
+        GestorTurno.reagruparEjercitos(desde, hasta, cantidad, 0);
+    }
+    
+     public static boolean canjearTarjetaPermitido(){    
        return GestorTurno.accionPermitida(GestorTurno.ACCION_CANJEAR_TARJETA);
     }
      public static boolean solicitarTarjetaPermitido(){     
@@ -48,5 +57,17 @@ public class FachadaInterface {
     }
     public static boolean esMiPais(Pais pais){
         return true;
+    }
+    public static void finalizarTurno(){
+        //sss
+    }
+    public static void agregarRefuerzo(Pais pais){
+        
+    }
+    public static void quitarRefuerzo(Pais pais){
+        
+    }
+    public static Set<Jugador> getJugadores(){
+        return GestorJugadores.getJugadores();
     }
 }
