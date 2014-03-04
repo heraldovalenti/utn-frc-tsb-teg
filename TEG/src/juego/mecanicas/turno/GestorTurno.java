@@ -147,6 +147,7 @@ public class GestorTurno {
             if (res) {
                 AccionableSolicitarTarjeta solicitar = new AccionableSolicitarTarjeta(jugador);
                 ClienteManager.getInstance().registrarSalida(solicitar);
+                tarjetaSolicitada = true;
             }
         }
     }
@@ -159,6 +160,7 @@ public class GestorTurno {
         etapaActual = FUERA_TURNO;
         paisesConquistados = 0;
         canjeRealizado = false;
+        tarjetaSolicitada = false;
     }
 
     public static void aumentarContadorPaisesConquistados() {

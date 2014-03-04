@@ -6,12 +6,14 @@
 package com.cliente;
 
 import com.Accionable;
+import com.servidor.AccionableMensajeGlobal;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import com.servidor.ActualizadorPaises;
+import com.servidor.AccionableMostrarDadosAtaque;
 import servidor.ServerManager;
 
 /**
@@ -37,6 +39,10 @@ public class AccionableAtaque implements Accionable {
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
             control.atacar(ejercitosAtacantes, ejercitosDefensores);
+            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(origenServidor.getNombre() + " ataca a " + destinoServidor.getNombre());
+            ServerManager.getInstance().registrarSalida(mensaje);
+            AccionableMostrarDadosAtaque dados = new AccionableMostrarDadosAtaque(origenServidor.getJugador().getNombre(), destinoServidor.getJugador().getNombre(), control.dadosAtacante(), control.dadosDefensor());
+            ServerManager.getInstance().registrarSalida(dados);
             destinoServidor.restarEjercitos(control.perdidasDefensor());
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {

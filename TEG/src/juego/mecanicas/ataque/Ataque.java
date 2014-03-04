@@ -20,7 +20,7 @@ public class Ataque {
         this.resolucion = new ResolucionAtaque(tiradaAtacaque, tiradaDefensa);
     }
 
-    public TiradaAtaque getTiradaAtacaque() {
+    public TiradaAtaque getTiradaAtaque() {
         return tiradaAtacaque;
     }
 
@@ -34,7 +34,7 @@ public class Ataque {
 
     private static void test() {
         Ataque ataque = new Ataque(5, 5);
-        int ataques[] = ataque.getTiradaAtacaque().getTiradas();
+        int ataques[] = ataque.getTiradaAtaque().getTiradas();
         int defensas[] = ataque.getTiradaDefensa().getTiradas();
         String resAtaques = "ATAQUES: ";
         String resDefensas = "DEFENSAS: ";

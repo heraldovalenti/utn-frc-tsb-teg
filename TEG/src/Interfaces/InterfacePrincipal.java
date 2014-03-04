@@ -81,7 +81,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         desktop.add(tarjeta);
          ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
     }
-    public void cargarDados(int[]ataque, int [] defensa){
+    public void cargarDados(String nombreAtacante, String nombreDefensor, int[]ataque, int [] defensa){
         try {     
             dados.setIcon(false);                      
         } catch (PropertyVetoException ex) {            
@@ -456,7 +456,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         Set <Jugador> jugadores = new HashSet<Jugador>();
         jugadores.add(jug);
         actualizarFichas(jugadores);
-        cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
+        cargarDados("atacante", "defensor",simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
         Tarjeta tarj = new Tarjeta("Asia");
         tarj.setVisible(true);
         desktop.add(tarj);

@@ -137,8 +137,7 @@ public class GestorTarjetas {
             }
         }
         if (hayComodines) {
-            //Preguntar si puede ser >=
-            return (peso == 3);
+            return (peso >= 3);
         } else {
             return ((valor == 3 || valor == 6 || valor == 9) && peso == 3);
         }

@@ -4,6 +4,8 @@
  */
 package juego.mecanicas.ataque;
 
+import com.servidor.AccionableMostrarDadosAtaque;
+
 /**
  *
  * @author heril

@@ -5,6 +5,9 @@
  */
 package juego.estructura;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author Daniel
@@ -14,7 +17,7 @@ public class TarjetaContinente implements Canjeable {
     private int nroTarjeta;
     private Continente continente;
     private int[] simbolo;
-    private boolean usada;
+    private final Set<Jugador> usadaPor = new HashSet<>(8);
 
     public TarjetaContinente(int nroTarjeta, Continente continente, int[] simbolo) {
         this.nroTarjeta = nroTarjeta;
@@ -46,12 +49,12 @@ public class TarjetaContinente implements Canjeable {
         this.simbolo = simbolo;
     }
 
-    public boolean isUsada() {
-        return usada;
+    public void registrarUso(Jugador jugador) {
+        usadaPor.add(jugador);
     }
 
-    public void setUsada(boolean usada) {
-        this.usada = usada;
+    public boolean fueUsada(Jugador jugador) {
+        return usadaPor.contains(jugador);
     }
 
     @Override

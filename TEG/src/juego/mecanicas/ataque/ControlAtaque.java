@@ -65,6 +65,14 @@ public class ControlAtaque {
         return ataque.getResolucion().getResultadoDefensor();
     }
 
+    public int[] dadosAtacante() {
+        return ataque.getTiradaAtaque().getTiradas();
+    }
+
+    public int[] dadosDefensor() {
+        return ataque.getTiradaDefensa().getTiradas();
+    }
+
 //    /**
 //     * Prueba la funcionalidad de la clase.
 //     *

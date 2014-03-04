@@ -6,6 +6,7 @@
 package com.cliente;
 
 import com.Accionable;
+import com.servidor.AccionableMensajeGlobal;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.Canjeable;
@@ -34,6 +35,8 @@ public class AccionableCanjeTarjetas implements Accionable {
         if (GestorTarjetas.canjeValido(listaTarjetas)) {
             Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(jugadorCliente.getNroJugador());
             jugadorServidor.canjearTarjetas(listaTarjetas);
+            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
+            ServerManager.getInstance().registrarSalida(mensaje);
             List<Jugador> listaJugadores = new ArrayList<>(1);
             listaJugadores.add(jugadorServidor);
             ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
@@ -41,4 +44,17 @@ public class AccionableCanjeTarjetas implements Accionable {
         }
     }
 
+    private String stringTarjetas() {
+        StringBuilder builder = new StringBuilder(listaTarjetas.get(0).toString());
+        int cantidadTarjetas = listaTarjetas.size();
+        if (cantidadTarjetas > 1) {
+            for (int i = 1; i < cantidadTarjetas - 1; i++) {
+                builder.append(", ");
+                builder.append(listaTarjetas.get(i).toString());
+            }
+            builder.append(" y ");
+            builder.append(listaTarjetas.get(cantidadTarjetas - 1).toString());
+        }
+        return builder.toString();
+    }
 }
