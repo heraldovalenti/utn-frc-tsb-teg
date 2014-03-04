@@ -136,13 +136,14 @@ public class Mapa extends javax.swing.JPanel {
                 { 
                     JLabel label = ((JLabel) componentes[i]);
                     if(label.getName()!=null){
-                           if(pais.getNombre().trim().equalsIgnoreCase(label.getName().trim())){
+                           if(pais.getNombre().replaceAll(" ", "").equalsIgnoreCase(label.getName().replaceAll(" ", ""))){
                                cargarFichaEnPais(label, pais.getJugador().getColor(), pais.getCantidadEjercitos(), mostrarFichas);
                            }
                            else{
-                               String nombre = "Misil"+pais.getNombre().trim(); 
+                               
+                               String nombre = "Misil"+pais.getNombre().replaceAll(" ", "");; 
                                                         
-                               if(nombre.equalsIgnoreCase(label.getName().trim())){
+                               if(nombre.equalsIgnoreCase(label.getName().replaceAll(" ", ""))){
                                     cargarMisilesEnPais(label, pais.getJugador().getColor(), pais.getCantidadMisiles(), mostrarMisiles);
                                }
                            }
@@ -160,13 +161,13 @@ public class Mapa extends javax.swing.JPanel {
                     if(hijos[j] instanceof JLabel) {                      
                         JLabel label2= ((JLabel) hijos[j]);
                         if(label2.getName()!=null){
-                           if(pais.getNombre().trim().equalsIgnoreCase(label2.getName().trim())){
+                           if(pais.getNombre().replaceAll(" ", "").equalsIgnoreCase(label2.getName().replaceAll(" ", ""))){
                                cargarFichaEnPais(label2, pais.getJugador().getColor(), pais.getCantidadEjercitos(), mostrarFichas);
                            }
                            else{
-                               String nombre = "Misil"+pais.getNombre().trim(); 
+                               String nombre = "Misil"+pais.getNombre().replaceAll(" ", ""); 
                                                         
-                               if(nombre.equalsIgnoreCase(label2.getName().trim())){
+                               if(nombre.equalsIgnoreCase(label2.getName().replaceAll(" ", ""))){
                                     cargarMisilesEnPais(label2, pais.getJugador().getColor(), pais.getCantidadMisiles(),  mostrarMisiles);
                                }
                            }
@@ -199,7 +200,7 @@ public class Mapa extends javax.swing.JPanel {
                 { 
                     JLabel label = ((JLabel) componentes[i]);
                      if(label.getName()!=null){
-                           if(label.getName().trim().contains("Misil")){
+                           if(label.getName().replaceAll(" ", "").contains("Misil")){
                                label.setVisible(mostrarMisiles);
                            }
                            else{
@@ -220,7 +221,7 @@ public class Mapa extends javax.swing.JPanel {
                          JLabel label2= ((JLabel) hijos[j]);
                          if(label2.getName()!=null){
                             if(label2.getName()!=null){
-                                if(label2.getName().trim().contains("Misil")){
+                                if(label2.getName().replaceAll(" ", "").contains("Misil")){
                                     label2.setVisible(mostrarMisiles);
                                 }
                                 else{
@@ -2247,291 +2248,291 @@ public class Mapa extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblAlaskaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlaskaMouseClicked
-         JOptionPane.showMessageDialog(this,"Alaska gil");
+         principal.obtenerPaisSeleccionado("Alaska");
     }//GEN-LAST:event_lblAlaskaMouseClicked
 
     private void lblCanadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanadaMouseClicked
-        JOptionPane.showMessageDialog(this,"Canada gil");
+         principal.obtenerPaisSeleccionado("Canada gil");
     }//GEN-LAST:event_lblCanadaMouseClicked
 
     private void lblIslaVictoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslaVictoriaMouseClicked
-        JOptionPane.showMessageDialog(this,"Isla Victoria gil");
+         principal.obtenerPaisSeleccionado("Isla Victoria gil");
     }//GEN-LAST:event_lblIslaVictoriaMouseClicked
 
     private void lblGroenlandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroenlandiaMouseClicked
-       JOptionPane.showMessageDialog(this,"Groenlandia gil");
+        principal.obtenerPaisSeleccionado("Groenlandia gil");
     }//GEN-LAST:event_lblGroenlandiaMouseClicked
 
     private void lblIslandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslandiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Islandia gil");
+         principal.obtenerPaisSeleccionado("Islandia gil");
     }//GEN-LAST:event_lblIslandiaMouseClicked
 
     private void lblLabradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLabradorMouseClicked
-        JOptionPane.showMessageDialog(this,"Labrador gil");
+         principal.obtenerPaisSeleccionado("Labrador gil");
     }//GEN-LAST:event_lblLabradorMouseClicked
 
     private void lblNewYorkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseClicked
-        JOptionPane.showMessageDialog(this,"New York gil");
+         principal.obtenerPaisSeleccionado("New York gil");
     }//GEN-LAST:event_lblNewYorkMouseClicked
 
     private void lblTerranovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTerranovaMouseClicked
-        JOptionPane.showMessageDialog(this,"Terranova gil");
+         principal.obtenerPaisSeleccionado("Terranova gil");
     }//GEN-LAST:event_lblTerranovaMouseClicked
 
     private void lblOregonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOregonMouseClicked
-        JOptionPane.showMessageDialog(this,"Oregon gil");
+         principal.obtenerPaisSeleccionado("Oregon gil");
     }//GEN-LAST:event_lblOregonMouseClicked
 
     private void lblLasVegasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLasVegasMouseClicked
-        JOptionPane.showMessageDialog(this,"Las Vegas gil");
+         principal.obtenerPaisSeleccionado("Las Vegas gil");
     }//GEN-LAST:event_lblLasVegasMouseClicked
 
     private void lblChicagoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChicagoMouseClicked
-        JOptionPane.showMessageDialog(this,"Chicago gil");
+         principal.obtenerPaisSeleccionado("Chicago gil");
     }//GEN-LAST:event_lblChicagoMouseClicked
 
     private void lblCaliforniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCaliforniaMouseClicked
-        JOptionPane.showMessageDialog(this,"California gil");
+         principal.obtenerPaisSeleccionado("California gil");
     }//GEN-LAST:event_lblCaliforniaMouseClicked
 
     private void lblFloridaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseClicked
-        JOptionPane.showMessageDialog(this,"Florida gil");
+         principal.obtenerPaisSeleccionado("Florida gil");
     }//GEN-LAST:event_lblFloridaMouseClicked
 
     private void lblMexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMexicoMouseClicked
-        JOptionPane.showMessageDialog(this,"Mexico gil");
+         principal.obtenerPaisSeleccionado("Mexico gil");
     }//GEN-LAST:event_lblMexicoMouseClicked
 
     private void lblHondurasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHondurasMouseClicked
-        JOptionPane.showMessageDialog(this,"Honduras gil");
+         principal.obtenerPaisSeleccionado("Honduras gil");
     }//GEN-LAST:event_lblHondurasMouseClicked
 
     private void lblElSalvadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblElSalvadorMouseClicked
-         JOptionPane.showMessageDialog(this,"El Salvador gil");
+          principal.obtenerPaisSeleccionado("El Salvador gil");
     }//GEN-LAST:event_lblElSalvadorMouseClicked
 
     private void lblNicaraguaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicaraguaMouseClicked
-         JOptionPane.showMessageDialog(this,"Nicaragua gil");
+          principal.obtenerPaisSeleccionado("Nicaragua gil");
     }//GEN-LAST:event_lblNicaraguaMouseClicked
 
     private void lblCubaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCubaMouseClicked
-         JOptionPane.showMessageDialog(this,"Cuba gil");
+          principal.obtenerPaisSeleccionado("Cuba gil");
     }//GEN-LAST:event_lblCubaMouseClicked
 
     private void lblJamaicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJamaicaMouseClicked
-        JOptionPane.showMessageDialog(this,"Jamaica gil");
+         principal.obtenerPaisSeleccionado("Jamaica gil");
     }//GEN-LAST:event_lblJamaicaMouseClicked
 
     private void lblColombiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColombiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Colombia gil");
+         principal.obtenerPaisSeleccionado("Colombia gil");
     }//GEN-LAST:event_lblColombiaMouseClicked
 
     private void lblVenezuelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVenezuelaMouseClicked
-        JOptionPane.showMessageDialog(this,"Venezuela gil");
+         principal.obtenerPaisSeleccionado("Venezuela gil");
     }//GEN-LAST:event_lblVenezuelaMouseClicked
 
     private void lblBrasilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBrasilMouseClicked
-        JOptionPane.showMessageDialog(this,"Brasil gil");
+         principal.obtenerPaisSeleccionado("Brasil gil");
     }//GEN-LAST:event_lblBrasilMouseClicked
 
     private void lblBoliviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBoliviaMouseClicked
-       JOptionPane.showMessageDialog(this,"Bolivia gil");
+        principal.obtenerPaisSeleccionado("Bolivia gil");
     }//GEN-LAST:event_lblBoliviaMouseClicked
 
     private void lblParaguayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblParaguayMouseClicked
-        JOptionPane.showMessageDialog(this,"Paraguay gil");
+         principal.obtenerPaisSeleccionado("Paraguay gil");
     }//GEN-LAST:event_lblParaguayMouseClicked
 
     private void lblChileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChileMouseClicked
-        JOptionPane.showMessageDialog(this,"Chile gil");
+         principal.obtenerPaisSeleccionado("Chile gil");
     }//GEN-LAST:event_lblChileMouseClicked
 
     private void lblArgentinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArgentinaMouseClicked
-        JOptionPane.showMessageDialog(this,"Argentina gil");
+         principal.obtenerPaisSeleccionado("Argentina gil");
     }//GEN-LAST:event_lblArgentinaMouseClicked
 
     private void lblUruguayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUruguayMouseClicked
-        JOptionPane.showMessageDialog(this,"Uruguay gil");
+         principal.obtenerPaisSeleccionado("Uruguay gil");
     }//GEN-LAST:event_lblUruguayMouseClicked
 
     private void lblSaharaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaharaMouseClicked
-        JOptionPane.showMessageDialog(this,"Sahara gil");
+         principal.obtenerPaisSeleccionado("Sahara gil");
     }//GEN-LAST:event_lblSaharaMouseClicked
 
     private void lblEgiptoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEgiptoMouseClicked
-        JOptionPane.showMessageDialog(this,"Egipto gil");
+         principal.obtenerPaisSeleccionado("Egipto gil");
     }//GEN-LAST:event_lblEgiptoMouseClicked
 
     private void lblEtiopiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEtiopiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Etiopia gil");
+         principal.obtenerPaisSeleccionado("Etiopia gil");
     }//GEN-LAST:event_lblEtiopiaMouseClicked
 
     private void lblNigeriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNigeriaMouseClicked
-        JOptionPane.showMessageDialog(this,"Nigeria gil");
+         principal.obtenerPaisSeleccionado("Nigeria gil");
     }//GEN-LAST:event_lblNigeriaMouseClicked
 
     private void lblAngolaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAngolaMouseClicked
-       JOptionPane.showMessageDialog(this,"Angola gil");
+        principal.obtenerPaisSeleccionado("Angola gil");
     }//GEN-LAST:event_lblAngolaMouseClicked
 
     private void lblMauritaniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMauritaniaMouseClicked
-        JOptionPane.showMessageDialog(this,"Mauritania gil");
+         principal.obtenerPaisSeleccionado("Mauritania gil");
     }//GEN-LAST:event_lblMauritaniaMouseClicked
 
     private void lblSudafricaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSudafricaMouseClicked
-        JOptionPane.showMessageDialog(this,"Sudafrica gil");
+         principal.obtenerPaisSeleccionado("Sudafrica gil");
     }//GEN-LAST:event_lblSudafricaMouseClicked
 
     private void lblMadagascarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMadagascarMouseClicked
-        JOptionPane.showMessageDialog(this,"Madagascar gil");
+         principal.obtenerPaisSeleccionado("Madagascar gil");
     }//GEN-LAST:event_lblMadagascarMouseClicked
 
     private void lblSumatraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSumatraMouseClicked
-        JOptionPane.showMessageDialog(this,"Sumatra gil");
+         principal.obtenerPaisSeleccionado("Sumatra gil");
     }//GEN-LAST:event_lblSumatraMouseClicked
 
     private void lblFilipinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFilipinasMouseClicked
-        JOptionPane.showMessageDialog(this,"Filipinas gil"); 
+         principal.obtenerPaisSeleccionado("Filipinas gil"); 
     }//GEN-LAST:event_lblFilipinasMouseClicked
 
     private void lblTongaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTongaMouseClicked
-        JOptionPane.showMessageDialog(this,"Tonga gil"); 
+         principal.obtenerPaisSeleccionado("Tonga gil"); 
     }//GEN-LAST:event_lblTongaMouseClicked
 
     private void lblAustraliaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAustraliaMouseClicked
-         JOptionPane.showMessageDialog(this,"Australia gil"); 
+          principal.obtenerPaisSeleccionado("Australia gil"); 
     }//GEN-LAST:event_lblAustraliaMouseClicked
 
     private void lblTasmaniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTasmaniaMouseClicked
-         JOptionPane.showMessageDialog(this,"Tasmania gil"); 
+          principal.obtenerPaisSeleccionado("Tasmania gil"); 
     }//GEN-LAST:event_lblTasmaniaMouseClicked
 
     private void lblNuevaZelandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaZelandiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Nueva Zelandia gil"); 
+         principal.obtenerPaisSeleccionado("Nueva Zelandia gil"); 
     }//GEN-LAST:event_lblNuevaZelandiaMouseClicked
 
     private void lblIndiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIndiaMouseClicked
-        JOptionPane.showMessageDialog(this,"India gil"); 
+         principal.obtenerPaisSeleccionado("India gil"); 
     }//GEN-LAST:event_lblIndiaMouseClicked
 
     private void lblVietnamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVietnamMouseClicked
-        JOptionPane.showMessageDialog(this,"Vietnam gil"); 
+         principal.obtenerPaisSeleccionado("Vietnam gil"); 
     }//GEN-LAST:event_lblVietnamMouseClicked
 
     private void lblMalasiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMalasiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Malasia gil"); 
+         principal.obtenerPaisSeleccionado("Malasia gil"); 
     }//GEN-LAST:event_lblMalasiaMouseClicked
 
     private void lblCoreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCoreaMouseClicked
-        JOptionPane.showMessageDialog(this,"Corea gil"); 
+         principal.obtenerPaisSeleccionado("Corea gil"); 
     }//GEN-LAST:event_lblCoreaMouseClicked
 
     private void lblJaponMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJaponMouseClicked
-        JOptionPane.showMessageDialog(this,"Japon gil"); 
+         principal.obtenerPaisSeleccionado("Japon gil"); 
     }//GEN-LAST:event_lblJaponMouseClicked
 
     private void lblKamtchatkaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKamtchatkaMouseClicked
-        JOptionPane.showMessageDialog(this,"Kamtchatka gil"); 
+         principal.obtenerPaisSeleccionado("Kamtchatka gil"); 
     }//GEN-LAST:event_lblKamtchatkaMouseClicked
 
     private void lblChukchiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChukchiMouseClicked
-        JOptionPane.showMessageDialog(this,"Chukchi gil"); 
+         principal.obtenerPaisSeleccionado("Chukchi gil"); 
     }//GEN-LAST:event_lblChukchiMouseClicked
 
     private void lblChinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChinaMouseClicked
-        JOptionPane.showMessageDialog(this,"China gil"); 
+         principal.obtenerPaisSeleccionado("China gil"); 
     }//GEN-LAST:event_lblChinaMouseClicked
 
     private void lblTurquiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTurquiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Turquia gil");
+         principal.obtenerPaisSeleccionado("Turquia gil");
     }//GEN-LAST:event_lblTurquiaMouseClicked
 
     private void lblArabiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArabiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Arabia gil");
+         principal.obtenerPaisSeleccionado("Arabia gil");
     }//GEN-LAST:event_lblArabiaMouseClicked
 
     private void lblIsraelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIsraelMouseClicked
-         JOptionPane.showMessageDialog(this,"Israel gil");
+          principal.obtenerPaisSeleccionado("Israel gil");
     }//GEN-LAST:event_lblIsraelMouseClicked
 
     private void lblIrakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrakMouseClicked
-         JOptionPane.showMessageDialog(this,"Irak gil");
+          principal.obtenerPaisSeleccionado("Irak gil");
     }//GEN-LAST:event_lblIrakMouseClicked
 
     private void lblIranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIranMouseClicked
-       JOptionPane.showMessageDialog(this,"Iran gil");
+        principal.obtenerPaisSeleccionado("Iran gil");
     }//GEN-LAST:event_lblIranMouseClicked
 
     private void lblRusiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRusiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Rusia gil");
+         principal.obtenerPaisSeleccionado("Rusia gil");
     }//GEN-LAST:event_lblRusiaMouseClicked
 
     private void lblChecheniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChecheniaMouseClicked
-       JOptionPane.showMessageDialog(this,"Chechenia gil");
+        principal.obtenerPaisSeleccionado("Chechenia gil");
     }//GEN-LAST:event_lblChecheniaMouseClicked
 
     private void lblSiberiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSiberiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Siberia gil");
+         principal.obtenerPaisSeleccionado("Siberia gil");
     }//GEN-LAST:event_lblSiberiaMouseClicked
 
     private void lblUcraniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUcraniaMouseClicked
-        JOptionPane.showMessageDialog(this,"Ucrania gil");
+         principal.obtenerPaisSeleccionado("Ucrania gil");
     }//GEN-LAST:event_lblUcraniaMouseClicked
 
     private void lblPoloniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPoloniaMouseClicked
-        JOptionPane.showMessageDialog(this,"Polonia gil");
+         principal.obtenerPaisSeleccionado("Polonia gil");
     }//GEN-LAST:event_lblPoloniaMouseClicked
 
     private void lblSerbiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSerbiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Serbia gil");
+         principal.obtenerPaisSeleccionado("Serbia gil");
     }//GEN-LAST:event_lblSerbiaMouseClicked
 
     private void lblFinlandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFinlandiaMouseClicked
-        JOptionPane.showMessageDialog(this,"Finlandia gil");
+         principal.obtenerPaisSeleccionado("Finlandia gil");
     }//GEN-LAST:event_lblFinlandiaMouseClicked
 
     private void lblNoruegaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoruegaMouseClicked
-        JOptionPane.showMessageDialog(this,"Noruega gil");
+         principal.obtenerPaisSeleccionado("Noruega gil");
     }//GEN-LAST:event_lblNoruegaMouseClicked
 
     private void lblGranBretañaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGranBretañaMouseClicked
-        JOptionPane.showMessageDialog(this,"Gran Bretaña gil");
+         principal.obtenerPaisSeleccionado("Gran Bretaña gil");
     }//GEN-LAST:event_lblGranBretañaMouseClicked
 
     private void lblIrlandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIrlandaMouseClicked
-        JOptionPane.showMessageDialog(this,"Irlanda gil");
+         principal.obtenerPaisSeleccionado("Irlanda gil");
     }//GEN-LAST:event_lblIrlandaMouseClicked
 
     private void lblAlemaniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlemaniaMouseClicked
-        JOptionPane.showMessageDialog(this,"Alemania gil");
+         principal.obtenerPaisSeleccionado("Alemania gil");
     }//GEN-LAST:event_lblAlemaniaMouseClicked
 
     private void lblFranciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFranciaMouseClicked
-        JOptionPane.showMessageDialog(this,"Francia gil");
+         principal.obtenerPaisSeleccionado("Francia gil");
     }//GEN-LAST:event_lblFranciaMouseClicked
 
     private void lblEspañaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEspañaMouseClicked
-        JOptionPane.showMessageDialog(this,"España gil");
+         principal.obtenerPaisSeleccionado("España gil");
     }//GEN-LAST:event_lblEspañaMouseClicked
 
     private void lblPortugalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPortugalMouseClicked
-        JOptionPane.showMessageDialog(this,"Portugal gil");
+         principal.obtenerPaisSeleccionado("Portugal gil");
     }//GEN-LAST:event_lblPortugalMouseClicked
 
     private void lblItaliaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblItaliaMouseClicked
-        JOptionPane.showMessageDialog(this,"Italia gil");
+         principal.obtenerPaisSeleccionado("Italia gil");
     }//GEN-LAST:event_lblItaliaMouseClicked
 
     private void lblCroaciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCroaciaMouseClicked
-        JOptionPane.showMessageDialog(this,"Croacia gil");
+         principal.obtenerPaisSeleccionado("Croacia gil");
     }//GEN-LAST:event_lblCroaciaMouseClicked
 
     private void lblAlbaniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlbaniaMouseClicked
-        JOptionPane.showMessageDialog(this,"Albania gil");
+         principal.obtenerPaisSeleccionado("Albania gil");
     }//GEN-LAST:event_lblAlbaniaMouseClicked
 
     private void lblBielorrusiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBielorrusiaMouseClicked
-        JOptionPane.showMessageDialog(this,"BieloRrusia gil");
+         principal.obtenerPaisSeleccionado("BieloRrusia gil");
     }//GEN-LAST:event_lblBielorrusiaMouseClicked
 
     private void lblAlaskaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlaskaMouseEntered
