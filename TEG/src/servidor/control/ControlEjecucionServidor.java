@@ -101,8 +101,8 @@ public class ControlEjecucionServidor {
         }
         
         servidor.parar();
-        gestorClientes.parar();
         despachadorAcciones.parar();
+        gestorClientes.parar();
         
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor detenido."));
