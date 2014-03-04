@@ -4,7 +4,7 @@
  */
 package servidor.control;
 
-import com.cliente.InicioConexion;
+import com.servidor.AcionableIniciarConexion;
 import servidor.ConexionCliente;
 import servidor.ServerManager;
 
@@ -38,7 +38,7 @@ public class ControlInicioConexion {
      *
      */
     public void ejecutar() {
-        InicioConexion inicioConexion = new InicioConexion(idCliente, idPartida);
+        AcionableIniciarConexion inicioConexion = new AcionableIniciarConexion(idCliente, idPartida);
         conexionCliente.enviar(inicioConexion);
     }
 }

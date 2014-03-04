@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cliente;
+package com.servidor;
 
 import cliente.ClienteManager;
 import cliente.ConexionServidor;
@@ -17,12 +17,12 @@ import logger.LogItem;
  * 
  * @author heril
  */
-public class InicioConexion implements Accionable {
+public class AcionableIniciarConexion implements Accionable {
 
     private int idConexionCliente;
     private int idPartida;
 
-    public InicioConexion(int idConexionCliente, int idPartida) {
+    public AcionableIniciarConexion(int idConexionCliente, int idPartida) {
         this.idConexionCliente = idConexionCliente;
         this.idPartida = idPartida;
     }

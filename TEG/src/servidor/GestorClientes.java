@@ -5,7 +5,7 @@
 package servidor;
 
 import com.Accionable;
-import com.cliente.CerrarConexion;
+import com.cliente.AccionableCerrarConexion;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -210,8 +210,8 @@ public class GestorClientes implements Runnable {
      * clientes activas.
      */
     public void parar() {
-        enviarAccionable(new CerrarConexion());
         banderaEjecucion = false;
+        enviarAccionable(new AccionableCerrarConexion());
         conexionesCliente.clear();
     }
     
