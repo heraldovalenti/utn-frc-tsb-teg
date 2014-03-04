@@ -553,6 +553,17 @@ public class GestorPaises {
         limitrofes[VIETNAM][FILIPINAS] = 1;
     }
 
+    public List<Pais> obtenerLimitrofes(Pais pais) {
+        List<Pais> listaLimitrofes = new ArrayList<>();
+        for (int i = 0; i < limitrofes[0].length; i++) {
+            if (limitrofes[pais.getNroPais()][i] == 1) {
+                Pais limitrofe = getPais(i);
+                listaLimitrofes.add(limitrofe);
+            }
+        }
+        return listaLimitrofes;
+    }
+
     private static void completarDistancias() {
         int provisorio[];
         for (int pasadas = 0; pasadas < 10; pasadas++) {
