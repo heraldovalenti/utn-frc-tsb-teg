@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import servidor.ActualizadorPaises;
+import com.servidor.ActualizadorPaises;
 
 /**
  *
