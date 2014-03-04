@@ -5,12 +5,12 @@
  */
 package juego.mecanicas.turno;
 
-import cliente.AccionableAtaque;
-import cliente.AccionableCanjePorEjercitos;
-import cliente.AccionableCanjePorMisil;
-import cliente.AccionableCanjeTarjetas;
-import cliente.AccionableLanzarMisil;
-import cliente.AccionableMovimiento;
+import com.cliente.AccionableAtaque;
+import com.cliente.AccionableCanjePorEjercitos;
+import com.cliente.AccionableCanjePorMisil;
+import com.cliente.AccionableCanjeTarjetas;
+import com.cliente.AccionableLanzarMisil;
+import com.cliente.AccionableMovimiento;
 import cliente.AccionableRefuerzo;
 import java.util.List;
 import juego.estructura.Canjeable;

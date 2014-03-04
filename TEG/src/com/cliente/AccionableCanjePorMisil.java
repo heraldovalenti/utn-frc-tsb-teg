@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cliente;
+package com.cliente;
 
 import com.Accionable;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import servidor.ActualizadorPaises;
+import com.servidor.ActualizadorPaises;
+import servidor.ServerManager;
 
 /**
  *
@@ -34,6 +35,7 @@ public class AccionableCanjePorMisil implements Accionable {
         List listaPaises = new ArrayList(1);
         listaPaises.add(paisServidor);
         ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+        ServerManager.getInstance().registrarSalida(actualizador);
     }
 
 }
