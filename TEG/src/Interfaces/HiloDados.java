@@ -15,13 +15,18 @@ public class HiloDados extends Thread{
     private int[] ataque;
     private int[] defensa;
     private Dados dados;
-    public HiloDados(int[] ataque, int[] defensa, Dados dados){
+    private InterfacePrincipal padre;
+  
+    
+    public HiloDados(InterfacePrincipal padre,int[] ataque, int[] defensa, Dados dados){
         this.ataque=ataque;
         this.defensa = defensa;
         this.dados = dados;
+        this.padre = padre;
     }
    public void run()
    {
+      
       int i = 0;
       dados.deshabilitar();
       while(i<20){
@@ -34,7 +39,7 @@ public class HiloDados extends Thread{
           }
       }
       dados.cargarDados(ataque, defensa);
+      padre.actualizarFichas();
       
-      
-   } 
+   }   
 }

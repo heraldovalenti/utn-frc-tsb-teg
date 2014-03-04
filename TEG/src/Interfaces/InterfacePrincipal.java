@@ -75,7 +75,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         String quienDice = "Emanuel: ";
         cargarChat(quienDice+envioChat);
     }
-    public void actualizarFichas(Set<Jugador> jugadores){
+    private void actualizarFicha(Set<Jugador> jugadores){
         ArrayList<Pais> paises = new ArrayList<Pais>();
         for(Jugador jugador: jugadores){
             for(Pais pais : jugador.getConjuntoPaises()){
@@ -83,6 +83,33 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             }
         }
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
+    }
+    public void actualizarFichas(){
+        ArrayList<Pais> paises= new ArrayList<Pais>();
+        Jugador jug = new Jugador();
+        jug.setColor(Color.black);        
+        Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
+        pais.setJugador(jug);
+        pais.setCantidadEjercitos(1);
+        pais.setCantidadMisiles(9);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
+        pais.setJugador(jug);
+        pais.setCantidadEjercitos(2);
+         pais.setCantidadMisiles(5);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
+        pais.setCantidadEjercitos(3);
+        pais.setJugador(jug);
+        pais.setCantidadMisiles(4);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        Set <Jugador> jugadores = new HashSet<Jugador>();
+        jugadores.add(jug);
+        actualizarFicha(jugadores); 
+        //actualizarFicha(FachadaInterface.getJugadores());
     }
     public void cargarInformacionPais(String pais){
         if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
@@ -93,14 +120,15 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         desktop.add(tarjeta);
          ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
     }
-    public void cargarDados(int[]ataque, int [] defensa){
+    public void cargarDados(String nombreAtacante ,String nombreDefensor , int[]ataque, int [] defensa){
         try {     
             dados.setIcon(false);                      
         } catch (PropertyVetoException ex) {            
             ex.printStackTrace();
             return;
         } 
-        HiloDados hilo = new HiloDados(ataque, defensa,dados);
+        dados.actualizarNombres(nombreAtacante, nombreDefensor);
+        HiloDados hilo = new HiloDados(this,ataque, defensa,dados);
         hilo.start();       
         
     }
@@ -453,31 +481,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuObjetivosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList<Pais> paises= new ArrayList<Pais>();
-        Jugador jug = new Jugador();
-        jug.setColor(Color.black);        
-        Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
-        pais.setJugador(jug);
-        pais.setCantidadEjercitos(1);
-        pais.setCantidadMisiles(9);
-        paises.add(pais);
-        jug.añadirPais(pais);
-        pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
-        pais.setJugador(jug);
-        pais.setCantidadEjercitos(2);
-         pais.setCantidadMisiles(5);
-        paises.add(pais);
-        jug.añadirPais(pais);
-        pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
-        pais.setCantidadEjercitos(3);
-        pais.setJugador(jug);
-        pais.setCantidadMisiles(4);
-        paises.add(pais);
-        jug.añadirPais(pais);
-        Set <Jugador> jugadores = new HashSet<Jugador>();
-        jugadores.add(jug);
-        actualizarFichas(jugadores);
-        cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
+        
+        cargarDados("Emanuel","Graciela",simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
         Tarjeta tarj = new Tarjeta("Asia");
         tarj.setVisible(true);
         desktop.add(tarj);
@@ -486,7 +491,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         desktop.add(tarj2);
         ubicarGuis(tarj,mapa.getWidth()/2,mapa.getHeight()/2);
         ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
-        refuerzo(null);
+       // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void menu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu4ActionPerformed
@@ -609,7 +614,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             desktop.add(refuerzo);
             ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
         }
-        actualizarFichas(FachadaInterface.getJugadores());
+        actualizarFichas();
        
  
     }

@@ -28,6 +28,20 @@ public class Dados extends javax.swing.JInternalFrame {
         this.setMaximumSize(new Dimension(195,300));  
         deshabilitar();     
     }
+    public void actualizarNombres(String nombreAtacante,String nombreDefensor){
+        if(nombreAtacante.compareTo("") == 0){
+            lblAtaque.setText("Ataque");
+        }
+        else{
+            lblAtaque.setText(nombreAtacante);
+        }
+        if(nombreDefensor.compareTo("") == 0){
+            lblDefensa.setText("Defensa");
+        }
+        else{
+            lblDefensa.setText(nombreDefensor);
+        }
+    }
     public void deshabilitar(){
         dadoDefensa1.setVisible(false);
         dadoDefensa2.setVisible(false);
@@ -39,7 +53,7 @@ public class Dados extends javax.swing.JInternalFrame {
         dadoAtaque4.setVisible(false); 
     }
     public void cargarDados(int [] ataque, int[] defensa){
-           
+      
         if(ataque == null || defensa == null)return;
         QuickSort.quicksort(ataque, 0, ataque.length-1);
         QuickSort.quicksort(defensa, 0, defensa.length-1);
@@ -116,8 +130,8 @@ public class Dados extends javax.swing.JInternalFrame {
         dadoDefensa4 = new javax.swing.JLabel();
         dadoDefensa2 = new javax.swing.JLabel();
         dadoDefensa1 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblAtaque = new javax.swing.JLabel();
+        lblDefensa = new javax.swing.JLabel();
 
         setIconifiable(true);
         setTitle("DADOS");
@@ -157,15 +171,15 @@ public class Dados extends javax.swing.JInternalFrame {
         dadoDefensa1.setName("dadoDefensa1"); // NOI18N
         jPanel1.add(dadoDefensa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 52, -1, -1));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Ataque");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 84, 30));
+        lblAtaque.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblAtaque.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAtaque.setText("Ataque");
+        jPanel1.add(lblAtaque, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 84, 30));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Defensa");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 11, 86, 30));
+        lblDefensa.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblDefensa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDefensa.setText("Defensa");
+        jPanel1.add(lblDefensa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 11, 86, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,7 +191,7 @@ public class Dados extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
         );
 
         pack();
@@ -191,8 +205,8 @@ public class Dados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel dadoDefensa2;
     private javax.swing.JLabel dadoDefensa3;
     private javax.swing.JLabel dadoDefensa4;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblAtaque;
+    private javax.swing.JLabel lblDefensa;
     // End of variables declaration//GEN-END:variables
 }

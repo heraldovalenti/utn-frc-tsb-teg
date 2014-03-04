@@ -30,7 +30,7 @@ public class FachadaInterfacePrincipal {
     }
 
     public static void actualizarMapa() {
-        ClienteManager.getInstance().getInterfacePrincipal().actualizarFichas(GestorJugadores.getJugadores());
+        ClienteManager.getInstance().getInterfacePrincipal().actualizarFichas();
     }
 
     public static void mostrarResultadoAtaque(String nombreAtacante, String nombreDefensor, int[] dadosAtacante, int dadosDefensor[]) {
