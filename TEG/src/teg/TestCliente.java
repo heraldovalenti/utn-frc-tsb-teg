@@ -5,18 +5,18 @@
 package teg;
 
 import cliente.ClienteManager;
+import cliente.control.ControlConexion;
 
 /**
  *
  * @author heril
  */
-public class TEG {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+public class TestCliente {
+    
+    public static void main(String args[]) {
         ThemeLoader.loadTheme();
         ClienteManager.getInstance().init();
+        ControlConexion.conectarServidor("localhost");
     }
+    
 }

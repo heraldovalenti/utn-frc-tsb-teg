@@ -107,6 +107,12 @@ public class ControlEjecucionServidor {
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor detenido."));
         administracionPartida.actualizarEstadoServidor();
+        
+        ControladorAlias.purgar();
+        ControlEstadoJugadores.purgar();
+        ControlColores.purgar();
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Controladores de inicio purgados."));
     }
     
     /**
