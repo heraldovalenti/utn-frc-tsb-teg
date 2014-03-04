@@ -10,6 +10,7 @@ import juego.Juego;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import juego.GeneradorTiradas;
+import juego.estructura.GestorJugadores;
 
 
 /**
@@ -21,7 +22,7 @@ public class Crisis implements Situacion {
     private List<Jugador> jugadoresEnCrisis;
 
     public Crisis() {
-        List<Jugador> jugadoresJuego = new ArrayList(Juego.getInstancia().getGestorJugadores().getJugadores());
+        List<Jugador> jugadoresJuego = new ArrayList(GestorJugadores.getJugadores());
         int[] tiradas = new int[jugadoresJuego.size()];
         int tiradaMasBaja = 10;
         for (int i = 0; i < tiradas.length; i++) {

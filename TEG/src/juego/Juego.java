@@ -29,7 +29,6 @@ public class Juego {
     private List<TarjetaPais> tarjetasPais;
     private Estado estado;
     private Situacion situacion;
-    private GestorJugadores gestorJugadores;
 
     public Situacion getSituacion() {
         return situacion;
@@ -47,7 +46,4 @@ public class Juego {
         this.idJuego = idJuego;
     }
     
-    public GestorJugadores getGestorJugadores() {
-        return this.gestorJugadores;
-    }
 }

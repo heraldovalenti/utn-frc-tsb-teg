@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import juego.Juego;
+import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 
 /**
@@ -35,7 +36,7 @@ public class SecuenciaTurnos {
         //  secuencia = new ArrayList<>();
         actual = 0;
         contadorRondas = 1;
-        secuencia = new LinkedList<>(Juego.getInstancia().getGestorJugadores().getJugadores());
+        secuencia = new LinkedList<>(GestorJugadores.getJugadores());
         Collections.shuffle(secuencia);
 //        while (!listaJugadores.isEmpty()) {
 //            double rnd = Math.random();
@@ -121,7 +122,7 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(4, "Bren", Color.GREEN));
         jugadores.add(new Jugador(5, "Lulu", Color.WHITE));
         jugadores.add(new Jugador(6, "Gato", Color.RED));
-        j.getGestorJugadores().setJugadores(jugadores);
+        GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
 
         System.out.println("secuencia: ");

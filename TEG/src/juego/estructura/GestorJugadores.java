@@ -17,11 +17,11 @@ public class GestorJugadores {
 
     private static Set<Jugador> conjuntoJugadores = new HashSet<>(8);
     
-    public Set<Jugador> getJugadores() {
+    public static Set<Jugador> getJugadores() {
         return conjuntoJugadores;
     }
     
-    public void setJugadores(Set<Jugador> jugadores) {
+    public static void setJugadores(Set<Jugador> jugadores) {
         conjuntoJugadores = jugadores;
     }
 

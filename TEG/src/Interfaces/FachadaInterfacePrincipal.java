@@ -6,6 +6,7 @@ package Interfaces;
 
 import cliente.ClienteManager;
 import java.util.List;
+import juego.estructura.GestorJugadores;
 import juego.estructura.GestorObjetivosSecretos;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.TarjetaPais;
@@ -26,7 +27,7 @@ public class FachadaInterfacePrincipal {
         ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
     }
     public static void actualizarMapa(){
-        ClienteManager.getInstance().getInterfacePrincipal().actualizarFichas(ClienteManager.getInstance().getJuego().getGestorJugadores().getJugadores());
+        ClienteManager.getInstance().getInterfacePrincipal().actualizarFichas(GestorJugadores.getJugadores());
     }
 }
     

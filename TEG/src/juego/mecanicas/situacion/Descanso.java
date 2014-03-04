@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import juego.Juego;
+import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 
@@ -27,7 +28,7 @@ public class Descanso implements Situacion {
 
     public Descanso() {
         if (descansos == null) {
-            List<Jugador> jugadores = new ArrayList(Juego.getInstancia().getGestorJugadores().getJugadores());
+            List<Jugador> jugadores = new ArrayList(GestorJugadores.getJugadores());
             descansos = new int[jugadores.size()];
             colores = new Color[jugadores.size()];
             maxDescansos = 0;
@@ -109,7 +110,7 @@ public class Descanso implements Situacion {
         jugadores.add(j1);
         jugadores.add(j2);
         jugadores.add(j3);
-        j.getGestorJugadores().setJugadores(jugadores);
+        GestorJugadores.setJugadores(jugadores);
         Color colorPenalizado = null;
         System.out.println("j1="+j1.getColor()+";j2="+j2.getColor()+";j3="+j3.getColor());
 

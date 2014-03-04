@@ -46,24 +46,26 @@ public class ClienteManager {
     private Juego juego;
     private InterfacePrincipal interfacePrincipal;
     private Jugador jugador;
-    
+
     /**
      * Metodo para iniciar la aplicacion.
      */
     public void init() {
         new ControlInicio().iniciar();
     }
-    
+
     /**
      * Registra una salida en la cola de acciones.
+     *
      * @param salida la salida a registrarse en la cola.
      */
     public void registrarSalida(Accionable salida) {
         colaAcciones.pushSalida(salida);
     }
-    
+
     /**
      * Registra una entrada en la cola de acciones.
+     *
      * @param entrada la entrada a registrarse en la cola.
      */
     public void registrarEntrada(Accionable entrada) {
@@ -78,7 +80,7 @@ public class ClienteManager {
     public void recibirChat(String chat) {
         salaEspera.mostrarChat(chat);
     }
-    
+
     public void establecerIdentificadorConexion(int id) {
         conexionServidor.setConexionId(id);
     }
@@ -87,7 +89,7 @@ public class ClienteManager {
     public Logger getLogger() {
         return this.logger;
     }
-    
+
     public SalaEspera getSalaEspera() {
         return this.salaEspera;
     }
@@ -103,17 +105,22 @@ public class ClienteManager {
     public Juego getJuego() {
         return juego;
     }
-    
+
     /**
-     * Informa el identificador de la conexion asignado por el servidor.
-     * Este mismo valor es luego utilizado como identificador de los jugadores.
+     * Informa el identificador de la conexion asignado por el servidor. Este
+     * mismo valor es luego utilizado como identificador de los jugadores.
+     *
      * @return el identificador de la conexion.
      */
     public int getIdCliente() {
         return this.conexionServidor.getConexionId();
     }
-    
+
     public InterfacePrincipal getInterfacePrincipal() {
         return this.interfacePrincipal;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
     }
 }
