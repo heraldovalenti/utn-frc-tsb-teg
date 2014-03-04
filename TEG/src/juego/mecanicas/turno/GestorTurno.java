@@ -60,7 +60,7 @@ public class GestorTurno {
         permisos[ETAPA_REAGRUPAR][ACCION_REAGRUPAR] = true;
     }
 
-    public void atacar(Pais origen, Pais destino) {
+    public static void atacar(Pais origen, Pais destino) {
         if (accionPermitida(ACCION_ATACAR)) {
             ControlAtaque control = new ControlAtaque(origen, destino);
             if (control.ataqueValido()) {
@@ -69,13 +69,13 @@ public class GestorTurno {
         }
     }
 
-    public void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
+    public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
             AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
         }
     }
 
-    public void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
+    public static void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
                 AccionableCanjePorMisil canje = new AccionableCanjePorMisil(pais, cantidadMisiles);
@@ -83,7 +83,7 @@ public class GestorTurno {
         }
     }
 
-    public void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
+    public static void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_MISIL_POR_EJERCITO)) {
             if (pais.getCantidadMisiles() >= cantidadMisiles) {
                 AccionableCanjePorEjercitos canje = new AccionableCanjePorEjercitos(pais, cantidadMisiles);
@@ -92,7 +92,7 @@ public class GestorTurno {
 
     }
 
-    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
+    public static void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_REAGRUPAR)) {
             ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
             if (control.movimientoValido()) {
@@ -101,7 +101,7 @@ public class GestorTurno {
         }
     }
 
-    public void lanzarMisil(Pais origen, Pais destino) {
+    public static void lanzarMisil(Pais origen, Pais destino) {
         if (accionPermitida(ACCION_LANZAR_MISIL)) {
             if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3) {
                 AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
@@ -109,7 +109,7 @@ public class GestorTurno {
         }
     }
 
-    public void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
+    public static void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
         if (accionPermitida(ACCION_CANJEAR_TARJETA)) {
             if (GestorTarjetas.canjeValido(listaTarjetas)) {
                 AccionableCanjeTarjetas canje = new AccionableCanjeTarjetas(jugador, listaTarjetas);
@@ -117,7 +117,7 @@ public class GestorTurno {
         }
     }
 
-    public boolean accionPermitida(int accion) {
+    public static boolean accionPermitida(int accion) {
         return permisos[etapaActual][accion];
     }
 
