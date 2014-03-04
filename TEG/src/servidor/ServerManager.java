@@ -6,7 +6,6 @@ package servidor;
 
 import com.Accionable;
 import com.cliente.RecibirChat;
-import com.servidor.RecibirNuevoClienteEnServidor;
 import logger.Logger;
 
 /**
@@ -38,10 +37,6 @@ public class ServerManager {
     private Servidor servidor;
     private DespachadorAcciones despachadorAcciones;
     private Logger logger;
-
-    public void informarNuevoCliente(int identificadorCliente) {
-        despachadorAcciones.ingresarEntrada(new RecibirNuevoClienteEnServidor(identificadorCliente, gestorClientes));
-    }
 
     public void procesarChat(String chat) {
         RecibirChat aEnviarseAlCliente = new RecibirChat(chat);

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servidor;
+package com.cliente;
 
 import cliente.control.ControlColor;
 import com.Accionable;
@@ -14,13 +14,13 @@ import servidor.control.ControlColores;
  *
  * @author heril
  */
-public class SolicitudColor implements Accionable {
+public class AccionableSolicitudColor implements Accionable {
     
     private int idJugador;
     private Color colorSolicitado;
     private boolean solicitudProcesada;
 
-    public SolicitudColor(int idJugador, Color colorSolicitado) {
+    public AccionableSolicitudColor(int idJugador, Color colorSolicitado) {
         this.idJugador = idJugador;
         this.colorSolicitado = colorSolicitado;
         this.solicitudProcesada = false;

@@ -5,7 +5,7 @@
 package cliente.control;
 
 import cliente.ClienteManager;
-import com.servidor.SolicitudAlias;
+import com.cliente.AccionableSolicitudAlias;
 import logger.LogItem;
 
 /**
@@ -75,7 +75,7 @@ public class ControlAlias {
             return;
         }
         int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
-        SolicitudAlias solicitarAlias = new SolicitudAlias(idConexion, aliasSolicitado);
+        AccionableSolicitudAlias solicitarAlias = new AccionableSolicitudAlias(idConexion, aliasSolicitado);
         ClienteManager.getInstance().registrarSalida(solicitarAlias);
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Solicitando alias..."));
     }

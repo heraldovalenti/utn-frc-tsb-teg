@@ -14,7 +14,7 @@ import servidor.ServerManager;
  *
  * @author heril
  */
-public class CerrarConexion implements Accionable {
+public class AccionableCerrarConexion implements Accionable {
 
     private String razon;
     private boolean solicitudProcesada;
@@ -23,13 +23,13 @@ public class CerrarConexion implements Accionable {
     public static String DESCONEXION_SERVIDOR = "Has sido desconectado por el servidor.";
     public static String DESCONEXION_MANUAL = "Has cerrado la conexión con el servidor.";
 
-    public CerrarConexion() {
+    public AccionableCerrarConexion() {
         this.razon = SERVIDOR_INTERRUMPIDO;
         this.idConexion = -1;
         this.solicitudProcesada = true;
     }
     
-    public CerrarConexion(int idConexion, String razon) {
+    public AccionableCerrarConexion(int idConexion, String razon) {
         this.idConexion = idConexion;
         this.razon = razon;
     }

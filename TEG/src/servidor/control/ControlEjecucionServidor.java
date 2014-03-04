@@ -4,7 +4,7 @@
  */
 package servidor.control;
 
-import com.cliente.CerrarConexion;
+import com.cliente.AccionableCerrarConexion;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import logger.LogItem;

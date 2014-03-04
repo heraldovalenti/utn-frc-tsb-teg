@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author heril
  */
-public class ColoresDisponibles implements Accionable {
+public class AccionableColoresDisponibles implements Accionable {
 
     private Set<Color> coloresDisponibles;
 
@@ -26,7 +26,7 @@ public class ColoresDisponibles implements Accionable {
      *
      * @param coloresDisponibles los colores disponibles para seleccionar.
      */
-    public ColoresDisponibles(Set<Color> coloresDisponibles) {
+    public AccionableColoresDisponibles(Set<Color> coloresDisponibles) {
         this.coloresDisponibles = coloresDisponibles;
     }
 

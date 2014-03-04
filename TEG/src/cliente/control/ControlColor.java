@@ -5,7 +5,7 @@
 package cliente.control;
 
 import cliente.ClienteManager;
-import com.servidor.SolicitudColor;
+import com.cliente.AccionableSolicitudColor;
 import java.awt.Color;
 import java.util.Set;
 import logger.LogItem;
@@ -28,7 +28,7 @@ public class ControlColor {
      * Solicita un color automaticamente.
      */
     public void solicitarColor() {
-        SolicitudColor solicitud = new SolicitudColor(ClienteManager.getInstance().getIdCliente(), null);
+        AccionableSolicitudColor solicitud = new AccionableSolicitudColor(ClienteManager.getInstance().getIdCliente(), null);
         ClienteManager.getInstance().registrarSalida(solicitud);
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Solicitando color..."));
     }
@@ -39,7 +39,7 @@ public class ControlColor {
      * @param color el color solicitado.
      */
     public void solicitarColor(Color color) {
-        SolicitudColor solicitud = new SolicitudColor(ClienteManager.getInstance().getIdCliente(), color);
+        AccionableSolicitudColor solicitud = new AccionableSolicitudColor(ClienteManager.getInstance().getIdCliente(), color);
         ClienteManager.getInstance().registrarSalida(solicitud);
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Solicitando color..."));
     }
