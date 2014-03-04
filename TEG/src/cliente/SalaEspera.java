@@ -4,6 +4,7 @@
  */
 package cliente;
 
+import cliente.control.ControlAlias;
 import cliente.control.ControlColor;
 import cliente.control.ControlConexion;
 import cliente.control.ControlJuego;
@@ -11,7 +12,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
 import servidor.control.ControlEjecucionServidor;
@@ -34,14 +34,6 @@ public class SalaEspera extends javax.swing.JFrame {
         addListenerToAdministracionSeleccionColorMenu();
         addListenerToChatPersonal();
         setCaretPolicyToChatArea();
-    }
-
-    /**
-     * Carga el alias en el label correspondiente.
-     */
-    public void cargarAlias() {
-        String aliasActual = ClienteManager.getInstance().getControlAlias().getAlias();
-        lblAlias.setText("Alias: " + aliasActual);
     }
 
     /**
@@ -99,7 +91,7 @@ public class SalaEspera extends javax.swing.JFrame {
         this.menuItemAlias.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                solicitarAlias();
+                ingresarAlias();
             }
         });
     }
@@ -134,6 +126,11 @@ public class SalaEspera extends javax.swing.JFrame {
     private void abrirVentanaAdministracionPartida() {
         ControlEjecucionServidor.mostrarVentanaAdministracionPartida();
     }
+    
+    public void informarCierreConexion(String razon) {
+        JOptionPane.showMessageDialog(this, "Se ha cerrado la conexión con el servidor.\n"
+                + "Motivo: " + razon, "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     private void finalizar() {
         int res = JOptionPane.showConfirmDialog(this, "Se terminará cualquier conexión existente.\n"
@@ -144,13 +141,6 @@ public class SalaEspera extends javax.swing.JFrame {
             System.exit(0);
         }
         //se deberia notificar al servidor de la desconexion.
-    }
-
-    /**
-     * Solicita al jugador el ingreso de un alias.
-     */
-    private void solicitarAlias() {
-        ClienteManager.getInstance().getControlAlias().reingresarAlias();
     }
 
     public void mostrarChat(String chat) {
@@ -180,12 +170,18 @@ public class SalaEspera extends javax.swing.JFrame {
 
     /**
      * Da la orden al control de conexión de finalizar la conexión con el
-     * servidor.
+     * servidor, previa confirmación del jugador.
      */
     private void salirSala() {
-        if (ControlConexion.conectado()) {
-            ControlConexion.desconectarServidor();
+        if (!ControlConexion.conectado()) {
+            return;
         }
+        int res = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea abandonar la sala del juego?", 
+                "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (res != JOptionPane.YES_OPTION) {
+            return;
+        }
+        ControlConexion.solicitarCierreConexion();
     }
 
     /**
@@ -227,6 +223,10 @@ public class SalaEspera extends javax.swing.JFrame {
      * Metodo para ingresar la seleccion de color del jugador.
      */
     private void seleccionarColor() {
+        //Si no se esta conectado, ignorar la orden.
+        if (!ControlConexion.conectado()) {
+            return;
+        }
         ControlColor cc = new ControlColor();
         Object[] coloresDisponibles = cc.getColoresDisponibles().toArray();
         Object[] options = cc.getColoresDisponibles().toArray();
@@ -246,6 +246,37 @@ public class SalaEspera extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay colores disponibles para seleccionar.",
                     "Información", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    /**
+     * Carga el alias en el label correspondiente.
+     */
+    public void actualizarAlias() {
+        String aliasActual = new ControlAlias().getAlias();
+        lblAlias.setText("Alias: " + aliasActual);
+    }
+    
+    private void ingresarAlias() {
+        //Si no se esta conectado, ignorar la orden.
+        if (!ControlConexion.conectado()) {
+            return;
+        }
+        ControlAlias ca = new ControlAlias();
+        String aliasIngresado = JOptionPane.showInputDialog("Ingrese un alias");
+        if (aliasIngresado == null) {
+            return;
+        }
+        if (ca.aliasValido(aliasIngresado)) {
+            ca.solicitarAlias(aliasIngresado);
+        } else {
+            JOptionPane.showMessageDialog(this, "El alias ingresado es invalido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public void informarSolicitudAliasRechazada() {
+        JOptionPane.showMessageDialog(this, "El alias solicitado ya se encuentra tomado por otro jugador."
+                + "\nSe asignará uno automaticamente.",
+                "Información", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -283,6 +314,7 @@ public class SalaEspera extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("TEG - Sala de espera");
+        setResizable(false);
 
         panelConexion.setBorder(javax.swing.BorderFactory.createTitledBorder("Conexión a partida"));
 
@@ -419,7 +451,7 @@ public class SalaEspera extends javax.swing.JFrame {
 
         menuItemOpciones.setText("Opciones");
 
-        menuItemAlias.setText("Elegir alias");
+        menuItemAlias.setText("Cambiar alias");
         menuItemOpciones.add(menuItemAlias);
 
         menuItemSeleccionColor.setText("Seleccionar color");

@@ -4,9 +4,12 @@
  */
 package servidor.control;
 
+import com.cliente.CerrarConexion;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import logger.LogItem;
 import servidor.AdministracionPartida;
+import servidor.ConexionCliente;
 import servidor.DespachadorAcciones;
 import servidor.GestorClientes;
 import servidor.ServerManager;
@@ -55,13 +58,13 @@ public class ControlEjecucionServidor {
         }
         
         
-        Thread t2 = new Thread(gestorClientes);
-        gestorClientes.setHilo(t2);
-        Thread t3 = new Thread(despachadorAcciones);
-        despachadorAcciones.setHilo(t3);
+        Thread t1 = new Thread(gestorClientes,"Hilo - GestorClientes");
+        gestorClientes.setHilo(t1);
+        Thread t2 = new Thread(despachadorAcciones, "Hilo - DespachadorAcciones(Server)");
+        despachadorAcciones.setHilo(t2);
         new Thread(servidor).start();
+        t1.start();
         t2.start();
-        t3.start();
         
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Servidor iniciado."));

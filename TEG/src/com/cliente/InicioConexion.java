@@ -8,6 +8,7 @@ import cliente.ClienteManager;
 import cliente.ConexionServidor;
 import cliente.SalaEspera;
 import cliente.control.ControlAlias;
+import cliente.control.ControlColor;
 import com.Accionable;
 import juego.Juego;
 import logger.LogItem;
@@ -35,12 +36,12 @@ public class InicioConexion implements Accionable {
         SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
         ConexionServidor conexionServidor = ClienteManager.getInstance().getConexionServidor();
         Juego juego = ClienteManager.getInstance().getJuego();
-        ControlAlias controlAlias = ClienteManager.getInstance().getControlAlias();
         
         conexionServidor.setConexionId(idConexionCliente);
         juego.setIdJuego(idPartida);
         salaEspera.actualizarEstadoConexion();
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión establecida con éxito."));
-        controlAlias.informarAliasAServidor();
+        new ControlAlias().solicitarAlias(null);
+        new ControlColor().solicitarColor();
     }
 }

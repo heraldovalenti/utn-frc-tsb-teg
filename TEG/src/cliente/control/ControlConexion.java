@@ -7,6 +7,7 @@ package cliente.control;
 import cliente.ClienteManager;
 import cliente.ConexionServidor;
 import cliente.SalaEspera;
+import com.cliente.CerrarConexion;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import logger.LogItem;
@@ -77,9 +78,9 @@ public class ControlConexion {
         try {
             conexionServidor.conectar(direccionServidor);
             
-            Thread t1 = new Thread(conexionServidor);
+            Thread t1 = new Thread(conexionServidor,"Hilo - ConexionServidor");
             conexionServidor.setHilo(t1);
-            Thread t2 = new Thread(despachadorAcciones);
+            Thread t2 = new Thread(despachadorAcciones,"Hilo - DespachadorAcciones(Cliente)");
             despachadorAcciones.setHilo(t2);
             t1.start();
             t2.start();
@@ -141,11 +142,31 @@ public class ControlConexion {
             conexionServidor.desconectar();
             despachadorAcciones.parar();
             
+            ControlAlias ca = new ControlAlias();
+            ControlColor cc = new ControlColor();
+            cc.invalidar();
+            ca.invalidar();
             salaEspera.actualizarEstadoConexion();
+            salaEspera.actualizarAlias();
+            salaEspera.actualizarAsignacionColor();
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión finalizada."));
         } catch (IOException ex) {
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error finalizando conexión con el servidor.", ex));
             JOptionPane.showMessageDialog(salaEspera, "Error finalizando conexión con el servidor:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public static void solicitarCierreConexion() {
+        CerrarConexion cc = new CerrarConexion(ClienteManager.getInstance().getConexionServidor().getConexionId(),CerrarConexion.DESCONEXION_MANUAL);
+        ClienteManager.getInstance().registrarSalida(cc);
+        ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Cierre de conexión solicitado..."));
+    }
+    
+    public static void cerrarConexion(int idConexion, String razon) {
+        int idConexionServidor = ClienteManager.getInstance().getConexionServidor().getConexionId();
+        if (idConexionServidor == idConexion) {
+            desconectarServidor();
+            ClienteManager.getInstance().getSalaEspera().informarCierreConexion(razon);
         }
     }
 }

@@ -5,9 +5,7 @@
 package cliente.control;
 
 import cliente.ClienteManager;
-import cliente.SalaEspera;
-import com.servidor.SolicitarAlias;
-import javax.swing.JOptionPane;
+import com.servidor.SolicitudAlias;
 import logger.LogItem;
 
 /**
@@ -16,50 +14,21 @@ import logger.LogItem;
  */
 public class ControlAlias {
 
-    private String alias;
-    private boolean solicitudRealizada;
-    private boolean aceptadoPorServidor;
+    private static String alias = null;
 
     public ControlAlias() {
-        aceptadoPorServidor = false;
-        solicitudRealizada = false;
-        alias = null;
-        cargarAlias();
     }
-
-    /**
-     * Carga un alias almacenado localmente.
-     */
-    private void cargarAlias() {
-        //se deberia buscar en algun archivo local si hay un alias ya cargado...
+    
+    public void invalidar() {
+        alias = null;
     }
 
     public String getAlias() {
-        if (!aliasValido()) {
-            return "NO_DISPONIBLE";
+        if (alias == null) {
+            return "No definido";
+        } else {
+            return alias;
         }
-        return alias;
-    }
-
-    public boolean isAceptadoPorServidor() {
-        return aceptadoPorServidor;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public void setAceptadoPorServidor(boolean aceptadoPorServidor) {
-        this.aceptadoPorServidor = aceptadoPorServidor;
-    }
-
-    /**
-     * Verifica que el alias sea valido.
-     *
-     * @return true en caso de que la cadena sea valida, falso en otro caso.
-     */
-    public boolean aliasValido() {
-        return verificarValidez(alias);
     }
 
     /**
@@ -68,99 +37,60 @@ public class ControlAlias {
      * @param cadena la cadena a verificarse.
      * @return false si la cadena es nula o esta vacia, true en otro caso.
      */
-    private boolean verificarValidez(String cadena) {
-        cadena = cadena.replace(" ", "");
-        return cadena != null && !cadena.isEmpty();
+    public boolean aliasValido(String cadena) {
+        cadena = eliminarEspaciosIniciales(cadena);
+        return (cadena != null && !cadena.isEmpty());
+    }
+
+    private String eliminarEspaciosIniciales(String cadena) {
+        //si hay espacios en blanco iniciales:
+        if (cadena != null && cadena.length() > 0 && cadena.startsWith(" ")) {
+            char[] ca_de_na = cadena.toCharArray();
+            int i = 0;
+            while (i < ca_de_na.length) {
+                char cAux = ca_de_na[i];
+                if (cAux == ' ') {
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            StringBuilder sb = new StringBuilder("");
+            for (int j = i; j < ca_de_na.length; j++) {
+                sb.append(ca_de_na[j]);
+            }
+            cadena = sb.toString();
+        }
+        return cadena;
     }
 
     /**
-     * Informa al servidor del alias ingresado por el usuario.
-     */
-    public void informarAliasAServidor() {
-        int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
-        SolicitarAlias solicitarAlias = new SolicitarAlias(idConexion, alias);
-        ClienteManager.getInstance().registrarSalida(solicitarAlias);
-        ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias informado a servidor. Esperando respuesta."));
-        solicitudRealizada = true;
-    }
-
-    /**
-     * Recibe la respuesta del servidor de la solicitud del alias realizada. Si
-     * el alias fue aceptado por el servidor, procede a solicitar un color. Si
-     * el alias no fue aceptado, procede a solicitar un alias nuevo al usuario y
-     * a solicitar el alias al servidor nuevamente.
+     * Solicita al servidor el alias ingresado por el usuario.
      *
-     * @param aceptado true si el alias fue aceptado por el servidor, false en
-     * otro caso.
+     * @param aliasSolicitado el alias ingresado por el usuario.
      */
-    public void respuestaServidor(boolean aceptado) {
-        aceptadoPorServidor = aceptado;
-        if (aceptadoPorServidor) {
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias aceptado por servidor."));
-            new ControlColor().solicitarColor();
-        } else {
-            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias rechazado por servidor. Solicitando un nuevo alias."));
-            solicitarAlias();
-            informarAliasAServidor();
+    public void solicitarAlias(String aliasSolicitado) {
+        aliasSolicitado = eliminarEspaciosIniciales(aliasSolicitado);
+        if (aliasSolicitado != null && aliasSolicitado.equals(alias)) {
+            return;
         }
+        int idConexion = ClienteManager.getInstance().getConexionServidor().getConexionId();
+        SolicitudAlias solicitarAlias = new SolicitudAlias(idConexion, aliasSolicitado);
+        ClienteManager.getInstance().registrarSalida(solicitarAlias);
+        ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Solicitando alias..."));
     }
-
-    /**
-     * Solicita el ingreso de un alias al jugador. El metodo se ejecuta en dos
-     * casos: una, cuando no hay un alias cargado al inicio de la aplicacion; la
-     * otra, cuando el servidor ha rechazado el alias en el intento de conexion,
-     * por lo que debe ingresarse uno distinto.
-     */
-    public void solicitarAlias() {
-        if (solicitudRealizada) {
-            //rama de control si ya se intento realizar una conexion al servidor
-            //y el alias fue rechazado:
-            String oldAlias = alias;
-            do {
-                SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
-                JOptionPane.showMessageDialog(salaEspera, "El alias <" + oldAlias + "> ha sido rechazado por el servidor."
-                        + "Para continuar deberá elegir un nuevo alias distinto.",
-                        "Advertencia", JOptionPane.WARNING_MESSAGE);
-                String inputAlias = JOptionPane.showInputDialog(salaEspera, "Ingrese un nuevo alias");
-                if (verificarValidez(inputAlias) && !inputAlias.equals(oldAlias)) {
-                    alias = inputAlias;
-                }
-                if (!aliasValido()) {
-                    JOptionPane.showMessageDialog(salaEspera, "Debe ingresar un alias para poder continuar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                }
-            } while (!aliasValido());
+    
+    public void asignarAlias(int idJugador, String aliasAsignado, String aliasSolicitado) {
+        int idCliente = ClienteManager.getInstance().getIdCliente();
+        if (idJugador == idCliente) {
+            alias = aliasAsignado;
+            if (aliasSolicitado != null && !aliasAsignado.equals(aliasSolicitado)) {
+                ClienteManager.getInstance().getSalaEspera().informarSolicitudAliasRechazada();
+            }
+            ClienteManager.getInstance().getSalaEspera().actualizarAlias();
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias aceptado: " + alias));
         } else {
-            //rama de control si todavia no se ha realizado un intento de
-            //conexion al servidor.
-            do {
-                SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
-                String inputAlias = JOptionPane.showInputDialog(salaEspera, "Ingrese un alias");
-                if (verificarValidez(inputAlias)) {
-                    alias = inputAlias;
-                }
-                if (!aliasValido()) {
-                    JOptionPane.showMessageDialog(salaEspera, "Debe ingresar un alias para poder continuar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                }
-            } while (!aliasValido());
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Alias rechazado (otra conexion)."));
         }
-        ClienteManager.getInstance().getSalaEspera().cargarAlias();
-    }
-
-    /**
-     * Metodo para reingresar un alias luego de haber ingresado uno
-     * anteriormente.
-     */
-    public void reingresarAlias() {
-        SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
-        String inputAlias = JOptionPane.showInputDialog(salaEspera, "Ingrese un nuevo alias");
-        if (verificarValidez(inputAlias)) {
-            alias = inputAlias;
-        }
-        if (ClienteManager.getInstance().getConexionServidor().conexionEstablecida()) {
-            aceptadoPorServidor = false;
-            solicitudRealizada = false;
-            informarAliasAServidor();
-        }
-        ClienteManager.getInstance().getSalaEspera().cargarAlias();
     }
 }

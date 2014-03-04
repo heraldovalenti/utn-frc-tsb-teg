@@ -4,7 +4,11 @@
  */
 package com.cliente;
 
+import cliente.control.ControlConexion;
 import com.Accionable;
+import servidor.ConexionCliente;
+import servidor.GestorClientes;
+import servidor.ServerManager;
 
 /**
  *
@@ -13,19 +17,40 @@ import com.Accionable;
 public class CerrarConexion implements Accionable {
 
     private String razon;
+    private boolean solicitudProcesada;
+    private int idConexion;
     public static String SERVIDOR_INTERRUMPIDO = "El servidor ha sido detenido.";
     public static String DESCONEXION_SERVIDOR = "Has sido desconectado por el servidor.";
     public static String DESCONEXION_MANUAL = "Has cerrado la conexión con el servidor.";
+
+    public CerrarConexion() {
+        this.razon = SERVIDOR_INTERRUMPIDO;
+        this.idConexion = -1;
+        this.solicitudProcesada = true;
+    }
     
-    public CerrarConexion(String razon) {
+    public CerrarConexion(int idConexion, String razon) {
+        this.idConexion = idConexion;
         this.razon = razon;
     }
 
     @Override
     public void accionar() {
-        throw new UnsupportedOperationException(razon + " - Not supported yet.");
+        if (solicitudProcesada) {
+            procesarRespuesta();
+        } else {
+            procesarSolicitud();
+        }
+    }
+
+    private void procesarSolicitud() {
+        GestorClientes gestorClientes = ServerManager.getInstance().getGestorClientes();
+        ConexionCliente cc = gestorClientes.quitarCliente(idConexion);
+        solicitudProcesada = true;
+        cc.enviar(this);
     }
     
-    
-    
+    private void procesarRespuesta() {
+        ControlConexion.cerrarConexion(idConexion, razon);
+    }
 }

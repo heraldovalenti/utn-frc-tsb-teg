@@ -43,6 +43,24 @@ public class GestorClientes implements Runnable {
     }
     
     /**
+     * Quita una conexion de la coleccion de conexiones a clientes.
+     * @param idCliente el id de la conexion a quitarse.
+     * @return la conexion identificada, null si no se ha encontrado ninguna
+     * conexion.
+     */
+    public ConexionCliente quitarCliente(int idCliente) {
+        ConexionCliente res = null;
+        for(int i = 0; i < conexionesCliente.size(); i++) {
+            ConexionCliente cc = conexionesCliente.get(i);
+            if (cc.getId() == idCliente) {
+                res = conexionesCliente.remove(i);
+                break;
+            }
+        }
+        return res;
+    }
+    
+    /**
      * Genera un identificador unico para los nuevos clientes que se conectan
      * al servidor. Para realizarlo, genera un numero aleatorio y verifica que
      * los clientes ya conectados no contengan el mismo identificador.
@@ -151,20 +169,6 @@ public class GestorClientes implements Runnable {
         int indexOf = conexionesCliente.indexOf(cc);
         conexionesCliente.get(indexOf).enviar(accion);
     }
-    
-    public boolean aliasDisponible(String alias) {
-        for (ConexionCliente cc : conexionesCliente) {
-            if (cc.getAlias() != null && cc.getAlias().equals(alias)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    public void establecerAlias(int id, String alias) {
-        int indexOf = conexionesCliente.indexOf(new ConexionCliente(id));
-        conexionesCliente.get(indexOf).setAlias(alias);
-    }
 
     /**
      * Chequea si hay datos para recibir de los clientes.
@@ -206,7 +210,7 @@ public class GestorClientes implements Runnable {
      * clientes activas.
      */
     public void parar() {
-        enviarAccionable(new CerrarConexion(CerrarConexion.SERVIDOR_INTERRUMPIDO));
+        enviarAccionable(new CerrarConexion());
         banderaEjecucion = false;
         conexionesCliente.clear();
     }
