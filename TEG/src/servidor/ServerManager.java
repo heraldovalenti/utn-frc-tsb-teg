@@ -5,7 +5,7 @@
 package servidor;
 
 import com.Accionable;
-import com.cliente.RecibirChat;
+import com.cliente.AccionableChat;
 import logger.Logger;
 
 /**
@@ -30,6 +30,8 @@ public class ServerManager {
         despachadorAcciones = new DespachadorAcciones(colaAcciones);
         servidor = new Servidor(gestorClientes);
         logger = new Logger();
+        
+        logger.agregarLoggeable(administracionPartida);
     }
     private AdministracionPartida administracionPartida;
     private GestorClientes gestorClientes;
@@ -37,11 +39,6 @@ public class ServerManager {
     private Servidor servidor;
     private DespachadorAcciones despachadorAcciones;
     private Logger logger;
-
-    public void procesarChat(String chat) {
-        RecibirChat aEnviarseAlCliente = new RecibirChat(chat);
-        despachadorAcciones.ingresarSalida(aEnviarseAlCliente);
-    }
 
     //METODOS SETTERS AND GETTERS - SIEMPRE AL FINAL DE LA CLASE
     public Logger getLogger() {

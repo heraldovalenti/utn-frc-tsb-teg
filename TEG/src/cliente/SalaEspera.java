@@ -8,19 +8,33 @@ import cliente.control.ControlAlias;
 import cliente.control.ControlColor;
 import cliente.control.ControlConexion;
 import cliente.control.ControlJuego;
+import com.cliente.AccionableChat;
+import com.cliente.AccionableEstadoJugador;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.DefaultCaret;
+import logger.LogChat;
+import logger.LogItem;
+import logger.Loggeable;
 import servidor.control.ControlEjecucionServidor;
 
 /**
  *
  * @author heril
  */
-public class SalaEspera extends javax.swing.JFrame {
+public class SalaEspera extends javax.swing.JFrame implements Loggeable {
+
+    @Override
+    public void procesarLog(LogItem logItem) {
+        if (logItem instanceof LogChat) {
+            txtChatArea.append(logItem.toString() + "\n");
+        }
+    }
 
     /**
      * Creates new form SalaEspera
@@ -33,6 +47,7 @@ public class SalaEspera extends javax.swing.JFrame {
         addListenerToSalirSalaMenu();
         addListenerToAdministracionSeleccionColorMenu();
         addListenerToChatPersonal();
+        addListenerToCheckBoxEstadoJugador();
         setCaretPolicyToChatArea();
     }
 
@@ -44,6 +59,18 @@ public class SalaEspera extends javax.swing.JFrame {
     private void setCaretPolicyToChatArea() {
         DefaultCaret caret = (DefaultCaret) txtChatArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+    
+    /**
+     * Agrega un listener de click al check box de estado de jugador.
+     */
+    private void addListenerToCheckBoxEstadoJugador() {
+        this.cbxEstadoJugador.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarEstadoJugador();
+            }
+        });
     }
 
     /**
@@ -126,7 +153,7 @@ public class SalaEspera extends javax.swing.JFrame {
     private void abrirVentanaAdministracionPartida() {
         ControlEjecucionServidor.mostrarVentanaAdministracionPartida();
     }
-    
+
     public void informarCierreConexion(String razon) {
         JOptionPane.showMessageDialog(this, "Se ha cerrado la conexión con el servidor.\n"
                 + "Motivo: " + razon, "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -138,16 +165,9 @@ public class SalaEspera extends javax.swing.JFrame {
                 "Confirmación requerida", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            //System.exit(0);
         }
         //se deberia notificar al servidor de la desconexion.
-    }
-
-    public void mostrarChat(String chat) {
-        if (chat != null && chat.isEmpty()) {
-            return;
-        }
-        txtChatArea.append(chat + "\n");
     }
 
     private void enviarChat() {
@@ -155,7 +175,8 @@ public class SalaEspera extends javax.swing.JFrame {
         if (chat != null && chat.isEmpty()) {
             return;
         }
-        ClienteManager.getInstance().enviarChat(chat);
+        AccionableChat accionableChat = new AccionableChat(ClienteManager.getInstance().getIdCliente(), new ControlAlias().getAlias(), chat);
+        ClienteManager.getInstance().registrarSalida(accionableChat);
         txtChatPersonal.setText("");
     }
 
@@ -176,7 +197,7 @@ public class SalaEspera extends javax.swing.JFrame {
         if (!ControlConexion.conectado()) {
             return;
         }
-        int res = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea abandonar la sala del juego?", 
+        int res = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea abandonar la sala del juego?",
                 "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (res != JOptionPane.YES_OPTION) {
             return;
@@ -196,10 +217,17 @@ public class SalaEspera extends javax.swing.JFrame {
         if (ControlConexion.conectado()) {
             txtDireccionServidor.setEditable(false);
             btnConexion.setEnabled(false);
+            txtChatPersonal.setEditable(true);
+            cbxEstadoJugador.setEnabled(true);
+            cbxEstadoJugador.setSelected(false);
         } else {
             txtDireccionServidor.setEditable(true);
             btnConexion.setEnabled(true);
+            txtChatPersonal.setEditable(false);
+            cbxEstadoJugador.setEnabled(false);
+            cbxEstadoJugador.setSelected(false);
         }
+        actualizarEstadoJugadores(null);
     }
 
     /**
@@ -231,7 +259,7 @@ public class SalaEspera extends javax.swing.JFrame {
         Object[] coloresDisponibles = cc.getColoresDisponibles().toArray();
         Object[] options = cc.getColoresDisponibles().toArray();
         for (int i = 0; i < options.length; i++) {
-            options[i] = cc.getNombreColor((Color)options[i]);
+            options[i] = cc.getNombreColor((Color) options[i]);
         }
         if (options.length > 0) {
             Object initialOption = options[0];
@@ -239,7 +267,7 @@ public class SalaEspera extends javax.swing.JFrame {
                     "Selección de color", JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE, null, options, initialOption);
             if (selected != JOptionPane.CLOSED_OPTION) {
-                cc.solicitarColor((Color)coloresDisponibles[selected]);
+                cc.solicitarColor((Color) coloresDisponibles[selected]);
             }
         } else {
             //No hay colores disponibles para seleccionar.
@@ -255,7 +283,7 @@ public class SalaEspera extends javax.swing.JFrame {
         String aliasActual = new ControlAlias().getAlias();
         lblAlias.setText("Alias: " + aliasActual);
     }
-    
+
     private void ingresarAlias() {
         //Si no se esta conectado, ignorar la orden.
         if (!ControlConexion.conectado()) {
@@ -272,11 +300,26 @@ public class SalaEspera extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El alias ingresado es invalido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     public void informarSolicitudAliasRechazada() {
         JOptionPane.showMessageDialog(this, "El alias solicitado ya se encuentra tomado por otro jugador."
                 + "\nSe asignará uno automaticamente.",
                 "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void actualizarEstadoJugador() {
+        boolean listo = cbxEstadoJugador.isSelected();
+        AccionableEstadoJugador estadoJugador = new AccionableEstadoJugador(ClienteManager.getInstance().getIdCliente(), listo);
+        ClienteManager.getInstance().registrarSalida(estadoJugador);
+    }
+    
+    public void actualizarEstadoJugadores(TableModel model) {
+        if (model == null) {
+             Object[] columnNames = {"Alias","Tipo Jugador","Color","Listo"};
+             Object[][] data = null;
+             model = new DefaultTableModel(data, columnNames);
+        }        
+        this.tblJugadores.setModel(model);
     }
 
     /**

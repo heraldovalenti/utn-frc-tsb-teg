@@ -156,7 +156,6 @@ public class GestorClientes implements Runnable {
     public void enviarAccionable(Accionable accion) {
         for (ConexionCliente aux : conexionesCliente) {
             aux.enviar(accion);
-            System.out.println("cierre de conexion enviado..." + aux.getId());
         }
     }
     
