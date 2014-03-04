@@ -1,0 +1,642 @@
+package Interfaces;
+
+
+import cliente.ClienteManager;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import juego.estructura.Continente;
+import juego.estructura.Jugador;
+import juego.estructura.ObjetivoSecreto;
+import juego.estructura.Pais;
+import juego.estructura.TarjetaPais;
+import juego.mecanicas.turno.SecuenciaTurnos;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Emanuel
+ */
+public class InterfacePrincipal extends javax.swing.JFrame {
+    private InformacionDelPais informacion;
+    private Jugadores jugadores;
+    private InterfaceMapa mapa;
+    private Chat chat;
+    private Seleccion seleccion;
+    private Dados dados;
+    private boolean mostrarFichas = true;
+    private boolean mostrarMisiles = true;
+    private Refuerzo refuerzo;
+    
+    /**
+     * Creates new form GUI
+     */
+    public InterfacePrincipal() {
+        initComponents();
+        this.setSize(1330,990);        
+        agregarGuis();
+        actualizarJugadores(simularJugadores());
+    }    
+    
+   
+    public void cargarChat(String msg){
+        chat.cargarChat(msg);
+    }
+    public void actualizarJugadores(ArrayList<Jugador> jug){
+        jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+    }
+    public void enviarChat(String envioChat){
+        //aca va a la clase de heraldo
+        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
+        String quienDice = "Emanuel: ";
+        cargarChat(quienDice+envioChat);
+    }
+    public void actualizarFichas(Set<Jugador> jugadores){
+        ArrayList<Pais> paises = new ArrayList<Pais>();
+        for(Jugador jugador: jugadores){
+            for(Pais pais : jugador.getConjuntoPaises()){
+                paises.add(pais);
+            }
+        }
+        mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
+    }
+    public void cargarInformacionPais(String pais){
+        if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
+    }
+    public void mostrarTarjeta(TarjetaPais tarj){
+        Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
+        tarjeta.setVisible(true);
+        desktop.add(tarjeta);
+         ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
+    }
+    public void cargarDados(int[]ataque, int [] defensa){
+        try {     
+            dados.setIcon(false);                      
+        } catch (PropertyVetoException ex) {            
+            ex.printStackTrace();
+            return;
+        } 
+        HiloDados hilo = new HiloDados(ataque, defensa,dados);
+        hilo.start();       
+        
+    }
+    private Jugador obtenerJugadorActual(){
+        //return SecuenciaTurnos.getInstancia().getActual();
+        return simularJugadores().get(0);
+    }
+    private List<ObjetivoSecreto> obtenerObjetivos(){
+        return FachadaInterface.obtenerObjetivos();
+    }
+  
+    private ObjetivoSecreto obtenerObjetivo(){
+        //return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
+        ObjetivoSecreto obj =new ObjetivoSecreto();
+        obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
+        return obj; 
+    }
+    private ArrayList<Jugador> simularJugadores(){
+        ArrayList<Jugador> jugadores = new ArrayList<Jugador>(); 
+        Jugador jugador = new Jugador();
+        jugador.setColor(Color.red);
+        jugador.setNombre("ebroggi");
+        jugador.setNroJugador(0);
+        
+        jugador.getConjuntoPaises().add(new Pais(1,"Argentina",new Continente(1,"America"),true));
+        jugador.getConjuntoPaises().add(new Pais(2,"Chile",new Continente(1,"America"),true));
+        jugador.getConjuntoPaises().add(new Pais(3,"Venezuela",new Continente(1,"America"),true));
+        jugador.setNroJugador(1);
+        jugadores.add(jugador);
+        
+        jugador = new Jugador();
+        jugador.setColor(Color.blue);
+        jugador.setNombre("dnievas");
+        jugador.getConjuntoPaises().add(new Pais(1,"Argentina",new Continente(1,"America"),true));
+        jugador.setNroJugador(2);
+        jugadores.add(jugador);
+        
+        jugador = new Jugador();
+        jugador.setColor(Color.black);
+        jugador.setNombre("hvalenti");
+        jugador.getConjuntoPaises().add(new Pais(2,"Chile",new Continente(1,"America"),true));
+        jugador.getConjuntoPaises().add(new Pais(3,"Venezuela",new Continente(1,"America"),true));
+        jugadores.add(jugador);
+        
+        jugador = new Jugador();
+        jugador.setColor(Color.green);
+        jugador.setNombre("valerio");
+        jugador.getConjuntoPaises().add(new Pais(2,"Chile",new Continente(1,"America"),true));
+        jugador.getConjuntoPaises().add(new Pais(3,"Venezuela",new Continente(1,"America"),true));
+        jugador.setNroJugador(3);
+        jugadores.add(jugador);
+        return jugadores;
+        
+    }
+     private void agregarGuis(){
+       mapa =  new InterfaceMapa(this);
+       mapa.setVisible(true);
+       desktop.add(mapa);
+       jugadores =  new Jugadores();
+       jugadores.setVisible(true);
+       desktop.add(jugadores);
+       chat =  new Chat(this);
+       chat.setVisible(true);
+       desktop.add(chat);
+       seleccion =  new Seleccion();
+       mapa.setVisible(true);
+       desktop.add(seleccion);
+       dados = new Dados();
+       dados.setVisible(true);
+       desktop.add(dados);    
+       ubicarGuis(mapa, 0,0);
+       ubicarGuis(jugadores,mapa.getSize().width,0);
+       ubicarGuis(chat,0,mapa.getSize().height);
+       ubicarGuis(seleccion,chat.getSize().width,jugadores.getSize().height); 
+       ubicarGuis(dados,mapa.getWidth()-dados.getWidth(),mapa.getHeight()-dados.getHeight());
+        try {
+            dados.setIcon(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(InterfacePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void ubicarGuis(JInternalFrame frame, int ubicacionH, int ubicacionV){        
+        frame.setLocation(ubicacionH, ubicacionV);
+        frame.setVisible(true);
+       
+        try {
+            frame.setSelected(true);
+        } catch (PropertyVetoException ex) {
+        }
+    }    
+   
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        desktop = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnAtacar = new javax.swing.JButton();
+        btnReagrupar = new javax.swing.JButton();
+        btnTarjeta = new javax.swing.JButton();
+        btnFinTurno = new javax.swing.JButton();
+        btnMision = new javax.swing.JButton();
+        btnVerTarjetas = new javax.swing.JButton();
+        btnAtacarMisil = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        menuObjetivo = new javax.swing.JMenuItem();
+        menuObjetivos = new javax.swing.JMenuItem();
+        menuInformacion = new javax.swing.JMenuItem();
+        menu4 = new javax.swing.JMenuItem();
+        menu5 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("T.E.G  Plan Táctico y Estratégico de la Guerra");
+
+        desktop.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jButton1.setBounds(830, 13, 73, 20);
+        desktop.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 1281, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 507, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+        );
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAtacar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/atacar3.png"))); // NOI18N
+        btnAtacar.setText("Atacar");
+        btnAtacar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtacarActionPerformed(evt);
+            }
+        });
+
+        btnReagrupar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/reagrupar2.png"))); // NOI18N
+        btnReagrupar.setText("Reagrupar");
+
+        btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
+        btnTarjeta.setText("Recoger");
+
+        btnFinTurno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/chek.png"))); // NOI18N
+        btnFinTurno.setText("Fin Turno");
+
+        btnMision.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/objetivo.png"))); // NOI18N
+        btnMision.setText("Objetivo");
+        btnMision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMisionActionPerformed(evt);
+            }
+        });
+
+        btnVerTarjetas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
+        btnVerTarjetas.setText("Tarjetas");
+        btnVerTarjetas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTarjetasActionPerformed(evt);
+            }
+        });
+
+        btnAtacarMisil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/misilChico.png"))); // NOI18N
+        btnAtacarMisil.setText("Misil");
+        btnAtacarMisil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtacarMisilActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("Partida");
+
+        jMenuItem2.setText("Conectar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Ver");
+
+        menuObjetivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo2.jpg"))); // NOI18N
+        menuObjetivo.setText("Objetivo");
+        menuObjetivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuObjetivoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuObjetivo);
+
+        menuObjetivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo.jpg"))); // NOI18N
+        menuObjetivos.setText("Listar Objetivos");
+        menuObjetivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuObjetivosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuObjetivos);
+
+        menuInformacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Información.png"))); // NOI18N
+        menuInformacion.setText("Información");
+        menuInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuInformacionActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuInformacion);
+
+        menu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/chek.jpg"))); // NOI18N
+        menu4.setText("Mosrar Fichas");
+        menu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menu4);
+
+        menu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/chek.jpg"))); // NOI18N
+        menu5.setText("Mostrar Misiles");
+        menu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menu5);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
+        jMenuItem1.setText("Tarjetas Paises");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(btnMision)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnVerTarjetas)
+                .addGap(98, 98, 98)
+                .addComponent(btnAtacar)
+                .addGap(1, 1, 1)
+                .addComponent(btnAtacarMisil)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReagrupar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTarjeta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnFinTurno)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAtacar)
+                        .addComponent(btnReagrupar)
+                        .addComponent(btnTarjeta)
+                        .addComponent(btnFinTurno)
+                        .addComponent(btnMision)
+                        .addComponent(btnVerTarjetas)
+                        .addComponent(btnAtacarMisil)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void menuObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuObjetivoActionPerformed
+       InterfaceObjetivo objetivo =  new InterfaceObjetivo(obtenerObjetivo().getDescripcion(), menuObjetivo, btnMision);
+       menuObjetivo.setEnabled(false);
+       btnMision.setEnabled(false);
+       objetivo.setVisible(true);
+       desktop.add(objetivo);
+       ubicarGuis(objetivo,0,425);
+       objetivo.requestFocus();
+    }//GEN-LAST:event_menuObjetivoActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void menuInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInformacionActionPerformed
+        menuInformacion.setEnabled(false);
+        informacion = new InformacionDelPais(menuInformacion);
+        informacion.setVisible(true);
+        desktop.add(informacion);
+        ubicarGuis(informacion, 10,10);           
+    }//GEN-LAST:event_menuInformacionActionPerformed
+
+    private void menuObjetivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuObjetivosActionPerformed
+        InterfaceMostrarTodosObjetivos objetivo =  new InterfaceMostrarTodosObjetivos(FachadaInterface.obtenerObjetivos(),menuObjetivos);
+        objetivo.setVisible(true);
+        menuObjetivos.setEnabled(false);
+        desktop.add(objetivo);
+        ubicarGuis(objetivo,0,0);
+        objetivo.requestFocus();
+        
+    }//GEN-LAST:event_menuObjetivosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ArrayList<Pais> paises= new ArrayList<Pais>();
+        Jugador jug = new Jugador();
+        jug.setColor(Color.black);        
+        Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
+        pais.setJugador(jug);
+        pais.setCantidadEjercitos(1);
+        pais.setCantidadMisiles(9);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
+        pais.setJugador(jug);
+        pais.setCantidadEjercitos(2);
+         pais.setCantidadMisiles(5);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
+        pais.setCantidadEjercitos(3);
+        pais.setJugador(jug);
+        pais.setCantidadMisiles(4);
+        paises.add(pais);
+        jug.añadirPais(pais);
+        Set <Jugador> jugadores = new HashSet<Jugador>();
+        jugadores.add(jug);
+        actualizarFichas(jugadores);
+        cargarDados(simularDados((int)Math.floor(Math.random()*4+1)),simularDados((int)Math.floor(Math.random()*4+1)));
+        Tarjeta tarj = new Tarjeta("Asia");
+        tarj.setVisible(true);
+        desktop.add(tarj);
+        Tarjeta tarj2= new Tarjeta("canad a");
+        tarj2.setVisible(true);
+        desktop.add(tarj2);
+        ubicarGuis(tarj,mapa.getWidth()/2,mapa.getHeight()/2);
+        ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
+        refuerzo(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void menu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu4ActionPerformed
+        mostrarFichas = !mostrarFichas;
+        String rutaImagen = "";
+        if(mostrarFichas){
+            rutaImagen ="/imagenes/chek.png";
+        }
+        else{
+            rutaImagen ="/imagenes/noChek.png";
+        }
+        mapa.ocultar(mostrarFichas, mostrarMisiles);
+        menu4.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+    }//GEN-LAST:event_menu4ActionPerformed
+
+    private void menu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu5ActionPerformed
+         mostrarMisiles = !mostrarMisiles;
+        String rutaImagen = "";
+        if(mostrarMisiles){
+            rutaImagen ="/imagenes/chek.png";
+        }
+        else{
+            rutaImagen ="/imagenes/noChek.png";
+        }
+        mapa.ocultar(mostrarFichas, mostrarMisiles);
+        menu5.setIcon(new javax.swing.ImageIcon(getClass().getResource(rutaImagen)));
+    }//GEN-LAST:event_menu5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Tarjetas tarjetas = new Tarjetas(null,jMenuItem1,btnVerTarjetas);
+        jMenuItem1.setEnabled(false);
+        btnVerTarjetas.setEnabled(false);
+        tarjetas.setVisible(true);
+        desktop.add(tarjetas);
+        ubicarGuis(tarjetas, mapa.getWidth()/2, mapa.getHeight()/2);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnMisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMisionActionPerformed
+       InterfaceObjetivo objetivo =  new InterfaceObjetivo(obtenerObjetivo().getDescripcion(), menuObjetivo, btnMision);
+       menuObjetivo.setEnabled(false);
+       btnMision.setEnabled(false);
+       objetivo.setVisible(true);
+       desktop.add(objetivo);
+       ubicarGuis(objetivo,0,425);
+       objetivo.requestFocus();
+    }//GEN-LAST:event_btnMisionActionPerformed
+
+    private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
+           Tarjetas tarjetas = new Tarjetas(null,jMenuItem1,btnVerTarjetas);
+        jMenuItem1.setEnabled(false);
+        btnVerTarjetas.setEnabled(false);
+        tarjetas.setVisible(true);
+        desktop.add(tarjetas);
+        ubicarGuis(tarjetas, mapa.getWidth()/2, mapa.getHeight()/2);
+    }//GEN-LAST:event_btnVerTarjetasActionPerformed
+
+    private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
+        btnAtacar.setEnabled(false);
+    }//GEN-LAST:event_btnAtacarActionPerformed
+
+    private void btnAtacarMisilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarMisilActionPerformed
+        btnAtacar.setEnabled(false);
+    }//GEN-LAST:event_btnAtacarMisilActionPerformed
+    private int[] simularDados(int cant){
+        
+        int[] dados = new int[cant];
+        for(int i = 0; i< cant; i++){          
+            dados[i] = (int)Math.floor(Math.random()*6+1); 
+        }
+        return dados;
+       
+    }
+    private void habilitarBotones(){
+        if(!esMiTurno()){
+            btnAtacar.setEnabled(false);
+            btnReagrupar.setEnabled(false);
+            btnAtacarMisil.setEnabled(false);
+            btnTarjeta.setEnabled(false);
+            btnFinTurno.setEnabled(false);
+        }        
+    }
+    public void refuerzo(int[][] refuerzos){
+        if(refuerzo != null){
+            refuerzo.dispose();
+            refuerzo = null;
+        }
+        refuerzo = new Refuerzo(refuerzos);
+        refuerzo.setVisible(true);
+        desktop.add(refuerzo);
+        ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
+
+      
+    }
+    public void obtenerPaisSeleccionado(String p){
+        if(!esMiTurno()) return;
+        Pais pais = FachadaInterface.obtenerPaisPorNombre(p);
+        if(!FachadaInterface.incorporarEjercitosPermitido()){
+            if(FachadaInterface.esMiPais(pais)){
+                seleccion.cargarDesde(pais.getNombre());
+            }
+            else{
+                seleccion.cargarHasta(pais.getNombre());
+            }
+        }
+        else{
+            if(FachadaInterface.esMiPais(pais)){
+               //aca va refuerzo
+            }
+        }
+        
+        
+    }
+    private boolean esMiTurno(){
+        return FachadaInterface.esMiTurno(FachadaInterface.getJugadorLocal());
+    }
+    /**
+     * @param args the command line arguments
+     */
+//   public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(InterfacePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(InterfacePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(InterfacePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(InterfacePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new InterfacePrincipal().setVisible(true);
+//            }
+//        });
+//    }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtacar;
+    private javax.swing.JButton btnAtacarMisil;
+    private javax.swing.JButton btnFinTurno;
+    private javax.swing.JButton btnMision;
+    private javax.swing.JButton btnReagrupar;
+    private javax.swing.JButton btnTarjeta;
+    private javax.swing.JButton btnVerTarjetas;
+    private javax.swing.JDesktopPane desktop;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenuItem menu4;
+    private javax.swing.JMenuItem menu5;
+    private javax.swing.JMenuItem menuInformacion;
+    private javax.swing.JMenuItem menuObjetivo;
+    private javax.swing.JMenuItem menuObjetivos;
+    // End of variables declaration//GEN-END:variables
+}
+
