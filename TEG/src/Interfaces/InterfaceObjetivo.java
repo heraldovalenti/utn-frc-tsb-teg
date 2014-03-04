@@ -2,6 +2,7 @@ package Interfaces;
 
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 /*
@@ -15,15 +16,17 @@ import javax.swing.JMenuItem;
  */
 public class InterfaceObjetivo extends javax.swing.JInternalFrame {
     private JMenuItem menu;
+    private JButton btnMision;
     /**
      * Creates new form GUIObjetivo
      */
     
-    public InterfaceObjetivo(String objetivo,JMenuItem menu) {
+    public InterfaceObjetivo(String objetivo,JMenuItem menu, JButton btnMision) {
         initComponents();       
         jTextArea2.setEditable(false);
         jTextArea2.setText(objetivo);
         this.menu = menu;
+        this.btnMision = btnMision;
     }
    
 
@@ -122,6 +125,7 @@ public class InterfaceObjetivo extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         menu.setEnabled(true);
+        btnMision.setEnabled(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

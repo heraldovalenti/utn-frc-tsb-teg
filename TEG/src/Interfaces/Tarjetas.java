@@ -4,21 +4,61 @@
  */
 package Interfaces;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
-import juego.TarjetaPais;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import juego.estructura.TarjetaPais;
+
 
 /**
  *
  * @author Emanuel
  */
 public class Tarjetas extends javax.swing.JInternalFrame {
-
+    ArrayList<TarjetaPais> tarjetas;  
+    private JMenuItem menu;
+    private JButton boton;
     /**
      * Creates new form Tarjetas
      */
-    public Tarjetas(ArrayList<TarjetaPais> paises) {
+    public Tarjetas(ArrayList<TarjetaPais> tarjetas, JMenuItem menu, JButton boton) {
         initComponents();
+        this.tarjetas = tarjetas;
+        limpiarLabels();
+        this.boton = boton;
+        this.menu = menu;
+        cargarTarjetas();
     }
+    private void cargarTarjetas(){
+        if(tarjetas == null) return;
+        for(int i = 0; i<tarjetas.size()-1; i++){
+            switch(i){
+                case(0): cargarTarjeta(lblTarjeta1,tarjetas.get(0).getPais().getNombre());
+                case(1): cargarTarjeta(lblTarjeta2,tarjetas.get(1).getPais().getNombre());
+                case(2): cargarTarjeta(lblTarjeta3,tarjetas.get(2).getPais().getNombre());
+                case(3): cargarTarjeta(lblTarjeta4,tarjetas.get(3).getPais().getNombre());
+                case(4): cargarTarjeta(lblTarjeta5,tarjetas.get(4).getPais().getNombre());    
+            }
+        }
+    }
+    private void cargarTarjeta(JLabel label, String pais){
+        try{
+            label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+pais.replaceAll(" ", "")+".png")));
+        }
+        catch(Exception e){
+            
+        }
+    }
+    private void limpiarLabels(){      
+        lblTarjeta1.setIcon(null);
+        lblTarjeta2.setIcon(null);
+        lblTarjeta3.setIcon(null);
+        lblTarjeta4.setIcon(null);
+        lblTarjeta5.setIcon(null);
+    }
+    
     
 
     /**
@@ -47,6 +87,23 @@ public class Tarjetas extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Canje De Tarjetas");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/canje.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -66,114 +123,44 @@ public class Tarjetas extends javax.swing.JInternalFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTarjeta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
-        lblTarjeta1.setText("jLabel2");
+        jPanel2.add(lblTarjeta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 98, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta1))
-        );
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, 147));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTarjeta2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
-        lblTarjeta2.setText("jLabel2");
+        jPanel4.add(lblTarjeta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 98, -1));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta2))
-        );
-
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 100, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 100, 147));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTarjeta3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
-        lblTarjeta3.setText("jLabel2");
+        jPanel5.add(lblTarjeta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 98, -1));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta3))
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 100, -1));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 100, 147));
 
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTarjeta4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
-        lblTarjeta4.setText("jLabel2");
+        jPanel6.add(lblTarjeta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 98, -1));
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta4))
-        );
-
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 100, -1));
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 100, 147));
 
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTarjeta5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
-        lblTarjeta5.setText("jLabel2");
+        jPanel7.add(lblTarjeta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 98, -1));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTarjeta5))
-        );
-
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 100, -1));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 100, 147));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,7 +172,7 @@ public class Tarjetas extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
         pack();
@@ -194,6 +181,11 @@ public class Tarjetas extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+       menu.setEnabled(true);
+       boton.setEnabled(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
