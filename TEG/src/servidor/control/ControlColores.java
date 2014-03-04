@@ -5,6 +5,7 @@
 package servidor.control;
 
 import com.servidor.AccionableColoresDisponibles;
+import com.servidor.AccionableEstadoJugadores;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
@@ -101,6 +102,7 @@ public class ControlColores {
     public static void asignarColor(Integer idJugador, Color color) {
         asignacionesColor.put(idJugador, color);
         informarColoresDisponibles();
+        AccionableEstadoJugadores.notificarActualizacionJugadores();
     }
 
     /**

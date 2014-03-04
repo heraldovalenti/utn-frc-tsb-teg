@@ -13,8 +13,11 @@ import java.util.Date;
  */
 public class LogItem {
     
-    private String msg;
-    private Date timeStamp;
+    protected String msg;
+    protected Date timeStamp;
+    
+    protected LogItem() {
+    }
     
     public LogItem(String msg) {
         if (!msg.endsWith(".")) {

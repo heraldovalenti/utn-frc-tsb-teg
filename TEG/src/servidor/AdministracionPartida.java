@@ -5,17 +5,25 @@
 package servidor;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.DefaultCaret;
+import logger.LogItem;
+import logger.Loggeable;
 import servidor.control.ControlEjecucionServidor;
 
 /**
  *
  * @author heril
  */
-public class AdministracionPartida extends javax.swing.JFrame {
+public class AdministracionPartida extends javax.swing.JFrame implements Loggeable {
 
+    @Override
+    public void procesarLog(LogItem logItem) {
+        txtChatArea.append(logItem.toString() + "\n");
+    }
+    
     /**
      * Creates new form SalaEspera
      */
@@ -127,6 +135,7 @@ public class AdministracionPartida extends javax.swing.JFrame {
         }
         lblEstadoServidor.setText(txtEstadoServidor.toString());
         lblNumeroJuego.setText(txtNumeroDeJuego.toString());
+        actualizarEstadoJugadores(null);
     }
 
     /**
@@ -141,6 +150,15 @@ public class AdministracionPartida extends javax.swing.JFrame {
         DefaultCaret caret = (DefaultCaret) txtChatPersonal.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         txtChatPersonal.setText("");
+    }
+    
+    public void actualizarEstadoJugadores(TableModel model) {
+        if (model == null) {
+             Object[] columnNames = {"Alias","Tipo Jugador","Color","Listo"};
+             Object[][] data = null;
+             model = new DefaultTableModel(data, columnNames);
+        }        
+        this.tblJugadores.setModel(model);
     }
 
     /**

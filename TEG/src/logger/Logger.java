@@ -4,21 +4,29 @@
  */
 package logger;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author heril
  */
 public class Logger {
     
+    private Set<Loggeable> loggeables;
+    
     public Logger() {
-        
+        loggeables = new HashSet<>();
     }
     
-    private void notificar(String cadenaIdentificacionEvento) {
-        System.out.println(cadenaIdentificacionEvento);
+    public void agregarLoggeable(Loggeable l) {
+        loggeables.add(l);
     }
     
     public void addLogItem(LogItem logItem) {
+        for (Loggeable l : loggeables) {
+            l.procesarLog(logItem);
+        }
         System.out.println(logItem);
     }
     
