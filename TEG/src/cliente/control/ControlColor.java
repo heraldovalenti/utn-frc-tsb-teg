@@ -19,6 +19,11 @@ public class ControlColor {
     private static Set<Color> coloresDisponibles = null;
     private static Color colorAsignado = null;
 
+    public void invalidar() {
+        colorAsignado = null;
+        coloresDisponibles = null;
+    }
+    
     /**
      * Solicita un color automaticamente.
      */

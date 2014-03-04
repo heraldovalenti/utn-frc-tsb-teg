@@ -18,7 +18,6 @@ import logger.LogItem;
 public class ConexionCliente {
 
     private int id;
-    private String alias;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -102,15 +101,7 @@ public class ConexionCliente {
         return id;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 }

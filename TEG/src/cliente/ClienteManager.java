@@ -36,7 +36,6 @@ public class ClienteManager {
         conexionServidor = new ConexionServidor(colaAcciones);
         despachadorAcciones = new servidor.DespachadorAcciones(colaAcciones);
         salaEspera = new SalaEspera();
-        controlAlias = new ControlAlias();
         juego = Juego.getInstancia();
     }
     private SalaEspera salaEspera;
@@ -44,8 +43,6 @@ public class ClienteManager {
     private ColaAcciones colaAcciones;
     private servidor.DespachadorAcciones despachadorAcciones;
     private Logger logger;
-    private String estado;
-    private ControlAlias controlAlias;
     private Juego juego;
     private InterfacePrincipal interfacePrincipal;
     private Jugador jugador;
@@ -90,16 +87,9 @@ public class ClienteManager {
     public Logger getLogger() {
         return this.logger;
     }
-
-    public String getEstado() {
-        return this.estado;
-    }
     
     public SalaEspera getSalaEspera() {
         return this.salaEspera;
-    }
-    public ControlAlias getControlAlias() {
-        return this.controlAlias;
     }
 
     public ConexionServidor getConexionServidor() {
@@ -122,10 +112,6 @@ public class ClienteManager {
     public int getIdCliente() {
         return this.conexionServidor.getConexionId();
     }
-
-//    public Jugador getJugador() {
-//        return jugador;
-//    }
     
     public InterfacePrincipal getInterfacePrincipal() {
         return this.interfacePrincipal;
