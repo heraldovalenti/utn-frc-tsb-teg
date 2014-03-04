@@ -51,4 +51,8 @@ public class ControladorAlias {
         return asignacionesAlias.get(idJugador);
     }
     
+    public static void purgar() {
+        asignacionesAlias = new HashMap<>();
+    }
+    
 }

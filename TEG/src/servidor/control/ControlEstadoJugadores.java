@@ -31,4 +31,8 @@ public class ControlEstadoJugadores {
         return jugadoresListos.get(idJugador);
     }
     
+    public static void purgar() {
+        jugadoresListos = new HashMap<>();
+    }
+    
 }

@@ -60,7 +60,7 @@ public class SalaEspera extends javax.swing.JFrame implements Loggeable {
         DefaultCaret caret = (DefaultCaret) txtChatArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
-    
+
     /**
      * Agrega un listener de click al check box de estado de jugador.
      */
@@ -306,20 +306,22 @@ public class SalaEspera extends javax.swing.JFrame implements Loggeable {
                 + "\nSe asignará uno automaticamente.",
                 "Información", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     public void actualizarEstadoJugador() {
         boolean listo = cbxEstadoJugador.isSelected();
         AccionableEstadoJugador estadoJugador = new AccionableEstadoJugador(ClienteManager.getInstance().getIdCliente(), listo);
         ClienteManager.getInstance().registrarSalida(estadoJugador);
     }
-    
+
     public void actualizarEstadoJugadores(TableModel model) {
         if (model == null) {
-             Object[] columnNames = {"Alias","Tipo Jugador","Color","Listo"};
-             Object[][] data = null;
-             model = new DefaultTableModel(data, columnNames);
-        }        
-        this.tblJugadores.setModel(model);
+            Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
+            Object[][] data = null;
+            model = new DefaultTableModel(data, columnNames);
+        }
+        try {
+            this.tblJugadores.setModel(model);
+        } catch (Exception ex) { }
     }
 
     /**

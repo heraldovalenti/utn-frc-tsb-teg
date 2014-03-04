@@ -137,4 +137,8 @@ public class ControlColores {
     private static void informarColoresDisponibles() {
         ServerManager.getInstance().registrarSalida(new AccionableColoresDisponibles(getColoresDisponibles()));
     }
+    
+    public static void purgar() {
+        asignacionesColor = new HashMap<>();
+    }
 }
