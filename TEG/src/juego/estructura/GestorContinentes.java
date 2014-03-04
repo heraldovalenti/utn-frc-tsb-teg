@@ -23,7 +23,7 @@ public class GestorContinentes {
     public static final int OCEANIA = 6;
     private static int[][] limitrofes = null;
     private static List<Continente> listaContinentes;
-  
+
     public static void crearContinentes() {
         listaContinentes = new ArrayList<>(7);
         Continente continente;
@@ -86,5 +86,47 @@ public class GestorContinentes {
         limitrofes[ASIA][AMERICA_NORTE] = 1;
         limitrofes[ASIA][AMERICA_SUR] = 1;
         limitrofes[ASIA][ASIA] = 1;
+    }
+
+    public static int obtenerCantidadPaises(int nroContinente) {
+        switch (nroContinente) {
+            case AMERICA_NORTE:
+                return 12;
+            case AMERICA_CENTRAL:
+                return 6;
+            case AMERICA_SUR:
+                return 8;
+            case EUROPA:
+                return 16;
+            case ASIA:
+                return 16;
+            case AFRICA:
+                return 8;
+            case OCEANIA:
+                return 6;
+            default:
+                return 0;
+        }
+    }
+    
+    public static int obtenerRefuerzosPorContinente(int nroContinente) {
+        switch (nroContinente) {
+            case AMERICA_NORTE:
+                return 6;
+            case AMERICA_CENTRAL:
+                return 3;
+            case AMERICA_SUR:
+                return 4;
+            case EUROPA:
+                return 8;
+            case ASIA:
+                return 8;
+            case AFRICA:
+                return 4;
+            case OCEANIA:
+                return 3;
+            default:
+                return 0;
+        }
     }
 }

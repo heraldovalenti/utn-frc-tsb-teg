@@ -12,7 +12,10 @@ import com.cliente.AccionableCanjeTarjetas;
 import com.cliente.AccionableLanzarMisil;
 import com.cliente.AccionableMovimiento;
 import cliente.AccionableRefuerzo;
+import cliente.ClienteManager;
+import com.cliente.AccionableSolicitarTarjeta;
 import java.util.List;
+import juego.Juego;
 import juego.estructura.Canjeable;
 import juego.estructura.GestorPaises;
 import juego.estructura.GestorTarjetas;
@@ -42,7 +45,10 @@ public class GestorTurno {
     public static final int ACCION_CANJEAR_MISIL_POR_EJERCITO = 7;
     public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 8;
 
-    public static int etapaActual;
+    public static int etapaActual = 0;
+    private static int paisesConquistados = 0;
+    private static boolean canjeRealizado = false;
+    private static boolean tarjetaSolicitada = false;
 
     private static boolean[][] permisos;
 
@@ -65,6 +71,8 @@ public class GestorTurno {
             ControlAtaque control = new ControlAtaque(origen, destino);
             if (control.ataqueValido()) {
                 AccionableAtaque ataque = new AccionableAtaque(origen, destino);
+                ClienteManager.getInstance().registrarSalida(ataque);
+                etapaActual = ETAPA_ATACAR;
             }
         }
     }
@@ -72,6 +80,7 @@ public class GestorTurno {
     public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
             AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
+            ClienteManager.getInstance().registrarSalida(refuerzo);
         }
     }
 
@@ -79,6 +88,7 @@ public class GestorTurno {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
                 AccionableCanjePorMisil canje = new AccionableCanjePorMisil(pais, cantidadMisiles);
+                ClienteManager.getInstance().registrarSalida(canje);
             }
         }
     }
@@ -87,6 +97,7 @@ public class GestorTurno {
         if (accionPermitida(ACCION_CANJEAR_MISIL_POR_EJERCITO)) {
             if (pais.getCantidadMisiles() >= cantidadMisiles) {
                 AccionableCanjePorEjercitos canje = new AccionableCanjePorEjercitos(pais, cantidadMisiles);
+                ClienteManager.getInstance().registrarSalida(canje);
             }
         }
 
@@ -97,6 +108,8 @@ public class GestorTurno {
             ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
             if (control.movimientoValido()) {
                 AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
+                ClienteManager.getInstance().registrarSalida(movimiento);
+                etapaActual = ETAPA_REAGRUPAR;
             }
         }
     }
@@ -105,20 +118,51 @@ public class GestorTurno {
         if (accionPermitida(ACCION_LANZAR_MISIL)) {
             if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3) {
                 AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
+                ClienteManager.getInstance().registrarSalida(lanzamiento);
+                etapaActual = ETAPA_ATACAR;
             }
         }
     }
 
     public static void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
-        if (accionPermitida(ACCION_CANJEAR_TARJETA)) {
+        if (accionPermitida(ACCION_CANJEAR_TARJETA) && !canjeRealizado) {
             if (GestorTarjetas.canjeValido(listaTarjetas)) {
                 AccionableCanjeTarjetas canje = new AccionableCanjeTarjetas(jugador, listaTarjetas);
+                ClienteManager.getInstance().registrarSalida(canje);
+                canjeRealizado = true;
+            }
+        }
+    }
+
+    public static void solicitarTarjeta(Jugador jugador) {
+        if (accionPermitida(ACCION_SOLICITAR_TARJETA) && !tarjetaSolicitada && jugador.getCantidadTarjetasPais() < 6 && Juego.getInstancia().getSituacion().puedeObtenerTarjetaPais(jugador)) {
+            int canjesRealizados = jugador.getCantidadCanjes();
+            boolean res = false;
+            if (canjesRealizados < 3 && paisesConquistados > 0) {
+                res = true;
+            }
+            if (canjesRealizados > 3 && paisesConquistados > 1) {
+                res = true;
+            }
+            if (res) {
+                AccionableSolicitarTarjeta solicitar = new AccionableSolicitarTarjeta(jugador);
+                ClienteManager.getInstance().registrarSalida(solicitar);
             }
         }
     }
 
     public static boolean accionPermitida(int accion) {
         return permisos[etapaActual][accion];
+    }
+
+    public static void finTurno() {
+        etapaActual = FUERA_TURNO;
+        paisesConquistados = 0;
+        canjeRealizado = false;
+    }
+
+    public static void aumentarContadorPaisesConquistados() {
+        paisesConquistados++;
     }
 
 }

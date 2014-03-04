@@ -6,8 +6,10 @@ package juego.estructura;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,7 +24,7 @@ public class Jugador {
     private Set<Pais> conjuntoPaises = new HashSet<>(96);
     private ObjetivoSecreto objetivoSecreto;
     private int cantidadCanjes = 0;
-    private List<TarjetaPais> listaTarjetasPais = new ArrayList<TarjetaPais>(5);
+    private List<TarjetaPais> listaTarjetasPais = new ArrayList<>(5);
     private List<TarjetaContinente> listaTarjetaContinentes;
 
     public Jugador() {
@@ -112,6 +114,35 @@ public class Jugador {
 
     public int getCantidadPaises() {
         return conjuntoPaises.size();
+    }
+
+    public int getCantidadTarjetasPais() {
+        return listaTarjetasPais.size();
+    }
+
+    public void añadirTarjetaPais(TarjetaPais tarjeta) {
+        listaTarjetasPais.add(tarjeta);
+    }
+
+    public int calcularRefuerzosPermitidos() {
+        if (getCantidadPaises() < 6) {
+            return 4;
+        } else {
+            return (int) (getCantidadPaises() / 2);
+        }
+    }
+
+    public Map<Continente, Integer> calcularPaisesPorContinente() {
+        Map<Continente, Integer> mapaContinentes = new HashMap<>();
+        for (Pais pais : conjuntoPaises) {
+            Continente continente = pais.getContinente();
+            int cantidadAnterior = 0;
+            if (mapaContinentes.containsKey(continente)) {
+                cantidadAnterior = mapaContinentes.get(continente);
+            }
+            mapaContinentes.put(continente, cantidadAnterior + 1);
+        }
+        return mapaContinentes;
     }
 
     public Set<Continente> obtenerContinentesOcupados() {

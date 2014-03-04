@@ -123,4 +123,8 @@ public class ClienteManager {
     public Jugador getJugador() {
         return jugador;
     }
+
+    public boolean esJugadorLocal(int numero) {
+        return conexionServidor.getConexionId() == numero;
+    }
 }

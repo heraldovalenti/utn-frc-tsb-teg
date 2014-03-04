@@ -60,6 +60,9 @@ public class SecuenciaTurnos {
      */
     public void siguienteTurno() {
         actual++;
+        if (esFinRonda()) {
+            nuevaRonda();
+        }
     }
 
     /**
