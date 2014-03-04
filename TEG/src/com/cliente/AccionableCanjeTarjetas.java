@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cliente;
+package com.cliente;
 
 import com.Accionable;
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ import juego.estructura.Canjeable;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
-import servidor.ActualizadorJugadores;
+import com.servidor.ActualizadorJugadores;
+import servidor.ServerManager;
 
 /**
  *
@@ -36,6 +37,7 @@ public class AccionableCanjeTarjetas implements Accionable {
             List<Jugador> listaJugadores = new ArrayList<>(1);
             listaJugadores.add(jugadorServidor);
             ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
+            ServerManager.getInstance().registrarSalida(actualizador);
         }
     }
 

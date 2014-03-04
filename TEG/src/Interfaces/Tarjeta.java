@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Emanuel
@@ -15,7 +17,15 @@ public class Tarjeta extends javax.swing.JInternalFrame {
      */
     public Tarjeta(String pais) {
         initComponents();
-        lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+pais+".png")));
+        pais =  pais.replaceAll(" ", "");
+        try{
+            lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+pais+".png")));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Tarjeta del pais "+pais+" no encontrada","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
     }
 
     /**
@@ -31,22 +41,24 @@ public class Tarjeta extends javax.swing.JInternalFrame {
         lblTarjeta = new javax.swing.JLabel();
 
         setClosable(true);
-        setTitle("Tarjeta Obtenida");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Chat2.png"))); // NOI18N
+        setTitle("Tarjeta");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tarjetaIcono.png"))); // NOI18N
+
+        lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblTarjeta)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
