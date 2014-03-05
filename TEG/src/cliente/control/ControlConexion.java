@@ -66,10 +66,10 @@ public class ControlConexion {
         DespachadorAcciones despachadorAcciones = ClienteManager.getInstance().getDespachadorAcciones();
         SalaEspera salaEspera = ClienteManager.getInstance().getSalaEspera();
         //verificar que la direccion del servidor sea valida...
-        if (!direccionValida(direccionServidor)) {
+        /*if (!direccionValida(direccionServidor)) {
             JOptionPane.showMessageDialog(salaEspera, "La dirección IP ingresada es inválida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
-        }
+        }*/
         //verificar que la conexion no este iniciada ya...
         if (conexionServidor.conexionEstablecida()) {
             ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Advertencia: Se ha intentado realizar una conexión y la conexión ya se encontraba establecida."));

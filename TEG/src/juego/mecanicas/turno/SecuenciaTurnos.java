@@ -5,6 +5,7 @@
 package juego.mecanicas.turno;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -83,6 +84,22 @@ public class SecuenciaTurnos {
      */
     public Jugador getActual() {
         return secuencia.get(actual);
+    }
+    
+    /**
+     * Devuelve una lista con la secuencia actual de turnos de los jugadores.
+     * @return secuencia de turnos.
+     */
+    public List<Jugador> getSecuencia() {
+        return new ArrayList<>(secuencia);
+    }
+    
+    /**
+     * Establece la secuencia de turnos.
+     * @param secuencia la secuencia de turnos de jugadores.
+     */
+    public void setSecuencia(List<Jugador> secuencia) {
+        this.secuencia = secuencia;
     }
 
     public Jugador getJugadorAnterior(Jugador jugador) {

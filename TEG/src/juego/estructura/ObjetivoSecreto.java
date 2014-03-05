@@ -6,6 +6,7 @@
 package juego.estructura;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +16,7 @@ import juego.mecanicas.turno.SecuenciaTurnos;
  *
  * @author Daniel
  */
-public class ObjetivoSecreto {
+public class ObjetivoSecreto implements Serializable {
 
     //Map<Continente, Boolean> continentesAOcupar;
     //Map<Pais, Boolean> paisesAOcupar;

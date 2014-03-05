@@ -4,11 +4,13 @@
  */
 package juego.estructura;
 
+import java.io.Serializable;
+
 /**
  *
  * @author heril
  */
-public class Continente {
+public class Continente implements Serializable {
 
     private int nroContinente;
     private String nombre;

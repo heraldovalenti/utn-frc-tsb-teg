@@ -5,11 +5,13 @@
  */
 package juego.estructura;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel
  */
-public class TarjetaPais implements Canjeable {
+public class TarjetaPais implements Canjeable, Serializable {
 
     private int nroTarjeta;
     private Pais pais;

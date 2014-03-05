@@ -18,9 +18,9 @@ import java.util.Map;
  */
 public class GestorObjetivosSecretos {
 
-    private static List<ObjetivoSecreto> listaObjetivos;
+    private static List<ObjetivoSecreto> listaObjetivos = null;
 
-    public static void crearObjetivos() {
+    private static void crearObjetivos() {
         listaObjetivos = new ArrayList<>(19);
         Map<Continente, Integer> paisesPorContinenteAOcupar;
         paisesPorContinenteAOcupar = new HashMap<>(3);
@@ -94,7 +94,9 @@ public class GestorObjetivosSecretos {
     }
 
     public static List<ObjetivoSecreto> getListaObjetivos() {
-        crearObjetivos();
+        if (listaObjetivos == null) {
+            crearObjetivos();
+        }
         return listaObjetivos;
     }
 }

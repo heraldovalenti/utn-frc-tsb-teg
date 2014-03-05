@@ -5,6 +5,7 @@
  */
 package juego.estructura;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  *
  * @author Daniel
  */
-public class TarjetaContinente implements Canjeable {
+public class TarjetaContinente implements Canjeable, Serializable {
 
     private int nroTarjeta;
     private Continente continente;
