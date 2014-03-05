@@ -51,8 +51,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         initComponents();
         this.setSize(1330,990);        
         agregarGuis();
-        actualizarJugadores(simularJugadores());
-         habilitarBotones();
+        actualizarFichas();
+        habilitarBotones();
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
         cerraVentanaReagrupar();
@@ -61,12 +61,15 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     public void cerraVentanaReagrupar(){
         ventanaReagrupar = null;
     }
+    public void actualizarJugadores(){
+        actualizarJugadores(FachadaInterface.getJugadores());
+    }
     
    
     public void cargarChat(String msg){
         chat.cargarChat(msg);
     }
-    public void actualizarJugadores(ArrayList<Jugador> jug){
+    public void actualizarJugadores(Set<Jugador> jug){
         jugadores.actualizarJugadores(jug, obtenerJugadorActual());
     }
     public void enviarChat(String envioChat){
@@ -85,7 +88,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
     }
     public void actualizarFichas(){
-        ArrayList<Pais> paises= new ArrayList<Pais>();
+        /*ArrayList<Pais> paises= new ArrayList<Pais>();
         Jugador jug = new Jugador();
         jug.setColor(Color.black);        
         Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
@@ -108,8 +111,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         jug.añadirPais(pais);
         Set <Jugador> jugadores = new HashSet<Jugador>();
         jugadores.add(jug);
-        actualizarFicha(jugadores); 
-        //actualizarFicha(FachadaInterface.getJugadores());
+        actualizarFicha(jugadores); */
+        actualizarFicha(FachadaInterface.getJugadores());
     }
     public void cargarInformacionPais(String pais){
         if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);

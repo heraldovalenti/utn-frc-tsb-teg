@@ -4,6 +4,8 @@ package Interfaces;
 import cliente.ClienteManager;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JTextField;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
@@ -18,7 +20,7 @@ import juego.estructura.Pais;
  * @author Emanuel
  */
 public class Jugadores extends javax.swing.JInternalFrame {
-    private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+    private Set<Jugador> jugadores = new HashSet<Jugador>();
     private Jugador jugadorTurno = new Jugador();
     private Color colorTurno = Color.orange;
     private Color colorNoTurno = new Color(255,255,204);
@@ -95,7 +97,7 @@ public class Jugadores extends javax.swing.JInternalFrame {
             }
         }
     }
-    public void actualizarJugadores(ArrayList<Jugador> jugadores, Jugador jugadorTurno){
+    public void actualizarJugadores(Set<Jugador> jugadores, Jugador jugadorTurno){
         this.jugadores = jugadores;
         this.jugadorTurno = jugadorTurno;
         cargarDatosJugadores();
