@@ -4,11 +4,13 @@
  */
 package juego.estructura;
 
+import java.io.Serializable;
+
 /**
  *
  * @author heril
  */
-public class Pais {
+public class Pais implements Serializable {
 
     private int nroPais;
     private String nombre;

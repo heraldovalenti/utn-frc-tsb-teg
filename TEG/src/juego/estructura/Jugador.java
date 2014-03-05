@@ -5,6 +5,7 @@
 package juego.estructura;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
  *
  * @author heril
  */
-public class Jugador {
+public class Jugador implements Serializable {
     
     private int nroJugador;
     private String nombre;
@@ -104,8 +105,17 @@ public class Jugador {
         this.listaTarjetaContinentes = listaTarjetaContinentes;
     }
     
+    /**
+     * Agrega el pais al conjunto de paises del jugador.
+     * Ademas, actualiza la referencia del pais al jugador referenciado (this).
+     * @param pais el pais a agregarse a la coleccion de paises del jugador.
+     */
     public void añadirPais(Pais pais) {
+        if (pais == null) {
+            return;
+        }
         this.conjuntoPaises.add(pais);
+        pais.setJugador(this);
     }
     
     public void quitarPais(Pais pais) {

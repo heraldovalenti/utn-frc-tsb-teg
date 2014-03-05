@@ -85,7 +85,7 @@ public class GestorPaises {
     public static final int URUGUAY = 69;
     public static final int VENEZUELA = 70;
     public static final int VIETNAM = 71;
-    private static List<Pais> listaPaises;
+    private static List<Pais> listaPaises = null;
 
     private static void esSimetrica() {
         boolean res = true;
@@ -132,7 +132,7 @@ public class GestorPaises {
         return limitrofes[origen.getNroPais()][destino.getNroPais()];
     }
 
-    public static List<Pais> crearPaises() {
+    private static List<Pais> crearPaises() {
         listaPaises = new ArrayList<>(72);
         listaPaises.add(new Pais(ALASKA, "Alaska", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), false));
         listaPaises.add(new Pais(ALBANIA, "Albania", GestorContinentes.getContinente(GestorContinentes.EUROPA), false));
@@ -553,7 +553,7 @@ public class GestorPaises {
         limitrofes[VIETNAM][FILIPINAS] = 1;
     }
 
-    public List<Pais> obtenerLimitrofes(Pais pais) {
+    public static List<Pais> obtenerLimitrofes(Pais pais) {
         List<Pais> listaLimitrofes = new ArrayList<>();
         for (int i = 0; i < limitrofes[0].length; i++) {
             if (limitrofes[pais.getNroPais()][i] == 1) {
@@ -596,7 +596,10 @@ public class GestorPaises {
 //        calcularDistancia();
 //        imprimir();
 //    }
-    public List<Pais> getListaPaises() {
+    public static List<Pais> getListaPaises() {
+        if (listaPaises == null) {
+            crearPaises();
+        }
         return listaPaises;
     }
 

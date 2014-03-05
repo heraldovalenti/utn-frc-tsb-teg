@@ -4,8 +4,8 @@
  */
 package juego;
 
+import java.io.Serializable;
 import java.util.List;
-import juego.estructura.GestorJugadores;
 import juego.estructura.TarjetaContinente;
 import juego.estructura.TarjetaPais;
 import juego.mecanicas.situacion.Situacion;
@@ -14,14 +14,17 @@ import juego.mecanicas.situacion.Situacion;
  *
  * @author heril
  */
-public class Juego {
+public class Juego implements Serializable {
 
     private static Juego instancia = null;
+
     public static Juego getInstancia() {
-        if (instancia == null) instancia = new Juego();
+        if (instancia == null) {
+            instancia = new Juego();
+        }
         return instancia;
     }
-    
+
     private Juego() {
     }
     private int idJuego;
@@ -45,5 +48,4 @@ public class Juego {
     public void setIdJuego(int idJuego) {
         this.idJuego = idJuego;
     }
-    
 }
