@@ -118,6 +118,7 @@ public class ControlColores {
             asignacionesColor.put(idJugador, iter.next());
             informarColoresDisponibles();
         }
+        AccionableEstadoJugadores.notificarActualizacionJugadores();
     }
 
     /**

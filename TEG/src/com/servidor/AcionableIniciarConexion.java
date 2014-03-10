@@ -10,6 +10,8 @@ import cliente.SalaEspera;
 import cliente.control.ControlAlias;
 import cliente.control.ControlColor;
 import com.Accionable;
+import com.cliente.AccionableEstadoJugador;
+import com.cliente.AccionableSolicitudEstadoJugadores;
 import juego.Juego;
 import logger.LogItem;
 
@@ -41,7 +43,12 @@ public class AcionableIniciarConexion implements Accionable {
         juego.setIdJuego(idPartida);
         salaEspera.actualizarEstadoConexion();
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Conexión establecida con éxito."));
+        if (idPartida == -1) {
+            return;
+        }
         new ControlAlias().solicitarAlias(null);
         new ControlColor().solicitarColor();
+        ClienteManager.getInstance().registrarSalida(new AccionableEstadoJugador(idConexionCliente, false));
+        ClienteManager.getInstance().registrarSalida(new AccionableSolicitudEstadoJugadores());
     }
 }
