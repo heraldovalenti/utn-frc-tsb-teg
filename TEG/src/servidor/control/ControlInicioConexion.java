@@ -4,6 +4,8 @@
  */
 package servidor.control;
 
+import com.cliente.AccionableCerrarConexion;
+import com.servidor.AccionableEstadoJugadores;
 import com.servidor.AcionableIniciarConexion;
 import servidor.ConexionCliente;
 import servidor.ServerManager;
@@ -40,5 +42,17 @@ public class ControlInicioConexion {
     public void ejecutar() {
         AcionableIniciarConexion inicioConexion = new AcionableIniciarConexion(idCliente, idPartida);
         conexionCliente.enviar(inicioConexion);
+    }
+    
+    /**
+     * Finaliza la conexion con el cliente recien conectado.
+     * Metodo a ejecutarse en caso de que la sala este llena.
+     */
+    public void finalizarConexion() {
+        AcionableIniciarConexion inicioConexion = new AcionableIniciarConexion(idCliente, -1);
+        AccionableCerrarConexion cierreConexion = new AccionableCerrarConexion(idCliente, AccionableCerrarConexion.DESCONEXION_SERVIDOR);
+        cierreConexion.setProcesado(true);
+        conexionCliente.enviar(inicioConexion);
+        conexionCliente.enviar(cierreConexion);
     }
 }

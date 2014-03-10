@@ -6,6 +6,7 @@ package com.cliente;
 
 import cliente.control.ControlConexion;
 import com.Accionable;
+import com.servidor.AccionableEstadoJugadores;
 import servidor.ConexionCliente;
 import servidor.GestorClientes;
 import servidor.ServerManager;
@@ -48,9 +49,14 @@ public class AccionableCerrarConexion implements Accionable {
         ConexionCliente cc = gestorClientes.quitarCliente(idConexion);
         solicitudProcesada = true;
         cc.enviar(this);
+        AccionableEstadoJugadores.notificarActualizacionJugadores();
     }
     
     private void procesarRespuesta() {
         ControlConexion.cerrarConexion(idConexion, razon);
+    }
+    
+    public void setProcesado(boolean procesado) {
+        this.solicitudProcesada = procesado;
     }
 }

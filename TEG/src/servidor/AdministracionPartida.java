@@ -6,7 +6,6 @@ package servidor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
-import javax.management.remote.JMXProviderException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -179,14 +178,15 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
     }
 
     public void actualizarEstadoJugadores(TableModel model) {
-        if (model == null) {
-            Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
-            Object[][] data = null;
-            model = new DefaultTableModel(data, columnNames);
-        }
         try {
+            if (model == null) {
+                Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
+                Object[][] data = new Object[0][4];
+                model = new DefaultTableModel(data, columnNames);
+            }
             this.tblJugadores.setModel(model);
         } catch (Exception ex) {
+            ServerManager.getInstance().getLogger().addLogItem(new LogItem("Error actualizando estado de jugadores", ex));
         }
     }
     

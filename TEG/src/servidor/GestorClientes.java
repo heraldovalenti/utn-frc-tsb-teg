@@ -22,6 +22,7 @@ public class GestorClientes implements Runnable {
     private ConexionCliente conexionAAtender;
     private ColaAcciones colaAcciones;
     private boolean banderaEjecucion;
+    private static final int maximoClientes = 6;
 
     public GestorClientes(ColaAcciones colaAcciones) {
         conexionesCliente = new LinkedList();
@@ -31,26 +32,33 @@ public class GestorClientes implements Runnable {
     }
 
     /**
-     * Agrega una conexion con un cliente al gestor.
-     * Ejecuta el procedimiento de inicio de conexion con el cliente.
+     * Agrega una conexion con un cliente al gestor. Ejecuta el procedimiento de
+     * inicio de conexion con el cliente. Si la sala esta llena, no se almacena
+     * la conexion y envia la orden de cerrar la conexion al cliente, informando
+     * ademas la situacion.
      *
      * @param cc ConexionCliente a agregar
      */
     public void agregarCliente(ConexionCliente cc) {
         cc.setId(generarIdentificadorUnico());
-        conexionesCliente.add(cc);
-        new ControlInicioConexion(cc).ejecutar();
+        if (conexionesCliente.size() < maximoClientes) {
+            conexionesCliente.add(cc);
+            new ControlInicioConexion(cc).ejecutar();
+        } else {
+            new ControlInicioConexion(cc).finalizarConexion();
+        }
     }
-    
+
     /**
      * Quita una conexion de la coleccion de conexiones a clientes.
+     *
      * @param idCliente el id de la conexion a quitarse.
      * @return la conexion identificada, null si no se ha encontrado ninguna
      * conexion.
      */
     public ConexionCliente quitarCliente(int idCliente) {
         ConexionCliente res = null;
-        for(int i = 0; i < conexionesCliente.size(); i++) {
+        for (int i = 0; i < conexionesCliente.size(); i++) {
             ConexionCliente cc = conexionesCliente.get(i);
             if (cc.getId() == idCliente) {
                 res = conexionesCliente.remove(i);
@@ -59,11 +67,12 @@ public class GestorClientes implements Runnable {
         }
         return res;
     }
-    
+
     /**
-     * Genera un identificador unico para los nuevos clientes que se conectan
-     * al servidor. Para realizarlo, genera un numero aleatorio y verifica que
-     * los clientes ya conectados no contengan el mismo identificador.
+     * Genera un identificador unico para los nuevos clientes que se conectan al
+     * servidor. Para realizarlo, genera un numero aleatorio y verifica que los
+     * clientes ya conectados no contengan el mismo identificador.
+     *
      * @return int el identificador generado.
      */
     private int generarIdentificadorUnico() {
@@ -71,7 +80,7 @@ public class GestorClientes implements Runnable {
         int identificador = -1;
         do {
             double rnd = Math.random();
-            identificador = (int)(rnd * 1000000000);
+            identificador = (int) (rnd * 1000000000);
             boolean forInterrumpido = false;
             for (ConexionCliente cc : conexionesCliente) {
                 if (cc.getId() == identificador || identificador == 0) {
@@ -84,7 +93,7 @@ public class GestorClientes implements Runnable {
             } else {
                 identificadorValido = true;
             }
-        } while(!identificadorValido);
+        } while (!identificadorValido);
         return identificador;
     }
 
@@ -158,10 +167,11 @@ public class GestorClientes implements Runnable {
             aux.enviar(accion);
         }
     }
-    
+
     /**
-     * Envia un accionable a la conexion cliente especificada.
-     * Sobrecarga para enviar mensajes a un cliente en particular.
+     * Envia un accionable a la conexion cliente especificada. Sobrecarga para
+     * enviar mensajes a un cliente en particular.
+     *
      * @param accion el accionable a enviarse.
      * @param cc la conexion a enviarse el accionable.
      */
@@ -214,17 +224,19 @@ public class GestorClientes implements Runnable {
         enviarAccionable(new AccionableCerrarConexion());
         conexionesCliente.clear();
     }
-    
+
     /**
      * Informa si hay conexiones establecidas con clientes.
+     *
      * @return true si hay alguna conexion establecida, false en otro caso.
      */
     public boolean conexionesEstablecidas() {
         return conexionesCliente.size() != 0;
     }
-    
+
     /**
      * Informa el identificador de las conexiones establecidas con clientes.
+     *
      * @return un conjunto con los id de las conexiones establecidas.
      */
     public Set<Integer> getIdConexionesEstablecidas() {
@@ -252,7 +264,7 @@ public class GestorClientes implements Runnable {
             }
         }
     }
-    
+
     public void setHilo(Thread hilo) {
         this.hilo = hilo;
     }

@@ -10,6 +10,7 @@ import cliente.control.ControlConexion;
 import cliente.control.ControlJuego;
 import com.cliente.AccionableChat;
 import com.cliente.AccionableEstadoJugador;
+import com.cliente.AccionableSolicitudEstadoJugadores;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -314,14 +315,20 @@ public class SalaEspera extends javax.swing.JFrame implements Loggeable {
     }
 
     public void actualizarEstadoJugadores(TableModel model) {
-        if (model == null) {
-            Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
-            Object[][] data = null;
-            model = new DefaultTableModel(data, columnNames);
-        }
         try {
+            if (model == null) {
+                Object[] columnNames = {"Alias", "Tipo Jugador", "Color", "Listo"};
+                Object[][] data = new Object[0][4];
+                model = new DefaultTableModel(data, columnNames);
+            }
             this.tblJugadores.setModel(model);
-        } catch (Exception ex) { }
+            if (model.getRowCount() == 0) {
+                Thread.currentThread().sleep(500);
+                ClienteManager.getInstance().registrarSalida(new AccionableSolicitudEstadoJugadores());
+            }
+        } catch (Exception ex) {
+            ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Error actualizando estado de jugadores", ex));
+        }
     }
 
     /**
