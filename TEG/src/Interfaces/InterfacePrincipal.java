@@ -2,6 +2,7 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
+import cliente.control.FachadaControl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
@@ -145,9 +146,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
   
     private ObjetivoSecreto obtenerObjetivo(){
         //return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
-        ObjetivoSecreto obj =new ObjetivoSecreto();
-        obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
-        return obj; 
+        //ObjetivoSecreto obj =new ObjetivoSecreto();
+        //obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
+        //return obj;
+        return FachadaControl.getObjetivoSecreto();
     }
     private ArrayList<Jugador> simularJugadores(){
         ArrayList<Jugador> jugadores = new ArrayList<Jugador>(); 
