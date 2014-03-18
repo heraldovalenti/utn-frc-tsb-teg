@@ -196,6 +196,13 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
                 + "No se puede iniciar la partida.", 
                 "Información", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    public void informarJugadoresInsuficientes() {
+        JOptionPane.showMessageDialog(this, 
+                "La cantidad de jugadores en la sala es insuficiente.\n"
+                + "Se necesitan al menos dos jugadores para iniciar la partida.",
+                "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

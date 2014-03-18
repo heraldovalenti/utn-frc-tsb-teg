@@ -6,8 +6,8 @@ package Interfaces;
 
 import cliente.ClienteManager;
 import java.util.List;
-import juego.estructura.GestorJugadores;
 import juego.estructura.GestorObjetivosSecretos;
+import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.TarjetaPais;
 
@@ -39,5 +39,15 @@ public class FachadaInterfacePrincipal {
     
     public static void mostrarMensaje(String mensaje){
         //Ema esto es para que pongas un label o algo asi que muestre el mensaje para todos los jugadores
+    }
+    
+    public static void informarRondaInicial() {
+        //METODO PARA INFORMAR QUE ES EL TURNO DEL JUGADOR PARA AGREGAR
+        //EJERCITOS EN SUS PAISES, CORRESPONDIENTES A LA RONDA INICIAL.
+    }
+    
+    public static void informarRondaInicial(Jugador jugador) {
+        //METODO PARA INFORMA QUE ES EL TURNO DEL JUGADOR INDICADO EN LA RONDA
+        //INICIAL.
     }
 }

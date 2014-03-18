@@ -233,6 +233,14 @@ public class GestorClientes implements Runnable {
     public boolean conexionesEstablecidas() {
         return conexionesCliente.size() != 0;
     }
+    
+    /**
+     * Informa la cantidad de conexiones establecidas con clientes.
+     * @return la cantidad de conexiones establecidas.
+     */
+    public int cantidadConexionesEstablecidas() {
+        return conexionesCliente.size();
+    }
 
     /**
      * Informa el identificador de las conexiones establecidas con clientes.
