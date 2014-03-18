@@ -38,8 +38,16 @@ public class ControlInicioJuego {
         }
         return true;
     }
+    
+    public static boolean jugadoresSuficientes() {
+        return ServerManager.getInstance().getGestorClientes().cantidadConexionesEstablecidas() >= 2;
+    }
 
     public static void iniciarJuego() {
+        if (!jugadoresSuficientes()) {
+            ServerManager.getInstance().getAdministracionPartida().informarJugadoresInsuficientes();
+            return;
+        }
         if (!jugadoresListos()) {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;

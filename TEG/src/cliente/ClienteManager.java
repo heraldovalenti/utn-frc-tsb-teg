@@ -111,7 +111,13 @@ public class ClienteManager {
         return jugador;
     }
 
-    public boolean esJugadorLocal(int numero) {
-        return conexionServidor.getConexionId() == numero;
+    /**
+     * Metodo para consultar si el jugador indicado es el jugador local.
+     * @param idJugador el id del jugador a consultarse.
+     * @return true si el id indicado es el del jugador local, false en otro
+     * caso.
+     */
+    public boolean esJugadorLocal(int idJugador) {
+        return conexionServidor.getConexionId() == idJugador;
     }
 }
