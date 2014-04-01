@@ -360,6 +360,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblEstadoServidor;
     private javax.swing.JLabel lblNumeroJuego;

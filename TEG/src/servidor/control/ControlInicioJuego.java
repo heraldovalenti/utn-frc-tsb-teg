@@ -6,6 +6,7 @@ package servidor.control;
 
 import com.servidor.AccionableInicioJuego;
 import com.servidor.AccionableNotificacionInicioJuego;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -52,9 +53,9 @@ public class ControlInicioJuego {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;
         }
-        enviarNotificacionInicioJuego();
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
+        enviarNotificacionInicioJuego();
     }
 
     private static void enviarNotificacionInicioJuego() {
@@ -71,7 +72,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarObjetivosSecretos() {
-        Set<Jugador> jugadores = GestorJugadores.getJugadores();
+        Set<Jugador> jugadores = new HashSet<>(GestorJugadores.getJugadores());
         LinkedList<ObjetivoSecreto> objetivos = new LinkedList<>(GestorObjetivosSecretos.getListaObjetivos());
         Collections.shuffle(objetivos);
         for (Jugador j : jugadores) {
@@ -87,7 +88,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarPaises() {
-        List<Pais> paises = GestorPaises.getListaPaises();
+        List<Pais> paises = new ArrayList<>(GestorPaises.getListaPaises());
         LinkedList<Jugador> jugadores = new LinkedList(GestorJugadores.getJugadores());
         Collections.shuffle(paises);
         Collections.shuffle(jugadores);
