@@ -55,6 +55,7 @@ public class ControlInicioJuego {
         enviarNotificacionInicioJuego();
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
+        iniciarRondaInicialDeIncorporacion();
     }
 
     private static void enviarNotificacionInicioJuego() {
@@ -123,5 +124,9 @@ public class ControlInicioJuego {
         AccionableInicioJuego inicioJuego = new AccionableInicioJuego(Juego.getInstancia(), GestorJugadores.getJugadores(), SecuenciaTurnos.getInstancia().getSecuencia());
         ServerManager.getInstance().registrarSalida(inicioJuego);
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Orden de inicialización de juego enviada a jugadores."));
+    }
+    
+    private static void iniciarRondaInicialDeIncorporacion() {
+        servidor.control.ControlRondaInicial.getInstance().comenzar();
     }
 }

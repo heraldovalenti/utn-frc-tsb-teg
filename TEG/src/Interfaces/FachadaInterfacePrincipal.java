@@ -47,7 +47,11 @@ public class FachadaInterfacePrincipal {
     }
     
     public static void informarRondaInicial(Jugador jugador) {
-        //METODO PARA INFORMA QUE ES EL TURNO DEL JUGADOR INDICADO EN LA RONDA
+        //METODO PARA INFORMAR QUE ES EL TURNO DEL JUGADOR INDICADO EN LA RONDA
         //INICIAL.
+    }
+    
+    public static void informarFinRondaInicial() {
+        //METODO PARA INFORMAR QUE ES FINALIZO EL TURNO DE RONDA INICIAL
     }
 }
