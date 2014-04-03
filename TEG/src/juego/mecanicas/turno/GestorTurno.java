@@ -166,5 +166,6 @@ public class GestorTurno {
     public static void aumentarContadorPaisesConquistados() {
         paisesConquistados++;
     }
+    
 
 }

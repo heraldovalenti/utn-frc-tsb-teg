@@ -27,6 +27,7 @@ public class Jugador implements Serializable {
     private int cantidadCanjes = 0;
     private List<TarjetaPais> listaTarjetasPais = new ArrayList<>(5);
     private List<TarjetaContinente> listaTarjetaContinentes;
+    private boolean ia;
 
     public Jugador() {
     }
@@ -103,6 +104,21 @@ public class Jugador implements Serializable {
 
     public void setListaTarjetaContinentes(List<TarjetaContinente> listaTarjetaContinentes) {
         this.listaTarjetaContinentes = listaTarjetaContinentes;
+    }
+
+    public boolean isIa() {
+        return ia;
+    }
+
+    public void setIa(boolean ia) {
+        this.ia = ia;
+    }
+
+    public List<Canjeable> obtenerTarjetas() {
+        List<Canjeable> listaTarjetas = new ArrayList<>();
+        listaTarjetas.addAll(listaTarjetasPais);
+        listaTarjetas.addAll(listaTarjetaContinentes);
+        return listaTarjetas;
     }
 
     /**

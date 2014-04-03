@@ -5,7 +5,6 @@
  */
 package ia;
 
-import Interfaces.FachadaInterface;
 import cliente.control.ControlRefuerzo;
 import com.cliente.AccionableAtaque;
 import java.util.HashMap;
@@ -15,12 +14,38 @@ import juego.estructura.Continente;
 import juego.estructura.GestorPaises;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
+import juego.mecanicas.ataque.ControlAtaque;
+import juego.mecanicas.movimiento.ControlMovimiento;
+import juego.mecanicas.turno.GestorTurno;
 
 /**
  *
  * @author Daniel
  */
 public class MotorIA {
+
+    public static void turnoIA(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
+        faseAtaque(jugador, cantidadEjercitos, ejercitosPorContinente);
+        faseReagrupamiento(jugador, cantidadEjercitos, ejercitosPorContinente);
+        faseSolicitarTarjeta(jugador, cantidadEjercitos, ejercitosPorContinente);
+    }
+
+    public static void faseRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        reforzar(jugador, cantidadEjercitos, ejercitosPorContinente);
+    }
+
+    public static void faseAtaque(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        atacar(jugador);
+    }
+
+    public static void faseReagrupamiento(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        reagrupar(jugador);
+    }
+
+    public static void faseSolicitarTarjeta(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        GestorTurno.solicitarTarjeta(jugador);
+    }
 
     public static int calcularAmenaza(Pais pais) {
         Jugador dueño = pais.getJugador();
@@ -45,10 +70,12 @@ public class MotorIA {
         Pais destino = null;
         int resultado = 0;
         for (Pais pais : GestorPaises.obtenerLimitrofes(origen)) {
-            int aux = origen.getCantidadEjercitos() - pais.getCantidadEjercitos();
-            if (aux > resultado) {
-                resultado = aux;
-                destino = pais;
+            if (!origen.getJugador().equals(pais.getJugador())) {
+                int aux = origen.getCantidadEjercitos() - pais.getCantidadEjercitos();
+                if (aux > resultado) {
+                    resultado = aux;
+                    destino = pais;
+                }
             }
         }
         return destino;
@@ -59,12 +86,20 @@ public class MotorIA {
         while (ataqueRealizado) {
             ataqueRealizado = false;
             for (Pais pais : jugador.getConjuntoPaises()) {
-                if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
-                    Pais blanco = determinarBlanco(pais);
-                    if (blanco != null) {
-                        AccionableAtaque ataque = new AccionableAtaque(pais, blanco);
-                        //TODO: Enviar el accionable
-                        ataqueRealizado = true;
+                boolean repetir = true;
+                while (repetir) {
+                    repetir = false;
+                    if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
+                        Pais blanco = determinarBlanco(pais);
+                        if (blanco != null) {
+                            ControlAtaque control = new ControlAtaque(pais, blanco);
+                            if (control.ataqueValido()) {
+                                AccionableAtaque ataque = new AccionableAtaque(pais, blanco);
+                                //TODO: Enviar el accionable
+                                ataqueRealizado = true;
+                                repetir = true;
+                            }
+                        }
                     }
                 }
             }
@@ -80,14 +115,28 @@ public class MotorIA {
                     Set<Pais> paises = jugador.obtenerPaisesDeContinente(continente);
                     for (Pais pais : paises) {
                         int necesidad = calcularNecesidadRefuerzos(pais, margen);
-                        if (necesidad > 0) {
-                            
+                        while (necesidad > 0) {
+                            control.agregarEjercito(pais);
+                            necesidad--;
                         }
                     }
                     margen++;
                 }
             }
         }
+        while (ejercitos > 0) {
+            int margen = 0;
+            Set<Pais> paises = jugador.getConjuntoPaises();
+            for (Pais pais : paises) {
+                int necesidad = calcularNecesidadRefuerzos(pais, margen);
+                while (necesidad > 0) {
+                    control.agregarEjercito(pais);
+                    necesidad--;
+                }
+            }
+            margen++;
+        }
+        control.aplicarRefuerzo();
     }
 
     public static int calcularNecesidadRefuerzos(Pais pais, int margen) {
@@ -98,6 +147,37 @@ public class MotorIA {
 
     public static boolean quedanRefuerzos(Map<Continente, Integer> ejercitosPorContinente, Continente continente) {
         return ejercitosPorContinente.get(continente) > 0;
+    }
+
+    public static void reagrupar(Jugador jugador) {
+        Map<Pais, Integer> mapaAmenazas = calcularAmenazasTotales(jugador);
+        for (Pais pais : mapaAmenazas.keySet()) {
+            if (mapaAmenazas.get(pais) <= 0 && pais.getCantidadEjercitos() > 4) {
+                Pais destino = determinarDestinoRefuerzo(pais);
+                int ejercitos = pais.getCantidadEjercitos() - 2;
+                ControlMovimiento control = new ControlMovimiento(pais, destino, ejercitos, 0);
+                //TODO: enviarAccionable
+            }
+        }
+    }
+
+    public static Pais determinarDestinoRefuerzo(Pais origen) {
+        Pais destino = null;
+        int resultado = 0;
+        for (Pais pais : GestorPaises.obtenerLimitrofes(origen)) {
+            if (origen.getJugador().equals(pais.getJugador())) {
+                int aux = origen.getCantidadEjercitos() - pais.getCantidadEjercitos();
+                if (aux > resultado) {
+                    resultado = aux;
+                    destino = pais;
+                }
+            }
+        }
+        return destino;
+    }
+    
+    public static void canjearTarjetas(Jugador jugador){
+        
     }
 
 //    public static Map<Pais, Integer> calcularNecesidadRefuerzos(Set<Pais> conjuntoPaises) {
