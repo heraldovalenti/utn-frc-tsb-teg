@@ -8,6 +8,7 @@ import Interfaces.InterfacePrincipal;
 import cliente.control.ControlInicio;
 import com.Accionable;
 import juego.Juego;
+import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import logger.Logger;
 import servidor.ColaAcciones;
@@ -45,7 +46,6 @@ public class ClienteManager {
     private Logger logger;
     private Juego juego;
     private InterfacePrincipal interfacePrincipal;
-    private Jugador jugador;
 
     /**
      * Metodo para iniciar la aplicacion.
@@ -108,7 +108,7 @@ public class ClienteManager {
     }
 
     public Jugador getJugador() {
-        return jugador;
+        return GestorJugadores.obtenerPorNumero(getIdCliente());
     }
 
     /**

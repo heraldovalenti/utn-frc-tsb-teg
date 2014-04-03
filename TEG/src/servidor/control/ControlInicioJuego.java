@@ -6,7 +6,6 @@ package servidor.control;
 
 import com.servidor.AccionableInicioJuego;
 import com.servidor.AccionableNotificacionInicioJuego;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -53,9 +52,10 @@ public class ControlInicioJuego {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;
         }
+        enviarNotificacionInicioJuego();
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
-        enviarNotificacionInicioJuego();
+        iniciarRondaInicialDeIncorporacion();
     }
 
     private static void enviarNotificacionInicioJuego() {
@@ -72,7 +72,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarObjetivosSecretos() {
-        Set<Jugador> jugadores = new HashSet<>(GestorJugadores.getJugadores());
+        Set<Jugador> jugadores = GestorJugadores.getJugadores();
         LinkedList<ObjetivoSecreto> objetivos = new LinkedList<>(GestorObjetivosSecretos.getListaObjetivos());
         Collections.shuffle(objetivos);
         for (Jugador j : jugadores) {
@@ -88,7 +88,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarPaises() {
-        List<Pais> paises = new ArrayList<>(GestorPaises.getListaPaises());
+        List<Pais> paises = GestorPaises.getListaPaises();
         LinkedList<Jugador> jugadores = new LinkedList(GestorJugadores.getJugadores());
         Collections.shuffle(paises);
         Collections.shuffle(jugadores);
@@ -124,5 +124,9 @@ public class ControlInicioJuego {
         AccionableInicioJuego inicioJuego = new AccionableInicioJuego(Juego.getInstancia(), GestorJugadores.getJugadores(), SecuenciaTurnos.getInstancia().getSecuencia());
         ServerManager.getInstance().registrarSalida(inicioJuego);
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Orden de inicialización de juego enviada a jugadores."));
+    }
+    
+    private static void iniciarRondaInicialDeIncorporacion() {
+        servidor.control.ControlRondaInicial.getInstance().comenzar();
     }
 }

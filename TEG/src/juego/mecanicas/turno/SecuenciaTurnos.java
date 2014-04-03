@@ -60,9 +60,10 @@ public class SecuenciaTurnos {
      * Metodo que indica el comienzo de un nuevo turno.
      */
     public void siguienteTurno() {
-        actual++;
         if (esFinRonda()) {
             nuevaRonda();
+        } else {
+            actual++;
         }
     }
 
@@ -85,23 +86,33 @@ public class SecuenciaTurnos {
     public Jugador getActual() {
         return secuencia.get(actual);
     }
-    
+
     /**
      * Devuelve una lista con la secuencia actual de turnos de los jugadores.
+     *
      * @return secuencia de turnos.
      */
     public List<Jugador> getSecuencia() {
         return new ArrayList<>(secuencia);
     }
-    
+
     /**
      * Establece la secuencia de turnos.
+     *
      * @param secuencia la secuencia de turnos de jugadores.
      */
     public void setSecuencia(List<Jugador> secuencia) {
         this.secuencia = secuencia;
     }
 
+    /**
+     * Informa el jugador anterior al jugador indicado como parametro.
+     * Es importante destacar que no tiene en cuenta la finalizacion de la ronda
+     * y la generacion de un nuevo turno, que es en el momento en el que el
+     * orden de los turnos es modificado.
+     * @param jugador el jugador de referencia
+     * @return el jugador anterior al jugador de referencia
+     */
     public Jugador getJugadorAnterior(Jugador jugador) {
         for (int i = 0; i < secuencia.size(); i++) {
             Jugador res = secuencia.get(i);
@@ -116,6 +127,14 @@ public class SecuenciaTurnos {
         return null;
     }
 
+    /**
+     * Informa el jugador siguiente al jugador indicado como parametro.
+     * Es importante destacar que no tiene en cuenta la finalizacion de la ronda
+     * y la generacion de un nuevo turno, que es en el momento en el que el
+     * orden de los turnos es modificado.
+     * @param jugador el jugador de referencia
+     * @return el jugador siguiente al jugador de referencia
+     */
     public Jugador getJugadorSiguiente(Jugador jugador) {
         for (int i = 0; i < secuencia.size(); i++) {
             Jugador res = secuencia.get(i);
@@ -168,7 +187,50 @@ public class SecuenciaTurnos {
             System.out.println("\t>>" + i.toString());
         }
     }
-//    public static void main (String args[]) {
-//        test();
+
+    public static void testSecuencia() {
+        Juego j = Juego.getInstancia();
+        Set<Jugador> jugadores = new HashSet<>();
+        jugadores.add(new Jugador(1, "Heraldo", Color.ORANGE));
+//        jugadores.add(new Jugador(2, "Tero", Color.BLACK));
+//        jugadores.add(new Jugador(3, "Nariz", Color.BLUE));
+        jugadores.add(new Jugador(4, "Bren", Color.GREEN));
+        jugadores.add(new Jugador(5, "Lulu", Color.WHITE));
+//        jugadores.add(new Jugador(6, "Gato", Color.RED));
+        GestorJugadores.setJugadores(jugadores);
+        SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("jugador actual: " + st.getActual().getNombre());
+            System.out.println("secuencia: ");
+            for (Jugador jug : st.secuencia) {
+                System.out.println("\t>>" + jug.toString());
+            }
+            st.siguienteTurno();
+        }
+
+    }
+    
+    public static void testSecuenciaTurnos() {
+        Juego j = Juego.getInstancia();
+        Set<Jugador> jugadores = new HashSet<>();
+        jugadores.add(new Jugador(1, "Heraldo", Color.ORANGE));
+        jugadores.add(new Jugador(2, "Tero", Color.BLACK));
+        jugadores.add(new Jugador(3, "Nariz", Color.BLUE));
+        jugadores.add(new Jugador(4, "Bren", Color.GREEN));
+        jugadores.add(new Jugador(5, "Lulu", Color.WHITE));
+        jugadores.add(new Jugador(6, "Gato", Color.RED));
+        GestorJugadores.setJugadores(jugadores);
+        SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
+
+        Jugador aux = st.getActual();
+        for (int i = 0; i < 20; i++) {
+            System.out.println("jugador actual: " + aux.getNombre());
+            aux = st.getJugadorSiguiente(aux);
+        }
+    }
+
+//    public static void main(String args[]) {
+//        testSecuenciaTurnos();
 //    }
 }
