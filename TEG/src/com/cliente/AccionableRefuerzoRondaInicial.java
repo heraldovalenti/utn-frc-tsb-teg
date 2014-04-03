@@ -1,30 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.cliente;
 
 import com.Accionable;
+import com.servidor.ActualizadorPaises;
+import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import com.servidor.ActualizadorPaises;
-import java.util.ArrayList;
 import servidor.ServerManager;
+import servidor.control.ControlRondaInicial;
 
 /**
  *
- * @author Daniel
+ * @author heril
  */
-public class AccionableRefuerzo implements Accionable {
-    
+public class AccionableRefuerzoRondaInicial implements Accionable {
+
     private final List<Pais> listaPaises;
-    
-    public AccionableRefuerzo(List<Pais> listaPaises) {
+
+    public AccionableRefuerzoRondaInicial(List<Pais> listaPaises) {
         this.listaPaises = listaPaises;
     }
-    
+
     @Override
     public void accionar() {
         List<Pais> listaActualizacionesPais = new ArrayList<>();
@@ -36,5 +36,6 @@ public class AccionableRefuerzo implements Accionable {
         }
         ActualizadorPaises actualizador = new ActualizadorPaises(listaActualizacionesPais);
         ServerManager.getInstance().registrarSalida(actualizador);
+        ControlRondaInicial.getInstance().finTurnoJugador();
     }
 }
