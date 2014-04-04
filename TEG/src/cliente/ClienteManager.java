@@ -8,6 +8,7 @@ import Interfaces.InterfacePrincipal;
 import cliente.control.ControlInicio;
 import com.Accionable;
 import juego.Juego;
+import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import logger.Logger;
 import servidor.ColaAcciones;
@@ -45,7 +46,6 @@ public class ClienteManager {
     private Logger logger;
     private Juego juego;
     private InterfacePrincipal interfacePrincipal;
-    private Jugador jugador;
 
     /**
      * Metodo para iniciar la aplicacion.
@@ -108,10 +108,16 @@ public class ClienteManager {
     }
 
     public Jugador getJugador() {
-        return jugador;
+        return GestorJugadores.obtenerPorNumero(getIdCliente());
     }
 
-    public boolean esJugadorLocal(int numero) {
-        return conexionServidor.getConexionId() == numero;
+    /**
+     * Metodo para consultar si el jugador indicado es el jugador local.
+     * @param idJugador el id del jugador a consultarse.
+     * @return true si el id indicado es el del jugador local, false en otro
+     * caso.
+     */
+    public boolean esJugadorLocal(int idJugador) {
+        return conexionServidor.getConexionId() == idJugador;
     }
 }
