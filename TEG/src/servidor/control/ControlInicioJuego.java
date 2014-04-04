@@ -38,8 +38,16 @@ public class ControlInicioJuego {
         }
         return true;
     }
+    
+    public static boolean jugadoresSuficientes() {
+        return ServerManager.getInstance().getGestorClientes().cantidadConexionesEstablecidas() >= 2;
+    }
 
     public static void iniciarJuego() {
+        if (!jugadoresSuficientes()) {
+            ServerManager.getInstance().getAdministracionPartida().informarJugadoresInsuficientes();
+            return;
+        }
         if (!jugadoresListos()) {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;
@@ -47,6 +55,7 @@ public class ControlInicioJuego {
         enviarNotificacionInicioJuego();
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
+        iniciarRondaInicialDeIncorporacion();
     }
 
     private static void enviarNotificacionInicioJuego() {
@@ -115,5 +124,9 @@ public class ControlInicioJuego {
         AccionableInicioJuego inicioJuego = new AccionableInicioJuego(Juego.getInstancia(), GestorJugadores.getJugadores(), SecuenciaTurnos.getInstancia().getSecuencia());
         ServerManager.getInstance().registrarSalida(inicioJuego);
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Orden de inicialización de juego enviada a jugadores."));
+    }
+    
+    private static void iniciarRondaInicialDeIncorporacion() {
+        servidor.control.ControlRondaInicial.getInstance().comenzar();
     }
 }

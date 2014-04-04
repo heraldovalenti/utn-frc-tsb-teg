@@ -9,6 +9,7 @@ import cliente.control.ControlColor;
 import com.Accionable;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
+import logger.LogItem;
 import servidor.ServerManager;
 import servidor.control.ControlColores;
 import servidor.control.ControlEstadoJugadores;
@@ -57,7 +58,7 @@ public class AccionableEstadoJugadores implements Accionable {
                 data[i][3] = (estadoJugadores[i]) ? "Si" : "No";
             }
         } catch (Exception ex) {
-            data = null;
+            data = new Object[0][4];
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         if (cliente) {

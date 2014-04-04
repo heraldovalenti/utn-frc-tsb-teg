@@ -5,6 +5,7 @@
  */
 package juego.estructura;
 
+import cliente.ClienteManager;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,5 +59,9 @@ public class GestorJugadores {
             }
         }
         return null;
+    }
+    
+    public static Jugador getJugadorLocal() {
+        return obtenerPorNumero(ClienteManager.getInstance().getIdCliente());
     }
 }
