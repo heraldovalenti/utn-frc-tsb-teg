@@ -2560,6 +2560,7 @@ public class Mapa extends javax.swing.JPanel {
 
     private void lblFloridaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseEntered
         principal.cargarInformacionPais("FLORIDA");
+        lblFichaFlorida.setVisible(false);
         lblMisilFlorida.setVisible(false);
     }//GEN-LAST:event_lblFloridaMouseEntered
 

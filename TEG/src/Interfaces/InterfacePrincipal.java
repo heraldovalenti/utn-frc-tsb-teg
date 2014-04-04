@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import juego.estructura.Continente;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
@@ -43,6 +44,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private Pais paisHasta;
     private boolean reagrupar = false;
     private Reagrupar ventanaReagrupar; 
+    private HiloSonido hiloSonido;
     
     /**
      * Creates new form GUI
@@ -144,10 +146,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }
   
     private ObjetivoSecreto obtenerObjetivo(){
-        //return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
-        ObjetivoSecreto obj =new ObjetivoSecreto();
-        obj.setDescripcion("Conquistar America del Sur.\nConquistar 3 paises de Europa limitrofes entre si.\nConquistar 5 paises de Asia");
-        return obj; 
+        return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
     }
     private ArrayList<Jugador> simularJugadores(){
         ArrayList<Jugador> jugadores = new ArrayList<Jugador>(); 
@@ -223,7 +222,9 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         } catch (PropertyVetoException ex) {
         }
     }    
-   
+    public void setHiloSonido(HiloSonido hiloSonido){
+        this.hiloSonido = hiloSonido;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -244,6 +245,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         btnMision = new javax.swing.JButton();
         btnVerTarjetas = new javax.swing.JButton();
         btnAtacarMisil = new javax.swing.JButton();
+        btnSonido = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -334,6 +337,20 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         btnAtacarMisil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtacarMisilActionPerformed(evt);
+            }
+        });
+
+        btnSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/ConSonido.png"))); // NOI18N
+        btnSonido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSonidoActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/siguiente4.png"))); // NOI18N
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
             }
         });
 
@@ -429,21 +446,28 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                 .addComponent(btnTarjeta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFinTurno)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
+                .addGap(127, 127, 127)
+                .addComponent(btnSonido, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAtacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAtacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSonido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSiguiente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -494,6 +518,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         desktop.add(tarj2);
         ubicarGuis(tarj,mapa.getWidth()/2,mapa.getHeight()/2);
         ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
+        HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
+        sonido.start();
        // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -533,6 +559,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnMisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMisionActionPerformed
+       if(obtenerObjetivo() == null) {
+           JOptionPane.showMessageDialog(this, "Objetivo no encontrado", "Error", JOptionPane.WARNING_MESSAGE);
+           return;
+       }
        InterfaceObjetivo objetivo =  new InterfaceObjetivo(obtenerObjetivo().getDescripcion(), menuObjetivo, btnMision);
        menuObjetivo.setEnabled(false);
        btnMision.setEnabled(false);
@@ -574,6 +604,28 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         habilitarBotones();
         btnReagrupar.setEnabled(false);
     }//GEN-LAST:event_btnReagruparActionPerformed
+
+    private void btnSonidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSonidoActionPerformed
+        if(hiloSonido == null){
+            hiloSonido = new HiloSonido();
+            hiloSonido.start();
+            btnSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/conSonido.png")));
+            btnSiguiente.setEnabled(true);
+        }
+        else{
+            hiloSonido.stop();
+            hiloSonido = null;
+            btnSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/sinSonido4.png")));
+            btnSiguiente.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnSonidoActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+         /* hiloSonido.stop();
+          hiloSonido = null;
+          hiloSonido = new HiloSonido();
+          hiloSonido.start();*/
+    }//GEN-LAST:event_btnSiguienteActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
@@ -728,6 +780,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnFinTurno;
     private javax.swing.JButton btnMision;
     private javax.swing.JButton btnReagrupar;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnSonido;
     private javax.swing.JButton btnTarjeta;
     private javax.swing.JButton btnVerTarjetas;
     private javax.swing.JDesktopPane desktop;
