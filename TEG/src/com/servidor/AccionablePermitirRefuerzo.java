@@ -20,14 +20,15 @@ import juego.estructura.Jugador;
 public class AccionablePermitirRefuerzo implements Accionable {
 
     private final Jugador jugador;
+    private final int cantidadEjercitos;
 
-    public AccionablePermitirRefuerzo(Jugador jugador) {
+    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos) {
         this.jugador = jugador;
+        this.cantidadEjercitos = cantidadEjercitos;
     }
 
     @Override
     public void accionar() {
-        int cantidadEjercitos = jugador.calcularRefuerzosPermitidos();
         Map<Continente, Integer> mapaContinentes = jugador.calcularPaisesPorContinente();
         Map<Continente, Integer> paisesPorContinente = new HashMap<>();
         for (Continente continente : mapaContinentes.keySet()) {
@@ -35,7 +36,7 @@ public class AccionablePermitirRefuerzo implements Accionable {
                 paisesPorContinente.put(continente, GestorContinentes.obtenerRefuerzosPorContinente(continente.getNroContinente()));
             }
         }
-        new ControlRefuerzo(cantidadEjercitos, paisesPorContinente);
+        ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, paisesPorContinente);
     }
 
 }

@@ -7,6 +7,7 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.AccionableMensajeGlobal;
+import com.servidor.AccionablePermitirRefuerzo;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.Canjeable;
@@ -32,15 +33,25 @@ public class AccionableCanjeTarjetas implements Accionable {
 
     @Override
     public void accionar() {
-        if (GestorTarjetas.canjeValido(listaTarjetas)) {
+        if (GestorTarjetas.canjeValido(jugadorCliente, listaTarjetas)) {
+//            Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(jugadorCliente.getNroJugador());
+//            jugadorServidor.canjearTarjetas(listaTarjetas);
+//            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
+//            ServerManager.getInstance().registrarSalida(mensaje);
+//            List<Jugador> listaJugadores = new ArrayList<>(1);
+//            listaJugadores.add(jugadorServidor);
+//            ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
+//            ServerManager.getInstance().registrarSalida(actualizador);
             Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(jugadorCliente.getNroJugador());
-            jugadorServidor.canjearTarjetas(listaTarjetas);
+            int ejercitosAdicionales = GestorTarjetas.calcularEjercitosAdicionales(jugadorServidor.getCantidadCanjes());
+            jugadorServidor.usarTarjetas(listaTarjetas);
             AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
             ServerManager.getInstance().registrarSalida(mensaje);
             List<Jugador> listaJugadores = new ArrayList<>(1);
             listaJugadores.add(jugadorServidor);
             ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
             ServerManager.getInstance().registrarSalida(actualizador);
+            
         }
     }
 

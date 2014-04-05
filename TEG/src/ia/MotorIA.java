@@ -6,16 +6,17 @@
 package ia;
 
 import cliente.control.ControlRefuerzo;
-import com.cliente.AccionableAtaque;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import juego.estructura.Canjeable;
 import juego.estructura.Continente;
 import juego.estructura.GestorPaises;
+import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-import juego.mecanicas.ataque.ControlAtaque;
-import juego.mecanicas.movimiento.ControlMovimiento;
 import juego.mecanicas.turno.GestorTurno;
 
 /**
@@ -26,24 +27,25 @@ public class MotorIA {
 
     public static void turnoIA(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
         faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
-        faseAtaque(jugador, cantidadEjercitos, ejercitosPorContinente);
-        faseReagrupamiento(jugador, cantidadEjercitos, ejercitosPorContinente);
-        faseSolicitarTarjeta(jugador, cantidadEjercitos, ejercitosPorContinente);
+        faseAtaque(jugador);
+        faseReagrupamiento(jugador);
+        faseSolicitarTarjeta(jugador);
     }
 
     public static void faseRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        canjearTarjetas(jugador);
         reforzar(jugador, cantidadEjercitos, ejercitosPorContinente);
     }
 
-    public static void faseAtaque(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+    public static void faseAtaque(Jugador jugador) {
         atacar(jugador);
     }
 
-    public static void faseReagrupamiento(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+    public static void faseReagrupamiento(Jugador jugador) {
         reagrupar(jugador);
     }
 
-    public static void faseSolicitarTarjeta(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+    public static void faseSolicitarTarjeta(Jugador jugador) {
         GestorTurno.solicitarTarjeta(jugador);
     }
 
@@ -92,13 +94,8 @@ public class MotorIA {
                     if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
                         Pais blanco = determinarBlanco(pais);
                         if (blanco != null) {
-                            ControlAtaque control = new ControlAtaque(pais, blanco);
-                            if (control.ataqueValido()) {
-                                AccionableAtaque ataque = new AccionableAtaque(pais, blanco);
-                                //TODO: Enviar el accionable
-                                ataqueRealizado = true;
-                                repetir = true;
-                            }
+                            GestorTurno.atacar(pais, blanco);
+                            //TODO: probablemente haya que cambiar el accionable para que use la cola de entrada
                         }
                     }
                 }
@@ -155,7 +152,7 @@ public class MotorIA {
             if (mapaAmenazas.get(pais) <= 0 && pais.getCantidadEjercitos() > 4) {
                 Pais destino = determinarDestinoRefuerzo(pais);
                 int ejercitos = pais.getCantidadEjercitos() - 2;
-                ControlMovimiento control = new ControlMovimiento(pais, destino, ejercitos, 0);
+                GestorTurno.reagruparEjercitos(pais, destino, ejercitos, 0);
                 //TODO: enviarAccionable
             }
         }
@@ -175,9 +172,53 @@ public class MotorIA {
         }
         return destino;
     }
-    
-    public static void canjearTarjetas(Jugador jugador){
-        
+
+    public static void canjearTarjetas(Jugador jugador) {
+        boolean canjeValido = false;
+        List<Canjeable> listaTarjetas = jugador.obtenerTarjetas();
+        List<Canjeable> paraCanjear = new ArrayList<>(5);
+        if (listaTarjetas.size() > 0) {
+            for (int i = 0; i < listaTarjetas.size(); i++) {
+                if (!canjeValido) {
+                    paraCanjear.set(0, listaTarjetas.get(i));
+                    canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
+                    if (canjeValido) {
+                        GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                    }
+                }
+            }
+        }
+        if (!canjeValido && listaTarjetas.size() > 1) {
+            for (int i = 0; i < listaTarjetas.size() - 1; i++) {
+                for (int j = i; j < listaTarjetas.size(); j++) {
+                    if (!canjeValido) {
+                        paraCanjear.set(0, listaTarjetas.get(i));
+                        paraCanjear.set(1, listaTarjetas.get(j));
+                        canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
+                        if (canjeValido) {
+                            GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                        }
+                    }
+                }
+            }
+        }
+        if (!canjeValido && listaTarjetas.size() > 2) {
+            for (int i = 0; i < listaTarjetas.size() - 2; i++) {
+                for (int j = i + 1; j < listaTarjetas.size() - 1; j++) {
+                    for (int h = j + 1; h < listaTarjetas.size(); h++) {
+                        if (!canjeValido) {
+                            paraCanjear.set(0, listaTarjetas.get(i));
+                            paraCanjear.set(1, listaTarjetas.get(j));
+                            paraCanjear.set(2, listaTarjetas.get(h));
+                            canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
+                            if (canjeValido) {
+                                GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 //    public static Map<Pais, Integer> calcularNecesidadRefuerzos(Set<Pais> conjuntoPaises) {

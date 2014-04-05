@@ -125,11 +125,17 @@ public class GestorTarjetas {
         }
     }
 
-    public static boolean canjeValido(List<Canjeable> listaTarjetas) {
+    public static boolean canjeValido(Jugador jugador, List<Canjeable> listaTarjetas) {
         int valor = 0;
         int peso = 0;
         boolean hayComodines = false;
         for (Canjeable tarjeta : listaTarjetas) {
+            if (tarjeta instanceof TarjetaContinente) {
+                TarjetaContinente tarjetaContinente = (TarjetaContinente) tarjeta;
+                if (tarjetaContinente.fueUsada(jugador)) {
+                    return false;
+                }
+            }
             valor += tarjeta.getValor();
             peso += tarjeta.getPeso();
             if (tarjeta.esComodin()) {
@@ -158,5 +164,9 @@ public class GestorTarjetas {
         listaTarjetasPais.addAll(listaTarjetasDevultas);
         listaTarjetasDevultas.clear();
         Collections.shuffle(listaTarjetasPais);
+    }
+
+    public static boolean yaUsada(Jugador jugador, TarjetaContinente tarjeta) {
+        return tarjeta.fueUsada(jugador);
     }
 }

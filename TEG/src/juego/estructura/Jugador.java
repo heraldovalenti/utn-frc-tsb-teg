@@ -214,23 +214,17 @@ public class Jugador implements Serializable {
         return (getCantidadPaises() >= 45);
     }
 
-    public int canjearTarjetas(List<Canjeable> listaTarjetas) {
-        int cantidadEjercitos = 0;
-        if (GestorTarjetas.canjeValido(listaTarjetas)) {
-            for (Canjeable tarjeta : listaTarjetas) {
-                if (tarjeta.getClass().equals(TarjetaPais.class
-                )) {
-                    GestorTarjetas.devolverTarjeta(
-                            (TarjetaPais) tarjeta);
-                } else {
-                    TarjetaContinente tarjetaCont = (TarjetaContinente) tarjeta;
-                    tarjetaCont.registrarUso(this);
-                }
+    public void usarTarjetas(List<Canjeable> listaTarjetas) {
+        for (Canjeable tarjeta : listaTarjetas) {
+            if (tarjeta instanceof TarjetaPais) {
+                GestorTarjetas.devolverTarjeta(
+                        (TarjetaPais) tarjeta);
+            } else {
+                TarjetaContinente tarjetaCont = (TarjetaContinente) tarjeta;
+                tarjetaCont.registrarUso(this);
             }
-            cantidadEjercitos = GestorTarjetas.calcularEjercitosAdicionales(cantidadCanjes);
-            cantidadCanjes++;
         }
-        return cantidadEjercitos;
+        cantidadCanjes++;
     }
 
     @Override

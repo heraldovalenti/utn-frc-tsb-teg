@@ -11,8 +11,8 @@ import com.cliente.AccionableCanjePorMisil;
 import com.cliente.AccionableCanjeTarjetas;
 import com.cliente.AccionableLanzarMisil;
 import com.cliente.AccionableMovimiento;
-import cliente.AccionableRefuerzo;
 import cliente.ClienteManager;
+import com.cliente.AccionableRefuerzo;
 import com.cliente.AccionableSolicitarTarjeta;
 import java.util.List;
 import juego.Juego;
@@ -77,12 +77,12 @@ public class GestorTurno {
         }
     }
 
-    public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
-        if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
-            AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
-            ClienteManager.getInstance().registrarSalida(refuerzo);
-        }
-    }
+//    public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
+//        if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
+//            AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
+//            ClienteManager.getInstance().registrarSalida(refuerzo);
+//        }
+//    }
 
     public static void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
@@ -126,7 +126,7 @@ public class GestorTurno {
 
     public static void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
         if (accionPermitida(ACCION_CANJEAR_TARJETA) && !canjeRealizado) {
-            if (GestorTarjetas.canjeValido(listaTarjetas)) {
+            if (GestorTarjetas.canjeValido(jugador, listaTarjetas)) {
                 AccionableCanjeTarjetas canje = new AccionableCanjeTarjetas(jugador, listaTarjetas);
                 ClienteManager.getInstance().registrarSalida(canje);
                 canjeRealizado = true;
