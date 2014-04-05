@@ -52,13 +52,17 @@ public class Presentacion extends javax.swing.JFrame {
         /* Create and display the form */
         Presentacion pres = new Presentacion();
         pres.setVisible(true);       
+        //HiloSonido sonido = new HiloSonido();
+        //sonido.start();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }        
         pres.dispose();
-        new InterfacePrincipal().setVisible(true);
+        InterfacePrincipal ventana = new InterfacePrincipal();
+        ventana.setHiloSonido(null);
+        ventana.setVisible(true);
     }
 
     /**
