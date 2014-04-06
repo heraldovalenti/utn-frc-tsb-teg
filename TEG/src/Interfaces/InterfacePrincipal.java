@@ -85,11 +85,9 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
         jugadores.actualizarJugadores(jug, actual);
     }
-    public void enviarChat(String envioChat){
-        //aca va a la clase de heraldo
-        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
-        String quienDice = "Emanuel: ";
-        cargarChat(quienDice+envioChat);
+    public void enviarChat(String envioChat){        
+        String quienDice = FachadaInterface.getJugadorLocal().getNombre()+": ";
+        FachadaInterface.enviarChat(quienDice+envioChat);        
     }
     private void actualizarFicha(Set<Jugador> jugadores){
         ArrayList<Pais> paises = new ArrayList<Pais>();
@@ -335,6 +333,11 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
         btnTarjeta.setText("Recoger");
+        btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTarjetaActionPerformed(evt);
+            }
+        });
 
         btnFinTurno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/chek.png"))); // NOI18N
         btnFinTurno.setText("Fin Turno");
@@ -602,7 +605,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-           Tarjetas tarjetas = new Tarjetas(null,jMenuItem1,btnVerTarjetas);
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.getJugadorLocal().getListaTarjetasPais(),jMenuItem1,btnVerTarjetas);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -655,6 +658,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
           hiloSonido = new HiloSonido();
           hiloSonido.start();*/
     }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
+        FachadaInterface.
+    }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
