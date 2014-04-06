@@ -10,6 +10,7 @@ import com.Accionable;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 import logger.LogItem;
+import servidor.GestorClientes;
 import servidor.ServerManager;
 import servidor.control.ControlColores;
 import servidor.control.ControlEstadoJugadores;
@@ -42,7 +43,7 @@ public class AccionableEstadoJugadores implements Accionable {
             coloresAsignados[i] = ControlColores.getColorJugador(id);
             aliasesAsignados[i] = ControladorAlias.getAliasJugador(id);
             estadoJugadores[i] = ControlEstadoJugadores.getEstadoJugador(id);
-            jugadoresIA[i] = false;
+            jugadoresIA[i] = ServerManager.getInstance().getGestorClientes().esIA(id);
         }
     }
 
