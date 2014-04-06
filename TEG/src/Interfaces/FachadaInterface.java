@@ -103,7 +103,7 @@ public class FachadaInterface {
         return GestorJugadores.getJugadores();
     }
 
-    public ControlRefuerzo getRefuerzoActual() {
+    public static ControlRefuerzo getRefuerzoActual() {
         return GestorTurno.getRefuerzoActual();
-    }
+    }    
 }

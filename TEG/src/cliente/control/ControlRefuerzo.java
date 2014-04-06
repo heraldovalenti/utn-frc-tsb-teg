@@ -204,7 +204,7 @@ public class ControlRefuerzo {
         refuerzosUtilizadosPorContinente.put(continente, cantidad + cantidadAnterior);
     }
 
-    private int calcularEjercitosLibresDisponibles() {
+    public int calcularEjercitosLibresDisponibles() {
         int libresUtilizados = 0;
         for (Continente continente : ejercitosPorContinente.keySet()) {
             if (refuerzosUtilizadosPorContinente.containsKey(continente)) {

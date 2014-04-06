@@ -49,4 +49,7 @@ public class FachadaInterfacePrincipal {
     public static void informarFinRondaInicial() {
         //METODO PARA INFORMAR QUE ES FINALIZO EL TURNO DE RONDA INICIAL
     }
+    public static void iniciarAgregadoRefuerzo(){
+        ClienteManager.getInstance().getInterfacePrincipal().inciarRefuerzo();
+    }
 }

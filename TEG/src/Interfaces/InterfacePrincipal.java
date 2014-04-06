@@ -2,6 +2,7 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
+import cliente.control.ControlRefuerzo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
@@ -676,19 +677,16 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
         
     }
-    public void refuerzo(int[] refuerzos){
-        if(refuerzo != null){
-            refuerzo.actualizarTropas(refuerzos);
-        }
-        else{
-            refuerzo = new Refuerzo(refuerzos);
+    public void inciarRefuerzo(){
+        if(refuerzo == null){
+            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
             ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
         }
-        actualizarFichas();
-       
- 
+        else{
+          
+        }        
     }
     private void habilitarBotonesAtaque(){
         boolean atacar = false;
@@ -726,21 +724,13 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
         else{
             if(!FachadaInterface.incorporarEjercitosPermitido()){
-            
-            habilitarBotonesAtaque();
+                habilitarBotonesAtaque();
             }
             else{
                 if(FachadaInterface.esMiPais(pais)){
                    if(refuerzo != null){
-                       if(refuerzo.esAgregar()){
-                           if(refuerzo.cantidadPaisesDisponibles() ==0){
-                               return;
-                           }
-                           FachadaInterface.agregarRefuerzo(pais);
-                       }
-                       else{
-                           FachadaInterface.quitarRefuerzo(pais);
-                       }
+                       refuerzo.agregarRefuerzo(pais);
+                       actualizarFichas();
                    }
                 }
             }
