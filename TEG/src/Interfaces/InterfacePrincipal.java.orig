@@ -2,16 +2,18 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
+
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
-import java.util.HashSet;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import juego.estructura.Continente;
@@ -19,7 +21,7 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
-import juego.mecanicas.turno.SecuenciaTurnos;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -54,6 +56,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         this.setSize(1330,990);        
         agregarGuis();
         actualizarFichas();
+        actualizarJugadores();
         habilitarBotones();
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
@@ -71,14 +74,20 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     public void cargarChat(String msg){
         chat.cargarChat(msg);
     }
-    public void actualizarJugadores(Set<Jugador> jug){
-        jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+    private void actualizarJugadores(Set<Jugador> jug){
+        //jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+        Set set = jug; 
+        Iterator it = jug.iterator();
+        Jugador actual = null;
+        while (it.hasNext()) {
+            actual = (Jugador) it.next();
+            break;
+        }
+        jugadores.actualizarJugadores(jug, actual);
     }
-    public void enviarChat(String envioChat){
-        //aca va a la clase de heraldo
-        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
-        String quienDice = "Emanuel: ";
-        cargarChat(quienDice+envioChat);
+    public void enviarChat(String envioChat){        
+        String quienDice = FachadaInterface.getJugadorLocal().getNombre()+": ";
+        FachadaInterface.enviarChat(quienDice+envioChat);        
     }
     private void actualizarFicha(Set<Jugador> jugadores){
         ArrayList<Pais> paises = new ArrayList<Pais>();
@@ -113,17 +122,34 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         jug.añadirPais(pais);
         Set <Jugador> jugadores = new HashSet<Jugador>();
         jugadores.add(jug);
-        actualizarFicha(jugadores); */
+        actualizarFicha(jgadores); */
         actualizarFicha(FachadaInterface.getJugadores());
     }
     public void cargarInformacionPais(String pais){
-        if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
+        if(informacion != null){
+            Pais p = obtenerPaisPorNombre(pais);
+            if(p == null) return;
+            informacion.setDatos(pais, p.getJugador().getNombre(), p.getCantidadEjercitos());
+        }
+        
+    }
+    private Pais obtenerPaisPorNombre(String nombre){
+        Set <Jugador> jugadores = FachadaInterface.getJugadores();
+        for(Jugador jugador:jugadores){
+             Set <Pais> paises = jugador.getConjuntoPaises();
+            for (Pais pais : paises){
+                if(pais.getNombre().equalsIgnoreCase(nombre)){
+                    return pais;
+                }
+            }
+        }
+        return null;
     }
     public void mostrarTarjeta(TarjetaPais tarj){
         Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
-         ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
+        ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
     }
     public void cargarDados(String nombreAtacante ,String nombreDefensor , int[]ataque, int [] defensa){
         try {     
@@ -138,8 +164,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         
     }
     private Jugador obtenerJugadorActual(){
-        //return SecuenciaTurnos.getInstancia().getActual();
-        return simularJugadores().get(0);
+        return FachadaInterface.getJugadorTurno();
+        
     }
     private List<ObjetivoSecreto> obtenerObjetivos(){
         return FachadaInterface.obtenerObjetivos();
@@ -307,6 +333,11 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
         btnTarjeta.setText("Recoger");
+        btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTarjetaActionPerformed(evt);
+            }
+        });
 
         btnFinTurno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/chek.png"))); // NOI18N
         btnFinTurno.setText("Fin Turno");
@@ -520,6 +551,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
         sonido.start();
+        actualizarJugadores();
        // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -573,7 +605,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-           Tarjetas tarjetas = new Tarjetas(null,jMenuItem1,btnVerTarjetas);
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.getJugadorLocal().getListaTarjetasPais(),jMenuItem1,btnVerTarjetas);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -626,6 +658,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
           hiloSonido = new HiloSonido();
           hiloSonido.start();*/
     }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
+       
+    }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];
@@ -659,19 +695,16 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
         
     }
-    public void refuerzo(int[] refuerzos){
-        if(refuerzo != null){
-            refuerzo.actualizarTropas(refuerzos);
-        }
-        else{
-            refuerzo = new Refuerzo(refuerzos);
+    public void inciarRefuerzo(){
+        if(refuerzo == null){
+            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
             ubicarGuis(refuerzo, mapa.getWidth()-refuerzo.getWidth(),0);
         }
-        actualizarFichas();
-       
- 
+        else{
+          
+        }        
     }
     private void habilitarBotonesAtaque(){
         boolean atacar = false;
@@ -698,10 +731,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ventanaReagrupar.cargarPais(pais);
     }
         
-    public void obtenerPaisSeleccionado(String p){
+    public void seleccionPais(String p){
         if(!esMiTurno()) return;
-        Pais pais = FachadaInterface.obtenerPaisPorNombre(p);
-        
+        Pais pais = obtenerPaisPorNombre(p);
+        if(pais == null) return;
         if(reagrupar){
             if(FachadaInterface.esMiPais(pais)){
                 reagrupar(pais);
@@ -709,21 +742,13 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
         else{
             if(!FachadaInterface.incorporarEjercitosPermitido()){
-            
-            habilitarBotonesAtaque();
+                habilitarBotonesAtaque();
             }
             else{
                 if(FachadaInterface.esMiPais(pais)){
                    if(refuerzo != null){
-                       if(refuerzo.esAgregar()){
-                           if(refuerzo.cantidadPaisesDisponibles() ==0){
-                               return;
-                           }
-                           FachadaInterface.agregarRefuerzo(pais);
-                       }
-                       else{
-                           FachadaInterface.quitarRefuerzo(pais);
-                       }
+                       refuerzo.agregarRefuerzo(pais);
+                       actualizarFichas();
                    }
                 }
             }

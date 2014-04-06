@@ -36,7 +36,6 @@ public class ClienteManager {
         despachadorAcciones = new servidor.DespachadorAcciones(colaAcciones);
         salaEspera = new SalaEspera();
         juego = Juego.getInstancia();
-        
         logger.agregarLoggeable(salaEspera);
     }
     private SalaEspera salaEspera;
@@ -113,11 +112,16 @@ public class ClienteManager {
 
     /**
      * Metodo para consultar si el jugador indicado es el jugador local.
+     *
      * @param idJugador el id del jugador a consultarse.
      * @return true si el id indicado es el del jugador local, false en otro
      * caso.
      */
     public boolean esJugadorLocal(int idJugador) {
         return conexionServidor.getConexionId() == idJugador;
+    }
+
+    public void setInterfacePrincipal(InterfacePrincipal ventana) {
+        this.interfacePrincipal = ventana;
     }
 }

@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import juego.estructura.Continente;
 import juego.estructura.GestorContinentes;
+import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
+import juego.mecanicas.turno.GestorTurno;
 
 /**
  *
@@ -19,24 +21,23 @@ import juego.estructura.Jugador;
  */
 public class AccionablePermitirRefuerzo implements Accionable {
 
-    private final Jugador jugador;
+    private final Jugador jugadorServidor;
     private final int cantidadEjercitos;
+    private final Map<Continente, Integer> ejercitosPorContinente;
 
-    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos) {
-        this.jugador = jugador;
+    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        this.jugadorServidor = jugador;
         this.cantidadEjercitos = cantidadEjercitos;
+        this.ejercitosPorContinente = ejercitosPorContinente;
     }
 
     @Override
     public void accionar() {
-        Map<Continente, Integer> mapaContinentes = jugador.calcularPaisesPorContinente();
-        Map<Continente, Integer> paisesPorContinente = new HashMap<>();
-        for (Continente continente : mapaContinentes.keySet()) {
-            if (mapaContinentes.get(continente) == GestorContinentes.obtenerCantidadPaises(continente.getNroContinente())) {
-                paisesPorContinente.put(continente, GestorContinentes.obtenerRefuerzosPorContinente(continente.getNroContinente()));
-            }
+        Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(jugadorServidor.getNroJugador());
+        if(jugadorCliente.equals(GestorJugadores.getJugadorLocal())){
+            ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente);
+            GestorTurno.setRefuerzoActual(control);
         }
-        ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, paisesPorContinente);
     }
 
 }

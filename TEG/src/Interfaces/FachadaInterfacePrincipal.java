@@ -5,10 +5,7 @@
 package Interfaces;
 
 import cliente.ClienteManager;
-import java.util.List;
-import juego.estructura.GestorObjetivosSecretos;
 import juego.estructura.Jugador;
-import juego.estructura.ObjetivoSecreto;
 import juego.estructura.TarjetaPais;
 
 /**
