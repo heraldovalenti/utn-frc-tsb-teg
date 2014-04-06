@@ -28,7 +28,7 @@ public class LogChat extends LogItem {
         res.append(format.format(super.timeStamp));
         res.append("# ");
         res.append(this.jugador);
-        res.append(": ");
+        res.append(" >> ");
         res.append(super.msg);
         return res.toString();
     }

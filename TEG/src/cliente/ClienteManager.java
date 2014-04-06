@@ -123,5 +123,6 @@ public class ClienteManager {
 
     public void setInterfacePrincipal(InterfacePrincipal ventana) {
         this.interfacePrincipal = ventana;
+        this.logger.agregarLoggeable(ventana);
     }
 }
