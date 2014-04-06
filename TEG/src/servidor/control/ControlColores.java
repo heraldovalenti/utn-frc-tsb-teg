@@ -72,7 +72,7 @@ public class ControlColores {
      */
     private static void actualizarAsignaciones() {
         Set<Integer> idJugadores = ServerManager.getInstance().getGestorClientes().getIdConexionesEstablecidas();
-        Set<Integer> idAsignaciones = asignacionesColor.keySet();
+        Set<Integer> idAsignaciones = new HashSet(asignacionesColor.keySet());
         for (Integer i : idAsignaciones) {
             //Si el id no esta en los id de jugadores conectados, removerlo de 
             //las asociaciones.
@@ -141,5 +141,13 @@ public class ControlColores {
     
     public static void purgar() {
         asignacionesColor = new HashMap<>();
+    }
+    
+    public static void asignarColorIA(Integer idJugador) {
+        Iterator<Color> iter = getColoresDisponibles().iterator();
+        if (iter.hasNext()) {
+            asignacionesColor.put(idJugador, iter.next());
+            informarColoresDisponibles();
+        }
     }
 }
