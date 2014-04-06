@@ -58,6 +58,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         actualizarFichas();
         actualizarJugadores();
         habilitarBotones();
+        ClienteManager.getInstance().setInterfacePrincipal(this);
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
         cerraVentanaReagrupar();
@@ -660,7 +661,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-        FachadaInterface.
+//comentado porque no compila. Esta incompleto        
+//FachadaInterface.
     }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant){
         
