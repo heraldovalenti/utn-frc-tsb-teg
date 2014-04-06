@@ -6,6 +6,7 @@ package Interfaces;
 
 import cliente.ClienteManager;
 import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableChat;
 import java.util.List;
 import java.util.Set;
 import juego.estructura.Continente;
@@ -15,6 +16,8 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.mecanicas.turno.GestorTurno;
+import juego.mecanicas.turno.SecuenciaTurnos;
+import servidor.ServerManager;
 
 /**
  *
@@ -24,6 +27,9 @@ public class FachadaInterface {
 
     public static List<ObjetivoSecreto> obtenerObjetivos() {
         return GestorObjetivosSecretos.getListaObjetivos();
+    }
+    public static void enviarChat(String chat) {
+        ServerManager.getInstance().registrarSalida(new AccionableChat(getJugadorLocal().getNroJugador(),getJugadorLocal().getNombre(), chat));
     }
 
     public static boolean atacarPermitido() {
@@ -45,6 +51,9 @@ public class FachadaInterface {
     public static boolean solicitarTarjetaPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_SOLICITAR_TARJETA);
     }
+    public static void solicitarTarjeta() {
+        GestorTurno.solicitarTarjeta(getJugadorLocal());
+    }
 
     public static boolean incorporarEjercitosPermitido() {
         return false;
@@ -61,6 +70,10 @@ public class FachadaInterface {
 
     public static Jugador getJugadorLocal() {
         return ClienteManager.getInstance().getJugador();
+    }
+    
+    public static Jugador getJugadorTurno() {
+        return SecuenciaTurnos.getInstancia().getActual();
     }
 
     public static Pais obtenerPaisPorNombre(String nombre) {
