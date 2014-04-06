@@ -2252,47 +2252,47 @@ public class Mapa extends javax.swing.JPanel {
     }//GEN-LAST:event_lblAlaskaMouseClicked
 
     private void lblCanadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanadaMouseClicked
-         principal.seleccionPais("Canada gil");
+         principal.seleccionPais("Canada");
     }//GEN-LAST:event_lblCanadaMouseClicked
 
     private void lblIslaVictoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslaVictoriaMouseClicked
-         principal.seleccionPais("Isla Victoria gil");
+         principal.seleccionPais("Isla Victoria");
     }//GEN-LAST:event_lblIslaVictoriaMouseClicked
 
     private void lblGroenlandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroenlandiaMouseClicked
-        principal.seleccionPais("Groenlandia gil");
+        principal.seleccionPais("Groenlandia");
     }//GEN-LAST:event_lblGroenlandiaMouseClicked
 
     private void lblIslandiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIslandiaMouseClicked
-         principal.seleccionPais("Islandia gil");
+         principal.seleccionPais("Islandia");
     }//GEN-LAST:event_lblIslandiaMouseClicked
 
     private void lblLabradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLabradorMouseClicked
-         principal.seleccionPais("Labrador gil");
+         principal.seleccionPais("Labrador");
     }//GEN-LAST:event_lblLabradorMouseClicked
 
     private void lblNewYorkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseClicked
-         principal.seleccionPais("New York gil");
+         principal.seleccionPais("New York");
     }//GEN-LAST:event_lblNewYorkMouseClicked
 
     private void lblTerranovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTerranovaMouseClicked
-         principal.seleccionPais("Terranova gil");
+         principal.seleccionPais("Terranova");
     }//GEN-LAST:event_lblTerranovaMouseClicked
 
     private void lblOregonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOregonMouseClicked
-         principal.seleccionPais("Oregon gil");
+         principal.seleccionPais("Oregon");
     }//GEN-LAST:event_lblOregonMouseClicked
 
     private void lblLasVegasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLasVegasMouseClicked
-         principal.seleccionPais("Las Vegas gil");
+         principal.seleccionPais("Las Vegas");
     }//GEN-LAST:event_lblLasVegasMouseClicked
 
     private void lblChicagoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChicagoMouseClicked
-         principal.seleccionPais("Chicago gil");
+         principal.seleccionPais("Chicago");
     }//GEN-LAST:event_lblChicagoMouseClicked
 
     private void lblCaliforniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCaliforniaMouseClicked
-         principal.seleccionPais("California gil");
+         principal.seleccionPais("California");
     }//GEN-LAST:event_lblCaliforniaMouseClicked
 
     private void lblFloridaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseClicked
