@@ -12,7 +12,7 @@ import com.cliente.AccionableCanjeTarjetas;
 import com.cliente.AccionableLanzarMisil;
 import com.cliente.AccionableMovimiento;
 import cliente.ClienteManager;
-import com.cliente.AccionableRefuerzo;
+import cliente.control.ControlRefuerzo;
 import com.cliente.AccionableSolicitarTarjeta;
 import java.util.List;
 import juego.Juego;
@@ -52,6 +52,8 @@ public class GestorTurno {
 
     private static boolean[][] permisos;
 
+    private static ControlRefuerzo refuerzoActual;
+
     public static void crearPermisos() {
         permisos = new boolean[5][8];
 
@@ -83,7 +85,6 @@ public class GestorTurno {
 //            ClienteManager.getInstance().registrarSalida(refuerzo);
 //        }
 //    }
-
     public static void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
@@ -100,7 +101,6 @@ public class GestorTurno {
                 ClienteManager.getInstance().registrarSalida(canje);
             }
         }
-
     }
 
     public static void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
@@ -166,6 +166,8 @@ public class GestorTurno {
     public static void aumentarContadorPaisesConquistados() {
         paisesConquistados++;
     }
-    
 
+    public static ControlRefuerzo getRefuerzoActual() {
+        return refuerzoActual;
+    }
 }

@@ -24,6 +24,7 @@ public class ControlRefuerzo {
     private final Map<Continente, Integer> ejercitosPorContinente;
     private Map<Pais, Integer> ejercitosColocados;
     private Map<Pais, Integer> misilesColocados;
+    private final Map<Continente, Integer> refuerzosUtilizadosPorContinente = new HashMap<>(5);
 
     public ControlRefuerzo(int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
         this.cantidadEjercitos = cantidadEjercitos;
@@ -37,6 +38,7 @@ public class ControlRefuerzo {
                 cantidadAnterior = ejercitosColocados.get(pais);
             }
             ejercitosColocados.put(pais, cantidadAnterior + 1);
+            registrarUsoPorContinente(pais, 1);
             pais.añadirEjercitos(1);
             return true;
         }
@@ -50,6 +52,7 @@ public class ControlRefuerzo {
                 cantidadAnterior = misilesColocados.get(pais);
             }
             misilesColocados.put(pais, cantidadAnterior + 1);
+            registrarUsoPorContinente(pais, 6);
             pais.añadirMisiles(1);
             return true;
         }
@@ -88,34 +91,49 @@ public class ControlRefuerzo {
             pais.restarMisiles(misilesColocados.get(pais));
             misilesColocados.put(pais, 0);
         }
+        refuerzosUtilizadosPorContinente.clear();
     }
 
+//    private boolean esValido() {
+//        if (totalUtilizado() != maximoPermitido()) {
+//            return false;
+//        }
+//        Map<Continente, Integer> utilizadosPorContinente = new HashMap<>();
+//        for (Pais pais : ejercitosColocados.keySet()) {
+//            Continente continente = pais.getContinente();
+//            int cantidadAnterior = 0;
+//            if (utilizadosPorContinente.containsKey(continente)) {
+//                cantidadAnterior = utilizadosPorContinente.get(continente);
+//            }
+//            utilizadosPorContinente.put(continente, cantidadAnterior + ejercitosColocados.get(pais));
+//        }
+//        for (Pais pais : misilesColocados.keySet()) {
+//            Continente continente = pais.getContinente();
+//            int cantidadAnterior = 0;
+//            if (utilizadosPorContinente.containsKey(continente)) {
+//                cantidadAnterior = utilizadosPorContinente.get(continente);
+//            }
+//            utilizadosPorContinente.put(continente, cantidadAnterior + misilesColocados.get(pais) * 6);
+//        }
+//        for (Continente continente : ejercitosPorContinenteDisponibles.keySet()) {
+//            if (!utilizadosPorContinente.containsKey(continente)) {
+//                return false;
+//            }
+//            if (ejercitosPorContinenteDisponibles.get(continente) < utilizadosPorContinente.get(continente)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
     private boolean esValido() {
         if (totalUtilizado() != maximoPermitido()) {
             return false;
         }
-        Map<Continente, Integer> utilizadosPorContinente = new HashMap<>();
-        for (Pais pais : ejercitosColocados.keySet()) {
-            Continente continente = pais.getContinente();
-            int cantidadAnterior = 0;
-            if (utilizadosPorContinente.containsKey(continente)) {
-                cantidadAnterior = utilizadosPorContinente.get(continente);
-            }
-            utilizadosPorContinente.put(continente, cantidadAnterior + ejercitosColocados.get(pais));
-        }
-        for (Pais pais : misilesColocados.keySet()) {
-            Continente continente = pais.getContinente();
-            int cantidadAnterior = 0;
-            if (utilizadosPorContinente.containsKey(continente)) {
-                cantidadAnterior = utilizadosPorContinente.get(continente);
-            }
-            utilizadosPorContinente.put(continente, cantidadAnterior + misilesColocados.get(pais) * 6);
-        }
         for (Continente continente : ejercitosPorContinente.keySet()) {
-            if (!utilizadosPorContinente.containsKey(continente)) {
+            if (!refuerzosUtilizadosPorContinente.containsKey(continente)) {
                 return false;
             }
-            if (ejercitosPorContinente.get(continente) < utilizadosPorContinente.get(continente)) {
+            if (ejercitosPorContinente.get(continente) < refuerzosUtilizadosPorContinente.get(continente)) {
                 return false;
             }
         }
@@ -135,5 +153,41 @@ public class ControlRefuerzo {
             return true;
         }
         return false;
+    }
+
+    public boolean puedeReforzar(Pais pais) {
+        int cantidadDisponible = 0;
+        Continente continente = pais.getContinente();
+        if (ejercitosPorContinente.containsKey(continente)) {
+            cantidadDisponible = ejercitosPorContinente.get(continente);
+        }
+        if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+            cantidadDisponible -= refuerzosUtilizadosPorContinente.get(continente);
+            //TODO: puede ser necesario hacer que sea cero si queda negativo
+        }
+        cantidadDisponible += calcularEjercitosLibresDisponibles();
+        return cantidadDisponible > 0;
+    }
+
+    private void registrarUsoPorContinente(Pais pais, int cantidad) {
+        int cantidadAnterior = 0;
+        Continente continente = pais.getContinente();
+        if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+            cantidadAnterior = refuerzosUtilizadosPorContinente.get(continente);
+        }
+        refuerzosUtilizadosPorContinente.put(continente, cantidad + cantidadAnterior);
+    }
+
+    private int calcularEjercitosLibresDisponibles() {
+        int libresUtilizados = 0;
+        for (Continente continente : ejercitosPorContinente.keySet()) {
+            if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+                int cantidad = refuerzosUtilizadosPorContinente.get(continente) - ejercitosPorContinente.get(continente);
+                if (cantidad > 0) {
+                    libresUtilizados += cantidad;
+                }
+            }
+        }
+        return cantidadEjercitos - libresUtilizados;
     }
 }
