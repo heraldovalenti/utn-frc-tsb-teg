@@ -38,7 +38,7 @@ public class ControlInicioJuego {
         }
         return true;
     }
-    
+
     public static boolean jugadoresSuficientes() {
         return ServerManager.getInstance().getGestorClientes().cantidadConexionesEstablecidas() >= 2;
     }
@@ -125,7 +125,7 @@ public class ControlInicioJuego {
         ServerManager.getInstance().registrarSalida(inicioJuego);
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Orden de inicialización de juego enviada a jugadores."));
     }
-    
+
     private static void iniciarRondaInicialDeIncorporacion() {
         servidor.control.ControlRondaInicial.getInstance().comenzar();
     }

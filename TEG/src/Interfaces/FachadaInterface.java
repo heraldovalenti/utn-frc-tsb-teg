@@ -5,6 +5,7 @@
 package Interfaces;
 
 import cliente.ClienteManager;
+import cliente.control.ControlRefuerzo;
 import java.util.List;
 import java.util.Set;
 import juego.estructura.Continente;
@@ -100,5 +101,9 @@ public class FachadaInterface {
 
     public static Set<Jugador> getJugadores() {
         return GestorJugadores.getJugadores();
+    }
+
+    public ControlRefuerzo getRefuerzoActual() {
+        return GestorTurno.getRefuerzoActual();
     }
 }

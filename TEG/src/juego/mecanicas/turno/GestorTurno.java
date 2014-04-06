@@ -153,6 +153,9 @@ public class GestorTurno {
     }
 
     public static boolean accionPermitida(int accion) {
+        if (permisos == null) {
+            crearPermisos();
+        }
         return permisos[etapaActual][accion];
     }
 

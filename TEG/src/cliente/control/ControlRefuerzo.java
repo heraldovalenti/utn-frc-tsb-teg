@@ -31,6 +31,18 @@ public class ControlRefuerzo {
         this.ejercitosPorContinente = ejercitosPorContinente;
     }
 
+    public int getCantidadEjercitos() {
+        return cantidadEjercitos;
+    }
+
+    public Map<Continente, Integer> getEjercitosPorContinente() {
+        return ejercitosPorContinente;
+    }
+
+    public Map<Continente, Integer> getRefuerzosUtilizadosPorContinente() {
+        return refuerzosUtilizadosPorContinente;
+    }
+
     public boolean agregarEjercito(Pais pais) {
         if (totalUtilizado() < maximoPermitido()) {
             int cantidadAnterior = 0;
@@ -169,6 +181,20 @@ public class ControlRefuerzo {
         return cantidadDisponible > 0;
     }
 
+    public boolean puedeReforzarConMisil(Pais pais) {
+        int cantidadDisponible = 0;
+        Continente continente = pais.getContinente();
+        if (ejercitosPorContinente.containsKey(continente)) {
+            cantidadDisponible = ejercitosPorContinente.get(continente);
+        }
+        if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+            cantidadDisponible -= refuerzosUtilizadosPorContinente.get(continente);
+            //TODO: puede ser necesario hacer que sea cero si queda negativo
+        }
+        cantidadDisponible += calcularEjercitosLibresDisponibles();
+        return cantidadDisponible > 5;
+    }
+
     private void registrarUsoPorContinente(Pais pais, int cantidad) {
         int cantidadAnterior = 0;
         Continente continente = pais.getContinente();
@@ -189,5 +215,16 @@ public class ControlRefuerzo {
             }
         }
         return cantidadEjercitos - libresUtilizados;
+    }
+
+    public Map<Continente, Integer> calcularEjercitosPorContinenteDisponibles() {
+        Map<Continente, Integer> ejercitosPorContinenteDisponibles = new HashMap<>(ejercitosPorContinente);
+        for (Continente continente : refuerzosUtilizadosPorContinente.keySet()) {
+            if (ejercitosPorContinente.containsKey(continente)) {
+                ejercitosPorContinenteDisponibles.put(continente, ejercitosPorContinente.get(continente) - refuerzosUtilizadosPorContinente.get(continente));
+            }
+        }
+        return ejercitosPorContinenteDisponibles;
+
     }
 }
