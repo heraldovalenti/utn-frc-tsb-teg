@@ -4,7 +4,12 @@
  */
 package servidor.control;
 
+import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableRefuerzo;
+import com.servidor.AccionablePermitirRefuerzo;
 import com.servidor.AccionableRondaInicial;
+import java.util.HashMap;
+import juego.estructura.Continente;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import juego.mecanicas.turno.SecuenciaTurnos;
@@ -50,10 +55,12 @@ public class ControlRondaInicial {
      * ejercitos.
      */
     public void comenzar() {
-        AccionableRondaInicial accionable = new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosPrimeraRonda);
+//        AccionableRondaInicial accionable = new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosPrimeraRonda);
+//        ServerManager.getInstance().registrarSalida(accionable);
+        AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(jugadorDeTurno, cantidadEjercitosPrimeraRonda, new HashMap<Continente, Integer>());
         ServerManager.getInstance().registrarSalida(accionable);
     }
-    
+
     /**
      * Metodo para indicar que un jugador ha finalizado de incorporar ejercitos.
      */
@@ -75,15 +82,15 @@ public class ControlRondaInicial {
             contadorTurnos = 1;
         }
         if (!finRondaInicial()) {
-            AccionableRondaInicial accionable = (primeraRonda) ? 
-                    new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosPrimeraRonda) : 
-                    new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosSegundaRonda);
+            AccionableRondaInicial accionable = (primeraRonda)
+                    ? new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosPrimeraRonda)
+                    : new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosSegundaRonda);
             ServerManager.getInstance().registrarSalida(accionable);
         } else {
             //llamar al controlador de inicio de ataques...
         }
     }
-    
+
     private boolean finRondaInicial() {
         if (!primeraRonda && contadorTurnos > cantidadJugadores) {
             return true;

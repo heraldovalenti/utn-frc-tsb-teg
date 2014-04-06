@@ -52,9 +52,9 @@ public class ControlInicioJuego {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;
         }
-        enviarNotificacionInicioJuego();
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
+        enviarNotificacionInicioJuego();
         iniciarRondaInicialDeIncorporacion();
     }
 

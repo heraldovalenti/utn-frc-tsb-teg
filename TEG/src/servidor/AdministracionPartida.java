@@ -237,7 +237,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         menuItemServidorDetener = new javax.swing.JMenuItem();
         menuItemServidorReiniciar = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TEG - Administracion de partida");
         setResizable(false);
 

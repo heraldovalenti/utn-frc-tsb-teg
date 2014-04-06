@@ -2,17 +2,13 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
-import cliente.control.ControlRefuerzo;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import juego.estructura.Continente;
@@ -20,7 +16,6 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
-import juego.mecanicas.turno.SecuenciaTurnos;
 
 /*
  * To change this template, choose Tools | Templates
@@ -56,6 +51,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         agregarGuis();
         actualizarFichas();
         habilitarBotones();
+        ClienteManager.getInstance().setInterfacePrincipal(this);
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
         cerraVentanaReagrupar();
