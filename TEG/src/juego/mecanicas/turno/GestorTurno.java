@@ -5,6 +5,7 @@
  */
 package juego.mecanicas.turno;
 
+import Interfaces.FachadaInterfacePrincipal;
 import com.cliente.AccionableAtaque;
 import com.cliente.AccionableCanjePorEjercitos;
 import com.cliente.AccionableCanjePorMisil;
@@ -172,5 +173,11 @@ public class GestorTurno {
 
     public static ControlRefuerzo getRefuerzoActual() {
         return refuerzoActual;
+    }
+
+    public static void setRefuerzoActual(ControlRefuerzo control) {
+        refuerzoActual = control;
+        etapaActual = ETAPA_INCORPORAR_EJERCITOS;
+        FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }
 }
