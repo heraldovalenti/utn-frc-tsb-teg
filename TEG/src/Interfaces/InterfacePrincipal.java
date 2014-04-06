@@ -20,6 +20,9 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
+import logger.LogChat;
+import logger.LogItem;
+import logger.Loggeable;
 
 
 /*
@@ -30,7 +33,7 @@ import juego.estructura.TarjetaPais;
  *
  * @author Emanuel
  */
-public class InterfacePrincipal extends javax.swing.JFrame {
+public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable {
 
     private InformacionDelPais informacion;
     private Jugadores jugadores;
@@ -58,6 +61,12 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         actualizarJugadores();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
+    }
+    
+    public void procesarLog(LogItem logItem) {
+        //if (logItem instanceof LogChat) {
+            chat.cargarChat(logItem.toString() + "\n");
+        //}
     }
 
     public void reagrupar(Pais desde, Pais hasta, int cantidad) {

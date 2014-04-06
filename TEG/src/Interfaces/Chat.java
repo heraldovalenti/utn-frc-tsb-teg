@@ -1,5 +1,10 @@
 package Interfaces;
 
+import cliente.ClienteManager;
+import cliente.control.ControlAlias;
+import com.cliente.AccionableChat;
+import javax.swing.text.DefaultCaret;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -18,15 +23,20 @@ public class Chat extends javax.swing.JInternalFrame {
         initComponents();
         this.setSize(1018, 160);
         this.padre = padre;
+        DefaultCaret caret = (DefaultCaret) txtChat.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     public void cargarChat(String chat){
         txtChat.append(chat);
 
     }
     private void envioChat(){
-        String envioChat = txtEnvioChat.getText()+"\n";
-        if(envioChat.compareTo("") == 0) return;
-        padre.enviarChat(envioChat);
+        String chat = txtEnvioChat.getText();
+        if (chat != null && chat.isEmpty()) {
+            return;
+        }
+        AccionableChat accionableChat = new AccionableChat(ClienteManager.getInstance().getIdCliente(), new ControlAlias().getAlias(), chat);
+        ClienteManager.getInstance().registrarSalida(accionableChat);
         txtEnvioChat.setText("");
     }
 

@@ -4,12 +4,10 @@
  */
 package com.cliente;
 
-import Interfaces.FachadaInterfacePrincipal;
 import cliente.ClienteManager;
 import com.Accionable;
 import java.util.Date;
 import logger.LogChat;
-import logger.LogItem;
 import servidor.ServerManager;
 
 /**
@@ -49,7 +47,6 @@ public class AccionableChat implements Accionable {
     
     private void mostrarChat() {
         ClienteManager.getInstance().getLogger().addLogItem(new LogChat(mensaje, aliasJugador, timeStamp));
-        FachadaInterfacePrincipal.mostrarChat(mensaje);
     }
         
 }
