@@ -2,13 +2,18 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
+
 import java.awt.Color;
+
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import juego.estructura.Continente;
@@ -16,6 +21,7 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -50,8 +56,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         this.setSize(1330,990);        
         agregarGuis();
         actualizarFichas();
+        actualizarJugadores();
         habilitarBotones();
-        ClienteManager.getInstance().setInterfacePrincipal(this);
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
         cerraVentanaReagrupar();
@@ -68,14 +74,20 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     public void cargarChat(String msg){
         chat.cargarChat(msg);
     }
-    public void actualizarJugadores(Set<Jugador> jug){
-        jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+    private void actualizarJugadores(Set<Jugador> jug){
+        //jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+        Set set = jug; 
+        Iterator it = jug.iterator();
+        Jugador actual = null;
+        while (it.hasNext()) {
+            actual = (Jugador) it.next();
+            break;
+        }
+        jugadores.actualizarJugadores(jug, actual);
     }
-    public void enviarChat(String envioChat){
-        //aca va a la clase de heraldo
-        //String quienDice = ClienteManager.getInstance().getJuego().getJugadores().get(1).g
-        String quienDice = "Emanuel: ";
-        cargarChat(quienDice+envioChat);
+    public void enviarChat(String envioChat){        
+        String quienDice = FachadaInterface.getJugadorLocal().getNombre()+": ";
+        FachadaInterface.enviarChat(quienDice+envioChat);        
     }
     private void actualizarFicha(Set<Jugador> jugadores){
         ArrayList<Pais> paises = new ArrayList<Pais>();
@@ -152,8 +164,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         
     }
     private Jugador obtenerJugadorActual(){
-        //return SecuenciaTurnos.getInstancia().getActual();
-        return simularJugadores().get(0);
+        return FachadaInterface.getJugadorTurno();
+        
     }
     private List<ObjetivoSecreto> obtenerObjetivos(){
         return FachadaInterface.obtenerObjetivos();
@@ -321,6 +333,11 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/alaska.png"))); // NOI18N
         btnTarjeta.setText("Recoger");
+        btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTarjetaActionPerformed(evt);
+            }
+        });
 
         btnFinTurno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/chek.png"))); // NOI18N
         btnFinTurno.setText("Fin Turno");
@@ -534,6 +551,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
         sonido.start();
+        actualizarJugadores();
        // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -587,7 +605,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-           Tarjetas tarjetas = new Tarjetas(null,jMenuItem1,btnVerTarjetas);
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.getJugadorLocal().getListaTarjetasPais(),jMenuItem1,btnVerTarjetas);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -640,6 +658,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
           hiloSonido = new HiloSonido();
           hiloSonido.start();*/
     }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
+        FachadaInterface.
+    }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant){
         
         int[] dados = new int[cant];

@@ -6,6 +6,7 @@ package Interfaces;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -23,9 +24,9 @@ public class Tarjetas extends javax.swing.JInternalFrame {
     /**
      * Creates new form Tarjetas
      */
-    public Tarjetas(ArrayList<TarjetaPais> tarjetas, JMenuItem menu, JButton boton) {
+    public Tarjetas(List<TarjetaPais> tarjetas, JMenuItem menu, JButton boton) {
         initComponents();
-        this.tarjetas = tarjetas;
+        this.tarjetas = (ArrayList)tarjetas;
         limpiarLabels();
         this.boton = boton;
         this.menu = menu;
