@@ -113,17 +113,34 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         jug.añadirPais(pais);
         Set <Jugador> jugadores = new HashSet<Jugador>();
         jugadores.add(jug);
-        actualizarFicha(jugadores); */
+        actualizarFicha(jgadores); */
         actualizarFicha(FachadaInterface.getJugadores());
     }
     public void cargarInformacionPais(String pais){
-        if(informacion != null) informacion.setDatos(pais, "Emanuel", 2);
+        if(informacion != null){
+            Pais p = obtenerPaisPorNombre(pais);
+            if(p == null) return;
+            informacion.setDatos(pais, p.getJugador().getNombre(), p.getCantidadEjercitos());
+        }
+        
+    }
+    private Pais obtenerPaisPorNombre(String nombre){
+        Set <Jugador> jugadores = FachadaInterface.getJugadores();
+        for(Jugador jugador:jugadores){
+             Set <Pais> paises = jugador.getConjuntoPaises();
+            for (Pais pais : paises){
+                if(pais.getNombre().equalsIgnoreCase(nombre)){
+                    return pais;
+                }
+            }
+        }
+        return null;
     }
     public void mostrarTarjeta(TarjetaPais tarj){
         Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
-         ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
+        ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
     }
     public void cargarDados(String nombreAtacante ,String nombreDefensor , int[]ataque, int [] defensa){
         try {     
@@ -698,10 +715,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ventanaReagrupar.cargarPais(pais);
     }
         
-    public void obtenerPaisSeleccionado(String p){
+    public void seleccionPais(String p){
         if(!esMiTurno()) return;
-        Pais pais = FachadaInterface.obtenerPaisPorNombre(p);
-        
+        Pais pais = obtenerPaisPorNombre(p);
+        if(pais == null) return;
         if(reagrupar){
             if(FachadaInterface.esMiPais(pais)){
                 reagrupar(pais);
