@@ -101,6 +101,10 @@ public class Jugadores extends javax.swing.JInternalFrame {
         this.jugadores = jugadores;
         this.jugadorTurno = jugadorTurno;
         cargarDatosJugadores();
+        if(jugadorTurno != null){
+            mostrarDetalleJugador(jugadorTurno.getNombre());
+        }
+        
     }
     private int[] obtenerCantidadTotalTropas(Jugador jugador){
         int [] cantidad = {0,0};
@@ -171,6 +175,9 @@ public class Jugadores extends javax.swing.JInternalFrame {
         txtJugador2.setEditable(false);
         txtJugador2.setBackground(new java.awt.Color(255, 255, 204));
         txtJugador2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtJugador2MouseEntered(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 txtJugador4MouseExited(evt);
             }
@@ -388,7 +395,7 @@ public class Jugadores extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -452,6 +459,12 @@ public class Jugadores extends javax.swing.JInternalFrame {
     private void txtJugador4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtJugador4MouseExited
         mostrarDetalleJugador(jugadorTurno.getNombre());
     }//GEN-LAST:event_txtJugador4MouseExited
+
+    private void txtJugador2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtJugador2MouseEntered
+         String nombre = txtJugador2.getText();
+         if(nombre.compareTo("") == 0) return;
+          mostrarDetalleJugador(nombre);
+    }//GEN-LAST:event_txtJugador2MouseEntered
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

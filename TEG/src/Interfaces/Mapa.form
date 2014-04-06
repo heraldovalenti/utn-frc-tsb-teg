@@ -2484,7 +2484,7 @@
               <Image iconType="3" name="/imagenes/fichas/fichaAzul6.png"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="name" type="java.lang.String" value="Kamtchatcka" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="Kamtchatka" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

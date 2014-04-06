@@ -1693,7 +1693,7 @@ public class Mapa extends javax.swing.JPanel {
         lblFichaKamtchatcka.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaKamtchatcka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaAzul6.png"))); // NOI18N
         lblFichaKamtchatcka.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblFichaKamtchatcka.setName("Kamtchatcka"); // NOI18N
+        lblFichaKamtchatcka.setName("Kamtchatka"); // NOI18N
         panelAsia.add(lblFichaKamtchatcka, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
         lblFichaSiberia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N

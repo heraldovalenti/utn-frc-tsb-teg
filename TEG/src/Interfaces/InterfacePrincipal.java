@@ -2,17 +2,18 @@ package Interfaces;
 
 
 import cliente.ClienteManager;
-import cliente.control.ControlRefuerzo;
+
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
-import java.util.HashSet;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import juego.estructura.Continente;
@@ -20,7 +21,7 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
-import juego.mecanicas.turno.SecuenciaTurnos;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -55,6 +56,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         this.setSize(1330,990);        
         agregarGuis();
         actualizarFichas();
+        actualizarJugadores();
         habilitarBotones();
     }    
     public void reagrupar(Pais desde, Pais hasta, int cantidad){
@@ -72,8 +74,16 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     public void cargarChat(String msg){
         chat.cargarChat(msg);
     }
-    public void actualizarJugadores(Set<Jugador> jug){
-        jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+    private void actualizarJugadores(Set<Jugador> jug){
+        //jugadores.actualizarJugadores(jug, obtenerJugadorActual());
+        Set set = jug; 
+        Iterator it = jug.iterator();
+        Jugador actual = null;
+        while (it.hasNext()) {
+            actual = (Jugador) it.next();
+            break;
+        }
+        jugadores.actualizarJugadores(jug, actual);
     }
     public void enviarChat(String envioChat){
         //aca va a la clase de heraldo
@@ -156,8 +166,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         
     }
     private Jugador obtenerJugadorActual(){
-        //return SecuenciaTurnos.getInstancia().getActual();
-        return simularJugadores().get(0);
+        return FachadaInterface.getJugadorTurno();
+        
     }
     private List<ObjetivoSecreto> obtenerObjetivos(){
         return FachadaInterface.obtenerObjetivos();
@@ -538,6 +548,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ubicarGuis(tarj2,mapa.getWidth()/2,mapa.getHeight()/2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
         sonido.start();
+        actualizarJugadores();
        // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 

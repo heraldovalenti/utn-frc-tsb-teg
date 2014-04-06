@@ -15,6 +15,7 @@ import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.mecanicas.turno.GestorTurno;
+import juego.mecanicas.turno.SecuenciaTurnos;
 
 /**
  *
@@ -61,6 +62,10 @@ public class FachadaInterface {
 
     public static Jugador getJugadorLocal() {
         return ClienteManager.getInstance().getJugador();
+    }
+    
+    public static Jugador getJugadorTurno() {
+        return SecuenciaTurnos.getInstancia().getActual();
     }
 
     public static Pais obtenerPaisPorNombre(String nombre) {
