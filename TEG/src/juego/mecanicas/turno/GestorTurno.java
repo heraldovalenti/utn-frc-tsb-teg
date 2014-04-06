@@ -55,7 +55,7 @@ public class GestorTurno {
     private static ControlRefuerzo refuerzoActual;
 
     public static void crearPermisos() {
-        permisos = new boolean[5][8];
+        permisos = new boolean[5][9];
 
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_INCORPORAR_EJERCITOS] = true;
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_EJERCITO_POR_MISIL] = true;
@@ -153,6 +153,7 @@ public class GestorTurno {
     }
 
     public static boolean accionPermitida(int accion) {
+        crearPermisos();
         return permisos[etapaActual][accion];
     }
 
