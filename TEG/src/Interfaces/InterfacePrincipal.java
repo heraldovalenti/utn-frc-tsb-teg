@@ -660,7 +660,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-        FachadaInterface.
+       
     }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant){
         
