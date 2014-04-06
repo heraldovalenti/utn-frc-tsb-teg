@@ -105,6 +105,7 @@ public class Mapa extends javax.swing.JPanel {
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setVerticalTextPosition(SwingConstants.CENTER);
         if(cantidad == 0){
+            label.setIcon(null);
             label.setVisible(false);
             return;
         }
@@ -694,7 +695,6 @@ public class Mapa extends javax.swing.JPanel {
         lblMisilOregon.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblMisilOregon.setForeground(new java.awt.Color(255, 255, 255));
         lblMisilOregon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
-        lblMisilOregon.setText("4");
         lblMisilOregon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblMisilOregon.setName("MisilOregon"); // NOI18N
         panelAmericaDelNorrte.add(lblMisilOregon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 20, 50));
