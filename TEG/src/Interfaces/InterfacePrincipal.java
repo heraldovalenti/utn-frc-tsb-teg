@@ -140,7 +140,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
-         ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
+        ubicarGuis(tarjeta,mapa.getWidth()/2,mapa.getHeight()/2);
     }
     public void cargarDados(String nombreAtacante ,String nombreDefensor , int[]ataque, int [] defensa){
         try {     
@@ -715,7 +715,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         ventanaReagrupar.cargarPais(pais);
     }
         
-    public void obtenerPaisSeleccionado(String p){
+    public void seleccionPais(String p){
         if(!esMiTurno()) return;
         Pais pais = obtenerPaisPorNombre(p);
         if(pais == null) return;

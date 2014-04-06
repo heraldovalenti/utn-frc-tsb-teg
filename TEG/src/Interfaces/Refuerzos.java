@@ -16,7 +16,7 @@ public class Refuerzos extends javax.swing.JDialog {
     public Refuerzos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        rbAgregar.setSelected(true);
+        rbTropa.setSelected(true);
         this.refuerzos = refuerzos;
         actualizarTropas(refuerzos);
     }
@@ -30,8 +30,8 @@ public class Refuerzos extends javax.swing.JDialog {
         txtEuropa.setText(String.valueOf(refuerzos[5]));
         txtOceania.setText(String.valueOf(refuerzos[6]));
     }
-    public boolean esAgregar(){
-        return rbAgregar.isSelected();
+    public boolean esTropa(){
+        return rbTropa.isSelected();
     }
     public int cantidadPaisesDisponibles(){
         return refuerzos[0];
@@ -61,8 +61,9 @@ public class Refuerzos extends javax.swing.JDialog {
         txtEuropa = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtOceania = new javax.swing.JTextField();
-        rbAgregar = new javax.swing.JRadioButton();
-        rbQuitar = new javax.swing.JRadioButton();
+        rbTropa = new javax.swing.JRadioButton();
+        rbMisil = new javax.swing.JRadioButton();
+        btnReiniciar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -183,16 +184,23 @@ public class Refuerzos extends javax.swing.JDialog {
                     .addComponent(txtOceania, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        rbAgregar.setForeground(new java.awt.Color(51, 153, 0));
-        rbAgregar.setText("Agregar");
-        rbAgregar.addActionListener(new java.awt.event.ActionListener() {
+        rbTropa.setText("Tropa");
+        rbTropa.setForeground(new java.awt.Color(51, 153, 0));
+        rbTropa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbAgregarActionPerformed(evt);
+                rbTropaActionPerformed(evt);
             }
         });
 
-        rbQuitar.setForeground(new java.awt.Color(255, 0, 0));
-        rbQuitar.setText("Quitar");
+        rbMisil.setText("Misil");
+        rbMisil.setForeground(new java.awt.Color(255, 0, 0));
+
+        btnReiniciar.setText("Reiniciar");
+        btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReiniciarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,9 +211,10 @@ public class Refuerzos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbAgregar)
-                        .addGap(28, 28, 28)
-                        .addComponent(rbQuitar)))
+                        .addComponent(rbTropa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbMisil))
+                    .addComponent(btnReiniciar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -215,8 +224,10 @@ public class Refuerzos extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbAgregar)
-                    .addComponent(rbQuitar))
+                    .addComponent(rbTropa)
+                    .addComponent(rbMisil))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReiniciar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -227,9 +238,13 @@ public class Refuerzos extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAmericaNorteActionPerformed
 
-    private void rbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAgregarActionPerformed
+    private void rbTropaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTropaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbAgregarActionPerformed
+    }//GEN-LAST:event_rbTropaActionPerformed
+
+    private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReiniciarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,6 +288,7 @@ public class Refuerzos extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReiniciar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -281,8 +297,8 @@ public class Refuerzos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton rbAgregar;
-    private javax.swing.JRadioButton rbQuitar;
+    private javax.swing.JRadioButton rbMisil;
+    private javax.swing.JRadioButton rbTropa;
     private javax.swing.JTextField txtAfrica;
     private javax.swing.JTextField txtAmericaNorte;
     private javax.swing.JTextField txtAmericaSur;
