@@ -56,8 +56,7 @@ public class FachadaInterface {
     }
 
     public static boolean incorporarEjercitosPermitido() {
-        return false;
-        //return GestorTurno.accionPermitida(GestorTurno.ACCION_INCORPORAR_EJERCITOS);
+        return GestorTurno.accionPermitida(GestorTurno.ACCION_INCORPORAR_EJERCITOS);
     }
 
     public static boolean reagruparPermitido() {

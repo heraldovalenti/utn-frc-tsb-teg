@@ -22,8 +22,8 @@ public class ControlRefuerzo {
 
     private final int cantidadEjercitos;
     private final Map<Continente, Integer> ejercitosPorContinente;
-    private Map<Pais, Integer> ejercitosColocados;
-    private Map<Pais, Integer> misilesColocados;
+    private Map<Pais, Integer> ejercitosColocados = new HashMap<>();
+    private Map<Pais, Integer> misilesColocados = new HashMap<>();
     private final Map<Continente, Integer> refuerzosUtilizadosPorContinente = new HashMap<>(5);
 
     public ControlRefuerzo(int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
