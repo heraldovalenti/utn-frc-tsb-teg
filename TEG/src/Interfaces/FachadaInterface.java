@@ -31,8 +31,7 @@ public class FachadaInterface {
     }
     public static void reagrupar(Pais desde, Pais hasta,int cantidad){
         GestorTurno.reagruparEjercitos(desde, hasta, cantidad, 0);
-    }
-    
+    }  
      public static boolean canjearTarjetaPermitido(){    
        return GestorTurno.accionPermitida(GestorTurno.ACCION_CANJEAR_TARJETA);
     }
@@ -52,14 +51,11 @@ public class FachadaInterface {
     public static Jugador getJugadorLocal(){
         return ClienteManager.getInstance().getJugador();
     }
-    public static Pais obtenerPaisPorNombre(String nombre){
-        return new Pais(1,nombre, new Continente(1,"America del Norte"), true);
-    }
     public static boolean esMiPais(Pais pais){
         return true;
     }
     public static void finalizarTurno(){
-        //sss
+        
     }
     public static void agregarRefuerzo(Pais pais){
         
@@ -69,5 +65,8 @@ public class FachadaInterface {
     }
     public static Set<Jugador> getJugadores(){
         return GestorJugadores.getJugadores();
+    }
+    public static void enviarChat(String msj){
+        
     }
 }

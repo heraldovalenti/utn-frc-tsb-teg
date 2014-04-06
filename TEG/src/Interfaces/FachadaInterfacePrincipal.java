@@ -20,15 +20,10 @@ public class FachadaInterfacePrincipal {
     public static void mostrarChat(String chat) {
         ClienteManager.getInstance().getInterfacePrincipal().cargarChat(chat);
     }
-
-    public static List<ObjetivoSecreto> obtenerObjetivos() {
-        return GestorObjetivosSecretos.getListaObjetivos();
-    }
-
     public static void mostrarTarjeta(TarjetaPais tarjeta) {
         ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
     }
-
+    
     public static void actualizarMapa() {
         ClienteManager.getInstance().getInterfacePrincipal().actualizarFichas();
     }
