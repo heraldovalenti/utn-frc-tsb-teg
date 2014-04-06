@@ -1,0 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.servidor;
+
+import cliente.control.ControlRefuerzo;
+import com.Accionable;
+import java.util.HashMap;
+import java.util.Map;
+import juego.estructura.Continente;
+import juego.estructura.GestorContinentes;
+import juego.estructura.GestorJugadores;
+import juego.estructura.Jugador;
+import juego.mecanicas.turno.GestorTurno;
+
+/**
+ *
+ * @author Daniel
+ */
+public class AccionablePermitirRefuerzo implements Accionable {
+
+    private final Jugador jugadorServidor;
+    private final int cantidadEjercitos;
+    private final Map<Continente, Integer> ejercitosPorContinente;
+
+    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        this.jugadorServidor = jugador;
+        this.cantidadEjercitos = cantidadEjercitos;
+        this.ejercitosPorContinente = ejercitosPorContinente;
+    }
+
+    @Override
+    public void accionar() {
+        Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(jugadorServidor.getNroJugador());
+        if(jugadorCliente.equals(GestorJugadores.getJugadorLocal())){
+            ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente);
+            GestorTurno.setRefuerzoActual(control);
+        }
+    }
+
+}
