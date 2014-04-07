@@ -57,9 +57,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public InterfacePrincipal() {
         initComponents();
         this.setSize(1330, 990);
-        agregarGuis();
-        actualizarFichas();
-        actualizarJugadores();
+        agregarGuis();          
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
     }
@@ -79,7 +77,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ventanaReagrupar = null;
     }
 
-    public void actualizarJugadores() {
+    private void actualizarJugadores(Jugador actual) {
         jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
 
@@ -566,8 +564,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(tarj, mapa.getWidth() / 2, mapa.getHeight() / 2);
         ubicarGuis(tarj2, mapa.getWidth() / 2, mapa.getHeight() / 2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
-        sonido.start();
-        actualizarJugadores();
+        sonido.start();        
         // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -750,6 +747,16 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             ventanaReagrupar.setVisible(true);
         }
         ventanaReagrupar.cargarPais(pais);
+    }
+    
+    public void inicioTurno(Jugador jugador){
+        if(jugador.getNroJugador() == FachadaInterface.getJugadorLocal().getNroJugador()){
+            HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
+            sonido.start();
+        }
+        actualizarFichas();      
+        actualizarJugadores(jugador);
+        habilitarBotones();
     }
 
     public void seleccionPais(String p) {

@@ -60,7 +60,7 @@ public class FachadaInterfacePrincipal {
         ClienteManager.getInstance().getInterfacePrincipal().inciarRefuerzo();
     }
 
-    public static void informarInicioTurno() {
-        ClienteManager.getInstance().getInterfacePrincipal().habilitarBotones();
+    public static void informarInicioTurno(Jugador jugadorTurno) {
+        ClienteManager.getInstance().getInterfacePrincipal().inicioTurno(jugadorTurno);
     }
 }

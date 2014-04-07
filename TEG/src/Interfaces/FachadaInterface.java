@@ -130,5 +130,8 @@ public class FachadaInterface {
 
     public static ControlRefuerzo getRefuerzoActual() {
         return GestorTurno.getRefuerzoActual();
-    }    
+    }   
+    public static void comenzarReagrupacion(){
+        //Daniel aca te aviso que voy a comenzar a reagrupar gayyyyy
+    }
 }
