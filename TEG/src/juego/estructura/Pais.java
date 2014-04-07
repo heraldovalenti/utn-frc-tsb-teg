@@ -132,4 +132,8 @@ public class Pais implements Serializable {
         return true;
     }
 
+    public int getNroJugador() {
+        return this.getJugador().getNroJugador();
+    }
+
 }

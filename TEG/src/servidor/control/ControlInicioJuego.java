@@ -28,13 +28,13 @@ import servidor.ServerManager;
  * @author heril
  */
 public class ControlInicioJuego {
-    
+
     private static boolean juegoIniciado = false;
-    
+
     public static boolean juegoIniciado() {
         return juegoIniciado;
     }
-    
+
     public static void reiniciar() {
         juegoIniciado = false;
     }
@@ -57,7 +57,7 @@ public class ControlInicioJuego {
     public static void iniciarJuego() {
         if (juegoIniciado) {
             return;
-        } 
+        }
         if (!jugadoresSuficientes()) {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresInsuficientes();
             return;
@@ -103,7 +103,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarPaises() {
-        List<Pais> paises = new ArrayList<>( GestorPaises.getListaPaises());
+        List<Pais> paises = new ArrayList<>(GestorPaises.getListaPaises());
         LinkedList<Jugador> jugadores = new LinkedList(GestorJugadores.getJugadores());
         Collections.shuffle(paises);
         Collections.shuffle(jugadores);
@@ -136,7 +136,7 @@ public class ControlInicioJuego {
     }
 
     private static void enviarOrdenComienzoJuego() {
-        AccionableInicioJuego inicioJuego = new AccionableInicioJuego(Juego.getInstancia(), GestorJugadores.getJugadores(), SecuenciaTurnos.getInstancia().getSecuencia());
+        AccionableInicioJuego inicioJuego = new AccionableInicioJuego(Juego.getInstancia(), GestorJugadores.getJugadores(), SecuenciaTurnos.getInstancia().getSecuencia(), GestorPaises.getListaPaises());
         ServerManager.getInstance().registrarSalida(inicioJuego);
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Orden de inicialización de juego enviada a jugadores."));
     }

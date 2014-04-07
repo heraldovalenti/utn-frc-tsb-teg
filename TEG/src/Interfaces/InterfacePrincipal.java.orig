@@ -243,7 +243,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         desktop.add(dados);
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
-        ubicarGuis(chat, 0, mapa.getSize().height);
+        ubicarGuis(chat, 0, mapa.getSize().height/2);
         ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
@@ -628,13 +628,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnVerTarjetasActionPerformed
 
     private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
-        FachadaInterface.atacar(paisDesde, paisHasta);
         btnAtacar.setEnabled(false);
     }//GEN-LAST:event_btnAtacarActionPerformed
 
     private void btnAtacarMisilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarMisilActionPerformed
-       FachadaInterface.atacarConMisil(paisDesde, paisHasta);
-        btnAtacarMisil.setEnabled(false);
+        btnAtacar.setEnabled(false);
     }//GEN-LAST:event_btnAtacarMisilActionPerformed
 
     private void btnFinTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinTurnoActionPerformed
@@ -727,17 +725,16 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         boolean misil = false;
         if (FachadaInterface.atacarPermitido()) {
             if (paisDesde != null && paisHasta != null) {
-                //aca hay que poner la validacion si se puede atacr de un pais a otro
-                if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {
+                if (paisDesde.getCantidadEjercitos() > 1) {
                     atacar = true;
                 }
-                if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {
+                if (paisDesde.getCantidadMisiles() > 0) {
                     misil = true;
                 }
             }
         }
         btnAtacar.setEnabled(atacar);
-        btnAtacarMisil.setEnabled(misil);
+        btnAtacarMisil.setEnabled(false);
 
     }
 
@@ -750,36 +747,34 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void seleccionPais(String p) {
-       
+        System.out.println("Llegue");
         if (!esMiTurno()) {
+            System.out.println("No es mi turno");
             return;
         }
         Pais pais = obtenerPaisPorNombre(p);
-        if (pais == null) {  
+        if (pais == null) {
+            System.out.println(p+" Pais Nulo");
             return;
         }
-        if(reagrupar) {
+        if (reagrupar) {
             if (FachadaInterface.esMiPais(pais)) {
                 reagrupar(pais);
             }
         } else {
-            if (FachadaInterface.incorporarEjercitosPermitido()) {
+            if (!FachadaInterface.incorporarEjercitosPermitido()) {
+                habilitarBotonesAtaque();
+            } else {
                 if (FachadaInterface.esMiPais(pais)) {
+                     System.out.println("es mi pais");
                     if (refuerzo != null) {
                         refuerzo.agregarRefuerzo(pais);
                         actualizarFichas();
                     }
                 }
-            } else {
-                if(FachadaInterface.esMiPais(pais)){
-                    paisDesde = pais;
-                    seleccion.cargarDesde(pais.getNombre());
-                }
                 else{
-                    paisHasta = pais;
-                    seleccion.cargarHasta(pais.getNombre());
+                    System.out.println("no es mi pais JugadorPais: "+pais.getJugador().getNombre() +" jugador local: " +FachadaInterface.getJugadorLocal().getNombre() );
                 }
-                habilitarBotonesAtaque();
             }
         }
 
