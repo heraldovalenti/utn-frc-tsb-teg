@@ -27,6 +27,16 @@ import servidor.ServerManager;
  * @author heril
  */
 public class ControlInicioJuego {
+    
+    private static boolean juegoIniciado = false;
+    
+    public static boolean juegoIniciado() {
+        return juegoIniciado;
+    }
+    
+    public static void reiniciar() {
+        juegoIniciado = false;
+    }
 
     public static boolean jugadoresListos() {
         Set<Integer> idClientes = ServerManager.getInstance().getGestorClientes().getIdConexionesEstablecidas();
@@ -44,6 +54,9 @@ public class ControlInicioJuego {
     }
 
     public static void iniciarJuego() {
+        if (juegoIniciado) {
+            return;
+        } 
         if (!jugadoresSuficientes()) {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresInsuficientes();
             return;
@@ -52,6 +65,7 @@ public class ControlInicioJuego {
             ServerManager.getInstance().getAdministracionPartida().informarJugadoresNoListos();
             return;
         }
+        juegoIniciado = true;
         inicializarParametrosJuego();
         enviarOrdenComienzoJuego();
         enviarNotificacionInicioJuego();

@@ -69,6 +69,9 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         this.menuItemComenzarPartida.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ControlInicioJuego.juegoIniciado()) {
+                    return;
+                }
                 ControlInicioJuego.iniciarJuego();
             }
         });
@@ -94,6 +97,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
             @Override
             public void actionPerformed(ActionEvent e) {
                 detenerServidor();
+                ControlInicioJuego.reiniciar();
             }
         });
     }
@@ -225,10 +229,16 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
     }
     
     private void agregarJugadorIA() {
+        if (ControlInicioJuego.juegoIniciado()) {
+            return;
+        }
         ServerManager.getInstance().getGestorClientes().agregarClienteIA();
     }
     
     private void quitarJugadorIA() {
+        if (ControlInicioJuego.juegoIniciado()) {
+            return;
+        }
         ServerManager.getInstance().getGestorClientes().quitarClienteIA();
     }
 
