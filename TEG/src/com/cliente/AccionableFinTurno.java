@@ -7,6 +7,8 @@ package com.cliente;
 
 import com.Accionable;
 import juego.mecanicas.turno.SecuenciaTurnos;
+import logger.LogItem;
+import servidor.ServerManager;
 
 /**
  *
@@ -20,6 +22,8 @@ public class AccionableFinTurno implements Accionable {
     @Override
     public void accionar() {
         SecuenciaTurnos.getInstancia().siguienteTurno();
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Orden de fin de turno recibida"));
     }
 
 }

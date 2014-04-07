@@ -193,4 +193,8 @@ public class GestorTurno {
         etapaActual = ETAPA_INCORPORAR_EJERCITOS;
         FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }
+
+    public static void permitirAtaque() {
+        etapaActual = ETAPA_ATACAR;
+    }
 }

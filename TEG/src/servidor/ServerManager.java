@@ -29,7 +29,6 @@ public class ServerManager {
         despachadorAcciones = new DespachadorAcciones(colaAcciones);
         servidor = new Servidor(gestorClientes);
         logger = new Logger();
-
         logger.agregarLoggeable(administracionPartida);
     }
     private AdministracionPartida administracionPartida;

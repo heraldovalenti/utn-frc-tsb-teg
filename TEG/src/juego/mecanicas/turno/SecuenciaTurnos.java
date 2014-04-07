@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.turno;
 
+import com.servidor.AccionablePermitirRefuerzo;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
