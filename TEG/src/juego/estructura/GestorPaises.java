@@ -551,6 +551,8 @@ public class GestorPaises {
         limitrofes[VIETNAM][MALASIA] = 1;
         limitrofes[VIETNAM][INDIA] = 1;
         limitrofes[VIETNAM][FILIPINAS] = 1;
+
+        completarDistancias();
     }
 
     public static List<Pais> obtenerLimitrofes(Pais pais) {
@@ -598,12 +600,20 @@ public class GestorPaises {
 //    }
     public static List<Pais> getListaPaises() {
         if (listaPaises == null) {
-            crearPaises();
+            inicializarGestor();
         }
         return listaPaises;
     }
 
     public static Pais getPais(int pais) {
+        if (listaPaises == null) {
+            inicializarGestor();
+        }
         return listaPaises.get(pais);
+    }
+
+    public static void inicializarGestor() {
+        crearPaises();
+        armarEstructura();
     }
 }
