@@ -79,23 +79,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void actualizarJugadores() {
-        actualizarJugadores(FachadaInterface.getJugadores());
+        jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
 
     public void cargarChat(String msg) {
         chat.cargarChat(msg);
-    }
-
-    private void actualizarJugadores(Set<Jugador> jug) {
-        //jugadores.actualizarJugadores(jug, obtenerJugadorActual());
-        Set set = jug;
-        Iterator it = jug.iterator();
-        Jugador actual = null;
-        while (it.hasNext()) {
-            actual = (Jugador) it.next();
-            break;
-        }
-        jugadores.actualizarJugadores(jug, actual);
     }
 
     public void enviarChat(String envioChat) {
@@ -758,11 +746,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void seleccionPais(String p) {
+        System.out.println("Llegue");
         if (!esMiTurno()) {
+            System.out.println("No es mi turno");
             return;
         }
         Pais pais = obtenerPaisPorNombre(p);
         if (pais == null) {
+            System.out.println(p+" Pais Nulo");
             return;
         }
         if (reagrupar) {
@@ -774,10 +765,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 habilitarBotonesAtaque();
             } else {
                 if (FachadaInterface.esMiPais(pais)) {
+                     System.out.println("es mi pais");
                     if (refuerzo != null) {
                         refuerzo.agregarRefuerzo(pais);
                         actualizarFichas();
                     }
+                }
+                else{
+                    System.out.println("no es mi pais JugadorPais: "+pais.getJugador().getNombre() +" jugador local: " +FachadaInterface.getJugadorLocal().getNombre() );
                 }
             }
         }
