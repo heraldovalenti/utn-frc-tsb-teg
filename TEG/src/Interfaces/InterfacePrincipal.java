@@ -99,6 +99,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
     }
+    public void mostrarMensajeGlobal(String msj){
+        mapa.mostraMensajeGlobal(msj);
+    }
 
     public void actualizarFichas() {
         /*ArrayList<Pais> paises= new ArrayList<Pais>();
@@ -647,6 +650,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
         reagrupar = true;
         habilitarBotones();
+        FachadaInterface.comenzarReagrupacion();
         btnReagrupar.setEnabled(false);
     }//GEN-LAST:event_btnReagruparActionPerformed
 
