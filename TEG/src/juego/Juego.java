@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import juego.estructura.TarjetaContinente;
 import juego.estructura.TarjetaPais;
+import juego.mecanicas.situacion.CombateNormal;
 import juego.mecanicas.situacion.Situacion;
 
 /**
@@ -31,7 +32,7 @@ public class Juego implements Serializable {
     private List<TarjetaContinente> tarjetasContinente;
     private List<TarjetaPais> tarjetasPais;
     private Estado estado;
-    private Situacion situacion;
+    private Situacion situacion = new CombateNormal();
 
     public Situacion getSituacion() {
         return situacion;

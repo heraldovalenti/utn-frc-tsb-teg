@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.situacion;
 
+import java.io.Serializable;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 
@@ -13,7 +14,7 @@ import juego.estructura.Pais;
  *
  * @author heril
  */
-public interface Situacion {
+public interface Situacion extends Serializable {
 
     public int maximoAtaque();
 

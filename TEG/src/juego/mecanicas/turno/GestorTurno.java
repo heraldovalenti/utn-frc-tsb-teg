@@ -32,22 +32,20 @@ import juego.mecanicas.movimiento.ControlMovimiento;
  */
 public class GestorTurno {
 
-    public static final int PRIMERA_ETAPA_INCORPORACION = -1;
-    public static final int SEGUNDA_ETAPA_INCORPORACION = -2;
+    public static final int PRIMERA_ETAPA_INCORPORACION = 5;
     public static final int FUERA_TURNO = 0;
     public static final int ETAPA_INCORPORAR_EJERCITOS = 1;
     public static final int ETAPA_ATACAR = 2;
     public static final int ETAPA_REAGRUPAR = 3;
     public static final int ETAPA_SOLICITAR_TARJETA = 4;
 
-    public static final int ACCION_ATACAR = 1;
-    public static final int ACCION_LANZAR_MISIL = 2;
-    public static final int ACCION_SOLICITAR_TARJETA = 3;
-    public static final int ACCION_INCORPORAR_EJERCITOS = 4;
-    public static final int ACCION_REAGRUPAR = 5;
-    public static final int ACCION_CANJEAR_TARJETA = 6;
-    public static final int ACCION_CANJEAR_MISIL_POR_EJERCITO = 7;
-    public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 8;
+    public static final int ACCION_ATACAR = 0;
+    public static final int ACCION_SOLICITAR_TARJETA = 1;
+    public static final int ACCION_INCORPORAR_EJERCITOS = 2;
+    public static final int ACCION_REAGRUPAR = 3;
+    public static final int ACCION_CANJEAR_TARJETA = 4;
+    public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 5;
+    public static final int ACCION_FINALIZAR_TURNO = 6;
 
     public static int etapaActual = 0;
     private static int paisesConquistados = 0;
@@ -59,17 +57,28 @@ public class GestorTurno {
     private static ControlRefuerzo refuerzoActual;
 
     public static void crearPermisos() {
-        permisos = new boolean[5][9];
+        permisos = new boolean[6][7];
+
+        permisos[PRIMERA_ETAPA_INCORPORACION][ACCION_INCORPORAR_EJERCITOS] = true;
+        permisos[PRIMERA_ETAPA_INCORPORACION][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_INCORPORAR_EJERCITOS] = true;
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_EJERCITO_POR_MISIL] = true;
-        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_MISIL_POR_EJERCITO] = true;
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_TARJETA] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_ATACAR] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_REAGRUPAR] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_ATACAR][ACCION_ATACAR] = true;
-        permisos[ETAPA_ATACAR][ACCION_LANZAR_MISIL] = true;
+        permisos[ETAPA_ATACAR][ACCION_REAGRUPAR] = true;
+        permisos[ETAPA_ATACAR][ACCION_SOLICITAR_TARJETA] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_REAGRUPAR][ACCION_REAGRUPAR] = true;
+        permisos[ETAPA_REAGRUPAR][ACCION_SOLICITAR_TARJETA] = true;
+        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_FINALIZAR_TURNO] = true;
+
+        permisos[ETAPA_SOLICITAR_TARJETA][ACCION_FINALIZAR_TURNO] = true;
     }
 
     public static void atacar(Pais origen, Pais destino) {
@@ -99,7 +108,7 @@ public class GestorTurno {
     }
 
     public static void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
-        if (accionPermitida(ACCION_CANJEAR_MISIL_POR_EJERCITO)) {
+        if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadMisiles() >= cantidadMisiles) {
                 AccionableCanjePorEjercitos canje = new AccionableCanjePorEjercitos(pais, cantidadMisiles);
                 ClienteManager.getInstance().registrarSalida(canje);
@@ -119,7 +128,7 @@ public class GestorTurno {
     }
 
     public static void lanzarMisil(Pais origen, Pais destino) {
-        if (accionPermitida(ACCION_LANZAR_MISIL)) {
+        if (accionPermitida(ACCION_ATACAR)) {
             if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3) {
                 AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
                 ClienteManager.getInstance().registrarSalida(lanzamiento);
@@ -152,6 +161,7 @@ public class GestorTurno {
                 AccionableSolicitarTarjeta solicitar = new AccionableSolicitarTarjeta(jugador);
                 ClienteManager.getInstance().registrarSalida(solicitar);
                 tarjetaSolicitada = true;
+                etapaActual = ETAPA_SOLICITAR_TARJETA;
             }
         }
     }
@@ -183,21 +193,16 @@ public class GestorTurno {
     public static void setRefuerzoActual(ControlRefuerzo control) {
         refuerzoActual = control;
         int rondaActual = SecuenciaTurnos.getInstancia().getContadorRondas();
-        switch (rondaActual) {
-            case 1:
-                etapaActual = PRIMERA_ETAPA_INCORPORACION;
-                break;
-            case 2:
-                etapaActual = SEGUNDA_ETAPA_INCORPORACION;
-                break;
-            default:
-                etapaActual = ETAPA_INCORPORAR_EJERCITOS;
+        if (rondaActual <= 2) {
+            etapaActual = PRIMERA_ETAPA_INCORPORACION;
+        } else {
+            etapaActual = ETAPA_INCORPORAR_EJERCITOS;
         }
-        etapaActual = ETAPA_INCORPORAR_EJERCITOS;
         FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }
 
     public static void permitirAtaque() {
         etapaActual = ETAPA_ATACAR;
+        FachadaInterfacePrincipal.informarInicioTurno();
     }
 }

@@ -190,6 +190,26 @@ public class Jugador implements Serializable {
         return conjuntoContinentes;
     }
 
+    public Set<Continente> obtenerContinentesOcupadosCompletos() {
+        Map<Continente, Integer> mapaContinentes = new HashMap<>();
+        Set<Continente> conjuntoContinentes = new HashSet<>();
+        for (Pais pais : conjuntoPaises) {
+            int cantidadAnterior = 0;
+            Continente continente = pais.getContinente();
+            if (mapaContinentes.containsKey(continente)) {
+                cantidadAnterior = mapaContinentes.get(continente);
+            }
+            mapaContinentes.put(continente, cantidadAnterior + 1);
+        }
+        for (Continente continente : mapaContinentes.keySet()) {
+            int cantidadPaises = mapaContinentes.get(continente);
+            if (cantidadPaises == GestorContinentes.obtenerCantidadPaises(continente)) {
+                conjuntoContinentes.add(continente);
+            }
+        }
+        return conjuntoContinentes;
+    }
+
     public Set<Pais> obtenerIslasOcupadas() {
         Set<Pais> conjuntoIslas = new HashSet<>();
         for (Pais pais : conjuntoPaises) {
@@ -229,7 +249,7 @@ public class Jugador implements Serializable {
 
     @Override
     public String toString() {
-        return "Jugador{" + "nroJugador=" + nroJugador + ", nombre=" + nombre + ", color=" + color + '}';
+        return "Jugador{" + "nroJugador=" + nroJugador + ", nombre=" + nombre + ", color=" + color + ", cantidadCanjes=" + cantidadCanjes + ", listaTarjetasPais=" + listaTarjetasPais + ", listaTarjetaContinentes=" + listaTarjetaContinentes + '}';
     }
 
     @Override
