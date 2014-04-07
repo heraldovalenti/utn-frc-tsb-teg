@@ -691,27 +691,27 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     }
 
+   
     private void habilitarBotones() {
-        if (!esMiTurno()) {
-            if (reagrupar) {
-                btnAtacar.setEnabled(false);
-                btnReagrupar.setEnabled(false);
-                btnAtacarMisil.setEnabled(false);
-                btnTarjeta.setEnabled(false);
-            } else {
-                btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-                btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+        if(esMiTurno()){
+            if(FachadaInterface.atacarPermitido()){
                 habilitarBotonesAtaque();
             }
-
-        } else {
-            btnAtacar.setEnabled(false);
-            btnReagrupar.setEnabled(false);
-            btnAtacarMisil.setEnabled(false);
-            btnTarjeta.setEnabled(false);
-            btnFinTurno.setEnabled(false);
+            else{
+                btnAtacar.setEnabled(false);
+                btnAtacarMisil.setEnabled(false);
+            }
+            btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
+            btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+            btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());        
         }
-
+        else{
+            btnAtacar.setEnabled(false);
+            btnAtacarMisil.setEnabled(false);
+            btnReagrupar.setEnabled(false);
+            btnTarjeta.setEnabled(false);        
+            btnFinTurno.setEnabled(false);    
+        }
     }
 
     public void inciarRefuerzo() {
