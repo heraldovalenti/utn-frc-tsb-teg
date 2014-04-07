@@ -79,23 +79,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void actualizarJugadores() {
-        actualizarJugadores(FachadaInterface.getJugadores());
+        jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
 
     public void cargarChat(String msg) {
         chat.cargarChat(msg);
-    }
-
-    private void actualizarJugadores(Set<Jugador> jug) {
-        //jugadores.actualizarJugadores(jug, obtenerJugadorActual());
-        Set set = jug;
-        Iterator it = jug.iterator();
-        Jugador actual = null;
-        while (it.hasNext()) {
-            actual = (Jugador) it.next();
-            break;
-        }
-        jugadores.actualizarJugadores(jug, actual);
     }
 
     public void enviarChat(String envioChat) {
