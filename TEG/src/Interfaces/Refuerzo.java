@@ -31,7 +31,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
    }
    
    public void actualizarTropas(Map refuerzosPorContinente, int refuerzosDisponibles){        
-        reiniciarTextField();
+        reiniciarTextField();       
         txtLibres.setText(String.valueOf(refuerzosDisponibles));
         Component[] componentes = jPanel1.getComponents();        
         int num = 0;
@@ -62,8 +62,9 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         txtEuropa.setText(String.valueOf(0));
         txtOceania.setText(String.valueOf(0));
    }
-   public void agregarRefuerzo(Pais pais){
+   public void agregarRefuerzo(Pais pais, ControlRefuerzo control){
        System.out.println("entre");
+       controlRefuerzo = control;
        if(esTropa()){
              if(controlRefuerzo.puedeReforzar(pais)){
                  System.out.println("Puedo agregar en "+pais.getNombre());
