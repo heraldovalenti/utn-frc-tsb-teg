@@ -36,6 +36,9 @@ public class FachadaInterface {
     public static boolean atacarPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_ATACAR);
     }
+    public static boolean finTurnoPermitido() {
+        return GestorTurno.accionPermitida(GestorTurno.ACCION_FINALIZAR_TURNO);
+    }
     public static boolean ataquePermitido(Pais atacante, Pais defensa){
         return new ControlAtaque(atacante, defensa).ataqueValido();
     }
