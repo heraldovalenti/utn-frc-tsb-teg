@@ -5,7 +5,7 @@
 package com.cliente;
 
 import com.Accionable;
-import com.servidor.ActualizadorPaises;
+import com.servidor.ActualizadorPais;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
@@ -33,9 +33,10 @@ public class AccionableRefuerzoRondaInicial implements Accionable {
             paisServidor.setCantidadEjercitos(paisCliente.getCantidadEjercitos());
             paisServidor.setCantidadMisiles(paisCliente.getCantidadMisiles());
             listaActualizacionesPais.add(paisServidor);
+            ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
+            ServerManager.getInstance().registrarSalida(actualizador);
         }
-        ActualizadorPaises actualizador = new ActualizadorPaises(listaActualizacionesPais);
-        ServerManager.getInstance().registrarSalida(actualizador);
+
         ControlRondaInicial.getInstance().finTurnoJugador();
     }
 }

@@ -12,8 +12,8 @@ import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
-import com.servidor.ActualizadorPaises;
 import com.servidor.AccionableMostrarDadosAtaque;
+import com.servidor.ActualizadorPais;
 import servidor.ServerManager;
 
 /**
@@ -48,10 +48,9 @@ public class AccionableAtaque implements Accionable {
             if (destinoServidor.getCantidadEjercitos() < 1) {
                 destinoServidor.ocuparPais(origenServidor.getJugador());
             }
-            List<Pais> listaPaises = new ArrayList<>(2);
-            listaPaises.add(origenServidor);
-            listaPaises.add(destinoServidor);
-            ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+            ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
+            ServerManager.getInstance().registrarSalida(actualizador);
+            actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
         }
     }

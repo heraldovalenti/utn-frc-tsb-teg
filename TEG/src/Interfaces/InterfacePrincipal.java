@@ -243,7 +243,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         desktop.add(dados);
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
-        ubicarGuis(chat, 0, mapa.getSize().height);
+        ubicarGuis(chat, 0, mapa.getSize().height/2);
         ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {

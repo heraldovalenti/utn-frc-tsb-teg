@@ -6,13 +6,11 @@
 package com.cliente;
 
 import com.Accionable;
-import java.util.ArrayList;
-import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.movimiento.ControlMovimiento;
 import juego.mecanicas.movimiento.Movimiento;
-import com.servidor.ActualizadorPaises;
+import com.servidor.ActualizadorPais;
 import servidor.ServerManager;
 
 /**
@@ -41,10 +39,9 @@ public class AccionableMovimiento implements Accionable {
         if (control.movimientoValido()) {
             Movimiento movimiento = new Movimiento(origenServidor, destinoServidor, cantidadEjercitos, cantidadMisiles);
             movimiento.ejecutarMovimiento();
-            List<Pais> listaPaises = new ArrayList<>(2);
-            listaPaises.add(origenServidor);
-            listaPaises.add(destinoServidor);
-            ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+            ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
+            ServerManager.getInstance().registrarSalida(actualizador);
+            actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
         }
     }
