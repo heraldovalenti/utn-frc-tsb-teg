@@ -31,6 +31,8 @@ public class SecuenciaTurnos {
     private List<Jugador> secuencia;
     private int actual;
     private int contadorRondas;
+    private boolean rondaInicial1;
+    private boolean rondaInicial2;
 
     public static SecuenciaTurnos getInstancia() {
         if (instancia == null) {
@@ -45,6 +47,7 @@ public class SecuenciaTurnos {
         contadorRondas = 1;
         secuencia = new LinkedList<>(GestorJugadores.getJugadores());
         Collections.shuffle(secuencia);
+        rondaInicial1 = true;
 //        while (!listaJugadores.isEmpty()) {
 //            double rnd = Math.random();
 //            double dRes = rnd * listaJugadores.size();
@@ -66,17 +69,34 @@ public class SecuenciaTurnos {
      * Metodo que indica el comienzo de un nuevo turno.
      */
     public void siguienteTurno() {
-        if (esFinRonda()) {
-            nuevaRonda();
+        if (esRondaInicial()) {
+            if (esFinRonda()) {
+                actual = 0;
+                Jugador aux = secuencia.remove(0);
+                secuencia.add(aux);
+            } else {
+                actual++;
+            }
+            if (rondaInicial1) {
+                rondaInicial1 = false;
+                rondaInicial2 = true;
+            } else {
+                rondaInicial2 = false;
+            }
+            if (esRondaInicial()) {
+                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
+                ServerManager.getInstance().registrarSalida(accionable);
+            } else {
+                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+                ServerManager.getInstance().registrarSalida(accionable);
+            }
         } else {
-            actual++;
-        }
-        if (contadorRondas <= 2) {
-            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
-            ServerManager.getInstance().registrarSalida(accionable);
-        } else {
-            //AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
-            AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+            if (esFinRonda()) {
+                nuevaRonda();
+            } else {
+                actual++;
+            }
+            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
             ServerManager.getInstance().registrarSalida(accionable);
         }
     }
@@ -190,6 +210,10 @@ public class SecuenciaTurnos {
 
     public int getContadorRondas() {
         return contadorRondas;
+    }
+
+    public boolean esRondaInicial() {
+        return rondaInicial1 || rondaInicial2;
     }
 
     /**

@@ -244,7 +244,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
         ubicarGuis(chat, 0, mapa.getSize().height);
-        ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
+        ubicarGuis(seleccion, 0, 0);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
             dados.setIcon(true);
@@ -691,10 +691,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     }
 
-    private void habilitarBotones() {
+    public void habilitarBotones() {
         if (!esMiTurno()) {
             if (reagrupar) {
-                btnAtacar.setEnabled(false);
+                btnAtacar.setEnabled(true);
                 btnReagrupar.setEnabled(false);
                 btnAtacarMisil.setEnabled(false);
                 btnTarjeta.setEnabled(false);
@@ -705,7 +705,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
 
         } else {
-            btnAtacar.setEnabled(false);
+            btnAtacar.setEnabled(true);
             btnReagrupar.setEnabled(false);
             btnAtacarMisil.setEnabled(false);
             btnTarjeta.setEnabled(false);
@@ -739,8 +739,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 }
             }
         }
-        btnAtacar.setEnabled(atacar);
-        btnAtacarMisil.setEnabled(misil);
+        btnAtacar.setEnabled(true);
+        btnAtacarMisil.setEnabled(true);
 
     }
 
