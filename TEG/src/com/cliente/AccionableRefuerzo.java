@@ -33,14 +33,23 @@ public class AccionableRefuerzo implements Accionable {
                 new LogItem("Recibido refuerzo con " + listaPaises.toString()));
         List<Pais> listaActualizacionesPais = new ArrayList<>();
         for (Pais paisCliente : listaPaises) {
+            ServerManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Pais original cliente " + paisCliente.getNombre() + ", " + paisCliente.getCantidadEjercitos()));
             Pais paisServidor = GestorPaises.getPais(paisCliente.getNroPais());
+            ServerManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Pais original servidor " + paisServidor.getNombre() + ", " + paisServidor.getCantidadEjercitos()));
             paisServidor.setCantidadEjercitos(paisCliente.getCantidadEjercitos());
             paisServidor.setCantidadMisiles(paisCliente.getCantidadMisiles());
+            ServerManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Pais actualizado servidor " + paisServidor.getNombre() + ", " + paisServidor.getCantidadEjercitos()));
             listaActualizacionesPais.add(paisServidor);
         }
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Enviado actualizador con " + listaActualizacionesPais.toString()));
         ActualizadorPaises actualizador = new ActualizadorPaises(listaActualizacionesPais);
+        Pais paisServidor = listaActualizacionesPais.get(0);
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Pais actualizado servidor " + paisServidor.getNombre() + ", " + paisServidor.getCantidadEjercitos()));
         ServerManager.getInstance().registrarSalida(actualizador);
     }
 }

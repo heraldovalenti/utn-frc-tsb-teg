@@ -32,7 +32,11 @@ public class ActualizadorPaises implements Accionable {
         ClienteManager.getInstance().getLogger().addLogItem(
                 new LogItem("Recibido actualizador con " + listaPaises.toString()));
         for (Pais paisServidor : listaPaises) {
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Pais original servidor " + paisServidor.getNombre() + ", " + paisServidor.getCantidadEjercitos()));
             Pais paisCliente = GestorPaises.getPais(paisServidor.getNroPais());
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Pais original cliente " + paisCliente.getNombre() + ", " + paisCliente.getCantidadEjercitos()));
             paisCliente.setCantidadEjercitos(paisServidor.getCantidadEjercitos());
             paisCliente.setCantidadMisiles(paisServidor.getCantidadMisiles());
             Jugador jugador = GestorJugadores.obtenerPorNumero(paisServidor.getJugador().getNroJugador());
