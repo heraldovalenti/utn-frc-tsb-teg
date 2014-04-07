@@ -31,6 +31,8 @@ import juego.mecanicas.movimiento.ControlMovimiento;
  */
 public class GestorTurno {
 
+    public static final int PRIMERA_ETAPA_INCORPORACION = -1;
+    public static final int SEGUNDA_ETAPA_INCORPORACION = -2;
     public static final int FUERA_TURNO = 0;
     public static final int ETAPA_INCORPORAR_EJERCITOS = 1;
     public static final int ETAPA_ATACAR = 2;
@@ -177,6 +179,17 @@ public class GestorTurno {
 
     public static void setRefuerzoActual(ControlRefuerzo control) {
         refuerzoActual = control;
+        int rondaActual = SecuenciaTurnos.getInstancia().getContadorRondas();
+        switch (rondaActual) {
+            case 1:
+                etapaActual = PRIMERA_ETAPA_INCORPORACION;
+                break;
+            case 2:
+                etapaActual = SEGUNDA_ETAPA_INCORPORACION;
+                break;
+            default:
+                etapaActual = ETAPA_INCORPORAR_EJERCITOS;
+        }
         etapaActual = ETAPA_INCORPORAR_EJERCITOS;
         FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }

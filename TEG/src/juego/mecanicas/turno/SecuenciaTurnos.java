@@ -148,6 +148,10 @@ public class SecuenciaTurnos {
         }
         return null;
     }
+    
+    public int getContadorRondas(){
+        return contadorRondas;
+    }
 
     /**
      * Prueba la funcionalidad de la clase.

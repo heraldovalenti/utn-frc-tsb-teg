@@ -25,10 +25,12 @@ public class ControlRefuerzo {
     private Map<Pais, Integer> ejercitosColocados = new HashMap<>();
     private Map<Pais, Integer> misilesColocados = new HashMap<>();
     private final Map<Continente, Integer> refuerzosUtilizadosPorContinente = new HashMap<>(5);
+    private final boolean permitirMisiles;
 
-    public ControlRefuerzo(int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+    public ControlRefuerzo(int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente, boolean permitirMisiles) {
         this.cantidadEjercitos = cantidadEjercitos;
         this.ejercitosPorContinente = ejercitosPorContinente;
+        this.permitirMisiles = permitirMisiles;
     }
 
     public int getCantidadEjercitos() {
@@ -182,6 +184,9 @@ public class ControlRefuerzo {
     }
 
     public boolean puedeReforzarConMisil(Pais pais) {
+        if (!permitirMisiles) {
+            return false;
+        }
         int cantidadDisponible = 0;
         Continente continente = pais.getContinente();
         if (ejercitosPorContinente.containsKey(continente)) {

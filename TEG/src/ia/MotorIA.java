@@ -104,7 +104,7 @@ public class MotorIA {
     }
 
     public static void reforzar(Jugador jugador, int ejercitos, Map<Continente, Integer> ejercitosPorContinente) {
-        ControlRefuerzo control = new ControlRefuerzo(ejercitos, ejercitosPorContinente);
+        ControlRefuerzo control = new ControlRefuerzo(ejercitos, ejercitosPorContinente, false);
         if (ejercitosPorContinente != null) {
             for (Continente continente : ejercitosPorContinente.keySet()) {
                 int margen = 0;

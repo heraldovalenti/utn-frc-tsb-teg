@@ -24,20 +24,21 @@ public class AccionablePermitirRefuerzo implements Accionable {
     private final Jugador jugadorServidor;
     private final int cantidadEjercitos;
     private final Map<Continente, Integer> ejercitosPorContinente;
+    private final boolean permitirMisiles;
 
-    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+    public AccionablePermitirRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente, boolean permitirMisiles) {
         this.jugadorServidor = jugador;
         this.cantidadEjercitos = cantidadEjercitos;
         this.ejercitosPorContinente = ejercitosPorContinente;
+        this.permitirMisiles = permitirMisiles;
     }
 
     @Override
     public void accionar() {
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(jugadorServidor.getNroJugador());
-        if(jugadorCliente.equals(GestorJugadores.getJugadorLocal())){
-            ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente);
+        if (jugadorCliente.equals(GestorJugadores.getJugadorLocal())) {
+            ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente, permitirMisiles);
             GestorTurno.setRefuerzoActual(control);
         }
     }
-
 }

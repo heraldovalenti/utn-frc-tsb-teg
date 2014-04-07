@@ -57,7 +57,7 @@ public class ControlRondaInicial {
     public void comenzar() {
 //        AccionableRondaInicial accionable = new AccionableRondaInicial(jugadorDeTurno.getNroJugador(), cantidadEjercitosPrimeraRonda);
 //        ServerManager.getInstance().registrarSalida(accionable);
-        AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(jugadorDeTurno, cantidadEjercitosPrimeraRonda, new HashMap<Continente, Integer>());
+        AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(jugadorDeTurno, cantidadEjercitosPrimeraRonda, new HashMap<Continente, Integer>(), false);
         ServerManager.getInstance().registrarSalida(accionable);
     }
 
