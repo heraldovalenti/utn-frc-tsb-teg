@@ -665,10 +665,13 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnSonidoActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        /* hiloSonido.stop();
-         hiloSonido = null;
-         hiloSonido = new HiloSonido();
-         hiloSonido.start();*/
+        if(hiloSonido != null){
+            hiloSonido.stop();
+            hiloSonido = null;
+            hiloSonido = new HiloSonido();
+            hiloSonido.start();
+        } 
+        
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
@@ -767,7 +770,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 if (FachadaInterface.esMiPais(pais)) {
                      System.out.println("es mi pais");
                     if (refuerzo != null) {
-                        refuerzo.agregarRefuerzo(pais);
+                        refuerzo.agregarRefuerzo(pais, FachadaInterface.getRefuerzoActual());
                         actualizarFichas();
                     }
                 }
