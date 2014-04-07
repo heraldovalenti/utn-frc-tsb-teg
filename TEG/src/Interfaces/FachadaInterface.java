@@ -15,6 +15,7 @@ import juego.estructura.GestorObjetivosSecretos;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
+import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
 import juego.mecanicas.turno.SecuenciaTurnos;
 import servidor.ServerManager;
@@ -35,9 +36,18 @@ public class FachadaInterface {
     public static boolean atacarPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_ATACAR);
     }
+    public static boolean ataquePermitido(Pais atacante, Pais defensa){
+        return new ControlAtaque(atacante, defensa).ataqueValido();
+    }
+    public static boolean ataqueConMisilesPermitido(Pais atacante, Pais defensa){
+        return new ControlAtaque(atacante, defensa).ataqueConMisilValido();
+    }
 
     public static void atacar(Pais atacante, Pais defensa) {
         GestorTurno.atacar(atacante, defensa);
+    }
+    public static void atacarConMisil(Pais atacante, Pais defensa) {
+        GestorTurno.lanzarMisil(atacante, defensa);
     }
 
     public static void reagrupar(Pais desde, Pais hasta, int cantidad) {
