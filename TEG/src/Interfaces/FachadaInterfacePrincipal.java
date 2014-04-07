@@ -5,8 +5,10 @@
 package Interfaces;
 
 import cliente.ClienteManager;
+import cliente.control.ControlRondaInicialCliente;
 import juego.estructura.Jugador;
 import juego.estructura.TarjetaPais;
+import logger.LogItem;
 
 /**
  *
@@ -34,17 +36,23 @@ public class FachadaInterfacePrincipal {
     }
     
     public static void informarRondaInicial() {
-        //METODO PARA INFORMAR QUE ES EL TURNO DEL JUGADOR PARA AGREGAR
-        //EJERCITOS EN SUS PAISES, CORRESPONDIENTES A LA RONDA INICIAL.
+        int cantidadEjercitos_a_Incorporarse = ControlRondaInicialCliente.getInstance().getCantidadEjercitos();
+        ClienteManager.getInstance().getLogger().addLogItem(
+                new LogItem("Es tu turno para incorporar ejércitos (" 
+                + cantidadEjercitos_a_Incorporarse + ")."));
+        ClienteManager.getInstance().getInterfacePrincipal().inciarRefuerzo();
     }
     
     public static void informarRondaInicial(Jugador jugador) {
-        //METODO PARA INFORMAR QUE ES EL TURNO DEL JUGADOR INDICADO EN LA RONDA
-        //INICIAL.
+        ClienteManager.getInstance().getLogger().addLogItem(
+                new LogItem("Es el turno de <" 
+                + jugador.getNombre() 
+                + "> para incorporar ejércitos."));
     }
     
     public static void informarFinRondaInicial() {
-        //METODO PARA INFORMAR QUE ES FINALIZO EL TURNO DE RONDA INICIAL
+        ClienteManager.getInstance().getLogger().addLogItem(
+                new LogItem("Fin de turno de incorporación."));
     }
     public static void iniciarAgregadoRefuerzo(){
         ClienteManager.getInstance().getInterfacePrincipal().inciarRefuerzo();

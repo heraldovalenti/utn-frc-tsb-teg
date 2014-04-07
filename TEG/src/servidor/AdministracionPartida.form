@@ -41,9 +41,9 @@
                 <Property name="text" type="java.lang.String" value="Agregar jugador IA"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuItemDificultadIA">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemQuitarJugadorIA">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Establecer dificultad IA"/>
+                <Property name="text" type="java.lang.String" value="Quitar jugador IA"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -98,7 +98,6 @@
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuPrincipal"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>

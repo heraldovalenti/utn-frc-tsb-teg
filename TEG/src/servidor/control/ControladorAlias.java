@@ -6,6 +6,7 @@ package servidor.control;
 
 import com.servidor.AccionableEstadoJugadores;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import servidor.ServerManager;
@@ -37,7 +38,7 @@ public class ControladorAlias {
     
     private static void actualizarAsignaciones() {
         Set<Integer> idJugadores = ServerManager.getInstance().getGestorClientes().getIdConexionesEstablecidas();
-        Set<Integer> idAsignaciones = asignacionesAlias.keySet();
+        Set<Integer> idAsignaciones = new HashSet(asignacionesAlias.keySet());
         for (Integer i : idAsignaciones) {
             //Si el id no esta en los id de jugadores conectados, removerlo de 
             //las asociaciones.
@@ -55,4 +56,13 @@ public class ControladorAlias {
         asignacionesAlias = new HashMap<>();
     }
     
+    public static void asignarAliasIA(Integer idJugador) {
+        int randomNumer = (int)(Math.random() * 1000);
+        String aliasIA = "IA-" + randomNumer;
+        while (!aliasDisponible(aliasIA)) {
+            randomNumer++;
+            aliasIA = "IA-" + randomNumer;
+        }
+        asignacionesAlias.put(idJugador, aliasIA);
+    }
 }

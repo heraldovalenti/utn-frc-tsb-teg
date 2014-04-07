@@ -27,6 +27,10 @@ public class ControlEstadoJugadores {
         AccionableEstadoJugadores.notificarActualizacionJugadores();
     }
     
+    public static void jugadorIAListo(int idJugador) {
+        jugadoresListos.put(idJugador, true);
+    }
+    
     public static Boolean getEstadoJugador(int idJugador) {
         return jugadoresListos.get(idJugador);
     }

@@ -129,4 +129,8 @@ public class ControlRondaInicialCliente {
         ClienteManager.getInstance().registrarSalida(accionable);
         FachadaInterfacePrincipal.informarFinRondaInicial();
     }
+
+    public int getCantidadEjercitos() {
+        return cantidadEjercitos;
+    }
 }
