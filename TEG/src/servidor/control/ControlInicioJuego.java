@@ -6,6 +6,7 @@ package servidor.control;
 
 import com.servidor.AccionableInicioJuego;
 import com.servidor.AccionableNotificacionInicioJuego;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -102,7 +103,7 @@ public class ControlInicioJuego {
     }
 
     private static void inicializarPaises() {
-        List<Pais> paises = GestorPaises.getListaPaises();
+        List<Pais> paises = new ArrayList<>( GestorPaises.getListaPaises());
         LinkedList<Jugador> jugadores = new LinkedList(GestorJugadores.getJugadores());
         Collections.shuffle(paises);
         Collections.shuffle(jugadores);

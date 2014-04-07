@@ -32,6 +32,9 @@ public class ControlAtaque {
                 && Juego.getInstancia().getSituacion().ataquePermitido(atacante, defensor)
                 && atacante.getCantidadEjercitos() > 1;
     }
+    public boolean ataqueConMisilValido() {
+        return atacante.getCantidadMisiles() > defensor.getCantidadMisiles() && defensor.getCantidadEjercitos() >1;
+    }
 
     public int ataquePermitido() {
         int res = 4;
