@@ -57,9 +57,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public InterfacePrincipal() {
         initComponents();
         this.setSize(1330, 990);
-        agregarGuis();
-        actualizarFichas();
-        actualizarJugadores();
+        agregarGuis();          
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
     }
@@ -79,7 +77,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ventanaReagrupar = null;
     }
 
-    public void actualizarJugadores() {
+    private void actualizarJugadores(Jugador actual) {
         jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
 
@@ -100,6 +98,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
         }
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
+    }
+    public void mostrarMensajeGlobal(String msj){
+        mapa.mostraMensajeGlobal(msj);
     }
 
     public void actualizarFichas() {
@@ -244,7 +245,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
         ubicarGuis(chat, 0, mapa.getSize().height);
-        ubicarGuis(seleccion, 0, 0);
+        ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
             dados.setIcon(true);
@@ -566,8 +567,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(tarj, mapa.getWidth() / 2, mapa.getHeight() / 2);
         ubicarGuis(tarj2, mapa.getWidth() / 2, mapa.getHeight() / 2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
-        sonido.start();
-        actualizarJugadores();
+        sonido.start();        
         // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -650,6 +650,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
         reagrupar = true;
         habilitarBotones();
+        FachadaInterface.comenzarReagrupacion();
         btnReagrupar.setEnabled(false);
     }//GEN-LAST:event_btnReagruparActionPerformed
 
@@ -691,27 +692,27 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     }
 
-    public void habilitarBotones() {
-        if (!esMiTurno()) {
-            if (reagrupar) {
-                btnAtacar.setEnabled(true);
-                btnReagrupar.setEnabled(false);
-                btnAtacarMisil.setEnabled(false);
-                btnTarjeta.setEnabled(false);
-            } else {
-                btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-                btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+   
+    private void habilitarBotones() {
+        if(esMiTurno()){
+            if(FachadaInterface.atacarPermitido()){
                 habilitarBotonesAtaque();
             }
-
-        } else {
-            btnAtacar.setEnabled(true);
-            btnReagrupar.setEnabled(false);
-            btnAtacarMisil.setEnabled(false);
-            btnTarjeta.setEnabled(false);
-            btnFinTurno.setEnabled(false);
+            else{
+                btnAtacar.setEnabled(false);
+                btnAtacarMisil.setEnabled(false);
+            }
+            btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
+            btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+            btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());        
         }
-
+        else{
+            btnAtacar.setEnabled(false);
+            btnAtacarMisil.setEnabled(false);
+            btnReagrupar.setEnabled(false);
+            btnTarjeta.setEnabled(false);        
+            btnFinTurno.setEnabled(false);    
+        }
     }
 
     public void inciarRefuerzo() {
@@ -739,8 +740,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 }
             }
         }
-        btnAtacar.setEnabled(true);
-        btnAtacarMisil.setEnabled(true);
+        btnAtacar.setEnabled(atacar);
+        btnAtacarMisil.setEnabled(misil);
 
     }
 
@@ -750,6 +751,16 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             ventanaReagrupar.setVisible(true);
         }
         ventanaReagrupar.cargarPais(pais);
+    }
+    
+    public void inicioTurno(Jugador jugador){
+        if(jugador.getNroJugador() == FachadaInterface.getJugadorLocal().getNroJugador()){
+            HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
+            sonido.start();
+        }
+        actualizarFichas();      
+        actualizarJugadores(jugador);
+        habilitarBotones();
     }
 
     public void seleccionPais(String p) {

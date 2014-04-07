@@ -33,7 +33,7 @@ public class FachadaInterfacePrincipal {
     }
 
     public static void mostrarMensaje(String mensaje) {
-        //Ema esto es para que pongas un label o algo asi que muestre el mensaje para todos los jugadores
+        ClienteManager.getInstance().getInterfacePrincipal().mostrarMensajeGlobal(mensaje);
     }
 
     public static void informarRondaInicial() {
@@ -60,7 +60,7 @@ public class FachadaInterfacePrincipal {
         ClienteManager.getInstance().getInterfacePrincipal().inciarRefuerzo();
     }
 
-    public static void informarInicioTurno() {
-        ClienteManager.getInstance().getInterfacePrincipal().habilitarBotones();
+    public static void informarInicioTurno(Jugador jugadorTurno) {
+        ClienteManager.getInstance().getInterfacePrincipal().inicioTurno(jugadorTurno);
     }
 }
