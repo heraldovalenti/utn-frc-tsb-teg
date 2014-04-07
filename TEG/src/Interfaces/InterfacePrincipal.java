@@ -758,11 +758,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void seleccionPais(String p) {
+        System.out.println("Llegue");
         if (!esMiTurno()) {
+            System.out.println("No es mi turno");
             return;
         }
         Pais pais = obtenerPaisPorNombre(p);
         if (pais == null) {
+            System.out.println(p+" Pais Nulo");
             return;
         }
         if (reagrupar) {
@@ -774,10 +777,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 habilitarBotonesAtaque();
             } else {
                 if (FachadaInterface.esMiPais(pais)) {
+                     System.out.println("es mi pais");
                     if (refuerzo != null) {
                         refuerzo.agregarRefuerzo(pais);
                         actualizarFichas();
                     }
+                }
+                else{
+                    System.out.println("no es mi pais JugadorPais: "+pais.getJugador().getNombre() +" jugador local: " +FachadaInterface.getJugadorLocal().getNombre() );
                 }
             }
         }

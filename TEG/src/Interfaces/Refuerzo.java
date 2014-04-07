@@ -63,12 +63,15 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         txtOceania.setText(String.valueOf(0));
    }
    public void agregarRefuerzo(Pais pais){
+       System.out.println("entre");
        if(esTropa()){
              if(controlRefuerzo.puedeReforzar(pais)){
+                 System.out.println("Puedo agregar en "+pais.getNombre());
                   controlRefuerzo.agregarEjercito(pais);
               }
               else{
-                  JOptionPane.showMessageDialog(this, "No puede Agregar mas refuerzos", "Refuerzos", JOptionPane.WARNING_MESSAGE);
+                  System.out.println("No Puedo agregar en "+pais.getNombre());
+                  JOptionPane.showMessageDialog(this, "No puede Agregar mas refuerzos", "Refuerzos", JOptionPane.WARNING_MESSAGE);      
               }
         }
         else{
