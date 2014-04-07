@@ -14,6 +14,7 @@ import com.cliente.AccionableLanzarMisil;
 import com.cliente.AccionableMovimiento;
 import cliente.ClienteManager;
 import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableFinTurno;
 import com.cliente.AccionableSolicitarTarjeta;
 import java.util.List;
 import juego.Juego;
@@ -167,6 +168,8 @@ public class GestorTurno {
         paisesConquistados = 0;
         canjeRealizado = false;
         tarjetaSolicitada = false;
+        AccionableFinTurno accionable = new AccionableFinTurno();
+        ClienteManager.getInstance().registrarSalida(accionable);
     }
 
     public static void aumentarContadorPaisesConquistados() {
