@@ -60,7 +60,7 @@ public class ControlInicioJuego {
 
     private static void enviarNotificacionInicioJuego() {
         ServerManager.getInstance().registrarSalida(new AccionableNotificacionInicioJuego());
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Notificacióin de inicio de juego enviada a jugadores."));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Notificación de inicio de juego enviada a jugadores."));
     }
 
     private static void inicializarParametrosJuego() {

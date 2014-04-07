@@ -36,6 +36,8 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         addListenerToMenuDetenerServidor();
         addListenerToMenuReiniciarServidor();
         addListenerToMenuIniciarPartida();
+        addListenerToMenuAgregarIA();
+        addListenerToMenuQuitarIA();
         setCaretPolicyToChatArea();
     }
 
@@ -107,7 +109,25 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
             }
         });
     }
-
+    
+    private void addListenerToMenuAgregarIA() {
+        this.menuItemAgregarJugadorIA.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarJugadorIA();
+            }
+        });
+    }
+    
+    private void addListenerToMenuQuitarIA() {
+        this.menuItemQuitarJugadorIA.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quitarJugadorIA();
+            }
+        });
+    }
+            
     /**
      * Metodo para iniciar el servidor. Verifica que el servidor no este ya
      * iniciado.
@@ -203,6 +223,14 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
                 + "Se necesitan al menos dos jugadores para iniciar la partida.",
                 "Información", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    private void agregarJugadorIA() {
+        ServerManager.getInstance().getGestorClientes().agregarClienteIA();
+    }
+    
+    private void quitarJugadorIA() {
+        ServerManager.getInstance().getGestorClientes().quitarClienteIA();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -228,7 +256,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         menuItemCerrarSala = new javax.swing.JMenuItem();
         menuItemJugadores = new javax.swing.JMenu();
         menuItemAgregarJugadorIA = new javax.swing.JMenuItem();
-        menuItemDificultadIA = new javax.swing.JMenuItem();
+        menuItemQuitarJugadorIA = new javax.swing.JMenuItem();
         menuItemPartida = new javax.swing.JMenu();
         menuItemComenzarPartida = new javax.swing.JMenuItem();
         menuItemPausarPartida = new javax.swing.JMenuItem();
@@ -296,8 +324,8 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         menuItemAgregarJugadorIA.setText("Agregar jugador IA");
         menuItemJugadores.add(menuItemAgregarJugadorIA);
 
-        menuItemDificultadIA.setText("Establecer dificultad IA");
-        menuItemJugadores.add(menuItemDificultadIA);
+        menuItemQuitarJugadorIA.setText("Quitar jugador IA");
+        menuItemJugadores.add(menuItemQuitarJugadorIA);
 
         menuPrincipal.add(menuItemJugadores);
 
@@ -368,12 +396,12 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
     private javax.swing.JMenuItem menuItemCargarPartida;
     private javax.swing.JMenuItem menuItemCerrarSala;
     private javax.swing.JMenuItem menuItemComenzarPartida;
-    private javax.swing.JMenuItem menuItemDificultadIA;
     private javax.swing.JMenuItem menuItemEstablecerContraseña;
     private javax.swing.JMenuItem menuItemGuardarPartida;
     private javax.swing.JMenu menuItemJugadores;
     private javax.swing.JMenu menuItemPartida;
     private javax.swing.JMenuItem menuItemPausarPartida;
+    private javax.swing.JMenuItem menuItemQuitarJugadorIA;
     private javax.swing.JMenu menuItemSala;
     private javax.swing.JMenu menuItemServidor;
     private javax.swing.JMenuItem menuItemServidorDetener;

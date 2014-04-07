@@ -6,10 +6,15 @@ package servidor;
 
 import com.Accionable;
 import com.cliente.AccionableCerrarConexion;
+import com.servidor.AccionableEstadoJugadores;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import servidor.control.ControlColores;
+import servidor.control.ControlEstadoJugadores;
 import servidor.control.ControlInicioConexion;
+import servidor.control.ControladorAlias;
+import servidor.ia.ClienteIA;
 
 /**
  *
@@ -47,6 +52,67 @@ public class GestorClientes implements Runnable {
         } else {
             new ControlInicioConexion(cc).finalizarConexion();
         }
+    }
+
+    /**
+     * Agrega un cliente de IA al gestor. Si la capacidad del gestor ya esta en
+     * su maximo nivel, no se podria agregar el cliente IA y por lo tengo no se
+     * realiza ninguna accion. Si se agrega el jugador IA, se inicializan sus
+     * parametros de juego (color, alias y estado listo) y se emite una
+     * actualizacion de estado de jugadores.
+     */
+    public void agregarClienteIA() {
+        if (conexionesCliente.size() < maximoClientes) {
+            ClienteIA clienteIA = new ClienteIA();
+            clienteIA.setId(generarIdentificadorUnico());
+            conexionesCliente.add(clienteIA);
+
+            ControladorAlias.asignarAliasIA(clienteIA.getId());
+            ControlEstadoJugadores.jugadorIAListo(clienteIA.getId());
+            ControlColores.asignarColorIA(clienteIA.getId());
+
+            AccionableEstadoJugadores.notificarActualizacionJugadores();
+        }
+    }
+
+    /**
+     * Elimina un cliente de IA del gestor si existe alguno, de otra manera, no
+     * realiza ninguna accion. Si se quito algun jugador IA, se emite una
+     * actualizacion de estado de jugadores.
+     */
+    public void quitarClienteIA() {
+        for (ConexionCliente cc : conexionesCliente) {
+            if (cc instanceof ClienteIA) {
+                quitarCliente(cc.getId());
+                AccionableEstadoJugadores.notificarActualizacionJugadores();
+                return;
+            }
+        }
+    }
+
+    /**
+     * Informa si un jugador es un cliente de IA o no.
+     * @param idJugador el jugador a determinarse si es IA.
+     * @return true si es un jugador de IA, false en otro caso.
+     */
+    public boolean esIA(int idJugador) {
+        ConexionCliente buscado = null;
+        for (ConexionCliente cc : conexionesCliente) {
+            if (cc.getId() == idJugador) {
+                buscado = cc;
+                break;
+            }
+        }
+        if (buscado == null) {
+            return false;
+        } else {
+            if (buscado instanceof ClienteIA) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 
     /**
@@ -233,9 +299,10 @@ public class GestorClientes implements Runnable {
     public boolean conexionesEstablecidas() {
         return conexionesCliente.size() != 0;
     }
-    
+
     /**
      * Informa la cantidad de conexiones establecidas con clientes.
+     *
      * @return la cantidad de conexiones establecidas.
      */
     public int cantidadConexionesEstablecidas() {
