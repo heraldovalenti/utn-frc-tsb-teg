@@ -6,11 +6,9 @@
 package com.cliente;
 
 import com.Accionable;
-import java.util.ArrayList;
-import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import com.servidor.ActualizadorPaises;
+import com.servidor.ActualizadorPais;
 import servidor.ServerManager;
 
 /**
@@ -33,10 +31,9 @@ public class AccionableLanzarMisil implements Accionable {
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
         origenServidor.restarMisiles(1);
         destinoServidor.restarEjercitos(4 - GestorPaises.calcularDistancia(origenServidor, destinoServidor));
-        List<Pais> listaPaises = new ArrayList<>(2);
-        listaPaises.add(origenServidor);
-        listaPaises.add(destinoServidor);
-        ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+        ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
+        ServerManager.getInstance().registrarSalida(actualizador);
+        actualizador = new ActualizadorPais(destinoServidor);
         ServerManager.getInstance().registrarSalida(actualizador);
     }
 

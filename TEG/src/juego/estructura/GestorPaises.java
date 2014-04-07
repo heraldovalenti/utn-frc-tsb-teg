@@ -616,4 +616,9 @@ public class GestorPaises {
         crearPaises();
         armarEstructura();
     }
+
+    public static void setPaises(List<Pais> paises) {
+        listaPaises = paises;
+        armarEstructura();
+    }
 }

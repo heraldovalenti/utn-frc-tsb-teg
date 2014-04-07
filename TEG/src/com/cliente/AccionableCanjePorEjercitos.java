@@ -7,11 +7,11 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.AccionableMensajeGlobal;
+import com.servidor.ActualizadorPais;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import com.servidor.ActualizadorPaises;
 import servidor.ServerManager;
 
 /**
@@ -37,7 +37,7 @@ public class AccionableCanjePorEjercitos implements Accionable {
         ServerManager.getInstance().registrarSalida(mensaje);
         List listaPaises = new ArrayList(1);
         listaPaises.add(paisServidor);
-        ActualizadorPaises actualizador = new ActualizadorPaises(listaPaises);
+        ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
         ServerManager.getInstance().registrarSalida(actualizador);
     }
 }
