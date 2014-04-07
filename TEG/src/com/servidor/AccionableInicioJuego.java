@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import juego.Juego;
 import juego.estructura.GestorJugadores;
+import juego.estructura.GestorPaises;
 import juego.estructura.Jugador;
 import juego.mecanicas.turno.SecuenciaTurnos;
 import logger.LogItem;
@@ -29,12 +30,13 @@ public class AccionableInicioJuego implements Accionable {
         this.jugadores = jugadores;
         this.secuenciaTurnos = secuenciaTurnos;
     }
-    
+
     @Override
     public void accionar() {
         ClienteManager.getInstance().getJuego().setIdJuego(juego.getIdJuego());
         GestorJugadores.setJugadores(jugadores);
+        GestorPaises.inicializarGestor();
         SecuenciaTurnos.getInstancia().setSecuencia(secuenciaTurnos);
         ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Juego inicializado."));
-    }    
+    }
 }

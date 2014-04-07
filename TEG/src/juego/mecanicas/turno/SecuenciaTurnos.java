@@ -8,32 +8,35 @@ import com.servidor.AccionablePermitirRefuerzo;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import juego.Juego;
+import juego.estructura.Continente;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
+import servidor.ServerManager;
 
 /**
  *
  * @author heril
  */
 public class SecuenciaTurnos {
-
+    
     private static SecuenciaTurnos instancia = null;
     private List<Jugador> secuencia;
     private int actual;
     private int contadorRondas;
-
+    
     public static SecuenciaTurnos getInstancia() {
         if (instancia == null) {
             instancia = new SecuenciaTurnos();
         }
         return instancia;
     }
-
+    
     private SecuenciaTurnos() {
         //  secuencia = new ArrayList<>();
         actual = 0;
@@ -65,6 +68,10 @@ public class SecuenciaTurnos {
             nuevaRonda();
         } else {
             actual++;
+        }
+        if (contadorRondas == 1) {
+            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), 12, new HashMap<Continente, Integer>(), false);
+            ServerManager.getInstance().registrarSalida(accionable);
         }
     }
 
@@ -107,10 +114,11 @@ public class SecuenciaTurnos {
     }
 
     /**
-     * Informa el jugador anterior al jugador indicado como parametro.
-     * Es importante destacar que no tiene en cuenta la finalizacion de la ronda
-     * y la generacion de un nuevo turno, que es en el momento en el que el
-     * orden de los turnos es modificado.
+     * Informa el jugador anterior al jugador indicado como parametro. Es
+     * importante destacar que no tiene en cuenta la finalizacion de la ronda y
+     * la generacion de un nuevo turno, que es en el momento en el que el orden
+     * de los turnos es modificado.
+     *
      * @param jugador el jugador de referencia
      * @return el jugador anterior al jugador de referencia
      */
@@ -129,10 +137,11 @@ public class SecuenciaTurnos {
     }
 
     /**
-     * Informa el jugador siguiente al jugador indicado como parametro.
-     * Es importante destacar que no tiene en cuenta la finalizacion de la ronda
-     * y la generacion de un nuevo turno, que es en el momento en el que el
-     * orden de los turnos es modificado.
+     * Informa el jugador siguiente al jugador indicado como parametro. Es
+     * importante destacar que no tiene en cuenta la finalizacion de la ronda y
+     * la generacion de un nuevo turno, que es en el momento en el que el orden
+     * de los turnos es modificado.
+     *
      * @param jugador el jugador de referencia
      * @return el jugador siguiente al jugador de referencia
      */
@@ -150,7 +159,7 @@ public class SecuenciaTurnos {
         return null;
     }
     
-    public int getContadorRondas(){
+    public int getContadorRondas() {
         return contadorRondas;
     }
 
@@ -168,31 +177,31 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-
+        
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-
+        
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-
+        
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-
+        
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
     }
-
+    
     public static void testSecuencia() {
         Juego j = Juego.getInstancia();
         Set<Jugador> jugadores = new HashSet<>();
@@ -204,7 +213,7 @@ public class SecuenciaTurnos {
 //        jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-
+        
         for (int i = 0; i < 10; i++) {
             System.out.println("jugador actual: " + st.getActual().getNombre());
             System.out.println("secuencia: ");
@@ -213,7 +222,7 @@ public class SecuenciaTurnos {
             }
             st.siguienteTurno();
         }
-
+        
     }
     
     public static void testSecuenciaTurnos() {
@@ -227,7 +236,7 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-
+        
         Jugador aux = st.getActual();
         for (int i = 0; i < 20; i++) {
             System.out.println("jugador actual: " + aux.getNombre());

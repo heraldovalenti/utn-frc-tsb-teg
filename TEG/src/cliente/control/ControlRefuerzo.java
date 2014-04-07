@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import juego.estructura.Continente;
 import juego.estructura.Pais;
+import logger.LogItem;
 
 /**
  *
@@ -164,6 +165,8 @@ public class ControlRefuerzo {
             }
             AccionableRefuerzo refuerzo = new AccionableRefuerzo(listaPaises);
             ClienteManager.getInstance().registrarSalida(refuerzo);
+            ClienteManager.getInstance().getLogger().addLogItem(
+                    new LogItem("Enviado actualizador refuerzo con " + listaPaises.toString()));
             return true;
         }
         return false;
@@ -174,13 +177,20 @@ public class ControlRefuerzo {
         Continente continente = pais.getContinente();
         if (ejercitosPorContinente.containsKey(continente)) {
             cantidadDisponible = ejercitosPorContinente.get(continente);
+            if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+                cantidadDisponible -= refuerzosUtilizadosPorContinente.get(continente);
+                if (cantidadDisponible < 0) {
+                    cantidadDisponible = 0;
+                }
+            }
         }
-        if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
-            cantidadDisponible -= refuerzosUtilizadosPorContinente.get(continente);
-            //TODO: puede ser necesario hacer que sea cero si queda negativo
-        }
+//        if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+//            cantidadDisponible -= refuerzosUtilizadosPorContinente.get(continente);
+//            //TODO: puede ser necesario hacer que sea cero si queda negativo
+//        }
         cantidadDisponible += calcularEjercitosLibresDisponibles();
         return cantidadDisponible > 0;
+
     }
 
     public boolean puedeReforzarConMisil(Pais pais) {
@@ -210,13 +220,25 @@ public class ControlRefuerzo {
     }
 
     public int calcularEjercitosLibresDisponibles() {
+//        int libresUtilizados = 0;
+//        for (Continente continente : ejercitosPorContinente.keySet()) {
+//            if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
+//                int cantidad = refuerzosUtilizadosPorContinente.get(continente) - ejercitosPorContinente.get(continente);
+//                if (cantidad > 0) {
+//                    libresUtilizados += cantidad;
+//                }
+//            }
+//        }
+//        return cantidadEjercitos - libresUtilizados;
         int libresUtilizados = 0;
-        for (Continente continente : ejercitosPorContinente.keySet()) {
-            if (refuerzosUtilizadosPorContinente.containsKey(continente)) {
-                int cantidad = refuerzosUtilizadosPorContinente.get(continente) - ejercitosPorContinente.get(continente);
-                if (cantidad > 0) {
-                    libresUtilizados += cantidad;
+        for (Continente continente : refuerzosUtilizadosPorContinente.keySet()) {
+            if (ejercitosPorContinente.containsKey(continente)) {
+                int resta = refuerzosUtilizadosPorContinente.get(continente) - ejercitosPorContinente.get(continente);
+                if (resta > 0) {
+                    libresUtilizados += resta;
                 }
+            } else {
+                libresUtilizados += refuerzosUtilizadosPorContinente.get(continente);
             }
         }
         return cantidadEjercitos - libresUtilizados;
