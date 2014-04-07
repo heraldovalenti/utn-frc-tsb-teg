@@ -33,7 +33,7 @@ public class FachadaInterfacePrincipal {
     }
 
     public static void mostrarMensaje(String mensaje) {
-        //Ema esto es para que pongas un label o algo asi que muestre el mensaje para todos los jugadores
+        ClienteManager.getInstance().getInterfacePrincipal().mostrarMensajeGlobal(mensaje);
     }
 
     public static void informarRondaInicial() {

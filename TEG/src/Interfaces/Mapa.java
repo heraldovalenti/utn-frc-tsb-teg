@@ -36,8 +36,13 @@ public class Mapa extends javax.swing.JPanel {
         initComponents();  
         panelCentroAmerica.setSize(200, 115);
         this.principal = principal;
+        txtMensajeGlobal.setVisible(false);
        
       
+   }
+   public void mostrarMensajeGloblal(String msj){
+       HiloMensajeGlobal hiloMensaje = new HiloMensajeGlobal(txtMensajeGlobal, msj);
+       hiloMensaje.start();
    }
    private void cargarFichaEnPais(JLabel label, Color col, int cantidad,boolean mostrar){
         String color = obtenerStringColor(col);       
@@ -472,6 +477,8 @@ public class Mapa extends javax.swing.JPanel {
         lblCroacia = new javax.swing.JLabel();
         lblAlbania = new javax.swing.JLabel();
         lblBielorrusia = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtMensajeGlobal = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2242,6 +2249,17 @@ public class Mapa extends javax.swing.JPanel {
         });
         add(lblBielorrusia, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 30, 80));
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 204));
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        txtMensajeGlobal.setBackground(new java.awt.Color(255, 255, 204));
+        txtMensajeGlobal.setColumns(20);
+        txtMensajeGlobal.setLineWrap(true);
+        txtMensajeGlobal.setRows(5);
+        jScrollPane1.setViewportView(txtMensajeGlobal);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 220, 30));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/teg3.jpg"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 710));
@@ -2981,6 +2999,7 @@ public class Mapa extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAlaska;
     private javax.swing.JLabel lblAlbania;
     private javax.swing.JLabel lblAlemania;
@@ -3204,5 +3223,6 @@ public class Mapa extends javax.swing.JPanel {
     private javax.swing.JPanel panelAsia2;
     private javax.swing.JPanel panelCentroAmerica;
     private javax.swing.JPanel panelOceania;
+    private javax.swing.JTextArea txtMensajeGlobal;
     // End of variables declaration//GEN-END:variables
 }
