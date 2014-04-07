@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.servidor;
 
 import com.Accionable;
@@ -15,20 +14,19 @@ import juego.mecanicas.turno.GestorTurno;
  *
  * @author Daniel
  */
-public class AccionablePermitirAtaque implements Accionable{
-    private final Jugador jugadorServidor;
+public class AccionablePermitirAtaque implements Accionable {
+
+    private final int nroJugador;
 
     public AccionablePermitirAtaque(Jugador jugadorServidor) {
-        this.jugadorServidor = jugadorServidor;
+        this.nroJugador = jugadorServidor.getNroJugador();
     }
 
     @Override
     public void accionar() {
-        Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(jugadorServidor.getNroJugador());
+        Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(nroJugador);
         if (jugadorCliente.equals(GestorJugadores.getJugadorLocal())) {
             GestorTurno.permitirAtaque();
         }
     }
-    
-    
 }

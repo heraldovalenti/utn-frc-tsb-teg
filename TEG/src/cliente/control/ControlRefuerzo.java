@@ -163,10 +163,12 @@ public class ControlRefuerzo {
                     listaPaises.add(pais);
                 }
             }
-            AccionableRefuerzo refuerzo = new AccionableRefuerzo(listaPaises);
-            ClienteManager.getInstance().registrarSalida(refuerzo);
-            ClienteManager.getInstance().getLogger().addLogItem(
-                    new LogItem("Enviado actualizador refuerzo con " + listaPaises.toString()));
+            for (Pais pais : listaPaises) {
+                AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais);
+                ClienteManager.getInstance().registrarSalida(refuerzo);
+                ClienteManager.getInstance().getLogger().addLogItem(
+                        new LogItem("Enviado actualizador refuerzo con " + listaPaises.toString()));
+            }
             return true;
         }
         return false;

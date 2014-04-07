@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.turno;
 
+import com.servidor.AccionablePermitirAtaque;
 import com.servidor.AccionablePermitirRefuerzo;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import juego.Juego;
 import juego.estructura.Continente;
+import juego.estructura.GestorContinentes;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import servidor.ServerManager;
@@ -24,19 +26,19 @@ import servidor.ServerManager;
  * @author heril
  */
 public class SecuenciaTurnos {
-    
+
     private static SecuenciaTurnos instancia = null;
     private List<Jugador> secuencia;
     private int actual;
     private int contadorRondas;
-    
+
     public static SecuenciaTurnos getInstancia() {
         if (instancia == null) {
             instancia = new SecuenciaTurnos();
         }
         return instancia;
     }
-    
+
     private SecuenciaTurnos() {
         //  secuencia = new ArrayList<>();
         actual = 0;
@@ -69,8 +71,12 @@ public class SecuenciaTurnos {
         } else {
             actual++;
         }
-        if (contadorRondas == 1) {
-            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), 12, new HashMap<Continente, Integer>(), false);
+        if (contadorRondas <= 2) {
+            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
+            ServerManager.getInstance().registrarSalida(accionable);
+        } else {
+            //AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
+            AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
             ServerManager.getInstance().registrarSalida(accionable);
         }
     }
@@ -158,7 +164,30 @@ public class SecuenciaTurnos {
         }
         return null;
     }
-    
+
+    private int calcularRefuerzosPermitidos(Jugador jugador) {
+        int refuerzos = 0;
+        if (contadorRondas == 1) {
+            if (GestorJugadores.getCantidadJugadores() <= 2) {
+                refuerzos = 12;
+            } else {
+                refuerzos = 8;
+            }
+        } else if (contadorRondas == 2) {
+            if (GestorJugadores.getCantidadJugadores() <= 2) {
+                refuerzos = 6;
+            } else {
+                refuerzos = 4;
+            }
+        } else {
+            refuerzos = (int) jugador.getCantidadPaises() / 2;
+            for (Continente continente : jugador.obtenerContinentesOcupadosCompletos()) {
+                refuerzos += GestorContinentes.obtenerRefuerzosPorContinente(continente);
+            }
+        }
+        return refuerzos;
+    }
+
     public int getContadorRondas() {
         return contadorRondas;
     }
@@ -177,31 +206,31 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-        
+
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-        
+
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-        
+
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
-        
+
         st.nuevaRonda();
         System.out.println("secuencia: ");
         for (Jugador i : st.secuencia) {
             System.out.println("\t>>" + i.toString());
         }
     }
-    
+
     public static void testSecuencia() {
         Juego j = Juego.getInstancia();
         Set<Jugador> jugadores = new HashSet<>();
@@ -213,7 +242,7 @@ public class SecuenciaTurnos {
 //        jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-        
+
         for (int i = 0; i < 10; i++) {
             System.out.println("jugador actual: " + st.getActual().getNombre());
             System.out.println("secuencia: ");
@@ -222,9 +251,9 @@ public class SecuenciaTurnos {
             }
             st.siguienteTurno();
         }
-        
+
     }
-    
+
     public static void testSecuenciaTurnos() {
         Juego j = Juego.getInstancia();
         Set<Jugador> jugadores = new HashSet<>();
@@ -236,7 +265,7 @@ public class SecuenciaTurnos {
         jugadores.add(new Jugador(6, "Gato", Color.RED));
         GestorJugadores.setJugadores(jugadores);
         SecuenciaTurnos st = SecuenciaTurnos.getInstancia();
-        
+
         Jugador aux = st.getActual();
         for (int i = 0; i < 20; i++) {
             System.out.println("jugador actual: " + aux.getNombre());

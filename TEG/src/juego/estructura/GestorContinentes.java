@@ -88,7 +88,8 @@ public class GestorContinentes {
         limitrofes[ASIA][ASIA] = 1;
     }
 
-    public static int obtenerCantidadPaises(int nroContinente) {
+    public static int obtenerCantidadPaises(Continente continente) {
+        int nroContinente = continente.getNroContinente();
         switch (nroContinente) {
             case AMERICA_NORTE:
                 return 12;
@@ -108,8 +109,9 @@ public class GestorContinentes {
                 return 0;
         }
     }
-    
-    public static int obtenerRefuerzosPorContinente(int nroContinente) {
+
+    public static int obtenerRefuerzosPorContinente(Continente continente) {
+        int nroContinente = continente.getNroContinente();
         switch (nroContinente) {
             case AMERICA_NORTE:
                 return 6;

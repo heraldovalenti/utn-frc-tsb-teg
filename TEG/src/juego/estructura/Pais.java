@@ -136,4 +136,9 @@ public class Pais implements Serializable {
         return this.getJugador().getNroJugador();
     }
 
+    @Override
+    public String toString() {
+        return "Pais{" + "nroPais=" + nroPais + ", nombre=" + nombre + ", jugador=" + jugador + ", cantidadEjercitos=" + cantidadEjercitos + ", cantidadMisiles=" + cantidadMisiles + '}';
+    }
+
 }
