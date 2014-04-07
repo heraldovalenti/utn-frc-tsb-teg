@@ -245,7 +245,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
         ubicarGuis(chat, 0, mapa.getSize().height);
-        ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
+        ubicarGuis(seleccion, 0, 0);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
             dados.setIcon(true);
@@ -732,7 +732,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if (FachadaInterface.atacarPermitido()) {
             if (paisDesde != null && paisHasta != null) {
                 //aca hay que poner la validacion si se puede atacr de un pais a otro
-                if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {
+                if (FachadaInterface.ataquePermitido(paisDesde, paisHasta)) {
                     atacar = true;
                 }
                 if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {

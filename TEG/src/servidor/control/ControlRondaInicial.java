@@ -5,7 +5,9 @@
 package servidor.control;
 
 import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableFinTurno;
 import com.cliente.AccionableRefuerzo;
+import com.servidor.AccionableInicioTurno;
 import com.servidor.AccionablePermitirRefuerzo;
 import com.servidor.AccionableRondaInicial;
 import java.util.HashMap;
@@ -59,6 +61,8 @@ public class ControlRondaInicial {
 //        ServerManager.getInstance().registrarSalida(accionable);
         AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(jugadorDeTurno, cantidadEjercitosPrimeraRonda, new HashMap<Continente, Integer>(), false);
         ServerManager.getInstance().registrarSalida(accionable);
+        AccionableInicioTurno primerTurno = new AccionableInicioTurno(SecuenciaTurnos.getInstancia().getActual());
+        ServerManager.getInstance().registrarSalida(primerTurno);
     }
 
     /**

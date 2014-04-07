@@ -29,26 +29,31 @@ public class FachadaInterface {
     public static List<ObjetivoSecreto> obtenerObjetivos() {
         return GestorObjetivosSecretos.getListaObjetivos();
     }
+
     public static void enviarChat(String chat) {
-        ServerManager.getInstance().registrarSalida(new AccionableChat(getJugadorLocal().getNroJugador(),getJugadorLocal().getNombre(), chat));
+        ServerManager.getInstance().registrarSalida(new AccionableChat(getJugadorLocal().getNroJugador(), getJugadorLocal().getNombre(), chat));
     }
 
     public static boolean atacarPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_ATACAR);
     }
+
     public static boolean finTurnoPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_FINALIZAR_TURNO);
     }
-    public static boolean ataquePermitido(Pais atacante, Pais defensa){
+
+    public static boolean ataquePermitido(Pais atacante, Pais defensa) {
         return new ControlAtaque(atacante, defensa).ataqueValido();
     }
-    public static boolean ataqueConMisilesPermitido(Pais atacante, Pais defensa){
+
+    public static boolean ataqueConMisilesPermitido(Pais atacante, Pais defensa) {
         return new ControlAtaque(atacante, defensa).ataqueConMisilValido();
     }
 
     public static void atacar(Pais atacante, Pais defensa) {
         GestorTurno.atacar(atacante, defensa);
     }
+
     public static void atacarConMisil(Pais atacante, Pais defensa) {
         GestorTurno.lanzarMisil(atacante, defensa);
     }
@@ -64,6 +69,7 @@ public class FachadaInterface {
     public static boolean solicitarTarjetaPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_SOLICITAR_TARJETA);
     }
+
     public static void solicitarTarjeta() {
         GestorTurno.solicitarTarjeta(getJugadorLocal());
     }
@@ -83,9 +89,9 @@ public class FachadaInterface {
     public static Jugador getJugadorLocal() {
         return ClienteManager.getInstance().getJugador();
     }
-    
+
     public static Jugador getJugadorTurno() {
-        return SecuenciaTurnos.getInstancia().getActual();
+        return GestorTurno.getJugadorActual();
     }
 
     public static Pais obtenerPaisPorNombre(String nombre) {
@@ -130,8 +136,9 @@ public class FachadaInterface {
 
     public static ControlRefuerzo getRefuerzoActual() {
         return GestorTurno.getRefuerzoActual();
-    }   
-    public static void comenzarReagrupacion(){
+    }
+
+    public static void comenzarReagrupacion() {
         //Daniel aca te aviso que voy a comenzar a reagrupar gayyyyy
     }
 }
