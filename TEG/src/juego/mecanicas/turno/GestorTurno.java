@@ -54,6 +54,8 @@ public class GestorTurno {
 
     private static boolean[][] permisos;
 
+    private static Jugador jugadorActual;
+
     private static ControlRefuerzo refuerzoActual;
 
     public static void crearPermisos() {
@@ -72,11 +74,11 @@ public class GestorTurno {
         permisos[ETAPA_ATACAR][ACCION_ATACAR] = true;
         permisos[ETAPA_ATACAR][ACCION_REAGRUPAR] = true;
         permisos[ETAPA_ATACAR][ACCION_SOLICITAR_TARJETA] = true;
-        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_FINALIZAR_TURNO] = true;
+        permisos[ETAPA_ATACAR][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_REAGRUPAR][ACCION_REAGRUPAR] = true;
         permisos[ETAPA_REAGRUPAR][ACCION_SOLICITAR_TARJETA] = true;
-        permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_FINALIZAR_TURNO] = true;
+        permisos[ETAPA_REAGRUPAR][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_SOLICITAR_TARJETA][ACCION_FINALIZAR_TURNO] = true;
     }
@@ -192,8 +194,7 @@ public class GestorTurno {
 
     public static void setRefuerzoActual(ControlRefuerzo control) {
         refuerzoActual = control;
-        int rondaActual = SecuenciaTurnos.getInstancia().getContadorRondas();
-        if (rondaActual <= 2) {
+        if (SecuenciaTurnos.getInstancia().esRondaInicial()) {
             etapaActual = PRIMERA_ETAPA_INCORPORACION;
         } else {
             etapaActual = ETAPA_INCORPORAR_EJERCITOS;
@@ -203,6 +204,13 @@ public class GestorTurno {
 
     public static void permitirAtaque() {
         etapaActual = ETAPA_ATACAR;
-        FachadaInterfacePrincipal.informarInicioTurno();
+    }
+
+    public static Jugador getJugadorActual() {
+        return jugadorActual;
+    }
+
+    public static void setJugadorActual(Jugador jugadorActual) {
+        GestorTurno.jugadorActual = jugadorActual;
     }
 }

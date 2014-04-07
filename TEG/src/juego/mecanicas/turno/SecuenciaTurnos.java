@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.turno;
 
+import com.servidor.AccionableInicioTurno;
 import com.servidor.AccionablePermitirAtaque;
 import com.servidor.AccionablePermitirRefuerzo;
 import java.awt.Color;
@@ -72,16 +73,14 @@ public class SecuenciaTurnos {
         if (esRondaInicial()) {
             if (esFinRonda()) {
                 actual = 0;
-                Jugador aux = secuencia.remove(0);
-                secuencia.add(aux);
+                if (rondaInicial1) {
+                    rondaInicial1 = false;
+                    rondaInicial2 = true;
+                } else {
+                    rondaInicial2 = false;
+                }
             } else {
                 actual++;
-            }
-            if (rondaInicial1) {
-                rondaInicial1 = false;
-                rondaInicial2 = true;
-            } else {
-                rondaInicial2 = false;
             }
             if (esRondaInicial()) {
                 AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
@@ -99,6 +98,8 @@ public class SecuenciaTurnos {
             AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
             ServerManager.getInstance().registrarSalida(accionable);
         }
+        AccionableInicioTurno accionable = new AccionableInicioTurno(getActual());
+        ServerManager.getInstance().registrarSalida(accionable);
     }
 
     /**
@@ -187,13 +188,13 @@ public class SecuenciaTurnos {
 
     private int calcularRefuerzosPermitidos(Jugador jugador) {
         int refuerzos = 0;
-        if (contadorRondas == 1) {
+        if (rondaInicial1) {
             if (GestorJugadores.getCantidadJugadores() <= 2) {
                 refuerzos = 12;
             } else {
                 refuerzos = 8;
             }
-        } else if (contadorRondas == 2) {
+        } else if (rondaInicial2) {
             if (GestorJugadores.getCantidadJugadores() <= 2) {
                 refuerzos = 6;
             } else {
