@@ -45,6 +45,9 @@ public class InterfaceMapa extends javax.swing.JInternalFrame {
     public void actualizarFichas(ArrayList<Pais> paises, boolean mostrarFichas, boolean mostrarMisiles){
         mapa.actualizarFichas(paises,mostrarFichas, mostrarMisiles);
     }
+    public void mostraMensajeGlobal(String msj){
+        mapa.mostrarMensajeGloblal(msj);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
