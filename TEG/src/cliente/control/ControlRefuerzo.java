@@ -5,6 +5,7 @@
  */
 package cliente.control;
 
+import Interfaces.FachadaInterfacePrincipal;
 import cliente.ClienteManager;
 import com.cliente.AccionableRefuerzo;
 import java.util.ArrayList;
@@ -109,37 +110,6 @@ public class ControlRefuerzo {
         refuerzosUtilizadosPorContinente.clear();
     }
 
-//    private boolean esValido() {
-//        if (totalUtilizado() != maximoPermitido()) {
-//            return false;
-//        }
-//        Map<Continente, Integer> utilizadosPorContinente = new HashMap<>();
-//        for (Pais pais : ejercitosColocados.keySet()) {
-//            Continente continente = pais.getContinente();
-//            int cantidadAnterior = 0;
-//            if (utilizadosPorContinente.containsKey(continente)) {
-//                cantidadAnterior = utilizadosPorContinente.get(continente);
-//            }
-//            utilizadosPorContinente.put(continente, cantidadAnterior + ejercitosColocados.get(pais));
-//        }
-//        for (Pais pais : misilesColocados.keySet()) {
-//            Continente continente = pais.getContinente();
-//            int cantidadAnterior = 0;
-//            if (utilizadosPorContinente.containsKey(continente)) {
-//                cantidadAnterior = utilizadosPorContinente.get(continente);
-//            }
-//            utilizadosPorContinente.put(continente, cantidadAnterior + misilesColocados.get(pais) * 6);
-//        }
-//        for (Continente continente : ejercitosPorContinenteDisponibles.keySet()) {
-//            if (!utilizadosPorContinente.containsKey(continente)) {
-//                return false;
-//            }
-//            if (ejercitosPorContinenteDisponibles.get(continente) < utilizadosPorContinente.get(continente)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
     private boolean esValido() {
         if (totalUtilizado() != maximoPermitido()) {
             return false;
@@ -169,6 +139,7 @@ public class ControlRefuerzo {
                 ClienteManager.getInstance().getLogger().addLogItem(
                         new LogItem("Enviado actualizador refuerzo con " + listaPaises.toString()));
             }
+            FachadaInterfacePrincipal.terminarRefuerzo();
             return true;
         }
         return false;

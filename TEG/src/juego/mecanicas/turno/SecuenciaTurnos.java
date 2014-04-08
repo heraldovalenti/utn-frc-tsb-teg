@@ -95,8 +95,13 @@ public class SecuenciaTurnos {
             } else {
                 actual++;
             }
-            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
-            ServerManager.getInstance().registrarSalida(accionable);
+            if (actual == 0) {
+                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
+                ServerManager.getInstance().registrarSalida(accionable);
+            } else {
+                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+                ServerManager.getInstance().registrarSalida(accionable);
+            }
         }
         AccionableInicioTurno accionable = new AccionableInicioTurno(getActual());
         ServerManager.getInstance().registrarSalida(accionable);

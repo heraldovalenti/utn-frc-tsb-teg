@@ -83,7 +83,7 @@ public class FachadaInterface {
     }
 
     public static boolean esMiTurno(Jugador jugador) {
-        return GestorTurno.etapaActual != GestorTurno.FUERA_TURNO;
+        return GestorTurno.getEtapaActual() != GestorTurno.FUERA_TURNO;
     }
 
     public static Jugador getJugadorLocal() {
@@ -139,6 +139,6 @@ public class FachadaInterface {
     }
 
     public static void comenzarReagrupacion() {
-        //Daniel aca te aviso que voy a comenzar a reagrupar gayyyyy
+        GestorTurno.setEtapaActual(GestorTurno.ETAPA_REAGRUPAR);
     }
 }
