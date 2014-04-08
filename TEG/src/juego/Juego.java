@@ -5,9 +5,6 @@
 package juego;
 
 import java.io.Serializable;
-import java.util.List;
-import juego.estructura.TarjetaContinente;
-import juego.estructura.TarjetaPais;
 import juego.mecanicas.situacion.CombateNormal;
 import juego.mecanicas.situacion.Situacion;
 
@@ -18,6 +15,8 @@ import juego.mecanicas.situacion.Situacion;
 public class Juego implements Serializable {
 
     private static Juego instancia = null;
+    private int idJuego;
+    private Situacion situacion = new CombateNormal();
 
     public static Juego getInstancia() {
         if (instancia == null) {
@@ -28,11 +27,6 @@ public class Juego implements Serializable {
 
     private Juego() {
     }
-    private int idJuego;
-    private List<TarjetaContinente> tarjetasContinente;
-    private List<TarjetaPais> tarjetasPais;
-    private Estado estado;
-    private Situacion situacion = new CombateNormal();
 
     public Situacion getSituacion() {
         return situacion;

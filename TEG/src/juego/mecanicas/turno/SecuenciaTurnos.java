@@ -7,6 +7,7 @@ package juego.mecanicas.turno;
 import com.servidor.AccionableInicioTurno;
 import com.servidor.AccionablePermitirAtaque;
 import com.servidor.AccionablePermitirRefuerzo;
+import com.servidor.AccionableSituacion;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,8 @@ import juego.estructura.Continente;
 import juego.estructura.GestorContinentes;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
+import juego.mecanicas.situacion.GestorSituacion;
+import juego.mecanicas.situacion.Situacion;
 import servidor.ServerManager;
 
 /**
@@ -86,6 +89,10 @@ public class SecuenciaTurnos {
                 AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
                 ServerManager.getInstance().registrarSalida(accionable);
             } else {
+                if (actual == 0) {
+                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
+                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
+                }
                 AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
                 ServerManager.getInstance().registrarSalida(accionable);
             }
@@ -96,6 +103,10 @@ public class SecuenciaTurnos {
                 actual++;
             }
             if (contadorRondas > 1) {
+                if (actual == 0) {
+                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
+                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
+                }
                 AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
                 ServerManager.getInstance().registrarSalida(accionable);
             } else {
