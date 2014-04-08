@@ -10,6 +10,7 @@ import com.Accionable;
 import juego.Juego;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
+import juego.mecanicas.situacion.Situacion;
 import logger.Logger;
 import servidor.ColaAcciones;
 import servidor.DespachadorAcciones;
@@ -125,4 +126,5 @@ public class ClienteManager {
         this.interfacePrincipal = ventana;
         this.logger.agregarLoggeable(ventana);
     }
+
 }
