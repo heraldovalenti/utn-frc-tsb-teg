@@ -27,6 +27,10 @@ public interface Situacion extends Serializable {
 
     public boolean puedeAtacar(Jugador jugador);
 
-    public List<Jugador> jugadoresEnCrisis();
+    public boolean puedeReagrupar(Jugador jugador);
+
+    public String getNombre();
+
+    public String getDescripcion();
 
 }

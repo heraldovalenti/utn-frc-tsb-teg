@@ -4,7 +4,6 @@
  */
 package juego.mecanicas.situacion;
 
-import java.util.List;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 
@@ -45,8 +44,18 @@ public class RefuerzosExtra implements Situacion {
     }
 
     @Override
-    public List<Jugador> jugadoresEnCrisis() {
-        return null;
+    public boolean puedeReagrupar(Jugador jugador) {
+        return true;
+    }
+
+    @Override
+    public String getNombre() {
+        return "Refuerzos extra";
+    }
+
+    @Override
+    public String getDescripcion() {
+        return "Se realiza una ronda extra de incorporación de ejércitos";
     }
 
 }
