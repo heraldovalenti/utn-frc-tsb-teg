@@ -26,7 +26,7 @@ public class Jugador implements Serializable {
     private ObjetivoSecreto objetivoSecreto;
     private int cantidadCanjes = 0;
     private List<TarjetaPais> listaTarjetasPais = new ArrayList<>(5);
-    private List<TarjetaContinente> listaTarjetaContinentes;
+    private List<TarjetaContinente> listaTarjetaContinentes = new ArrayList<>(5);
     private boolean ia;
 
     public Jugador() {
@@ -149,6 +149,10 @@ public class Jugador implements Serializable {
 
     public void añadirTarjetaPais(TarjetaPais tarjeta) {
         listaTarjetasPais.add(tarjeta);
+    }
+
+    public int getCantidadTarjetasContinente() {
+        return listaTarjetaContinentes.size();
     }
 
     public Set<Pais> obtenerPaisesDeContinente(Continente continente) {

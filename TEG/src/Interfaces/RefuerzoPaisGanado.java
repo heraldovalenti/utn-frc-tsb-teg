@@ -29,6 +29,9 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
     }
 
     public void inicializar() {
+        if (cantidadMaxima == 0) {
+            dispose();
+        }
         txtDesde.setText(paisDesde.getNombre());
         txtHasta.setText(paisHasta.getNombre());
         btnPasar.setEnabled(true);

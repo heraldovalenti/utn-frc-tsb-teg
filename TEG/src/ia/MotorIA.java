@@ -50,7 +50,7 @@ public class MotorIA {
     }
 
     public static void faseSolicitarTarjeta(Jugador jugador) {
-        GestorTurno.getInstance().solicitarTarjeta(jugador);
+//        GestorTurno.getInstance().solicitarTarjeta(jugador);
     }
 
     public static int calcularAmenaza(Pais pais) {

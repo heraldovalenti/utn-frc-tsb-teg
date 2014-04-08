@@ -27,6 +27,11 @@ public class GestorTarjetas {
     private static List<TarjetaContinente> listaTarjetasContinentes = new ArrayList(7);
     private static List<TarjetaPais> listaTarjetasDevultas = new ArrayList<>(72);
 
+    public static void inicializarGestor() {
+        crearTarjetas();
+        Collections.shuffle(listaTarjetasPais);
+    }
+
     public static void crearTarjetas() {
         listaTarjetasPais.add(new TarjetaPais(1, GestorPaises.getPais(GestorPaises.ALASKA), ARMA));
         listaTarjetasPais.add(new TarjetaPais(2, GestorPaises.getPais(GestorPaises.ALBANIA), ARMA));
@@ -168,5 +173,23 @@ public class GestorTarjetas {
 
     public static boolean yaUsada(Jugador jugador, TarjetaContinente tarjeta) {
         return tarjeta.fueUsada(jugador);
+    }
+
+    public static TarjetaPais getTarjetaPais(int nroTarjeta) {
+        for (TarjetaPais tarjeta : listaTarjetasPais) {
+            if (tarjeta.getNroTarjeta() == nroTarjeta) {
+                return tarjeta;
+            }
+        }
+        for (TarjetaPais tarjeta : listaTarjetasDevultas) {
+            if (tarjeta.getNroTarjeta() == nroTarjeta) {
+                return tarjeta;
+            }
+        }
+        return null;
+    }
+
+    public static TarjetaContinente getTarjetaContinente(int nrotarjeta) {
+        return listaTarjetasContinentes.get(nrotarjeta - 1);
     }
 }

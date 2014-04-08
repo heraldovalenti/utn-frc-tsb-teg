@@ -15,7 +15,7 @@ import com.cliente.AccionableMovimiento;
 import cliente.ClienteManager;
 import cliente.control.ControlRefuerzo;
 import com.cliente.AccionableFinTurno;
-import com.cliente.AccionableSolicitarTarjeta;
+import com.cliente.AccionableSolicitarTarjetaPais;
 import java.util.List;
 import juego.Juego;
 import juego.estructura.Canjeable;
@@ -167,7 +167,8 @@ public class GestorTurno {
         }
     }
 
-    public void solicitarTarjeta(Jugador jugador) {
+    public void solicitarTarjeta() {
+        Jugador jugador = getJugadorActual();
         if (accionPermitida(ACCION_SOLICITAR_TARJETA) && !tarjetaSolicitada && jugador.getCantidadTarjetasPais() < 6 && Juego.getInstancia().getSituacion().puedeObtenerTarjetaPais(jugador)) {
             int canjesRealizados = jugador.getCantidadCanjes();
             boolean res = false;
@@ -178,7 +179,7 @@ public class GestorTurno {
                 res = true;
             }
             if (res) {
-                AccionableSolicitarTarjeta solicitar = new AccionableSolicitarTarjeta(jugador);
+                AccionableSolicitarTarjetaPais solicitar = new AccionableSolicitarTarjetaPais(jugador);
                 ClienteManager.getInstance().registrarSalida(solicitar);
                 tarjetaSolicitada = true;
                 etapaActual = ETAPA_SOLICITAR_TARJETA;
@@ -200,7 +201,7 @@ public class GestorTurno {
         ClienteManager.getInstance().registrarSalida(accionable);
     }
 
-    public void aumentarContadorPaisesConquistados() {
+    public void registrarPaisConquistado() {
         paisesConquistados++;
     }
 
@@ -249,6 +250,22 @@ public class GestorTurno {
     public void movimientoPaisGanado(Pais origen, Pais destino, int cantidadEjercitos) {
         AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, 0);
         ClienteManager.getInstance().registrarSalida(movimiento);
+    }
+
+    public boolean puedePedirTarjetaPais() {
+        Jugador jugador = getJugadorActual();
+        if (accionPermitida(ACCION_SOLICITAR_TARJETA) && !tarjetaSolicitada && jugador.getCantidadTarjetasPais() < 6 && Juego.getInstancia().getSituacion().puedeObtenerTarjetaPais(jugador)) {
+            int canjesRealizados = jugador.getCantidadCanjes();
+            boolean res = false;
+            if (canjesRealizados < 3 && paisesConquistados > 0) {
+                res = true;
+            }
+            if (canjesRealizados > 3 && paisesConquistados > 1) {
+                res = true;
+            }
+            return res;
+        }
+        return false;
     }
 
 }
