@@ -11,6 +11,7 @@ import juego.estructura.GestorJugadores;
 import juego.estructura.GestorPaises;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
+import juego.mecanicas.turno.GestorTurno;
 
 /**
  *
@@ -34,6 +35,7 @@ public class AccionableSolicitarMovimientoPaisGanado implements Accionable {
     public void accionar() {
         if (GestorJugadores.getJugadorLocal().equals(jugador)) {
             FachadaInterfacePrincipal.refuerzoPaisGanado(origen, destino, cantidadEjercitos);
+            GestorTurno.getInstance().registrarPaisConquistado();
         }
     }
 

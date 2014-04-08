@@ -67,11 +67,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         chat.cargarChat(logItem.toString() + "\n");
         //}
     }
-    
-    public void pasarRefuerzosPaisGanado(Pais paisDesde,Pais paisHasta, int cantidad){
-        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this,true,paisDesde, paisHasta, cantidad);
+
+    public void pasarRefuerzosPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
+        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this, true, paisDesde, paisHasta, cantidad);
         ventana.setVisible(true);
-    }   
+    }
 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
@@ -705,7 +705,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 btnAtacarMisil.setEnabled(false);
             }
             btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-            btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+            btnTarjeta.setEnabled(FachadaInterface.solicitarTarjetaPermitido());
             btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());
         } else {
             btnAtacar.setEnabled(false);
