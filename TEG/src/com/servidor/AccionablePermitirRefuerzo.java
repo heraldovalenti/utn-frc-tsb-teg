@@ -40,7 +40,7 @@ public class AccionablePermitirRefuerzo implements Accionable {
             if (permitirMisiles) {
                 GestorTurno.setEtapaActual(GestorTurno.ETAPA_INCORPORAR_EJERCITOS);
             } else {
-                GestorTurno.setEtapaActual(GestorTurno.PRIMERA_ETAPA_INCORPORACION);
+                GestorTurno.setEtapaActual(GestorTurno.ETAPA_SOLO_REFUERZOS);
             }
         }
     }

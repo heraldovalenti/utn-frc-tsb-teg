@@ -32,15 +32,9 @@ public class AccionableRefuerzo implements Accionable {
 
     @Override
     public void accionar() {
-        ServerManager.getInstance().getLogger().addLogItem(
-                new LogItem("Recibido refuerzo con " + GestorPaises.getPais(nroPais) + " ejercitos: " + cantidadEjercitos + " misiles: " + cantidadMisiles));
         Pais paisServidor = GestorPaises.getPais(nroPais);
-        ServerManager.getInstance().getLogger().addLogItem(
-                new LogItem("Original servidor: " + paisServidor));
         paisServidor.setCantidadEjercitos(cantidadEjercitos);
         paisServidor.setCantidadMisiles(cantidadMisiles);
-        ServerManager.getInstance().getLogger().addLogItem(
-                new LogItem("Actualizado servidor: " + paisServidor));
         ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
         ServerManager.getInstance().registrarSalida(actualizador);
     }

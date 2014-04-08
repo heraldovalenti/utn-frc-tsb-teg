@@ -5,10 +5,9 @@
 package juego.mecanicas.situacion;
 
 import java.io.Serializable;
+import java.util.List;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-
-
 
 /**
  *
@@ -21,11 +20,13 @@ public interface Situacion extends Serializable {
     public int maximoDefensa();
 
     public boolean ataquePermitido(Pais atacante, Pais defensor);
-    
+
     public boolean puedeObtenerTarjetaPais(Jugador jugador);
-    
-    public double refuerzosExtra();
-    
+
+    public boolean refuerzosExtra();
+
     public boolean puedeAtacar(Jugador jugador);
-    
+
+    public List<Jugador> jugadoresEnCrisis();
+
 }

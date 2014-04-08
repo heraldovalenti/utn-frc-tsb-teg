@@ -34,18 +34,12 @@ public class ActualizadorPais implements Accionable {
 
     @Override
     public void accionar() {
-        ClienteManager.getInstance().getLogger().addLogItem(
-                new LogItem("Actualizador recibido: Pais:" + GestorPaises.getPais(nroPais) + " ejercitos: " + cantidadEjercitos + " jugador: " + nroJugador));
         Pais paisCliente = GestorPaises.getPais(nroPais);
-        ClienteManager.getInstance().getLogger().addLogItem(
-                new LogItem("Original: " + paisCliente));
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(nroJugador);
         jugadorCliente.añadirPais(paisCliente);
         paisCliente.setJugador(jugadorCliente);
         paisCliente.setCantidadEjercitos(cantidadEjercitos);
         paisCliente.setCantidadMisiles(cantidadMisiles);
-        ClienteManager.getInstance().getLogger().addLogItem(
-                new LogItem("Actualizado: " + paisCliente));
         FachadaInterfacePrincipal.actualizarMapa();
     }
 

@@ -11,14 +11,13 @@ import juego.estructura.Pais;
 import juego.GeneradorTiradas;
 import juego.estructura.GestorJugadores;
 
-
 /**
  *
  * @author heril
  */
 public class Crisis implements Situacion {
-    
-    private List<Jugador> jugadoresEnCrisis;
+
+    private List<Jugador> jugadoresEnCrisis = new ArrayList<>();
 
     public Crisis() {
         List<Jugador> jugadoresJuego = new ArrayList(GestorJugadores.getJugadores());
@@ -26,21 +25,28 @@ public class Crisis implements Situacion {
         int tiradaMasBaja = 10;
         for (int i = 0; i < tiradas.length; i++) {
             tiradas[i] = GeneradorTiradas.generarTirada();
-            if (tiradas[i] <= tiradaMasBaja) tiradaMasBaja = tiradas[i];
+            if (tiradas[i] <= tiradaMasBaja) {
+                tiradaMasBaja = tiradas[i];
+            }
         }
         for (int i = 0; i < tiradas.length; i++) {
-            if (tiradas[i] == tiradaMasBaja) jugadoresEnCrisis.add(jugadoresJuego.get(i));
+            if (tiradas[i] == tiradaMasBaja) {
+                jugadoresEnCrisis.add(jugadoresJuego.get(i));
+            }
         }
     }
-    
+
+    @Override
     public int maximoAtaque() {
         return 3;
     }
-    
+
+    @Override
     public int maximoDefensa() {
         return 3;
     }
-    
+
+    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
     }
@@ -51,13 +57,18 @@ public class Crisis implements Situacion {
     }
 
     @Override
-    public double refuerzosExtra() {
-        return 0;
+    public boolean refuerzosExtra() {
+        return false;
     }
 
     @Override
     public boolean puedeAtacar(Jugador jugador) {
         return true;
     }
-    
+
+    @Override
+    public List<Jugador> jugadoresEnCrisis() {
+        return jugadoresEnCrisis;
+    }
+
 }

@@ -32,7 +32,7 @@ import juego.mecanicas.movimiento.ControlMovimiento;
  */
 public class GestorTurno {
 
-    public static final int PRIMERA_ETAPA_INCORPORACION = 5;
+    public static final int ETAPA_SOLO_REFUERZOS = 5;
     public static final int FUERA_TURNO = 0;
     public static final int ETAPA_INCORPORAR_EJERCITOS = 1;
     public static final int ETAPA_ATACAR = 2;
@@ -61,8 +61,8 @@ public class GestorTurno {
     public static void crearPermisos() {
         permisos = new boolean[6][7];
 
-        permisos[PRIMERA_ETAPA_INCORPORACION][ACCION_INCORPORAR_EJERCITOS] = true;
-        permisos[PRIMERA_ETAPA_INCORPORACION][ACCION_FINALIZAR_TURNO] = true;
+        permisos[ETAPA_SOLO_REFUERZOS][ACCION_INCORPORAR_EJERCITOS] = true;
+        permisos[ETAPA_SOLO_REFUERZOS][ACCION_FINALIZAR_TURNO] = true;
 
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_INCORPORAR_EJERCITOS] = true;
         permisos[ETAPA_INCORPORAR_EJERCITOS][ACCION_CANJEAR_EJERCITO_POR_MISIL] = true;
@@ -194,11 +194,6 @@ public class GestorTurno {
 
     public static void setRefuerzoActual(ControlRefuerzo control) {
         refuerzoActual = control;
-//        if (SecuenciaTurnos.getInstancia().esRondaInicial()) {
-//            etapaActual = PRIMERA_ETAPA_INCORPORACION;
-//        } else {
-//            etapaActual = ETAPA_INCORPORAR_EJERCITOS;
-//        }
         FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }
 

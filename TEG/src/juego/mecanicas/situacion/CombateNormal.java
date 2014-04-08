@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.situacion;
 
+import java.util.List;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 
@@ -15,14 +16,17 @@ import juego.estructura.Pais;
  */
 public class CombateNormal implements Situacion {
     
+    @Override
     public int maximoAtaque() {
         return 3;
     }
     
+    @Override
     public int maximoDefensa() {
         return 3;
     }
     
+    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
     }
@@ -33,13 +37,18 @@ public class CombateNormal implements Situacion {
     }
 
     @Override
-    public double refuerzosExtra() {
-        return 0;
+    public boolean refuerzosExtra() {
+        return false;
     }
 
     @Override
     public boolean puedeAtacar(Jugador jugador) {
         return true;
+    }
+
+    @Override
+    public List<Jugador> jugadoresEnCrisis() {
+        return null;
     }
     
 }

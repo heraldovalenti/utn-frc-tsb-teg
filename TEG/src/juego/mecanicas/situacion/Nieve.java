@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.situacion;
 
+import java.util.List;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 
@@ -31,13 +32,18 @@ public class Nieve implements Situacion {
     }
 
     @Override
-    public double refuerzosExtra() {
-        return 0;
+    public boolean refuerzosExtra() {
+        return false;
     }
 
     @Override
     public boolean puedeAtacar(Jugador jugador) {
         return true;
+    }
+
+    @Override
+    public List<Jugador> jugadoresEnCrisis() {
+        return null;
     }
 
 }

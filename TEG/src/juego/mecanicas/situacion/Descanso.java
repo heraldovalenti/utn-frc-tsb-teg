@@ -78,8 +78,8 @@ public class Descanso implements Situacion {
     }
 
     @Override
-    public double refuerzosExtra() {
-        return 0;
+    public boolean refuerzosExtra() {
+        return false;
     }
 
     @Override
@@ -92,6 +92,11 @@ public class Descanso implements Situacion {
             }
         }
         return indiceJugador != jugadorEnDescanso;
+    }
+    
+    @Override
+    public List<Jugador> jugadoresEnCrisis() {
+        return null;
     }
 
     /**

@@ -37,6 +37,8 @@ public class SecuenciaTurnos {
     private int contadorRondas;
     private boolean rondaInicial1;
     private boolean rondaInicial2;
+    private boolean situacionUtilizada;
+    private boolean rondaDesdeAtaque;
 
     public static SecuenciaTurnos getInstancia() {
         if (instancia == null) {
@@ -73,27 +75,83 @@ public class SecuenciaTurnos {
      * Metodo que indica el comienzo de un nuevo turno.
      */
     public void siguienteTurno() {
-        if (esRondaInicial()) {
+
+//        if (esRondaInicial()) {
+//            if (esFinRonda()) {
+//                actual = 0;
+//                if (rondaInicial1) {
+//                    rondaInicial1 = false;
+//                    rondaInicial2 = true;
+//                } else {
+//                    rondaInicial2 = false;
+//                }
+//            } else {
+//                actual++;
+//            }
+//            if (esRondaInicial()) {
+//                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
+//                ServerManager.getInstance().registrarSalida(accionable);
+//            } else {
+//                if (actual == 0) {
+//                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
+//                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
+//                }
+//                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+//                ServerManager.getInstance().registrarSalida(accionable);
+//            }
+//        } else {
+//            if (esFinRonda()) {
+//                nuevaRonda();
+//            } else {
+//                actual++;
+//            }
+//            if (contadorRondas > 1) {
+//                if (actual == 0) {
+//                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
+//                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
+//                }
+//                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
+//                ServerManager.getInstance().registrarSalida(accionable);
+//            } else {
+//                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+//                ServerManager.getInstance().registrarSalida(accionable);
+//            }
+//        }
+//        AccionableInicioTurno accionable = new AccionableInicioTurno(getActual());
+//        ServerManager.getInstance().registrarSalida(accionable);
+        if (esRondaSoloRefuerzos()) {
             if (esFinRonda()) {
                 actual = 0;
                 if (rondaInicial1) {
                     rondaInicial1 = false;
                     rondaInicial2 = true;
-                } else {
+                } else if (rondaInicial2) {
                     rondaInicial2 = false;
+                    rondaDesdeAtaque = true;
+                } else {
+                    situacionUtilizada = true;
                 }
             } else {
                 actual++;
             }
-            if (esRondaInicial()) {
+            if (!rondaDesdeAtaque) {
                 AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
                 ServerManager.getInstance().registrarSalida(accionable);
             } else {
-                if (actual == 0) {
-                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
-                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
-                }
                 AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+                ServerManager.getInstance().registrarSalida(accionable);
+            }
+        } else if (rondaDesdeAtaque) {
+            if (esFinRonda()) {
+                nuevaRonda();
+            } else {
+                actual++;
+            }
+            if (rondaDesdeAtaque) {
+                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+                ServerManager.getInstance().registrarSalida(accionable);
+            } else {
+                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
                 ServerManager.getInstance().registrarSalida(accionable);
             }
         } else {
@@ -102,17 +160,8 @@ public class SecuenciaTurnos {
             } else {
                 actual++;
             }
-            if (contadorRondas > 1) {
-                if (actual == 0) {
-                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
-                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
-                }
-                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
-                ServerManager.getInstance().registrarSalida(accionable);
-            } else {
-                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
-                ServerManager.getInstance().registrarSalida(accionable);
-            }
+            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
+            ServerManager.getInstance().registrarSalida(accionable);
         }
         AccionableInicioTurno accionable = new AccionableInicioTurno(getActual());
         ServerManager.getInstance().registrarSalida(accionable);
@@ -127,6 +176,8 @@ public class SecuenciaTurnos {
         actual = 0;
         Jugador aux = secuencia.remove(0);
         secuencia.add(aux);
+        situacionUtilizada = false;
+        rondaDesdeAtaque = false;
     }
 
     /**
@@ -231,6 +282,17 @@ public class SecuenciaTurnos {
 
     public boolean esRondaInicial() {
         return rondaInicial1 || rondaInicial2;
+    }
+
+    private boolean esRondaSoloRefuerzos() {
+        boolean rondaSoloRefuerzos = false;
+        if (esRondaInicial()) {
+            rondaSoloRefuerzos = true;
+        }
+        if (GestorSituacion.getInstance().getProximaSituacion().refuerzosExtra() && !situacionUtilizada) {
+            rondaSoloRefuerzos = true;
+        }
+        return rondaSoloRefuerzos;
     }
 
     /**

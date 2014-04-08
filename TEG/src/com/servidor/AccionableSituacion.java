@@ -5,24 +5,28 @@
  */
 package com.servidor;
 
+import cliente.ClienteManager;
 import com.Accionable;
 import juego.Juego;
 import juego.mecanicas.situacion.Situacion;
+import logger.LogItem;
+import servidor.ServerManager;
 
 /**
  *
  * @author Daniel
  */
 public class AccionableSituacion implements Accionable {
-
+    
     private Situacion situacion;
-
+    
     public AccionableSituacion(Situacion situacion) {
         this.situacion = situacion;
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem(situacion.toString()));
     }
-
+    
     @Override
     public void accionar() {
-        Juego.getInstancia().setSituacion(situacion);
+        ClienteManager.getInstance().getJuego().setSituacion(situacion);
     }
 }
