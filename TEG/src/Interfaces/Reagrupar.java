@@ -21,15 +21,17 @@ public class Reagrupar extends javax.swing.JDialog {
     public Reagrupar(java.awt.Frame parent, boolean modal, InterfacePrincipal padre) {
         super(parent, modal);
         initComponents();
-        rbDesde.setSelected(true);
+        txtCantidadTropas.setMinimum(0);
+        txtCantidadMisil.setMinimum(0);
         txtDesde.setEditable(false);
         txtHasta.setEditable(false);
+        inicializar();
         this.padre = padre;
     }
     public void cargarPais(Pais pais){
         if(rbDesde.isSelected()){
-            if(pais.getCantidadEjercitos() <=1 ){
-                JOptionPane.showMessageDialog(this, "No posee cantidad suficientes de tropas", "Tropas Insuficientes",JOptionPane.WARNING_MESSAGE);
+            if(pais.getCantidadEjercitos() <=1 && pais.getCantidadMisiles() == 0){
+                JOptionPane.showMessageDialog(this, "No posee cantidad suficiente de tropas ni de misiles", "Tropas y misiles Insuficientes",JOptionPane.WARNING_MESSAGE);
                 paisDesde = null;
             }
             else{
@@ -47,24 +49,28 @@ public class Reagrupar extends javax.swing.JDialog {
         
         if(paisDesde == null || paisHasta == null){
             btnReagrupar.setEnabled(false);
-            txtCantidad.setValue(0);
-            txtCantidad.setEnabled(false);
+            setCantidades(false);
         }
         else{
-            btnReagrupar.setEnabled(true);
-            txtCantidad.setValue(1);
-            txtCantidad.setEnabled(true);
-            txtCantidad.setMaximum(paisDesde.getCantidadEjercitos()-1);
-            txtCantidad.setMinimum(1);
+            setCantidades(true);
+            txtCantidadTropas.setMaximum(paisDesde.getCantidadEjercitos()-1);
+            txtCantidadMisil.setMaximum(paisDesde.getCantidadMisiles());
         }
     }
+    private void setCantidades(boolean enabled){
+        txtCantidadTropas.setValue(0);
+        txtCantidadTropas.setEnabled(enabled);
+        txtCantidadMisil.setValue(0);
+        txtCantidadMisil.setEnabled(enabled);
+    }
     private void inicializar(){
-        rbDesde.setSelected(true);
-        paisDesde = null;
         rbHasta.setSelected(true);
         paisHasta = null;
-        cargarPais(paisDesde);
         cargarPais(paisHasta);
+        rbDesde.setSelected(true);
+        paisDesde = null;
+        cargarPais(paisDesde);       
+        setCantidades(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,14 +82,18 @@ public class Reagrupar extends javax.swing.JDialog {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        groupTipo = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         rbHasta = new javax.swing.JRadioButton();
         rbDesde = new javax.swing.JRadioButton();
         txtDesde = new javax.swing.JTextField();
         txtHasta = new javax.swing.JTextField();
         btnReagrupar = new javax.swing.JButton();
-        txtCantidad = new com.toedter.components.JSpinField();
+        txtCantidadTropas = new com.toedter.components.JSpinField();
         btnFin = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtCantidadMisil = new com.toedter.components.JSpinField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Reagrupar Tropas");
@@ -120,55 +130,71 @@ public class Reagrupar extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Tropas:");
+
+        jLabel2.setText("Misiles:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
-                .addComponent(btnReagrupar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnFin)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(rbDesde)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(rbHasta)
-                        .addGap(8, 8, 8)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtHasta, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(txtDesde))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(rbDesde)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(rbHasta)
+                                        .addGap(8, 8, 8))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCantidadTropas, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCantidadMisil, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHasta)
+                            .addComponent(txtDesde)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReagrupar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFin)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbDesde)
+                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(rbHasta)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rbDesde)
-                            .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(rbHasta)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(txtHasta)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtHasta)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCantidadTropas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCantidadMisil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReagrupar)
                     .addComponent(btnFin))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,7 +205,7 @@ public class Reagrupar extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -190,8 +216,14 @@ public class Reagrupar extends javax.swing.JDialog {
     }//GEN-LAST:event_txtHastaActionPerformed
 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
-        FachadaInterface.reagrupar(paisDesde,paisHasta, txtCantidad.getValue());
-        inicializar();        
+        if(txtCantidadTropas.getValue() == 0 && txtCantidadMisil.getValue() == 0){
+            JOptionPane.showMessageDialog(this,"Debe ragrupar al menos una tropa o al menos un misil", "Error al reagrupar", JOptionPane.WARNING_MESSAGE);
+           
+        }
+        else{
+            FachadaInterface.reagrupar(paisDesde, paisHasta, txtCantidadTropas.getValue(), txtCantidadMisil.getValue());
+            inicializar();
+        }       
     }//GEN-LAST:event_btnReagruparActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -208,10 +240,14 @@ public class Reagrupar extends javax.swing.JDialog {
     private javax.swing.JButton btnFin;
     private javax.swing.JButton btnReagrupar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup groupTipo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton rbDesde;
     private javax.swing.JRadioButton rbHasta;
-    private com.toedter.components.JSpinField txtCantidad;
+    private com.toedter.components.JSpinField txtCantidadMisil;
+    private com.toedter.components.JSpinField txtCantidadTropas;
     private javax.swing.JTextField txtDesde;
     private javax.swing.JTextField txtHasta;
     // End of variables declaration//GEN-END:variables

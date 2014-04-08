@@ -58,9 +58,10 @@ public class FachadaInterface {
         GestorTurno.lanzarMisil(atacante, defensa);
     }
 
-    public static void reagrupar(Pais desde, Pais hasta, int cantidad) {
-        GestorTurno.reagruparEjercitos(desde, hasta, cantidad, 0);
+    public static void reagrupar(Pais desde, Pais hasta, int cantidadTropas, int cantidadMisiles) {
+        GestorTurno.reagruparEjercitos(desde, hasta, cantidadTropas, cantidadMisiles);
     }
+
 
     public static boolean canjearTarjetaPermitido() {
         return GestorTurno.accionPermitida(GestorTurno.ACCION_CANJEAR_TARJETA);
