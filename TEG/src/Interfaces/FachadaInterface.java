@@ -7,14 +7,19 @@ package Interfaces;
 import cliente.ClienteManager;
 import cliente.control.ControlRefuerzo;
 import com.cliente.AccionableChat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import juego.estructura.Canjeable;
 import juego.estructura.Continente;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorObjetivosSecretos;
+import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
+import juego.estructura.TarjetaContinente;
+import juego.estructura.TarjetaPais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
 import juego.mecanicas.turno.SecuenciaTurnos;
@@ -145,4 +150,26 @@ public class FachadaInterface {
     public static void pasarRefuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
         //Daniel aca implementas vos
     }   
+    public static void pedirTarjeta(){
+        
+        
+    }
+    public static void canjearTarjeta(Jugador jugador, List<Canjeable> tarjetas){
+        GestorTurno.canjearTarjetas(jugador, tarjetas);
+    }
+    public static List<Canjeable> obtenerTarjetas(){
+        ClienteManager.getInstance().getJugador().getListaTarjetaContinentes();       
+        List<Canjeable> tarjetas = new ArrayList<>();        
+        for(TarjetaPais tar : ClienteManager.getInstance().getJugador().getListaTarjetasPais()){
+            tarjetas.add((Canjeable) tar);
+        }
+        for(TarjetaContinente tar : ClienteManager.getInstance().getJugador().getListaTarjetaContinentes()){
+            tarjetas.add((Canjeable) tar);
+        }
+        return tarjetas;
+    }
+    public static boolean canjeValido(Jugador jugador, List<Canjeable> tarjetas){
+        return GestorTarjetas.canjeValido(jugador, tarjetas);
+    }
+   
 }

@@ -16,4 +16,6 @@ public interface Canjeable {
     public int getPeso();
 
     public boolean esComodin();
+    
+    public String getNombrePais();
 }
