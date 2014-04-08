@@ -68,7 +68,8 @@ public class FachadaInterfacePrincipal {
     public static void terminarRefuerzo() {
         ClienteManager.getInstance().getInterfacePrincipal().terminarRefuerzo();
     }
-    public static void refuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
+
+    public static void refuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
         ClienteManager.getInstance().getInterfacePrincipal().pasarRefuerzosPaisGanado(paisDesde, paisHasta, cantidad);
     }
 }

@@ -4,7 +4,6 @@
  */
 package Interfaces;
 
-import javax.swing.JOptionPane;
 import juego.estructura.Pais;
 
 /**
@@ -12,9 +11,11 @@ import juego.estructura.Pais;
  * @author Emanuel
  */
 public class RefuerzoPaisGanado extends javax.swing.JDialog {
+
     private Pais paisDesde;
     private Pais paisHasta;
     private int cantidadMaxima;
+
     /**
      * Creates new form Reagrupar2
      */
@@ -22,21 +23,20 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.paisDesde = desde;
-        this.paisHasta = hasta;       
-       
+        this.paisHasta = hasta;
         this.cantidadMaxima = cantidadMaxima;
         inicializar();
     }
-    public void inicializar(){
-       txtDesde.setText(paisDesde.getNombre());
-       txtHasta.setText(paisHasta.getNombre());
-       btnPasar.setEnabled(true);
-       txtCantidad.setValue(1);
-       txtCantidad.setEnabled(true);
-       txtCantidad.setMaximum(paisDesde.getCantidadEjercitos()-1);
-       txtCantidad.setMinimum(1);
-    }      
 
+    public void inicializar() {
+        txtDesde.setText(paisDesde.getNombre());
+        txtHasta.setText(paisHasta.getNombre());
+        btnPasar.setEnabled(true);
+        txtCantidad.setValue(0);
+        txtCantidad.setEnabled(true);
+        txtCantidad.setMaximum(cantidadMaxima);
+        txtCantidad.setMinimum(0);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,7 +57,7 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Reforzar");
+        setTitle("Mover ejércitos extra");
 
         btnPasar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/reagrupar2.png"))); // NOI18N
         btnPasar.setText("Pasar");
@@ -133,7 +133,7 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnPasarActionPerformed
 
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPasar;
     private javax.swing.ButtonGroup buttonGroup1;
