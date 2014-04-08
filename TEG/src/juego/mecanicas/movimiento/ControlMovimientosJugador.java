@@ -20,20 +20,29 @@ public class ControlMovimientosJugador {
     public ControlMovimientosJugador() {
     }
 
-    public void registrarMovimientoEjercito(Pais destino) {
+    public void registrarMovimiento(Pais destino, int cantidadEjercitos, int cantidadMisiles){
+        if(cantidadEjercitos>0){
+            registrarMovimientoEjercito(destino, cantidadEjercitos);
+        }
+        if(cantidadMisiles>0){
+            registrarMovimientoMisil(destino, cantidadMisiles);
+        }
+    }
+    
+    private void registrarMovimientoEjercito(Pais destino, int cantidad) {
         int cantidadAnterior = 0;
         if (ejercitosMovidos.containsKey(destino)) {
             cantidadAnterior = ejercitosMovidos.get(destino);
         }
-        ejercitosMovidos.put(destino, cantidadAnterior);
+        ejercitosMovidos.put(destino, cantidadAnterior + cantidad);
     }
 
-    public void registrarMovimientoMisil(Pais destino) {
+    private void registrarMovimientoMisil(Pais destino, int cantidad) {
         int cantidadAnterior = 0;
         if (misiliesMovidos.containsKey(destino)) {
             cantidadAnterior = misiliesMovidos.get(destino);
         }
-        misiliesMovidos.put(destino, cantidadAnterior);
+        misiliesMovidos.put(destino, cantidadAnterior + cantidad);
     }
 
     public int getEjercitosNuevos(Pais origen) {

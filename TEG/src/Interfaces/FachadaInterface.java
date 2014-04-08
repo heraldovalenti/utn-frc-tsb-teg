@@ -22,7 +22,6 @@ import juego.estructura.TarjetaContinente;
 import juego.estructura.TarjetaPais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
-import juego.mecanicas.turno.SecuenciaTurnos;
 import servidor.ServerManager;
 
 /**
@@ -144,7 +143,7 @@ public class FachadaInterface {
     }
 
     public static void comenzarReagrupacion() {
-        GestorTurno.getInstance().setEtapaActual(GestorTurno.ETAPA_REAGRUPAR);
+        GestorTurno.getInstance().comenzarReagrupacion();
     }
 
     public static void pasarRefuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {

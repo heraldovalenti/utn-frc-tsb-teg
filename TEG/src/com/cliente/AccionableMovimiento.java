@@ -11,6 +11,9 @@ import juego.estructura.Pais;
 import juego.mecanicas.movimiento.ControlMovimiento;
 import juego.mecanicas.movimiento.Movimiento;
 import com.servidor.ActualizadorPais;
+import juego.mecanicas.movimiento.ControlMovimientosJugador;
+import juego.mecanicas.situacion.GestorSituacion;
+import juego.mecanicas.situacion.Situacion;
 import servidor.ServerManager;
 
 /**
@@ -35,7 +38,8 @@ public class AccionableMovimiento implements Accionable {
     public void accionar() {
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
-        ControlMovimiento control = new ControlMovimiento(origenServidor, destinoServidor, cantidadEjercitos, cantidadMisiles);
+        Situacion situacion = GestorSituacion.getInstance().getSituacionActual();
+        ControlMovimiento control = new ControlMovimiento(origenServidor, destinoServidor, cantidadEjercitos, cantidadMisiles, situacion, new ControlMovimientosJugador());
         if (control.movimientoValido()) {
             Movimiento movimiento = new Movimiento(origenServidor, destinoServidor, cantidadEjercitos, cantidadMisiles);
             movimiento.ejecutarMovimiento();

@@ -25,6 +25,8 @@ import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.movimiento.ControlMovimiento;
+import juego.mecanicas.movimiento.ControlMovimientosJugador;
+import juego.mecanicas.situacion.Situacion;
 
 /**
  *
@@ -49,18 +51,24 @@ public class GestorTurno {
     public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 5;
     public static final int ACCION_FINALIZAR_TURNO = 6;
 
-    private  int etapaActual = 0;
-    private  int paisesConquistados = 0;
-    private  boolean canjeRealizado = false;
-    private  boolean tarjetaSolicitada = false;
-
+    private int etapaActual;
+    private int paisesConquistados;
+    private boolean canjeRealizado;
+    private boolean tarjetaSolicitada;
     private boolean[][] permisos;
-
     private Jugador jugadorActual;
-
     private ControlRefuerzo refuerzoActual;
+    private ControlMovimientosJugador movimientosRealizados;
 
     public GestorTurno() {
+        etapaActual = 0;
+        paisesConquistados = 0;
+        canjeRealizado = false;
+        tarjetaSolicitada = false;
+        refuerzoActual = null;
+        jugadorActual = null;
+        movimientosRealizados = new ControlMovimientosJugador();
+        crearPermisos();
     }
 
     public static GestorTurno getInstance() {
@@ -106,12 +114,6 @@ public class GestorTurno {
         }
     }
 
-//    public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
-//        if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
-//            AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
-//            ClienteManager.getInstance().registrarSalida(refuerzo);
-//        }
-//    }
     public void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
@@ -132,8 +134,12 @@ public class GestorTurno {
 
     public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_REAGRUPAR)) {
-            ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
+            Situacion situacion = Juego.getInstancia().getSituacion();
+            ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles, situacion, movimientosRealizados);
             if (control.movimientoValido()) {
+                if (movimientosRealizados != null) {
+                    movimientosRealizados.registrarMovimiento(destino, cantidadEjercitos, cantidadMisiles);
+                }
                 AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
                 ClienteManager.getInstance().registrarSalida(movimiento);
                 etapaActual = ETAPA_REAGRUPAR;
@@ -181,17 +187,15 @@ public class GestorTurno {
     }
 
     public boolean accionPermitida(int accion) {
-        if (permisos == null) {
-            crearPermisos();
-        }
         return permisos[etapaActual][accion];
     }
 
     public void finTurno() {
-        etapaActual = FUERA_TURNO;
+        etapaActual = 0;
         paisesConquistados = 0;
         canjeRealizado = false;
         tarjetaSolicitada = false;
+        refuerzoActual = null;
         AccionableFinTurno accionable = new AccionableFinTurno();
         ClienteManager.getInstance().registrarSalida(accionable);
     }
@@ -226,7 +230,20 @@ public class GestorTurno {
     }
 
     public void setEtapaActual(int etapaActual) {
-         this.etapaActual = etapaActual;
+        this.etapaActual = etapaActual;
+    }
+
+    public ControlMovimientosJugador getMovimientosRealizados() {
+        return movimientosRealizados;
+    }
+
+    public void setMovimientosRealizados(ControlMovimientosJugador movimientosRealizados) {
+        this.movimientosRealizados = movimientosRealizados;
+    }
+
+    public void comenzarReagrupacion() {
+        movimientosRealizados = new ControlMovimientosJugador();
+        this.etapaActual = ETAPA_REAGRUPAR;
     }
 
 }

@@ -5,9 +5,12 @@
  */
 package juego.mecanicas.situacion;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import juego.estructura.GestorJugadores;
+import juego.estructura.Jugador;
 
 /**
  *
@@ -18,6 +21,7 @@ public class GestorSituacion {
     private static GestorSituacion instance;
     private List<Situacion> listaSituaciones;
     private int tarjetaActual;
+    private Situacion situacionActual;
 
     public GestorSituacion() {
         tarjetaActual = 0;
@@ -54,9 +58,12 @@ public class GestorSituacion {
         for (int i = 0; i < 4; i++) {
             listaSituaciones.add(new FronterasCerradas());
         }
-        for (int i = 0; i < 6; i++) {
-            listaSituaciones.add(new Descanso());
-        }
+        listaSituaciones.add(new Descanso(Color.BLACK));
+        listaSituaciones.add(new Descanso(Color.WHITE));
+        listaSituaciones.add(new Descanso(Color.BLUE));
+        listaSituaciones.add(new Descanso(Color.GREEN));
+        listaSituaciones.add(new Descanso(Color.YELLOW));
+        listaSituaciones.add(new Descanso(Color.RED));
     }
 
     private void renovarSituaciones() {
@@ -65,15 +72,33 @@ public class GestorSituacion {
     }
 
     public Situacion getProximaSituacion() {
-        Situacion situacion = listaSituaciones.get(tarjetaActual);
-        tarjetaActual++;
-        if (tarjetaActual == 50) {
-            renovarSituaciones();
+        boolean noValido = true;
+        while (noValido) {
+            situacionActual = listaSituaciones.get(tarjetaActual);
+            tarjetaActual++;
+            if (tarjetaActual == 50) {
+                renovarSituaciones();
+            }
+            if (situacionActual instanceof Descanso) {
+                noValido = !validarDescanso();
+            } else {
+                noValido = false;
+            }
         }
-        return situacion;
+        return situacionActual;
     }
 
     public Situacion getSituacionActual() {
-        return listaSituaciones.get(tarjetaActual);
+        return situacionActual;
+    }
+
+    private boolean validarDescanso() {
+        Color color = ((Descanso) situacionActual).getColor();
+        for (Jugador jugador : GestorJugadores.getJugadores()) {
+            if (jugador.getColor().equals(color)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
