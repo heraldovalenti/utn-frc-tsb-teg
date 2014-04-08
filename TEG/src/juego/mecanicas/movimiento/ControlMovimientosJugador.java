@@ -4,12 +4,9 @@
  */
 package juego.mecanicas.movimiento;
 
-import java.util.ArrayList;
-import java.util.List;
-import juego.estructura.GestorPaises;
-import juego.estructura.Jugador;
+import java.util.HashMap;
+import java.util.Map;
 import juego.estructura.Pais;
-import juego.mecanicas.turno.SecuenciaTurnos;
 
 /**
  *
@@ -17,29 +14,41 @@ import juego.mecanicas.turno.SecuenciaTurnos;
  */
 public class ControlMovimientosJugador {
 
-    private Jugador jugador;
-    private List<Movimiento> movimientos;
+    private final Map<Pais, Integer> ejercitosMovidos = new HashMap<>();
+    private final Map<Pais, Integer> misiliesMovidos = new HashMap<>();
 
     public ControlMovimientosJugador() {
-        this.jugador = SecuenciaTurnos.getInstancia().getActual();
-        this.movimientos = new ArrayList<>();
     }
 
-    public int maximoMovimiento(Pais origen) {
-        return origen.getCantidadEjercitos() - 1;
+    public void registrarMovimientoEjercito(Pais destino) {
+        int cantidadAnterior = 0;
+        if (ejercitosMovidos.containsKey(destino)) {
+            cantidadAnterior = ejercitosMovidos.get(destino);
+        }
+        ejercitosMovidos.put(destino, cantidadAnterior);
     }
 
-    public boolean movimientoValido(Pais origen, Pais destino, int cantidadEjercitos) {
-        if (!origen.getJugador().equals(destino.getJugador())) {
-            return false;
+    public void registrarMovimientoMisil(Pais destino) {
+        int cantidadAnterior = 0;
+        if (misiliesMovidos.containsKey(destino)) {
+            cantidadAnterior = misiliesMovidos.get(destino);
         }
-        if (cantidadEjercitos > this.maximoMovimiento(origen)) {
-            return false;
-        }
-        if (GestorPaises.sonLimitrofes(origen, destino)) {
-            return false;
-        }
-        return true;
+        misiliesMovidos.put(destino, cantidadAnterior);
     }
 
+    public int getEjercitosNuevos(Pais origen) {
+        int cantidad = 0;
+        if (ejercitosMovidos.containsKey(origen)) {
+            cantidad = ejercitosMovidos.get(origen);
+        }
+        return cantidad;
+    }
+
+    public int getMisilesNuevos(Pais origen) {
+        int cantidad = 0;
+        if (misiliesMovidos.containsKey(origen)) {
+            cantidad = misiliesMovidos.get(origen);
+        }
+        return cantidad;
+    }
 }

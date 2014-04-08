@@ -7,8 +7,6 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.AccionableMensajeGlobal;
-import java.util.ArrayList;
-import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
@@ -21,15 +19,15 @@ import servidor.ServerManager;
  * @author Daniel
  */
 public class AccionableAtaque implements Accionable {
-
+    
     private final Pais origenCliente;
     private final Pais destinoCliente;
-
+    
     public AccionableAtaque(Pais origenCliente, Pais destinoCliente) {
         this.origenCliente = origenCliente;
         this.destinoCliente = destinoCliente;
     }
-
+    
     @Override
     public void accionar() {
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
@@ -46,6 +44,7 @@ public class AccionableAtaque implements Accionable {
             destinoServidor.restarEjercitos(control.perdidasDefensor());
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
+                origenServidor.restarEjercitos(1);
                 destinoServidor.ocuparPais(origenServidor.getJugador());
             }
             ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
@@ -54,5 +53,5 @@ public class AccionableAtaque implements Accionable {
             ServerManager.getInstance().registrarSalida(actualizador);
         }
     }
-
+    
 }

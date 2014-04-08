@@ -26,7 +26,7 @@ public class AccionablePermitirAtaque implements Accionable {
     public void accionar() {
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(nroJugador);
         if (jugadorCliente.equals(GestorJugadores.getJugadorLocal())) {
-            GestorTurno.permitirAtaque();
+            GestorTurno.getInstance().permitirAtaque();
         }
     }
 }
