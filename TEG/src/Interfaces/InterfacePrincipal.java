@@ -620,7 +620,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-        Tarjetas tarjetas = new Tarjetas(FachadaInterface.getJugadorLocal().getListaTarjetasPais(), jMenuItem1, btnVerTarjetas);
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -684,8 +684,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-//comentado porque no compila. Esta incompleto        
-//FachadaInterface.
+        FachadaInterface.pedirTarjeta();
     }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant) {
 
