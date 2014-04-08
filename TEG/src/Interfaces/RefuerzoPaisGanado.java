@@ -30,6 +30,7 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
 
     public void inicializar() {
         if (cantidadMaxima == 0) {
+            FachadaInterfacePrincipal.actualizarEstadoBotones();
             dispose();
         }
         txtDesde.setText(paisDesde.getNombre());
@@ -133,6 +134,7 @@ public class RefuerzoPaisGanado extends javax.swing.JDialog {
 
     private void btnPasarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarActionPerformed
         FachadaInterface.pasarRefuerzoPaisGanado(paisDesde, paisHasta, txtCantidad.getValue());
+        FachadaInterfacePrincipal.actualizarEstadoBotones();
         this.dispose();
     }//GEN-LAST:event_btnPasarActionPerformed
 

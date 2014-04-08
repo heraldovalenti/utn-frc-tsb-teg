@@ -5,12 +5,16 @@
  */
 package com.servidor;
 
+import Interfaces.FachadaInterfacePrincipal;
+import cliente.ClienteManager;
 import com.Accionable;
 import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
+import logger.LogItem;
+import servidor.ServerManager;
 
 /**
  *
@@ -34,22 +38,27 @@ public class ActualizadorJugador implements Accionable {
         for (int i = 0; i < tarjetasContinentes.length; i++) {
             tarjetasContinentes[i] = jugador.getListaTarjetaContinentes().get(i).getNroTarjeta();
         }
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Actualizado jugador. Nombre: " + jugador.getNombre() + " Tarjetas pais: " + jugador.getListaTarjetasPais()));
     }
 
     @Override
     public void accionar() {
         Jugador jugador = GestorJugadores.obtenerPorNumero(nroJugador);
         jugador.setCantidadCanjes(cantidadCanjes);
-        List listaTarjetasPais = new ArrayList(tarjetasPais.length);
+        List listaTarjetasPais = new ArrayList(5);
         for (int i = 0; i < tarjetasPais.length; i++) {
             listaTarjetasPais.add(GestorTarjetas.getTarjetaPais(tarjetasPais[i]));
         }
         jugador.setListaTarjetasPais(listaTarjetasPais);
-        List listaTarjetasContinente = new ArrayList(tarjetasContinentes.length);
+        List listaTarjetasContinente = new ArrayList(7);
         for (int i = 0; i < tarjetasContinentes.length; i++) {
             listaTarjetasPais.add(GestorTarjetas.getTarjetaContinente(tarjetasContinentes[i]));
         }
         jugador.setListaTarjetaContinentes(listaTarjetasContinente);
+        ClienteManager.getInstance().getLogger().addLogItem(
+                new LogItem("Actualizado jugador. Nombre: " + jugador.getNombre() + " Tarjetas pais: " + jugador.getListaTarjetasPais()));
+
     }
 
 }
