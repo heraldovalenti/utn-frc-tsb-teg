@@ -37,6 +37,11 @@ public class AccionablePermitirRefuerzo implements Accionable {
         if (jugadorCliente.equals(GestorJugadores.getJugadorLocal())) {
             ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente, permitirMisiles);
             GestorTurno.setRefuerzoActual(control);
+            if (permitirMisiles) {
+                GestorTurno.setEtapaActual(GestorTurno.ETAPA_INCORPORAR_EJERCITOS);
+            } else {
+                GestorTurno.setEtapaActual(GestorTurno.PRIMERA_ETAPA_INCORPORACION);
+            }
         }
     }
 }
