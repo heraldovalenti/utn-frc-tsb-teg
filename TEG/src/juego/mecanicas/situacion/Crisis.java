@@ -21,6 +21,7 @@ public class Crisis implements Situacion {
     private List<Jugador> jugadoresEnCrisis;
 
     public Crisis() {
+        jugadoresEnCrisis = new ArrayList<>();
         List<Jugador> jugadoresJuego = new ArrayList(GestorJugadores.getJugadores());
         int[] tiradas = new int[jugadoresJuego.size()];
         int tiradaMasBaja = 10;

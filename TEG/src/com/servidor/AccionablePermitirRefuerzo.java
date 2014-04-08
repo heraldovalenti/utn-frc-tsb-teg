@@ -44,4 +44,20 @@ public class AccionablePermitirRefuerzo implements Accionable {
             }
         }
     }
+
+    public Jugador getJugadorServidor() {
+        return jugadorServidor;
+    }
+
+    public int getCantidadEjercitos() {
+        return cantidadEjercitos;
+    }
+
+    public Map<Continente, Integer> getEjercitosPorContinente() {
+        return ejercitosPorContinente;
+    }
+
+    public boolean isPermitirMisiles() {
+        return permitirMisiles;
+    }
 }
