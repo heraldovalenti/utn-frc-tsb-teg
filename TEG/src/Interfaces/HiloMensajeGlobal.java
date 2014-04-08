@@ -8,6 +8,7 @@ package Interfaces;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -17,21 +18,25 @@ import javax.swing.JTextArea;
 public class HiloMensajeGlobal extends Thread{  
    private JTextArea txtArea;
    private String mensaje;
+   private JScrollPane scroll;
    public HiloMensajeGlobal(){
        
    }
-   public HiloMensajeGlobal(JTextArea txtArea, String msj){
+   public HiloMensajeGlobal(JTextArea txtArea,JScrollPane scroll, String msj){
       this.txtArea = txtArea;
       this.mensaje = msj;
+      this.scroll = scroll;
    }
    public void run()
    {
        try {
            txtArea.setVisible(true);
            txtArea.setText(mensaje);
+           scroll.setVisible(true);
            Thread.sleep(3000);
            txtArea.setText("");
            txtArea.setVisible(false);
+           scroll.setVisible(false);
        } catch (InterruptedException ex) {
           ex.printStackTrace();
        }

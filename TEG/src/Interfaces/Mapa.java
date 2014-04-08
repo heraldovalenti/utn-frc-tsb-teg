@@ -37,11 +37,12 @@ public class Mapa extends javax.swing.JPanel {
         panelCentroAmerica.setSize(200, 115);
         this.principal = principal;
         txtMensajeGlobal.setVisible(false);
+        jScrollPane1.setVisible(false);
        
       
    }
    public void mostrarMensajeGloblal(String msj){
-       HiloMensajeGlobal hiloMensaje = new HiloMensajeGlobal(txtMensajeGlobal, msj);
+       HiloMensajeGlobal hiloMensaje = new HiloMensajeGlobal(txtMensajeGlobal,jScrollPane1, msj);
        hiloMensaje.start();
    }
    private void cargarFichaEnPais(JLabel label, Color col, int cantidad,boolean mostrar){
