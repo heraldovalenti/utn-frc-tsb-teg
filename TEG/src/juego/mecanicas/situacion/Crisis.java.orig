@@ -17,10 +17,9 @@ import juego.estructura.GestorJugadores;
  */
 public class Crisis implements Situacion {
 
-    private List<Jugador> jugadoresEnCrisis;
+    private List<Jugador> jugadoresEnCrisis = new ArrayList<>();
 
     public Crisis() {
-        jugadoresEnCrisis = new ArrayList<>();
         List<Jugador> jugadoresJuego = new ArrayList(GestorJugadores.getJugadores());
         int[] tiradas = new int[jugadoresJuego.size()];
         int tiradaMasBaja = 10;
@@ -37,14 +36,17 @@ public class Crisis implements Situacion {
         }
     }
 
+    @Override
     public int maximoAtaque() {
         return 3;
     }
 
+    @Override
     public int maximoDefensa() {
         return 3;
     }
 
+    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
     }
@@ -55,13 +57,13 @@ public class Crisis implements Situacion {
     }
 
     @Override
-    public boolean puedeAtacar(Jugador jugador) {
-        return true;
+    public boolean refuerzosExtra() {
+        return false;
     }
 
     @Override
-    public boolean refuerzosExtra() {
-        return false;
+    public boolean puedeAtacar(Jugador jugador) {
+        return true;
     }
 
     @Override
