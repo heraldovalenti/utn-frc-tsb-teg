@@ -63,4 +63,8 @@ public class FachadaInterfacePrincipal {
     public static void informarInicioTurno(Jugador jugadorTurno) {
         ClienteManager.getInstance().getInterfacePrincipal().inicioTurno(jugadorTurno);
     }
+
+    public static void terminarRefuerzo() {
+        ClienteManager.getInstance().getInterfacePrincipal().terminarRefuerzo();
+    }
 }

@@ -47,7 +47,7 @@ public class GestorTurno {
     public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 5;
     public static final int ACCION_FINALIZAR_TURNO = 6;
 
-    public static int etapaActual = 0;
+    private static int etapaActual = 0;
     private static int paisesConquistados = 0;
     private static boolean canjeRealizado = false;
     private static boolean tarjetaSolicitada = false;
@@ -213,4 +213,13 @@ public class GestorTurno {
     public static void setJugadorActual(Jugador jugadorActual) {
         GestorTurno.jugadorActual = jugadorActual;
     }
+
+    public static int getEtapaActual() {
+        return etapaActual;
+    }
+
+    public static void setEtapaActual(int etapaActual) {
+        GestorTurno.etapaActual = etapaActual;
+    }
+
 }
