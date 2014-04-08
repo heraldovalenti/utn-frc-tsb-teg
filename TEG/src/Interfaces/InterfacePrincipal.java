@@ -67,11 +67,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         chat.cargarChat(logItem.toString() + "\n");
         //}
     }
-
-    public void reagrupar(Pais desde, Pais hasta, int cantidad) {
-        cerraVentanaReagrupar();
-        FachadaInterface.reagrupar(desde, hasta, cantidad);
-    }
+    
+    public void pasarRefuerzosPaisGanado(Pais paisDesde,Pais paisHasta, int cantidad){
+        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this,true,paisDesde, paisHasta, cantidad);
+        ventana.setVisible(true);
+    }   
 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
@@ -654,6 +654,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         reagrupar = true;
         habilitarBotones();
         FachadaInterface.comenzarReagrupacion();
+        ventanaReagrupar = new Reagrupar(this, false, this);
+        ventanaReagrupar.setVisible(true);
         btnReagrupar.setEnabled(false);
     }//GEN-LAST:event_btnReagruparActionPerformed
 

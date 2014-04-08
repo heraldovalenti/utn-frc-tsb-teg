@@ -141,4 +141,7 @@ public class FachadaInterface {
     public static void comenzarReagrupacion() {
         GestorTurno.setEtapaActual(GestorTurno.ETAPA_REAGRUPAR);
     }
+    public static void pasarRefuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
+        //Daniel aca implementas vos
+    }   
 }

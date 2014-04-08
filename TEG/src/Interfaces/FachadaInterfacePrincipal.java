@@ -7,6 +7,7 @@ package Interfaces;
 import cliente.ClienteManager;
 import cliente.control.ControlRondaInicialCliente;
 import juego.estructura.Jugador;
+import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
 import logger.LogItem;
 
@@ -66,5 +67,8 @@ public class FachadaInterfacePrincipal {
 
     public static void terminarRefuerzo() {
         ClienteManager.getInstance().getInterfacePrincipal().terminarRefuerzo();
+    }
+    public static void refuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
+        ClienteManager.getInstance().getInterfacePrincipal().pasarRefuerzosPaisGanado(paisDesde, paisHasta, cantidad);
     }
 }
