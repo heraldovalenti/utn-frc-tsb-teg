@@ -5,7 +5,11 @@
 package servidor.ia;
 
 import com.Accionable;
+import com.servidor.AccionablePermitirRefuerzo;
+import ia.MotorIA;
+import logger.LogItem;
 import servidor.ConexionCliente;
+import servidor.ServerManager;
 
 /**
  *
@@ -23,7 +27,13 @@ public class ClienteIA extends ConexionCliente {
          * verificar si el accionable enviado debe ser provesado por la unidad
          * de IA e implementar cada funcion.
         */
-        
+        if (a instanceof AccionablePermitirRefuerzo) {
+            AccionablePermitirRefuerzo permitirRefuerzo = (AccionablePermitirRefuerzo)a;
+            if (permitirRefuerzo.getJugadorServidor().getNroJugador() == this.getId()) {
+                ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de IA: refuerzo de ronda inicial, realizando refuerzos..."));
+                MotorIA.reforzarRondaInicial(permitirRefuerzo.getJugadorServidor(), permitirRefuerzo.getCantidadEjercitos());
+            }
+        }
     }
 
     @Override
