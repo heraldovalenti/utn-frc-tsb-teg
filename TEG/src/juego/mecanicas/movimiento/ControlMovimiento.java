@@ -38,7 +38,7 @@ public class ControlMovimiento {
         if (cantidadEjercitos > this.maximoMovimiento()) {
             return false;
         }
-       if(GestorPaises.sonLimitrofes(origen, destino)) {
+       if(!GestorPaises.sonLimitrofes(origen, destino)) {
             return false;
         }
         return true;

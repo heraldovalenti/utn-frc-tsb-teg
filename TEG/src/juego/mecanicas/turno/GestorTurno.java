@@ -194,11 +194,11 @@ public class GestorTurno {
 
     public static void setRefuerzoActual(ControlRefuerzo control) {
         refuerzoActual = control;
-        if (SecuenciaTurnos.getInstancia().esRondaInicial()) {
-            etapaActual = PRIMERA_ETAPA_INCORPORACION;
-        } else {
-            etapaActual = ETAPA_INCORPORAR_EJERCITOS;
-        }
+//        if (SecuenciaTurnos.getInstancia().esRondaInicial()) {
+//            etapaActual = PRIMERA_ETAPA_INCORPORACION;
+//        } else {
+//            etapaActual = ETAPA_INCORPORAR_EJERCITOS;
+//        }
         FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
     }
 

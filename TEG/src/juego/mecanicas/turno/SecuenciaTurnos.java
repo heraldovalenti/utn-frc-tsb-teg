@@ -95,7 +95,7 @@ public class SecuenciaTurnos {
             } else {
                 actual++;
             }
-            if (actual == 0) {
+            if (contadorRondas > 1) {
                 AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
                 ServerManager.getInstance().registrarSalida(accionable);
             } else {
