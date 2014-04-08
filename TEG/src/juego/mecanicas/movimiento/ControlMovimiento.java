@@ -4,6 +4,7 @@
  */
 package juego.mecanicas.movimiento;
 
+import java.util.Map;
 import juego.estructura.Pais;
 import juego.estructura.GestorPaises;
 
