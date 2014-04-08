@@ -246,4 +246,9 @@ public class GestorTurno {
         this.etapaActual = ETAPA_REAGRUPAR;
     }
 
+    public void movimientoPaisGanado(Pais origen, Pais destino, int cantidadEjercitos) {
+        AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, 0);
+        ClienteManager.getInstance().registrarSalida(movimiento);
+    }
+
 }
