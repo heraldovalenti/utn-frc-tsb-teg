@@ -169,21 +169,12 @@ public class GestorTurno {
 
     public void solicitarTarjeta() {
         Jugador jugador = getJugadorActual();
-        if (accionPermitida(ACCION_SOLICITAR_TARJETA) && !tarjetaSolicitada && jugador.getCantidadTarjetasPais() < 6 && Juego.getInstancia().getSituacion().puedeObtenerTarjetaPais(jugador)) {
-            int canjesRealizados = jugador.getCantidadCanjes();
-            boolean res = false;
-            if (canjesRealizados < 3 && paisesConquistados > 0) {
-                res = true;
-            }
-            if (canjesRealizados > 3 && paisesConquistados > 1) {
-                res = true;
-            }
-            if (res) {
-                AccionableSolicitarTarjetaPais solicitar = new AccionableSolicitarTarjetaPais(jugador);
-                ClienteManager.getInstance().registrarSalida(solicitar);
-                tarjetaSolicitada = true;
-                etapaActual = ETAPA_SOLICITAR_TARJETA;
-            }
+        if (puedePedirTarjetaPais()) {
+            AccionableSolicitarTarjetaPais solicitar = new AccionableSolicitarTarjetaPais(jugador);
+            ClienteManager.getInstance().registrarSalida(solicitar);
+            tarjetaSolicitada = true;
+            etapaActual = ETAPA_SOLICITAR_TARJETA;
+            FachadaInterfacePrincipal.actualizarEstadoBotones();
         }
     }
 

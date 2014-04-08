@@ -34,8 +34,8 @@ public class AccionableSolicitarMovimientoPaisGanado implements Accionable {
     @Override
     public void accionar() {
         if (GestorJugadores.getJugadorLocal().equals(jugador)) {
-            FachadaInterfacePrincipal.refuerzoPaisGanado(origen, destino, cantidadEjercitos);
             GestorTurno.getInstance().registrarPaisConquistado();
+            FachadaInterfacePrincipal.refuerzoPaisGanado(origen, destino, cantidadEjercitos);
         }
     }
 

@@ -159,14 +159,7 @@ public class FachadaInterface {
     }
 
     public static List<Canjeable> obtenerTarjetas() {
-        ClienteManager.getInstance().getJugador().getListaTarjetaContinentes();
-        List<Canjeable> tarjetas = new ArrayList<>();
-        for (TarjetaPais tar : ClienteManager.getInstance().getJugador().getListaTarjetasPais()) {
-            tarjetas.add((Canjeable) tar);
-        }
-        for (TarjetaContinente tar : ClienteManager.getInstance().getJugador().getListaTarjetaContinentes()) {
-            tarjetas.add((Canjeable) tar);
-        }
+        List<Canjeable> tarjetas = ClienteManager.getInstance().getJugador().obtenerTarjetas();
         return tarjetas;
     }
 

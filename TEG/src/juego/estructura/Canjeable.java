@@ -17,5 +17,9 @@ public interface Canjeable {
 
     public boolean esComodin();
     
-    public String getNombrePais();
+    public String getNombre();
+    
+    public int getNumero();
+    
+    public boolean esDePais();
 }

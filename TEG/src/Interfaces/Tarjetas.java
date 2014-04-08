@@ -41,21 +41,21 @@ public class Tarjetas extends javax.swing.JInternalFrame {
     }
     private void cargarTarjetas(){
         if(tarjetas == null) return;
-        for(int i = 0; i<tarjetas.size()-1; i++){
+        for(int i = 0; i<tarjetas.size(); i++){
             switch(i){
-                case(0): cargarTarjeta(lblTarjeta1,tarjetas.get(0).getNombrePais());
+                case(0): cargarTarjeta(lblTarjeta1,tarjetas.get(0).getNombre());
                          chkTarjeta1.setEnabled(true);
                          break;
-                case(1): cargarTarjeta(lblTarjeta2,tarjetas.get(1).getNombrePais());
+                case(1): cargarTarjeta(lblTarjeta2,tarjetas.get(1).getNombre());
                          chkTarjeta2.setEnabled(true);
                          break;
-                case(2): cargarTarjeta(lblTarjeta3,tarjetas.get(2).getNombrePais());
+                case(2): cargarTarjeta(lblTarjeta3,tarjetas.get(2).getNombre());
                          chkTarjeta3.setEnabled(true);
                          break;
-                case(3): cargarTarjeta(lblTarjeta4,tarjetas.get(3).getNombrePais());
+                case(3): cargarTarjeta(lblTarjeta4,tarjetas.get(3).getNombre());
                          chkTarjeta4.setEnabled(true);
                          break;
-                case(4): cargarTarjeta(lblTarjeta5,tarjetas.get(4).getNombrePais());    
+                case(4): cargarTarjeta(lblTarjeta5,tarjetas.get(4).getNombre());    
                          chkTarjeta5.setEnabled(true);
                          break;
             }
