@@ -29,6 +29,9 @@ public class TarjetaContinente implements Canjeable, Serializable {
     public int getNroTarjeta() {
         return nroTarjeta;
     }
+    public String getNombrePais(){
+        return continente.getNombre();
+    }
 
     public void setNroTarjeta(int nroTarjeta) {
         this.nroTarjeta = nroTarjeta;

@@ -40,8 +40,24 @@ public class AccionablePermitirRefuerzo implements Accionable {
             if (permitirMisiles) {
                 GestorTurno.setEtapaActual(GestorTurno.ETAPA_INCORPORAR_EJERCITOS);
             } else {
-                GestorTurno.setEtapaActual(GestorTurno.ETAPA_SOLO_REFUERZOS);
+                GestorTurno.setEtapaActual(GestorTurno.PRIMERA_ETAPA_INCORPORACION);
             }
         }
+    }
+
+    public Jugador getJugadorServidor() {
+        return jugadorServidor;
+    }
+
+    public int getCantidadEjercitos() {
+        return cantidadEjercitos;
+    }
+
+    public Map<Continente, Integer> getEjercitosPorContinente() {
+        return ejercitosPorContinente;
+    }
+
+    public boolean isPermitirMisiles() {
+        return permitirMisiles;
     }
 }

@@ -6,6 +6,8 @@
 package ia;
 
 import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableFinTurno;
+import com.servidor.ActualizadorPais;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,8 @@ import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import juego.mecanicas.turno.GestorTurno;
+import logger.LogItem;
+import servidor.ServerManager;
 
 /**
  *
@@ -134,6 +138,24 @@ public class MotorIA {
             margen++;
         }
         control.aplicarRefuerzo();
+    }
+    
+    public static void reforzarRondaInicial(Jugador jugador, int ejercitos) {
+        ArrayList<Pais> paisesJugador = new ArrayList(jugador.getConjuntoPaises());
+        while (ejercitos > 0) {
+            int indiceRandom = (int)(Math.random() * paisesJugador.size());
+            Pais pais = paisesJugador.get(indiceRandom);
+            paisesJugador.get(paisesJugador.indexOf(pais)).añadirEjercitos(1);
+            ejercitos--;
+            ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre()+ ": pais " + pais.getNombre() + " reforzado..."));
+        }
+        for (Pais p : paisesJugador) {
+            ActualizadorPais actualizador = new ActualizadorPais(p);
+            ServerManager.getInstance().registrarSalida(actualizador);
+        }
+        AccionableFinTurno accionable = new AccionableFinTurno();
+        ServerManager.getInstance().registrarEntrada(accionable);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre()+ ": refuerzo de ronda inicial realizado. Fin de turno de IA."));
     }
 
     public static int calcularNecesidadRefuerzos(Pais pais, int margen) {

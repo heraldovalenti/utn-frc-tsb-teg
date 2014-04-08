@@ -30,6 +30,9 @@ public class TarjetaPais implements Canjeable, Serializable {
     public int getNroTarjeta() {
         return nroTarjeta;
     }
+    public String getNombrePais(){
+        return pais.getNombre();
+    }
 
     public void setNroTarjeta(int nroTarjeta) {
         this.nroTarjeta = nroTarjeta;
