@@ -248,10 +248,6 @@ public class Jugador implements Serializable {
         return conjuntoContinentes;
     }
 
-    public boolean comprobarObjetivoComun() {
-        return (getCantidadPaises() >= 45);
-    }
-
     public void usarTarjetas(List<Canjeable> listaTarjetas) {
         for (Canjeable tarjeta : listaTarjetas) {
             if (tarjeta instanceof TarjetaPais) {
@@ -263,6 +259,10 @@ public class Jugador implements Serializable {
             }
         }
         cantidadCanjes++;
+    }
+
+    public boolean comprobarObjetivoSecreto() {
+        return objetivoSecreto.comprobarVictoria(this);
     }
 
     @Override

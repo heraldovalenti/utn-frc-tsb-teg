@@ -20,6 +20,7 @@ import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.TarjetaContinente;
 import servidor.ServerManager;
+import servidor.control.ControlVictoria;
 
 /**
  *
@@ -63,6 +64,7 @@ public class AccionableAtaque implements Accionable {
             actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
             if (conquistado) {
+                ControlVictoria.comprobarVictoria();
                 if (mostrarTarjetaContinente) {
                     TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(origenServidor.getContinente());
                     AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(origenServidor.getJugador(), tarjeta);
