@@ -19,13 +19,14 @@ public class ControlVictoria {
     private static Jugador ganador = null;
     private static String mensaje = null;
 
-    public static void comprobarVictoria() {
+    public static boolean comprobarVictoria() {
         for (Jugador jugador : GestorJugadores.getJugadores()) {
             if (comprobarObjetivoGeneral(jugador) || comprobarObjetivoSecreto(jugador)) {
                 informarVictoria();
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private static boolean comprobarObjetivoGeneral(Jugador jugador) {
