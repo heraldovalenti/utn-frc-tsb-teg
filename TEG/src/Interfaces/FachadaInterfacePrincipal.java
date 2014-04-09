@@ -79,4 +79,10 @@ public class FachadaInterfacePrincipal {
     public static void mostrarTarjetaSituacion() {
         ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjetaSituacion();
     }
+    public static void victoria(String mensaje){
+        ClienteManager.getInstance().getInterfacePrincipal().victoria(mensaje);
+    } 
+    public static void derrota(String mensaje){
+        ClienteManager.getInstance().getInterfacePrincipal().derrota(mensaje);
+    } 
 }
