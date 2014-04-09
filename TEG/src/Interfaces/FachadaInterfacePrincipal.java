@@ -76,4 +76,7 @@ public class FachadaInterfacePrincipal {
     public static void actualizarEstadoBotones() {
         ClienteManager.getInstance().getInterfacePrincipal().habilitarBotones();
     }
+    public static void mostrarTarjetaSituacion() {
+        ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjetaSituacion();
+    }
 }

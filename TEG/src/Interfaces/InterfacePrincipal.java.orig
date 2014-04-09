@@ -3,11 +3,13 @@ package Interfaces;
 import cliente.ClienteManager;
 
 import java.awt.Color;
+import java.awt.Desktop;
 
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,13 +17,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import juego.estructura.Canjeable;
 import juego.estructura.Continente;
-import juego.estructura.GestorPaises;
+import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
-import juego.estructura.TarjetaPais;
-import logger.LogChat;
 import logger.LogItem;
 import logger.Loggeable;
 
@@ -58,28 +59,27 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         initComponents();
         this.setSize(1330, 990);
         agregarGuis();
-        actualizarFichas();
-        actualizarJugadores();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
+        GestorTarjetas.inicializarGestor();
     }
-    
+
     public void procesarLog(LogItem logItem) {
         //if (logItem instanceof LogChat) {
-            chat.cargarChat(logItem.toString() + "\n");
+        chat.cargarChat(logItem.toString() + "\n");
         //}
     }
 
-    public void reagrupar(Pais desde, Pais hasta, int cantidad) {
-        cerraVentanaReagrupar();
-        FachadaInterface.reagrupar(desde, hasta, cantidad);
+    public void pasarRefuerzosPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
+        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this, true, paisDesde, paisHasta, cantidad);
+        ventana.setVisible(true);
     }
 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
     }
 
-    public void actualizarJugadores() {
+    private void actualizarJugadores(Jugador actual) {
         jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
 
@@ -100,6 +100,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
         }
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
+    }
+
+    public void mostrarMensajeGlobal(String msj) {
+        mapa.mostraMensajeGlobal(msj);
     }
 
     public void actualizarFichas() {
@@ -154,8 +158,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         return null;
     }
 
-    public void mostrarTarjeta(TarjetaPais tarj) {
-        Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
+    public void mostrarTarjeta(Canjeable tarj) {
+        Tarjeta tarjeta = new Tarjeta(tarj.getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
         ubicarGuis(tarjeta, mapa.getWidth() / 2, mapa.getHeight() / 2);
@@ -244,7 +248,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(mapa, 0, 0);
         ubicarGuis(jugadores, mapa.getSize().width, 0);
         ubicarGuis(chat, 0, mapa.getSize().height);
-        ubicarGuis(seleccion, 0, 0);
+        ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
         ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
             dados.setIcon(true);
@@ -289,6 +293,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         btnAtacarMisil = new javax.swing.JButton();
         btnSonido = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
+        btnSituacion = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -311,8 +316,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 jButton1ActionPerformed(evt);
             }
         });
+        desktop.add(jButton1);
         jButton1.setBounds(830, 13, 73, 20);
-        desktop.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -401,9 +406,13 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
         });
 
-        jMenu1.setText("Partida");
+        btnSituacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/tarjetaIcono.png"))); // NOI18N
+        btnSituacion.setText("Situacion");
 
-        jMenuItem2.setText("Conectar");
+        jMenu1.setText("Ver");
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reglamento.jpg"))); // NOI18N
+        jMenuItem2.setText("Reglamento");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -413,7 +422,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Ver");
+        jMenu2.setText("Juego");
 
         menuObjetivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo2.jpg"))); // NOI18N
         menuObjetivo.setText("Objetivo");
@@ -483,7 +492,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addComponent(btnMision)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVerTarjetas)
-                .addGap(98, 98, 98)
+                .addGap(7, 7, 7)
+                .addComponent(btnSituacion)
+                .addGap(18, 18, 18)
                 .addComponent(btnAtacar)
                 .addGap(1, 1, 1)
                 .addComponent(btnAtacarMisil)
@@ -498,7 +509,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,7 +521,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                         .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSituacion))
                         .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSonido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -533,7 +546,12 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_menuObjetivoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        System.exit(0);
+        try {
+            File path = new File ("src/reglamento.pdf");
+            Desktop.getDesktop().open(path);
+       }catch (IOException ex) {
+            ex.printStackTrace();
+       }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void menuInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInformacionActionPerformed
@@ -567,7 +585,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(tarj2, mapa.getWidth() / 2, mapa.getHeight() / 2);
         HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
         sonido.start();
-        actualizarJugadores();
         // refuerzo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -619,7 +636,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-        Tarjetas tarjetas = new Tarjetas(FachadaInterface.getJugadorLocal().getListaTarjetasPais(), jMenuItem1, btnVerTarjetas);
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -633,12 +650,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnAtacarActionPerformed
 
     private void btnAtacarMisilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarMisilActionPerformed
-       FachadaInterface.atacarConMisil(paisDesde, paisHasta);
+        FachadaInterface.atacarConMisil(paisDesde, paisHasta);
         btnAtacarMisil.setEnabled(false);
     }//GEN-LAST:event_btnAtacarMisilActionPerformed
 
     private void btnFinTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinTurnoActionPerformed
-        refuerzo.setVisible(false);
+        if (refuerzo != null) {
+            refuerzo.setVisible(false);
+        }
         refuerzo = null;
         paisDesde = null;
         paisHasta = null;
@@ -650,6 +669,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
         reagrupar = true;
         habilitarBotones();
+        FachadaInterface.comenzarReagrupacion();
+        ventanaReagrupar = new Reagrupar(this, false, this);
+        ventanaReagrupar.setVisible(true);
         btnReagrupar.setEnabled(false);
     }//GEN-LAST:event_btnReagruparActionPerformed
 
@@ -668,18 +690,17 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnSonidoActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        if(hiloSonido != null){
+        if (hiloSonido != null) {
             hiloSonido.stop();
             hiloSonido = null;
             hiloSonido = new HiloSonido();
             hiloSonido.start();
-        } 
-        
+        }
+
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-//comentado porque no compila. Esta incompleto        
-//FachadaInterface.
+        FachadaInterface.pedirTarjeta();
     }//GEN-LAST:event_btnTarjetaActionPerformed
     private int[] simularDados(int cant) {
 
@@ -692,26 +713,23 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
 
     public void habilitarBotones() {
-        if (!esMiTurno()) {
-            if (reagrupar) {
-                btnAtacar.setEnabled(true);
-                btnReagrupar.setEnabled(false);
-                btnAtacarMisil.setEnabled(false);
-                btnTarjeta.setEnabled(false);
-            } else {
-                btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-                btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+        if (esMiTurno()) {
+            if (FachadaInterface.atacarPermitido()) {
                 habilitarBotonesAtaque();
+            } else {
+                btnAtacar.setEnabled(false);
+                btnAtacarMisil.setEnabled(false);
             }
-
+            btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
+            btnTarjeta.setEnabled(FachadaInterface.solicitarTarjetaPermitido());
+            btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());
         } else {
-            btnAtacar.setEnabled(true);
-            btnReagrupar.setEnabled(false);
+            btnAtacar.setEnabled(false);
             btnAtacarMisil.setEnabled(false);
+            btnReagrupar.setEnabled(false);
             btnTarjeta.setEnabled(false);
             btnFinTurno.setEnabled(false);
         }
-
     }
 
     public void inciarRefuerzo() {
@@ -731,7 +749,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if (FachadaInterface.atacarPermitido()) {
             if (paisDesde != null && paisHasta != null) {
                 //aca hay que poner la validacion si se puede atacr de un pais a otro
-                if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {
+                if (FachadaInterface.ataquePermitido(paisDesde, paisHasta)) {
                     atacar = true;
                 }
                 if (FachadaInterface.ataqueConMisilesPermitido(paisDesde, paisHasta)) {
@@ -739,8 +757,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 }
             }
         }
-        btnAtacar.setEnabled(true);
-        btnAtacarMisil.setEnabled(true);
+        btnAtacar.setEnabled(atacar);
+        btnAtacarMisil.setEnabled(misil);
 
     }
 
@@ -752,21 +770,31 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ventanaReagrupar.cargarPais(pais);
     }
 
+    public void inicioTurno(Jugador jugador) {
+        if (jugador.getNroJugador() == FachadaInterface.getJugadorLocal().getNroJugador()) {
+            HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
+            sonido.start();
+        }
+        actualizarFichas();
+        actualizarJugadores(jugador);
+        habilitarBotones();
+    }
+
     public void seleccionPais(String p) {
-       
+
         if (!esMiTurno()) {
             return;
         }
         Pais pais = obtenerPaisPorNombre(p);
-        if (pais == null) {  
+        if (pais == null) {
             return;
         }
-        if(reagrupar) {
+        if (reagrupar) {
             if (FachadaInterface.esMiPais(pais)) {
                 reagrupar(pais);
             }
         } else {
-            if (FachadaInterface.incorporarEjercitosPermitido()) {
+            if (FachadaInterface.incorporarEjercitosPermitido() && refuerzo != null) {
                 if (FachadaInterface.esMiPais(pais)) {
                     if (refuerzo != null) {
                         refuerzo.agregarRefuerzo(pais, FachadaInterface.getRefuerzoActual());
@@ -774,11 +802,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                     }
                 }
             } else {
-                if(FachadaInterface.esMiPais(pais)){
+                if (FachadaInterface.esMiPais(pais)) {
                     paisDesde = pais;
                     seleccion.cargarDesde(pais.getNombre());
-                }
-                else{
+                } else {
                     paisHasta = pais;
                     seleccion.cargarHasta(pais.getNombre());
                 }
@@ -796,6 +823,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     private boolean esMiTurno() {
         return FachadaInterface.esMiTurno(FachadaInterface.getJugadorLocal());
+    }
+
+    public void terminarRefuerzo() {
+        refuerzo.dispose();
+        refuerzo = null;
     }
     /**
      * @param args the command line arguments
@@ -838,6 +870,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private javax.swing.JButton btnMision;
     private javax.swing.JButton btnReagrupar;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnSituacion;
     private javax.swing.JButton btnSonido;
     private javax.swing.JButton btnTarjeta;
     private javax.swing.JButton btnVerTarjetas;

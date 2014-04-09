@@ -11,17 +11,16 @@ import javax.swing.JOptionPane;
  * @author Emanuel
  */
 public class Tarjeta extends javax.swing.JInternalFrame {
-
+   
     /**
      * Creates new form Tarjeta
      */
     public Tarjeta(String tarjeta) {
-        initComponents();
-        cargarTarjeta(tarjeta);
-        
+        initComponents();        
+        cargarTarjeta(tarjeta);       
     }
     public void cargarTarjeta(String tarjeta){
-       tarjeta =  tarjeta.replaceAll(" ", "");
+        tarjeta =  tarjeta.replaceAll(" ", "");       
         try{
             lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+tarjeta+".png")));
         }
@@ -46,6 +45,23 @@ public class Tarjeta extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Tarjeta");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tarjetaIcono.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/alaska.png"))); // NOI18N
 
@@ -79,6 +95,11 @@ public class Tarjeta extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formInternalFrameClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblTarjeta;
