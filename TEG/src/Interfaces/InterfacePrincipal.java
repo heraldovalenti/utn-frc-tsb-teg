@@ -53,6 +53,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private Reagrupar ventanaReagrupar;
     private HiloSonido hiloSonido;
     private Tarjeta tarjetaSituacion = null;
+    private boolean canjear = false;
+    private Canjear ventanaCanjear = null; 
 
     /**
      * Creates new form GUI
@@ -296,6 +298,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         btnSonido = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         btnSituacion = new javax.swing.JButton();
+        btnCanjear = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -394,7 +397,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
         });
 
-        btnSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/ConSonido.png"))); // NOI18N
+        btnSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/sinSonido4.png"))); // NOI18N
         btnSonido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSonidoActionPerformed(evt);
@@ -413,6 +416,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         btnSituacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSituacionActionPerformed(evt);
+            }
+        });
+
+        btnCanjear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/canjear.png"))); // NOI18N
+        btnCanjear.setText("Canjear");
+        btnCanjear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCanjearActionPerformed(evt);
             }
         });
 
@@ -501,22 +512,24 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addComponent(btnVerTarjetas)
                 .addGap(7, 7, 7)
                 .addComponent(btnSituacion)
-                .addGap(18, 18, 18)
+                .addGap(41, 41, 41)
                 .addComponent(btnAtacar)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAtacarMisil)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReagrupar)
+                .addComponent(btnCanjear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReagrupar)
+                .addGap(18, 18, 18)
                 .addComponent(btnTarjeta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFinTurno)
-                .addGap(127, 127, 127)
+                .addGap(26, 26, 26)
                 .addComponent(btnSonido, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -524,15 +537,18 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAtacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAtacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCanjear))
                         .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSituacion))
-                        .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSonido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnSiguiente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -699,7 +715,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         if (hiloSonido != null) {
             hiloSonido.stop();
-            hiloSonido = null;
             hiloSonido = new HiloSonido();
             hiloSonido.start();
         }
@@ -713,6 +728,12 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnSituacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSituacionActionPerformed
         mostrarTarjetaSituacion();
     }//GEN-LAST:event_btnSituacionActionPerformed
+
+    private void btnCanjearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanjearActionPerformed
+        canjear = true;
+        ventanaCanjear = new Canjear(this, false, this);
+        ventanaCanjear.setVisible(true);
+    }//GEN-LAST:event_btnCanjearActionPerformed
     private int[] simularDados(int cant) {
 
         int[] dados = new int[cant];
@@ -721,6 +742,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         return dados;
 
+    }
+    public void cerrarVentanaCanjear(){
+        canjear = false;
     }
     public void mostrarTarjetaSituacion(){
         String nombre = FachadaInterface.getTarjetaSituacion().getNombre();
@@ -749,6 +773,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 btnAtacarMisil.setEnabled(false);
             }
             btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
+            btnCanjear.setEnabled(FachadaInterface.canjearPermitido());           
             btnTarjeta.setEnabled(FachadaInterface.solicitarTarjetaPermitido());
             btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());
         } else {
@@ -757,6 +782,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             btnReagrupar.setEnabled(false);
             btnTarjeta.setEnabled(false);
             btnFinTurno.setEnabled(false);
+            btnCanjear.setEnabled(false);
         }
     }
 
@@ -775,8 +801,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         boolean atacar = false;
         boolean misil = false;
         if (FachadaInterface.atacarPermitido()) {
-            if (paisDesde != null && paisHasta != null) {
-                //aca hay que poner la validacion si se puede atacr de un pais a otro
+            if (paisDesde != null && paisHasta != null) {                
                 if (FachadaInterface.ataquePermitido(paisDesde, paisHasta)) {
                     atacar = true;
                 }
@@ -817,30 +842,38 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if (pais == null) {
             return;
         }
-        if (reagrupar) {
-            if (FachadaInterface.esMiPais(pais)) {
-                reagrupar(pais);
-            }
-        } else {
-            if (FachadaInterface.incorporarEjercitosPermitido() && refuerzo != null) {
+        System.out.println("canjear es "+ canjear);
+        if(canjear){
+               if (FachadaInterface.esMiPais(pais)) {
+                     ventanaCanjear.canjear(pais);
+               }
+         }
+         else{
+             if (reagrupar) {
                 if (FachadaInterface.esMiPais(pais)) {
-                    if (refuerzo != null) {
-                        refuerzo.agregarRefuerzo(pais, FachadaInterface.getRefuerzoActual());
-                        actualizarFichas();
-                    }
+                    reagrupar(pais);
                 }
             } else {
-                if (FachadaInterface.esMiPais(pais)) {
-                    paisDesde = pais;
-                    seleccion.cargarDesde(pais.getNombre());
+                if (FachadaInterface.incorporarEjercitosPermitido() && refuerzo != null) {
+                    if (FachadaInterface.esMiPais(pais)) {
+                        if (refuerzo != null) {
+                            refuerzo.agregarRefuerzo(pais, FachadaInterface.getRefuerzoActual());
+                            actualizarFichas();
+                        }
+                    }
                 } else {
-                    paisHasta = pais;
-                    seleccion.cargarHasta(pais.getNombre());
-                }
-                habilitarBotonesAtaque();
-            }
-        }
+                        if (FachadaInterface.esMiPais(pais)) {
+                        paisDesde = pais;
+                        seleccion.cargarDesde(pais.getNombre());
+                        } else {
+                            paisHasta = pais;
+                            seleccion.cargarHasta(pais.getNombre());
+                        }
+                        habilitarBotonesAtaque();
+                    }
 
+              }
+         }
     }
 
     private void permitirAtaque() {
@@ -894,6 +927,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtacar;
     private javax.swing.JButton btnAtacarMisil;
+    private javax.swing.JButton btnCanjear;
     private javax.swing.JButton btnFinTurno;
     private javax.swing.JButton btnMision;
     private javax.swing.JButton btnReagrupar;
