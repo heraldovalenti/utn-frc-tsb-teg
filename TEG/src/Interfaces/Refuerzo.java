@@ -20,14 +20,15 @@ import juego.estructura.Pais;
 public class Refuerzo extends javax.swing.JInternalFrame {
 
     private ControlRefuerzo controlRefuerzo;
-
+    private InterfacePrincipal padre;
     /**
      * Creates new form Refuerzo
      */
-    public Refuerzo(ControlRefuerzo controlRefuerzo) {
+    public Refuerzo(ControlRefuerzo controlRefuerzo, InterfacePrincipal padre) {
         initComponents();
         rbTropa.setSelected(true);
         this.controlRefuerzo = controlRefuerzo;
+        this.padre = padre;
         actualizarTropas(controlRefuerzo.calcularEjercitosPorContinenteDisponibles(), controlRefuerzo.calcularEjercitosLibresDisponibles());
         btnFinalizar.setEnabled(false);
     }
@@ -359,6 +360,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         controlRefuerzo.aplicarRefuerzo();
+        padre.habilitarBotones();
         this.dispose();
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
