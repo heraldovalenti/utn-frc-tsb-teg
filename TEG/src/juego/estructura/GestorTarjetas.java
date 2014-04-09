@@ -192,4 +192,13 @@ public class GestorTarjetas {
     public static TarjetaContinente getTarjetaContinente(int nrotarjeta) {
         return listaTarjetasContinentes.get(nrotarjeta - 1);
     }
+
+    public static TarjetaContinente obtenerPorContinente(Continente continente) {
+        for (TarjetaContinente tarjeta : listaTarjetasContinentes) {
+            if (tarjeta.getContinente().equals(continente)) {
+                return tarjeta;
+            }
+        }
+        return null;
+    }
 }

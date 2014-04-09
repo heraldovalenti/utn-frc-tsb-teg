@@ -11,8 +11,14 @@ import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import com.servidor.AccionableMostrarDadosAtaque;
+import com.servidor.AccionableMostrarTarjeta;
 import com.servidor.AccionableSolicitarMovimientoPaisGanado;
 import com.servidor.ActualizadorPais;
+import juego.estructura.Continente;
+import juego.estructura.GestorContinentes;
+import juego.estructura.GestorTarjetas;
+import juego.estructura.Jugador;
+import juego.estructura.TarjetaContinente;
 import servidor.ServerManager;
 
 /**
@@ -36,6 +42,7 @@ public class AccionableAtaque implements Accionable {
         ControlAtaque control = new ControlAtaque(origenServidor, destinoServidor);
         if (control.ataqueValido()) {
             boolean conquistado = false;
+            boolean mostrarTarjetaContinente = false;
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
             control.atacar(ejercitosAtacantes, ejercitosDefensores);
@@ -46,6 +53,7 @@ public class AccionableAtaque implements Accionable {
             destinoServidor.restarEjercitos(control.perdidasDefensor());
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
+                mostrarTarjetaContinente = mostrarNuevaTarjetaDeContinente(origenServidor, destinoServidor);
                 origenServidor.restarEjercitos(1);
                 destinoServidor.ocuparPais(origenServidor.getJugador());
                 conquistado = true;
@@ -55,6 +63,11 @@ public class AccionableAtaque implements Accionable {
             actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
             if (conquistado) {
+                if (mostrarTarjetaContinente) {
+                    TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(origenServidor.getContinente());
+                    AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(origenServidor.getJugador(), tarjeta);
+                    ServerManager.getInstance().registrarSalida(mostrar);
+                }
                 int maximoEjercitos = Math.min(origenServidor.getCantidadEjercitos() - 1, 2);
                 AccionableSolicitarMovimientoPaisGanado movimiento = new AccionableSolicitarMovimientoPaisGanado(origenServidor.getJugador(), origenServidor, destinoServidor, maximoEjercitos);
                 ServerManager.getInstance().registrarSalida(movimiento);
@@ -62,4 +75,20 @@ public class AccionableAtaque implements Accionable {
         }
     }
 
+    private boolean mostrarNuevaTarjetaDeContinente(Pais origen, Pais destino) {
+        Jugador jugador = origen.getJugador();
+        Continente continente = origen.getContinente();
+        if (destino.getContinente().equals(continente)) {
+            int cantidad = origen.getJugador().calcularCantidadDePaisesDeContinente(continente);
+            if (cantidad == GestorContinentes.obtenerCantidadPaises(continente) - 1) {
+                TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(continente);
+                if (tarjeta.fueUsada(jugador)) {
+                    return false;
+                } else {
+                    return jugador.añadirTarjetaContinente(tarjeta);
+                }
+            }
+        }
+        return false;
+    }
 }

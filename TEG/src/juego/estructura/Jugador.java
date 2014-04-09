@@ -26,7 +26,7 @@ public class Jugador implements Serializable {
     private ObjetivoSecreto objetivoSecreto;
     private int cantidadCanjes = 0;
     private List<TarjetaPais> listaTarjetasPais = new ArrayList<>(5);
-    private List<TarjetaContinente> listaTarjetaContinentes = new ArrayList<>(5);
+    private Set<TarjetaContinente> conjuntoTarjetaContinentes = new HashSet<>(10);
     private boolean ia;
 
     public Jugador() {
@@ -98,12 +98,12 @@ public class Jugador implements Serializable {
         this.listaTarjetasPais = listaTarjetasPais;
     }
 
-    public List<TarjetaContinente> getListaTarjetaContinentes() {
-        return listaTarjetaContinentes;
+    public Set<TarjetaContinente> getConjuntoTarjetaContinentes() {
+        return conjuntoTarjetaContinentes;
     }
 
-    public void setListaTarjetaContinentes(List<TarjetaContinente> listaTarjetaContinentes) {
-        this.listaTarjetaContinentes = listaTarjetaContinentes;
+    public void setConjuntoTarjetaContinentes(Set<TarjetaContinente> conjuntoTarjetaContinentes) {
+        this.conjuntoTarjetaContinentes = conjuntoTarjetaContinentes;
     }
 
     public boolean isIa() {
@@ -117,7 +117,7 @@ public class Jugador implements Serializable {
     public List<Canjeable> obtenerTarjetas() {
         List<Canjeable> listaTarjetas = new ArrayList<>();
         listaTarjetas.addAll(listaTarjetasPais);
-        listaTarjetas.addAll(listaTarjetaContinentes);
+        listaTarjetas.addAll(conjuntoTarjetaContinentes);
         return listaTarjetas;
     }
 
@@ -151,8 +151,12 @@ public class Jugador implements Serializable {
         listaTarjetasPais.add(tarjeta);
     }
 
+    public boolean añadirTarjetaContinente(TarjetaContinente tarjeta) {
+        return conjuntoTarjetaContinentes.add(tarjeta);
+    }
+
     public int getCantidadTarjetasContinente() {
-        return listaTarjetaContinentes.size();
+        return conjuntoTarjetaContinentes.size();
     }
 
     public Set<Pais> obtenerPaisesDeContinente(Continente continente) {
@@ -163,6 +167,16 @@ public class Jugador implements Serializable {
             }
         }
         return paises;
+    }
+
+    public int calcularCantidadDePaisesDeContinente(Continente continente) {
+        int acu = 0;
+        for (Pais pais : conjuntoPaises) {
+            if (pais.getContinente().equals(continente)) {
+                acu++;
+            }
+        }
+        return acu;
     }
 
     public int calcularRefuerzosPermitidos() {
@@ -253,7 +267,7 @@ public class Jugador implements Serializable {
 
     @Override
     public String toString() {
-        return "Jugador{" + "nroJugador=" + nroJugador + ", nombre=" + nombre + ", color=" + color + ", cantidadCanjes=" + cantidadCanjes + ", listaTarjetasPais=" + listaTarjetasPais + ", listaTarjetaContinentes=" + listaTarjetaContinentes + '}';
+        return "Jugador{" + "nroJugador=" + nroJugador + ", nombre=" + nombre + ", color=" + color + ", cantidadCanjes=" + cantidadCanjes + ", listaTarjetasPais=" + listaTarjetasPais + ", listaTarjetaContinentes=" + conjuntoTarjetaContinentes + '}';
     }
 
     @Override

@@ -6,10 +6,8 @@ package Interfaces;
 
 import cliente.control.ControlRefuerzo;
 import java.awt.Component;
-import java.awt.TextField;
 import java.util.Iterator;
 import java.util.Map;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import juego.estructura.Continente;
@@ -80,14 +78,11 @@ public class Refuerzo extends javax.swing.JInternalFrame {
     }
 
     public void agregarRefuerzo(Pais pais, ControlRefuerzo control) {
-        System.out.println("entre");
         controlRefuerzo = control;
         if (esTropa()) {
             if (controlRefuerzo.puedeReforzar(pais)) {
-                System.out.println("Puedo agregar en " + pais.getNombre());
                 controlRefuerzo.agregarEjercito(pais);
             } else {
-                System.out.println("No Puedo agregar en " + pais.getNombre());
                 JOptionPane.showMessageDialog(this, "No puede Agregar mas refuerzos", "Refuerzos", JOptionPane.WARNING_MESSAGE);
             }
         } else {
