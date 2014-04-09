@@ -170,5 +170,13 @@ public class FachadaInterface {
     public static Situacion getTarjetaSituacion() {
         return ClienteManager.getInstance().getJuego().getSituacion();
     }
-
+    public static void canjearTropasPorMisil(Pais pais){
+        GestorTurno.getInstance().canjearEjercitosPorMisil(pais, 1);
+    }
+    public static void canjearMisilPorTropas(Pais pais){
+        GestorTurno.getInstance().canjearMisilPorEjercito(pais,1);
+    }
+    public static boolean canjearPermitido() {
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_CANJEAR_EJERCITO_POR_MISIL);
+    } 
 }
