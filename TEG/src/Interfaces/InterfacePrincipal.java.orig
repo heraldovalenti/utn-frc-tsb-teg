@@ -39,10 +39,10 @@ import logger.Loggeable;
 public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable {
 
     private InformacionDelPais informacion;
-    private Jugadores jugadores;
+    private IJugadores jugadores;
     private InterfaceMapa mapa;
-    private Chat chat;
-    private Seleccion seleccion;
+    private IChat chat;
+    private ISeleccion seleccion;
     private Dados dados;
     private boolean mostrarFichas = true;
     private boolean mostrarMisiles = true;
@@ -61,7 +61,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
      */
     public InterfacePrincipal() {
         initComponents();
-        this.setSize(1330, 990);
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+            this.setSize(1330, 745);
+        }
+        else{
+            this.setSize(1330, 990);
+        }   
+        
+       
         agregarGuis();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
@@ -81,6 +88,15 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
+    }
+    
+    public void victoria(String mensaje){
+        habilitarBotones();
+        new ObjetivoCumplido(this, false,"victoria", mensaje).setVisible(true);
+    }
+    public void derrota(String mensaje){
+        habilitarBotones();
+        new ObjetivoCumplido(this, false,"derrota", mensaje).setVisible(true);
     }
 
     private void actualizarJugadores(Jugador actual) {
@@ -237,14 +253,23 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         mapa = new InterfaceMapa(this);
         mapa.setVisible(true);
         desktop.add(mapa);
-        jugadores = new Jugadores();
+        
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+             chat = new Chat17Pulgadas(this);
+             jugadores = new Jugadores17Pulgadas();
+             seleccion = new Seleccion17Pulgadas();
+        } 
+        else{
+            chat = new Chat(this);
+            jugadores = new Jugadores();
+            seleccion = new Seleccion();
+        }
+        
         jugadores.setVisible(true);
         desktop.add(jugadores);
-        chat = new Chat(this);
         chat.setVisible(true);
         desktop.add(chat);
-        seleccion = new Seleccion();
-        mapa.setVisible(true);
+        seleccion.setVisible(true);
         desktop.add(seleccion);
         dados = new Dados();
         dados.setVisible(true);
@@ -668,7 +693,12 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnVerTarjetasActionPerformed
 
     private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
-        FachadaInterface.atacar(paisDesde, paisHasta);
+        if(FachadaInterface.ataquePermitido(paisDesde, paisHasta)){
+            JOptionPane.showMessageDialog(this,"Ataque no permitido","Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            FachadaInterface.atacar(paisDesde, paisHasta);
+        }
         btnAtacar.setEnabled(false);
     }//GEN-LAST:event_btnAtacarActionPerformed
 
@@ -788,10 +818,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     public void inciarRefuerzo() {
         if (refuerzo == null) {
-            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
+            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual(),this);
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
-            ubicarGuis(refuerzo, mapa.getWidth() - refuerzo.getWidth(), 0);
+            ubicarGuis(refuerzo, mapa.getWidth(), 0);
         } else {
 
         }

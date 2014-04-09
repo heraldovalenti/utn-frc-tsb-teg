@@ -17,8 +17,8 @@ public class ObjetivoCumplido extends javax.swing.JDialog {
      */
     public ObjetivoCumplido(java.awt.Frame parent, boolean modal, String victoria, String mensaje) {
         super(parent, modal);
-        carrgarDatos(victoria, mensaje);
         initComponents();
+        carrgarDatos(victoria, mensaje);
     }
     public void carrgarDatos(String victoria, String mensaje){
         lblVictoria.setText(victoria.toUpperCase());

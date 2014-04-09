@@ -5,8 +5,11 @@
  */
 package com.servidor;
 
+import Interfaces.FachadaInterfacePrincipal;
+import cliente.ClienteManager;
 import com.Accionable;
 import juego.estructura.Jugador;
+import juego.mecanicas.turno.GestorTurno;
 
 /**
  *
@@ -14,17 +17,24 @@ import juego.estructura.Jugador;
  */
 public class AccionableVictoria implements Accionable {
 
-    private final Jugador jugador;
+    private final int nroJugador;
     private final String mensaje;
 
     public AccionableVictoria(Jugador jugador, String mensaje) {
-        this.jugador = jugador;
+        this.nroJugador = jugador.getNroJugador();
         this.mensaje = mensaje;
     }
-    
+
     @Override
     public void accionar() {
-        //TODO: Mostrar ventana de victoria y finalizar el juego
+        if (ClienteManager.getInstance().esJugadorLocal(nroJugador)) {
+            FachadaInterfacePrincipal.victoria(mensaje);
+        } else {
+            FachadaInterfacePrincipal.derrota(mensaje);
+        }
+        GestorTurno.getInstance().setEtapaActual(GestorTurno.FUERA_TURNO);
+        FachadaInterfacePrincipal.actualizarEstadoBotones();
+        //TODO: Finalizar el juego
     }
 
 }

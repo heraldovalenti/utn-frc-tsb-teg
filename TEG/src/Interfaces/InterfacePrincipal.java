@@ -23,7 +23,6 @@ import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
-import juego.estructura.TarjetaPais;
 import logger.LogItem;
 import logger.Loggeable;
 
@@ -37,7 +36,7 @@ import logger.Loggeable;
  * @author Emanuel
  */
 public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable {
-
+    
     private InformacionDelPais informacion;
     private IJugadores jugadores;
     private InterfaceMapa mapa;
@@ -54,64 +53,64 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private HiloSonido hiloSonido;
     private Tarjeta tarjetaSituacion = null;
     private boolean canjear = false;
-    private Canjear ventanaCanjear = null; 
+    private Canjear ventanaCanjear = null;
 
     /**
      * Creates new form GUI
      */
     public InterfacePrincipal() {
         initComponents();
-        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+        this.setExtendedState(MAXIMIZED_BOTH);
+        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800) {
             this.setSize(1330, 745);
-        }
-        else{
+        } else {
             this.setSize(1330, 990);
-        }   
+        }        
         
-       
         agregarGuis();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
         GestorTarjetas.inicializarGestor();
     }
-
+    
     public void procesarLog(LogItem logItem) {
         //if (logItem instanceof LogChat) {
         chat.cargarChat(logItem.toString() + "\n");
         //}
     }
-
+    
     public void pasarRefuerzosPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
         RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this, true, paisDesde, paisHasta, cantidad);
         ventana.setVisible(true);
     }
-
+    
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
     }
     
-    public void victoria(String mensaje){
+    public void victoria(String mensaje) {
         habilitarBotones();
-        new ObjetivoCumplido(this, false,"victoria", mensaje).setVisible(true);
-    }
-    public void derrota(String mensaje){
-        habilitarBotones();
-        new ObjetivoCumplido(this, false,"derrota", mensaje).setVisible(true);
+        new ObjetivoCumplido(this, false, "victoria", mensaje).setVisible(true);
     }
 
+    public void derrota(String mensaje) {
+        habilitarBotones();
+        new ObjetivoCumplido(this, false, "derrota", mensaje).setVisible(true);
+    }
+    
     private void actualizarJugadores(Jugador actual) {
         jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
     }
-
+    
     public void cargarChat(String msg) {
         chat.cargarChat(msg);
     }
-
+    
     public void enviarChat(String envioChat) {
         String quienDice = FachadaInterface.getJugadorLocal().getNombre() + ": ";
         FachadaInterface.enviarChat(quienDice + envioChat);
     }
-
+    
     private void actualizarFicha(Set<Jugador> jugadores) {
         ArrayList<Pais> paises = new ArrayList<Pais>();
         for (Jugador jugador : jugadores) {
@@ -121,11 +120,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
     }
-
+    
     public void mostrarMensajeGlobal(String msj) {
         mapa.mostraMensajeGlobal(msj);
     }
-
+    
     public void actualizarFichas() {
         /*ArrayList<Pais> paises= new ArrayList<Pais>();
          Jugador jug = new Jugador();
@@ -153,7 +152,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
          actualizarFicha(jgadores); */
         actualizarFicha(FachadaInterface.getJugadores());
     }
-
+    
     public void cargarInformacionPais(String pais) {
         if (informacion != null) {
             Pais p = obtenerPaisPorNombre(pais);
@@ -162,9 +161,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
             informacion.setDatos(pais, p.getJugador().getNombre(), p.getCantidadEjercitos());
         }
-
+        
     }
-
+    
     private Pais obtenerPaisPorNombre(String nombre) {
         Set<Jugador> jugadores = FachadaInterface.getJugadores();
         for (Jugador jugador : jugadores) {
@@ -177,14 +176,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         return null;
     }
-
+    
     public void mostrarTarjeta(Canjeable tarj) {
         Tarjeta tarjeta = new Tarjeta(tarj.getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
         ubicarGuis(tarjeta, mapa.getWidth() / 2, mapa.getHeight() / 2);
     }
-
+    
     public void cargarDados(String nombreAtacante, String nombreDefensor, int[] ataque, int[] defensa) {
         try {
             dados.setIcon(false);
@@ -195,49 +194,49 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         dados.actualizarNombres(nombreAtacante, nombreDefensor);
         HiloDados hilo = new HiloDados(this, ataque, defensa, dados);
         hilo.start();
-
+        
     }
-
+    
     private Jugador obtenerJugadorActual() {
         return FachadaInterface.getJugadorTurno();
-
+        
     }
-
+    
     private List<ObjetivoSecreto> obtenerObjetivos() {
         return FachadaInterface.obtenerObjetivos();
     }
-
+    
     private ObjetivoSecreto obtenerObjetivo() {
         return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
     }
-
+    
     private ArrayList<Jugador> simularJugadores() {
         ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
         Jugador jugador = new Jugador();
         jugador.setColor(Color.red);
         jugador.setNombre("ebroggi");
         jugador.setNroJugador(0);
-
+        
         jugador.getConjuntoPaises().add(new Pais(1, "Argentina", new Continente(1, "America"), true));
         jugador.getConjuntoPaises().add(new Pais(2, "Chile", new Continente(1, "America"), true));
         jugador.getConjuntoPaises().add(new Pais(3, "Venezuela", new Continente(1, "America"), true));
         jugador.setNroJugador(1);
         jugadores.add(jugador);
-
+        
         jugador = new Jugador();
         jugador.setColor(Color.blue);
         jugador.setNombre("dnievas");
         jugador.getConjuntoPaises().add(new Pais(1, "Argentina", new Continente(1, "America"), true));
         jugador.setNroJugador(2);
         jugadores.add(jugador);
-
+        
         jugador = new Jugador();
         jugador.setColor(Color.black);
         jugador.setNombre("hvalenti");
         jugador.getConjuntoPaises().add(new Pais(2, "Chile", new Continente(1, "America"), true));
         jugador.getConjuntoPaises().add(new Pais(3, "Venezuela", new Continente(1, "America"), true));
         jugadores.add(jugador);
-
+        
         jugador = new Jugador();
         jugador.setColor(Color.green);
         jugador.setNombre("valerio");
@@ -246,20 +245,19 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         jugador.setNroJugador(3);
         jugadores.add(jugador);
         return jugadores;
-
+        
     }
-
+    
     private void agregarGuis() {
         mapa = new InterfaceMapa(this);
         mapa.setVisible(true);
         desktop.add(mapa);
         
-        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
-             chat = new Chat17Pulgadas(this);
-             jugadores = new Jugadores17Pulgadas();
-             seleccion = new Seleccion17Pulgadas();
-        } 
-        else{
+        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800) {
+            chat = new Chat17Pulgadas(this);
+            jugadores = new Jugadores17Pulgadas();
+            seleccion = new Seleccion17Pulgadas();
+        } else {
             chat = new Chat(this);
             jugadores = new Jugadores();
             seleccion = new Seleccion();
@@ -278,24 +276,24 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ubicarGuis(jugadores, mapa.getSize().width, 0);
         ubicarGuis(chat, 0, mapa.getSize().height);
         ubicarGuis(seleccion, chat.getSize().width, jugadores.getSize().height);
-        ubicarGuis(dados, mapa.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
+        ubicarGuis(dados, desktop.getWidth() - dados.getWidth(), mapa.getHeight() - dados.getHeight());
         try {
             dados.setIcon(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(InterfacePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void ubicarGuis(JInternalFrame frame, int ubicacionH, int ubicacionV) {
         frame.setLocation(ubicacionH, ubicacionV);
         frame.setVisible(true);
-
+        
         try {
             frame.setSelected(true);
         } catch (PropertyVetoException ex) {
         }
     }
-
+    
     public void setHiloSonido(HiloSonido hiloSonido) {
         this.hiloSonido = hiloSonido;
     }
@@ -595,11 +593,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         try {
-            File path = new File ("src/reglamento.pdf");
+            File path = new File("src/reglamento.pdf");
             Desktop.getDesktop().open(path);
-       }catch (IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
-       }
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void menuInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInformacionActionPerformed
@@ -621,7 +619,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_menuObjetivosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        
         cargarDados("Emanuel", "Graciela", simularDados((int) Math.floor(Math.random() * 4 + 1)), simularDados((int) Math.floor(Math.random() * 4 + 1)));
         Tarjeta tarj = new Tarjeta("Asia");
         tarj.setVisible(true);
@@ -693,12 +691,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnVerTarjetasActionPerformed
 
     private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
-        if(FachadaInterface.ataquePermitido(paisDesde, paisHasta)){
-            JOptionPane.showMessageDialog(this,"Ataque no permitido","Error", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            FachadaInterface.atacar(paisDesde, paisHasta);
-        }
+        FachadaInterface.atacar(paisDesde, paisHasta);
         btnAtacar.setEnabled(false);
     }//GEN-LAST:event_btnAtacarActionPerformed
 
@@ -765,35 +758,37 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ventanaCanjear.setVisible(true);
     }//GEN-LAST:event_btnCanjearActionPerformed
     private int[] simularDados(int cant) {
-
+        
         int[] dados = new int[cant];
         for (int i = 0; i < cant; i++) {
             dados[i] = (int) Math.floor(Math.random() * 6 + 1);
         }
         return dados;
-
+        
     }
-    public void cerrarVentanaCanjear(){
+
+    public void cerrarVentanaCanjear() {
         canjear = false;
     }
-    public void mostrarTarjetaSituacion(){
+
+    public void mostrarTarjetaSituacion() {
         String nombre = FachadaInterface.getTarjetaSituacion().getNombre();
-        if(tarjetaSituacion == null){
+        if (tarjetaSituacion == null) {
             tarjetaSituacion = new Tarjeta(nombre);
             tarjetaSituacion.setVisible(true);
             desktop.add(tarjetaSituacion);
-            ubicarGuis(tarjetaSituacion,0, mapa.getHeight()-185);
-        }  
-         else{
-             tarjetaSituacion.setVisible(false);
-             tarjetaSituacion = null;
-             mostrarTarjetaSituacion();
-         }
-    }
-    public void cerrarTarjetaSituacion(Tarjeta tar){
-        tarjetaSituacion = null;
+            ubicarGuis(tarjetaSituacion, 0, mapa.getHeight() - 185);
+        } else {
+            tarjetaSituacion.setVisible(false);
+            tarjetaSituacion = null;
+            mostrarTarjetaSituacion();
+        }
     }
 
+    public void cerrarTarjetaSituacion(Tarjeta tar) {
+        tarjetaSituacion = null;
+    }
+    
     public void habilitarBotones() {
         if (esMiTurno()) {
             if (FachadaInterface.atacarPermitido()) {
@@ -803,7 +798,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 btnAtacarMisil.setEnabled(false);
             }
             btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-            btnCanjear.setEnabled(FachadaInterface.canjearPermitido());           
+            btnCanjear.setEnabled(FachadaInterface.canjearPermitido());            
             btnTarjeta.setEnabled(FachadaInterface.solicitarTarjetaPermitido());
             btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());
         } else {
@@ -815,18 +810,18 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             btnCanjear.setEnabled(false);
         }
     }
-
+    
     public void inciarRefuerzo() {
         if (refuerzo == null) {
-            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual(),this);
+            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
-            ubicarGuis(refuerzo, mapa.getWidth(), 0);
+            ubicarGuis(refuerzo, desktop.getWidth() - refuerzo.getWidth(), 0);
         } else {
-
+            
         }
     }
-
+    
     private void habilitarBotonesAtaque() {
         boolean atacar = false;
         boolean misil = false;
@@ -842,9 +837,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         btnAtacar.setEnabled(atacar);
         btnAtacarMisil.setEnabled(misil);
-
+        
     }
-
+    
     private void reagrupar(Pais pais) {
         if (ventanaReagrupar == null) {
             ventanaReagrupar = new Reagrupar(this, false, this);
@@ -852,7 +847,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         ventanaReagrupar.cargarPais(pais);
     }
-
+    
     public void inicioTurno(Jugador jugador) {
         if (jugador.getNroJugador() == FachadaInterface.getJugadorLocal().getNroJugador()) {
             HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
@@ -862,9 +857,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         actualizarJugadores(jugador);
         habilitarBotones();
     }
-
+    
     public void seleccionPais(String p) {
-
+        
         if (!esMiTurno()) {
             return;
         }
@@ -872,14 +867,13 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if (pais == null) {
             return;
         }
-        System.out.println("canjear es "+ canjear);
-        if(canjear){
-               if (FachadaInterface.esMiPais(pais)) {
-                     ventanaCanjear.canjear(pais);
-               }
-         }
-         else{
-             if (reagrupar) {
+        System.out.println("canjear es " + canjear);
+        if (canjear) {
+            if (FachadaInterface.esMiPais(pais)) {
+                ventanaCanjear.canjear(pais);
+            }
+        } else {
+            if (reagrupar) {
                 if (FachadaInterface.esMiPais(pais)) {
                     reagrupar(pais);
                 }
@@ -892,30 +886,30 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                         }
                     }
                 } else {
-                        if (FachadaInterface.esMiPais(pais)) {
+                    if (FachadaInterface.esMiPais(pais)) {
                         paisDesde = pais;
                         seleccion.cargarDesde(pais.getNombre());
-                        } else {
-                            paisHasta = pais;
-                            seleccion.cargarHasta(pais.getNombre());
-                        }
-                        habilitarBotonesAtaque();
+                    } else {
+                        paisHasta = pais;
+                        seleccion.cargarHasta(pais.getNombre());
                     }
-
-              }
-         }
-    }
-
-    private void permitirAtaque() {
-        if (paisDesde != null && paisHasta != null) {
-
+                    habilitarBotonesAtaque();
+                }
+                
+            }
         }
     }
-
+    
+    private void permitirAtaque() {
+        if (paisDesde != null && paisHasta != null) {
+            
+        }
+    }
+    
     private boolean esMiTurno() {
         return FachadaInterface.esMiTurno(FachadaInterface.getJugadorLocal());
     }
-
+    
     public void terminarRefuerzo() {
         refuerzo.dispose();
         refuerzo = null;

@@ -143,13 +143,13 @@ public class ObjetivoSecreto implements Serializable {
             jugadorADestruir = secuencia.getJugadorSiguiente(jugador);
         }
         if (jugadorADestruir != null) {
-            if (jugadorADestruir.getCantidadPaises() > 0) {
+            if (!jugadorADestruir.fueraDeJuego()) {
                 return false;
             }
         }
-        if (jugadorADestruir.getCantidadPaises() > 0) {
-            return false;
-        }
+//        if (jugadorADestruir.getCantidadPaises() > 0) {
+//            return false;
+//        }
         if (islasAOcupar > 0) {
             conjuntoPaises = jugador.obtenerIslasOcupadas();
             conjuntoContinentes = jugador.obtenerContinentesOcupadosConIslas();

@@ -251,6 +251,7 @@ public class Jugador implements Serializable {
     public void usarTarjetas(List<Canjeable> listaTarjetas) {
         for (Canjeable tarjeta : listaTarjetas) {
             if (tarjeta instanceof TarjetaPais) {
+                listaTarjetasPais.remove((TarjetaPais) tarjeta);
                 GestorTarjetas.devolverTarjeta(
                         (TarjetaPais) tarjeta);
             } else {
@@ -263,6 +264,10 @@ public class Jugador implements Serializable {
 
     public boolean comprobarObjetivoSecreto() {
         return objetivoSecreto.comprobarVictoria(this);
+    }
+
+    public boolean fueraDeJuego() {
+        return getCantidadPaises() <= 0;
     }
 
     @Override

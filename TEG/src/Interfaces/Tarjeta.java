@@ -25,7 +25,7 @@ public class Tarjeta extends javax.swing.JInternalFrame {
             lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+tarjeta+".png")));
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Tarjeta no encontrada","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tarjeta no encontrada: " + tarjeta,"Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
     }

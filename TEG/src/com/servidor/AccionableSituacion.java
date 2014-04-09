@@ -8,7 +8,6 @@ package com.servidor;
 import Interfaces.FachadaInterfacePrincipal;
 import cliente.ClienteManager;
 import com.Accionable;
-import juego.Juego;
 import juego.mecanicas.situacion.Situacion;
 import logger.LogItem;
 import servidor.ServerManager;
@@ -23,7 +22,7 @@ public class AccionableSituacion implements Accionable {
 
     public AccionableSituacion(Situacion situacion) {
         this.situacion = situacion;
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem(situacion.toString()));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Nueva situación: " + situacion.getNombre() + ". Efecto:" + situacion.getDescripcion()));
     }
 
     @Override
