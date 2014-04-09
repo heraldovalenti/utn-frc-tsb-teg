@@ -22,7 +22,6 @@ import juego.estructura.TarjetaContinente;
 import juego.estructura.TarjetaPais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
-import juego.mecanicas.turno.SecuenciaTurnos;
 import servidor.ServerManager;
 
 /**
@@ -40,11 +39,11 @@ public class FachadaInterface {
     }
 
     public static boolean atacarPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_ATACAR);
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_ATACAR);
     }
 
     public static boolean finTurnoPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_FINALIZAR_TURNO);
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_FINALIZAR_TURNO);
     }
 
     public static boolean ataquePermitido(Pais atacante, Pais defensa) {
@@ -56,40 +55,39 @@ public class FachadaInterface {
     }
 
     public static void atacar(Pais atacante, Pais defensa) {
-        GestorTurno.atacar(atacante, defensa);
+        GestorTurno.getInstance().atacar(atacante, defensa);
     }
 
     public static void atacarConMisil(Pais atacante, Pais defensa) {
-        GestorTurno.lanzarMisil(atacante, defensa);
+        GestorTurno.getInstance().lanzarMisil(atacante, defensa);
     }
 
     public static void reagrupar(Pais desde, Pais hasta, int cantidadTropas, int cantidadMisiles) {
-        GestorTurno.reagruparEjercitos(desde, hasta, cantidadTropas, cantidadMisiles);
+        GestorTurno.getInstance().reagruparEjercitos(desde, hasta, cantidadTropas, cantidadMisiles);
     }
 
-
     public static boolean canjearTarjetaPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_CANJEAR_TARJETA);
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_CANJEAR_TARJETA);
     }
 
     public static boolean solicitarTarjetaPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_SOLICITAR_TARJETA);
+        return GestorTurno.getInstance().puedePedirTarjetaPais();
     }
 
     public static void solicitarTarjeta() {
-        GestorTurno.solicitarTarjeta(getJugadorLocal());
+        GestorTurno.getInstance().solicitarTarjeta();
     }
 
     public static boolean incorporarEjercitosPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_INCORPORAR_EJERCITOS);
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_INCORPORAR_EJERCITOS);
     }
 
     public static boolean reagruparPermitido() {
-        return GestorTurno.accionPermitida(GestorTurno.ACCION_REAGRUPAR);
+        return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_REAGRUPAR);
     }
 
     public static boolean esMiTurno(Jugador jugador) {
-        return GestorTurno.getEtapaActual() != GestorTurno.FUERA_TURNO;
+        return GestorTurno.getInstance().getEtapaActual() != GestorTurno.FUERA_TURNO;
     }
 
     public static Jugador getJugadorLocal() {
@@ -97,7 +95,7 @@ public class FachadaInterface {
     }
 
     public static Jugador getJugadorTurno() {
-        return GestorTurno.getJugadorActual();
+        return GestorTurno.getInstance().getJugadorActual();
     }
 
     public static Pais obtenerPaisPorNombre(String nombre) {
@@ -109,27 +107,27 @@ public class FachadaInterface {
     }
 
     public static void finalizarTurno() {
-        GestorTurno.finTurno();
+        GestorTurno.getInstance().finTurno();
     }
 
     public static void agregarRefuerzo(Pais pais) {
-        GestorTurno.getRefuerzoActual().agregarEjercito(pais);
+        GestorTurno.getInstance().getRefuerzoActual().agregarEjercito(pais);
     }
 
     public static void agregarMisil(Pais pais) {
-        GestorTurno.getRefuerzoActual().agregarMisil(pais);
+        GestorTurno.getInstance().getRefuerzoActual().agregarMisil(pais);
     }
 
     public static void puedereforzar(Pais pais) {
-        GestorTurno.getRefuerzoActual().puedeReforzar(pais);
+        GestorTurno.getInstance().getRefuerzoActual().puedeReforzar(pais);
     }
 
     public static void aplicarRefuerzo() {
-        GestorTurno.getRefuerzoActual().aplicarRefuerzo();
+        GestorTurno.getInstance().getRefuerzoActual().aplicarRefuerzo();
     }
 
     public static void reiniciarRefuerzo() {
-        GestorTurno.getRefuerzoActual().reiniciar();
+        GestorTurno.getInstance().getRefuerzoActual().reiniciar();
     }
 
     public static void quitarRefuerzo(Pais pais) {
@@ -141,35 +139,32 @@ public class FachadaInterface {
     }
 
     public static ControlRefuerzo getRefuerzoActual() {
-        return GestorTurno.getRefuerzoActual();
+        return GestorTurno.getInstance().getRefuerzoActual();
     }
 
     public static void comenzarReagrupacion() {
-        GestorTurno.setEtapaActual(GestorTurno.ETAPA_REAGRUPAR);
+        GestorTurno.getInstance().comenzarReagrupacion();
     }
-    public static void pasarRefuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
-        //Daniel aca implementas vos
-    }   
-    public static void pedirTarjeta(){
-        
-        
+
+    public static void pasarRefuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
+        GestorTurno.getInstance().movimientoPaisGanado(paisDesde, paisHasta, cantidad);
     }
-    public static void canjearTarjeta(Jugador jugador, List<Canjeable> tarjetas){
-        GestorTurno.canjearTarjetas(jugador, tarjetas);
+
+    public static void pedirTarjeta() {
+        GestorTurno.getInstance().solicitarTarjeta();
     }
-    public static List<Canjeable> obtenerTarjetas(){
-        ClienteManager.getInstance().getJugador().getListaTarjetaContinentes();       
-        List<Canjeable> tarjetas = new ArrayList<>();        
-        for(TarjetaPais tar : ClienteManager.getInstance().getJugador().getListaTarjetasPais()){
-            tarjetas.add((Canjeable) tar);
-        }
-        for(TarjetaContinente tar : ClienteManager.getInstance().getJugador().getListaTarjetaContinentes()){
-            tarjetas.add((Canjeable) tar);
-        }
+
+    public static void canjearTarjeta(Jugador jugador, List<Canjeable> tarjetas) {
+        GestorTurno.getInstance().canjearTarjetas(jugador, tarjetas);
+    }
+
+    public static List<Canjeable> obtenerTarjetas() {
+        List<Canjeable> tarjetas = ClienteManager.getInstance().getJugador().obtenerTarjetas();
         return tarjetas;
     }
-    public static boolean canjeValido(Jugador jugador, List<Canjeable> tarjetas){
+
+    public static boolean canjeValido(Jugador jugador, List<Canjeable> tarjetas) {
         return GestorTarjetas.canjeValido(jugador, tarjetas);
     }
-   
+
 }

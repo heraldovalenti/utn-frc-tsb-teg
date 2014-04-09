@@ -2291,7 +2291,7 @@ public class Mapa extends javax.swing.JPanel {
     }//GEN-LAST:event_lblLabradorMouseClicked
 
     private void lblNewYorkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseClicked
-         principal.seleccionPais("New York");
+         principal.seleccionPais("Nueva York");
     }//GEN-LAST:event_lblNewYorkMouseClicked
 
     private void lblTerranovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTerranovaMouseClicked
@@ -2590,7 +2590,7 @@ public class Mapa extends javax.swing.JPanel {
     }//GEN-LAST:event_lblGroenlandiaMouseEntered
 
     private void lblNewYorkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewYorkMouseEntered
-        principal.cargarInformacionPais("NEW YORK");
+        principal.cargarInformacionPais("NUEVA YORK");
         lblFichaNuevaYork.setVisible(false);
         lblMisilNuevaYork.setVisible(false);
     }//GEN-LAST:event_lblNewYorkMouseEntered

@@ -7,14 +7,12 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.AccionableMensajeGlobal;
-import com.servidor.AccionablePermitirRefuerzo;
-import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.Canjeable;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
-import com.servidor.ActualizadorJugadores;
+import com.servidor.ActualizadorJugador;
 import servidor.ServerManager;
 
 /**
@@ -23,35 +21,23 @@ import servidor.ServerManager;
  */
 public class AccionableCanjeTarjetas implements Accionable {
 
-    private final Jugador jugadorCliente;
+    private final int nroJugador;
     private final List<Canjeable> listaTarjetas;
 
     public AccionableCanjeTarjetas(Jugador jugadorCliente, List<Canjeable> listaTarjetas) {
-        this.jugadorCliente = jugadorCliente;
+        this.nroJugador = jugadorCliente.getNroJugador();
         this.listaTarjetas = listaTarjetas;
     }
 
     @Override
     public void accionar() {
-        if (GestorTarjetas.canjeValido(jugadorCliente, listaTarjetas)) {
-//            Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(jugadorCliente.getNroJugador());
-//            jugadorServidor.canjearTarjetas(listaTarjetas);
-//            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
-//            ServerManager.getInstance().registrarSalida(mensaje);
-//            List<Jugador> listaJugadores = new ArrayList<>(1);
-//            listaJugadores.add(jugadorServidor);
-//            ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
-//            ServerManager.getInstance().registrarSalida(actualizador);
-            Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(jugadorCliente.getNroJugador());
-            int ejercitosAdicionales = GestorTarjetas.calcularEjercitosAdicionales(jugadorServidor.getCantidadCanjes());
+        Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(nroJugador);
+        if (GestorTarjetas.canjeValido(jugadorServidor, listaTarjetas)) {
             jugadorServidor.usarTarjetas(listaTarjetas);
             AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
             ServerManager.getInstance().registrarSalida(mensaje);
-            List<Jugador> listaJugadores = new ArrayList<>(1);
-            listaJugadores.add(jugadorServidor);
-            ActualizadorJugadores actualizador = new ActualizadorJugadores(listaJugadores);
+            ActualizadorJugador actualizador = new ActualizadorJugador(jugadorServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
-            
         }
     }
 

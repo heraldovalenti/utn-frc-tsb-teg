@@ -6,9 +6,9 @@ package Interfaces;
 
 import cliente.ClienteManager;
 import cliente.control.ControlRondaInicialCliente;
+import juego.estructura.Canjeable;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-import juego.estructura.TarjetaPais;
 import logger.LogItem;
 
 /**
@@ -21,8 +21,8 @@ public class FachadaInterfacePrincipal {
         ClienteManager.getInstance().getInterfacePrincipal().cargarChat(chat);
     }
 
-    public static void mostrarTarjeta(TarjetaPais tarjeta) {
-        ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
+    public static void mostrarTarjeta(Canjeable tarjeta) {
+            ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
     }
 
     public static void actualizarMapa() {
@@ -68,7 +68,12 @@ public class FachadaInterfacePrincipal {
     public static void terminarRefuerzo() {
         ClienteManager.getInstance().getInterfacePrincipal().terminarRefuerzo();
     }
-    public static void refuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad){
+
+    public static void refuerzoPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
         ClienteManager.getInstance().getInterfacePrincipal().pasarRefuerzosPaisGanado(paisDesde, paisHasta, cantidad);
+    }
+
+    public static void actualizarEstadoBotones() {
+        ClienteManager.getInstance().getInterfacePrincipal().habilitarBotones();
     }
 }

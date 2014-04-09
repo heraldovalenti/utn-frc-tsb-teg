@@ -12,9 +12,11 @@ import juego.estructura.Pais;
  * @author Emanuel
  */
 public class Reagrupar extends javax.swing.JDialog {
+
     private InterfacePrincipal padre;
     private Pais paisDesde;
     private Pais paisHasta;
+
     /**
      * Creates new form Reagrupar2
      */
@@ -28,50 +30,53 @@ public class Reagrupar extends javax.swing.JDialog {
         inicializar();
         this.padre = padre;
     }
-    public void cargarPais(Pais pais){
-        if(rbDesde.isSelected()){
-            if(pais.getCantidadEjercitos() <=1 && pais.getCantidadMisiles() == 0){
-                JOptionPane.showMessageDialog(this, "No posee cantidad suficiente de tropas ni de misiles", "Tropas y misiles Insuficientes",JOptionPane.WARNING_MESSAGE);
+
+    public void cargarPais(Pais pais) {
+        if (rbDesde.isSelected()) {
+            if (pais.getCantidadEjercitos() <= 1 && pais.getCantidadMisiles() == 0) {
+                JOptionPane.showMessageDialog(this, "No posee cantidad suficiente de tropas ni de misiles", "Tropas y misiles Insuficientes", JOptionPane.WARNING_MESSAGE);
                 paisDesde = null;
-            }
-            else{
+            } else {
                 paisDesde = pais;
                 txtDesde.setText(paisDesde.getNombre());
             }
-        }
-        else{
+        } else {
             paisHasta = pais;
             txtHasta.setText(paisHasta.getNombre());
         }
         validarReagrupacion();
-    }   
-    private void validarReagrupacion(){        
+    }    
+
+    private void validarReagrupacion() {        
         
-        if(paisDesde == null || paisHasta == null){
+        if (paisDesde == null || paisHasta == null) {
             btnReagrupar.setEnabled(false);
             setCantidades(false);
-        }
-        else{
+        } else {
             setCantidades(true);
-            txtCantidadTropas.setMaximum(paisDesde.getCantidadEjercitos()-1);
+            txtCantidadTropas.setMaximum(paisDesde.getCantidadEjercitos() - 1);
             txtCantidadMisil.setMaximum(paisDesde.getCantidadMisiles());
+            btnReagrupar.setEnabled(true);
         }
     }
-    private void setCantidades(boolean enabled){
+
+    private void setCantidades(boolean enabled) {
         txtCantidadTropas.setValue(0);
         txtCantidadTropas.setEnabled(enabled);
         txtCantidadMisil.setValue(0);
         txtCantidadMisil.setEnabled(enabled);
     }
-    private void inicializar(){
+
+    private void inicializar() {
         rbHasta.setSelected(true);
         paisHasta = null;
-        cargarPais(paisHasta);
+        //cargarPais(paisHasta);
         rbDesde.setSelected(true);
         paisDesde = null;
-        cargarPais(paisDesde);       
+        //cargarPais(paisDesde);       
         setCantidades(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,18 +221,17 @@ public class Reagrupar extends javax.swing.JDialog {
     }//GEN-LAST:event_txtHastaActionPerformed
 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
-        if(txtCantidadTropas.getValue() == 0 && txtCantidadMisil.getValue() == 0){
-            JOptionPane.showMessageDialog(this,"Debe ragrupar al menos una tropa o al menos un misil", "Error al reagrupar", JOptionPane.WARNING_MESSAGE);
-           
-        }
-        else{
+        if (txtCantidadTropas.getValue() == 0 && txtCantidadMisil.getValue() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe ragrupar al menos una tropa o al menos un misil", "Error al reagrupar", JOptionPane.WARNING_MESSAGE);
+            
+        } else {
             FachadaInterface.reagrupar(paisDesde, paisHasta, txtCantidadTropas.getValue(), txtCantidadMisil.getValue());
             inicializar();
-        }       
+        }        
     }//GEN-LAST:event_btnReagruparActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-         padre.cerraVentanaReagrupar();
+        padre.cerraVentanaReagrupar();
     }//GEN-LAST:event_formWindowClosing
 
     private void btnFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinActionPerformed
@@ -235,7 +239,7 @@ public class Reagrupar extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnFinActionPerformed
 
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFin;
     private javax.swing.JButton btnReagrupar;

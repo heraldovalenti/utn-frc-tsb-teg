@@ -17,7 +17,7 @@ import juego.estructura.GestorJugadores;
  */
 public class Crisis implements Situacion {
 
-    private List<Jugador> jugadoresEnCrisis;
+    private final List<Jugador> jugadoresEnCrisis;
 
     public Crisis() {
         jugadoresEnCrisis = new ArrayList<>();
@@ -37,14 +37,17 @@ public class Crisis implements Situacion {
         }
     }
 
+    @Override
     public int maximoAtaque() {
         return 3;
     }
 
+    @Override
     public int maximoDefensa() {
         return 3;
     }
 
+    @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
     }
@@ -65,8 +68,41 @@ public class Crisis implements Situacion {
     }
 
     @Override
-    public List<Jugador> jugadoresEnCrisis() {
-        return jugadoresEnCrisis;
+    public boolean puedeReagrupar(Jugador jugador) {
+        return true;
+    }
+
+    @Override
+    public String getNombre() {
+        return "Crisis";
+    }
+
+    @Override
+    public String getDescripcion() {
+        return armarDescripcion();
+    }
+
+    private String armarDescripcion() {
+        int cantidadJugadores = jugadoresEnCrisis.size();
+        StringBuilder builder = new StringBuilder();
+        if (cantidadJugadores == 1) {
+            builder.append("El jugador ");
+            builder.append(jugadoresEnCrisis.get(0));
+            builder.append(" ");
+        } else {
+            builder.append("Los jugadores ");
+            for (int i = 0; i < cantidadJugadores; i++) {
+                builder.append(jugadoresEnCrisis.get(i));
+                if (i + 1 < cantidadJugadores) {
+                    builder.append(", ");
+                } else {
+                    builder.append(" y ");
+                }
+            }
+        }
+        builder.append(" no puede solicitar tarjetas de país");
+        return builder.toString();
+
     }
 
 }

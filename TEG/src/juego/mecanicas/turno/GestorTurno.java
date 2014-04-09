@@ -15,7 +15,7 @@ import com.cliente.AccionableMovimiento;
 import cliente.ClienteManager;
 import cliente.control.ControlRefuerzo;
 import com.cliente.AccionableFinTurno;
-import com.cliente.AccionableSolicitarTarjeta;
+import com.cliente.AccionableSolicitarTarjetaPais;
 import java.util.List;
 import juego.Juego;
 import juego.estructura.Canjeable;
@@ -25,12 +25,16 @@ import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.movimiento.ControlMovimiento;
+import juego.mecanicas.movimiento.ControlMovimientosJugador;
+import juego.mecanicas.situacion.Situacion;
 
 /**
  *
  * @author Daniel
  */
 public class GestorTurno {
+
+    private static GestorTurno instance;
 
     public static final int ETAPA_SOLO_REFUERZOS = 5;
     public static final int FUERA_TURNO = 0;
@@ -47,18 +51,34 @@ public class GestorTurno {
     public static final int ACCION_CANJEAR_EJERCITO_POR_MISIL = 5;
     public static final int ACCION_FINALIZAR_TURNO = 6;
 
-    private static int etapaActual = 0;
-    private static int paisesConquistados = 0;
-    private static boolean canjeRealizado = false;
-    private static boolean tarjetaSolicitada = false;
+    private int etapaActual;
+    private int paisesConquistados;
+    private boolean canjeRealizado;
+    private boolean tarjetaSolicitada;
+    private boolean[][] permisos;
+    private Jugador jugadorActual;
+    private ControlRefuerzo refuerzoActual;
+    private ControlMovimientosJugador movimientosRealizados;
 
-    private static boolean[][] permisos;
+    public GestorTurno() {
+        etapaActual = 0;
+        paisesConquistados = 0;
+        canjeRealizado = false;
+        tarjetaSolicitada = false;
+        refuerzoActual = null;
+        jugadorActual = null;
+        movimientosRealizados = new ControlMovimientosJugador();
+        crearPermisos();
+    }
 
-    private static Jugador jugadorActual;
+    public static GestorTurno getInstance() {
+        if (instance == null) {
+            instance = new GestorTurno();
+        }
+        return instance;
+    }
 
-    private static ControlRefuerzo refuerzoActual;
-
-    public static void crearPermisos() {
+    private void crearPermisos() {
         permisos = new boolean[6][7];
 
         permisos[ETAPA_SOLO_REFUERZOS][ACCION_INCORPORAR_EJERCITOS] = true;
@@ -83,7 +103,7 @@ public class GestorTurno {
         permisos[ETAPA_SOLICITAR_TARJETA][ACCION_FINALIZAR_TURNO] = true;
     }
 
-    public static void atacar(Pais origen, Pais destino) {
+    public void atacar(Pais origen, Pais destino) {
         if (accionPermitida(ACCION_ATACAR)) {
             ControlAtaque control = new ControlAtaque(origen, destino);
             if (control.ataqueValido()) {
@@ -94,13 +114,7 @@ public class GestorTurno {
         }
     }
 
-//    public static void colocarEjercitos(Pais pais, int cantidadEjercitos, int cantidadMisiles) {
-//        if (accionPermitida(ACCION_INCORPORAR_EJERCITOS)) {
-//            AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais, cantidadEjercitos, cantidadMisiles);
-//            ClienteManager.getInstance().registrarSalida(refuerzo);
-//        }
-//    }
-    public static void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
+    public void canjearEjercitosPorMisil(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadEjercitos() > 6 * cantidadMisiles) {
                 AccionableCanjePorMisil canje = new AccionableCanjePorMisil(pais, cantidadMisiles);
@@ -109,7 +123,7 @@ public class GestorTurno {
         }
     }
 
-    public static void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
+    public void canjearMisilPorEjercito(Pais pais, int cantidadMisiles) {
         if (accionPermitida(ACCION_CANJEAR_EJERCITO_POR_MISIL)) {
             if (pais.getCantidadMisiles() >= cantidadMisiles) {
                 AccionableCanjePorEjercitos canje = new AccionableCanjePorEjercitos(pais, cantidadMisiles);
@@ -118,10 +132,14 @@ public class GestorTurno {
         }
     }
 
-    public static void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
+    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_REAGRUPAR)) {
-            ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
+            Situacion situacion = Juego.getInstancia().getSituacion();
+            ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles, situacion, movimientosRealizados);
             if (control.movimientoValido()) {
+                if (movimientosRealizados != null) {
+                    movimientosRealizados.registrarMovimiento(destino, cantidadEjercitos, cantidadMisiles);
+                }
                 AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
                 ClienteManager.getInstance().registrarSalida(movimiento);
                 etapaActual = ETAPA_REAGRUPAR;
@@ -129,7 +147,7 @@ public class GestorTurno {
         }
     }
 
-    public static void lanzarMisil(Pais origen, Pais destino) {
+    public void lanzarMisil(Pais origen, Pais destino) {
         if (accionPermitida(ACCION_ATACAR)) {
             if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3) {
                 AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
@@ -139,7 +157,7 @@ public class GestorTurno {
         }
     }
 
-    public static void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
+    public void canjearTarjetas(Jugador jugador, List<Canjeable> listaTarjetas) {
         if (accionPermitida(ACCION_CANJEAR_TARJETA) && !canjeRealizado) {
             if (GestorTarjetas.canjeValido(jugador, listaTarjetas)) {
                 AccionableCanjeTarjetas canje = new AccionableCanjeTarjetas(jugador, listaTarjetas);
@@ -149,7 +167,84 @@ public class GestorTurno {
         }
     }
 
-    public static void solicitarTarjeta(Jugador jugador) {
+    public void solicitarTarjeta() {
+        Jugador jugador = getJugadorActual();
+        if (puedePedirTarjetaPais()) {
+            AccionableSolicitarTarjetaPais solicitar = new AccionableSolicitarTarjetaPais(jugador);
+            ClienteManager.getInstance().registrarSalida(solicitar);
+            tarjetaSolicitada = true;
+            etapaActual = ETAPA_SOLICITAR_TARJETA;
+            FachadaInterfacePrincipal.actualizarEstadoBotones();
+        }
+    }
+
+    public boolean accionPermitida(int accion) {
+        return permisos[etapaActual][accion];
+    }
+
+    public void finTurno() {
+        etapaActual = 0;
+        paisesConquistados = 0;
+        canjeRealizado = false;
+        tarjetaSolicitada = false;
+        refuerzoActual = null;
+        AccionableFinTurno accionable = new AccionableFinTurno();
+        ClienteManager.getInstance().registrarSalida(accionable);
+    }
+
+    public void registrarPaisConquistado() {
+        paisesConquistados++;
+    }
+
+    public ControlRefuerzo getRefuerzoActual() {
+        return refuerzoActual;
+    }
+
+    public void setRefuerzoActual(ControlRefuerzo control) {
+        refuerzoActual = control;
+        FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
+    }
+
+    public void permitirAtaque() {
+        etapaActual = ETAPA_ATACAR;
+    }
+
+    public Jugador getJugadorActual() {
+        return jugadorActual;
+    }
+
+    public void setJugadorActual(Jugador jugadorActual) {
+        this.jugadorActual = jugadorActual;
+    }
+
+    public int getEtapaActual() {
+        return etapaActual;
+    }
+
+    public void setEtapaActual(int etapaActual) {
+        this.etapaActual = etapaActual;
+    }
+
+    public ControlMovimientosJugador getMovimientosRealizados() {
+        return movimientosRealizados;
+    }
+
+    public void setMovimientosRealizados(ControlMovimientosJugador movimientosRealizados) {
+        this.movimientosRealizados = movimientosRealizados;
+    }
+
+    public void comenzarReagrupacion() {
+        movimientosRealizados = new ControlMovimientosJugador();
+        this.etapaActual = ETAPA_REAGRUPAR;
+    }
+
+    public void movimientoPaisGanado(Pais origen, Pais destino, int cantidadEjercitos) {
+        AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, 0);
+        ClienteManager.getInstance().registrarSalida(movimiento);
+    }
+
+    public boolean puedePedirTarjetaPais() {
+        Jugador jugador = getJugadorActual();
         if (accionPermitida(ACCION_SOLICITAR_TARJETA) && !tarjetaSolicitada && jugador.getCantidadTarjetasPais() < 6 && Juego.getInstancia().getSituacion().puedeObtenerTarjetaPais(jugador)) {
             int canjesRealizados = jugador.getCantidadCanjes();
             boolean res = false;
@@ -159,62 +254,9 @@ public class GestorTurno {
             if (canjesRealizados > 3 && paisesConquistados > 1) {
                 res = true;
             }
-            if (res) {
-                AccionableSolicitarTarjeta solicitar = new AccionableSolicitarTarjeta(jugador);
-                ClienteManager.getInstance().registrarSalida(solicitar);
-                tarjetaSolicitada = true;
-                etapaActual = ETAPA_SOLICITAR_TARJETA;
-            }
+            return res;
         }
-    }
-
-    public static boolean accionPermitida(int accion) {
-        if (permisos == null) {
-            crearPermisos();
-        }
-        return permisos[etapaActual][accion];
-    }
-
-    public static void finTurno() {
-        etapaActual = FUERA_TURNO;
-        paisesConquistados = 0;
-        canjeRealizado = false;
-        tarjetaSolicitada = false;
-        AccionableFinTurno accionable = new AccionableFinTurno();
-        ClienteManager.getInstance().registrarSalida(accionable);
-    }
-
-    public static void aumentarContadorPaisesConquistados() {
-        paisesConquistados++;
-    }
-
-    public static ControlRefuerzo getRefuerzoActual() {
-        return refuerzoActual;
-    }
-
-    public static void setRefuerzoActual(ControlRefuerzo control) {
-        refuerzoActual = control;
-        FachadaInterfacePrincipal.iniciarAgregadoRefuerzo();
-    }
-
-    public static void permitirAtaque() {
-        etapaActual = ETAPA_ATACAR;
-    }
-
-    public static Jugador getJugadorActual() {
-        return jugadorActual;
-    }
-
-    public static void setJugadorActual(Jugador jugadorActual) {
-        GestorTurno.jugadorActual = jugadorActual;
-    }
-
-    public static int getEtapaActual() {
-        return etapaActual;
-    }
-
-    public static void setEtapaActual(int etapaActual) {
-        GestorTurno.etapaActual = etapaActual;
+        return false;
     }
 
 }

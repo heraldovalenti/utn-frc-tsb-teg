@@ -7,12 +7,11 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.AccionableMensajeGlobal;
-import java.util.ArrayList;
-import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import com.servidor.AccionableMostrarDadosAtaque;
+import com.servidor.AccionableSolicitarMovimientoPaisGanado;
 import com.servidor.ActualizadorPais;
 import servidor.ServerManager;
 
@@ -36,6 +35,7 @@ public class AccionableAtaque implements Accionable {
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
         ControlAtaque control = new ControlAtaque(origenServidor, destinoServidor);
         if (control.ataqueValido()) {
+            boolean conquistado = false;
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
             control.atacar(ejercitosAtacantes, ejercitosDefensores);
@@ -46,12 +46,19 @@ public class AccionableAtaque implements Accionable {
             destinoServidor.restarEjercitos(control.perdidasDefensor());
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
+                origenServidor.restarEjercitos(1);
                 destinoServidor.ocuparPais(origenServidor.getJugador());
+                conquistado = true;
             }
             ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
             actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
+            if (conquistado) {
+                int maximoEjercitos = Math.min(origenServidor.getCantidadEjercitos() - 1, 2);
+                AccionableSolicitarMovimientoPaisGanado movimiento = new AccionableSolicitarMovimientoPaisGanado(origenServidor.getJugador(), origenServidor, destinoServidor, maximoEjercitos);
+                ServerManager.getInstance().registrarSalida(movimiento);
+            }
         }
     }
 

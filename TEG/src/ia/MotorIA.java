@@ -50,7 +50,7 @@ public class MotorIA {
     }
 
     public static void faseSolicitarTarjeta(Jugador jugador) {
-        GestorTurno.solicitarTarjeta(jugador);
+//        GestorTurno.getInstance().solicitarTarjeta(jugador);
     }
 
     public static int calcularAmenaza(Pais pais) {
@@ -98,7 +98,7 @@ public class MotorIA {
                     if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
                         Pais blanco = determinarBlanco(pais);
                         if (blanco != null) {
-                            GestorTurno.atacar(pais, blanco);
+                            GestorTurno.getInstance().atacar(pais, blanco);
                             //TODO: probablemente haya que cambiar el accionable para que use la cola de entrada
                         }
                     }
@@ -174,7 +174,7 @@ public class MotorIA {
             if (mapaAmenazas.get(pais) <= 0 && pais.getCantidadEjercitos() > 4) {
                 Pais destino = determinarDestinoRefuerzo(pais);
                 int ejercitos = pais.getCantidadEjercitos() - 2;
-                GestorTurno.reagruparEjercitos(pais, destino, ejercitos, 0);
+                GestorTurno.getInstance().reagruparEjercitos(pais, destino, ejercitos, 0);
                 //TODO: enviarAccionable
             }
         }
@@ -205,7 +205,7 @@ public class MotorIA {
                     paraCanjear.set(0, listaTarjetas.get(i));
                     canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
                     if (canjeValido) {
-                        GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                        GestorTurno.getInstance().canjearTarjetas(jugador, listaTarjetas);
                     }
                 }
             }
@@ -218,7 +218,7 @@ public class MotorIA {
                         paraCanjear.set(1, listaTarjetas.get(j));
                         canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
                         if (canjeValido) {
-                            GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                            GestorTurno.getInstance().canjearTarjetas(jugador, listaTarjetas);
                         }
                     }
                 }
@@ -234,7 +234,7 @@ public class MotorIA {
                             paraCanjear.set(2, listaTarjetas.get(h));
                             canjeValido = GestorTarjetas.canjeValido(jugador, paraCanjear);
                             if (canjeValido) {
-                                GestorTurno.canjearTarjetas(jugador, listaTarjetas);
+                                GestorTurno.getInstance().canjearTarjetas(jugador, listaTarjetas);
                             }
                         }
                     }

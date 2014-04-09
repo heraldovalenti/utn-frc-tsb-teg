@@ -4,28 +4,25 @@
  */
 package juego.mecanicas.situacion;
 
-import java.util.List;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
-
-
 
 /**
  *
  * @author heril
  */
 public class CombateNormal implements Situacion {
-    
+
     @Override
     public int maximoAtaque() {
         return 3;
     }
-    
+
     @Override
     public int maximoDefensa() {
         return 3;
     }
-    
+
     @Override
     public boolean ataquePermitido(Pais atacante, Pais defensor) {
         return true;
@@ -47,8 +44,18 @@ public class CombateNormal implements Situacion {
     }
 
     @Override
-    public List<Jugador> jugadoresEnCrisis() {
-        return null;
+    public boolean puedeReagrupar(Jugador jugador) {
+        return true;
     }
-    
+
+    @Override
+    public String getNombre() {
+        return "Combate clásico";
+    }
+
+    @Override
+    public String getDescripcion() {
+        return "Reglas estándar";
+    }
+
 }

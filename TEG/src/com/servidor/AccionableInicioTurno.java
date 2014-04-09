@@ -30,7 +30,7 @@ public class AccionableInicioTurno implements Accionable {
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(nroJugador);
         ClienteManager.getInstance().getLogger().addLogItem(
                 new LogItem("Inicio turno: " + jugadorCliente));
-        GestorTurno.setJugadorActual(jugadorCliente);
+        GestorTurno.getInstance().setJugadorActual(jugadorCliente);
         FachadaInterfacePrincipal.informarInicioTurno(jugadorCliente);
         FachadaInterfacePrincipal.mostrarMensaje("Turno del jugador: " + jugadorCliente.getNombre());
     }

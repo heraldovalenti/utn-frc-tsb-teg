@@ -29,7 +29,8 @@ public class TarjetaContinente implements Canjeable, Serializable {
     public int getNroTarjeta() {
         return nroTarjeta;
     }
-    public String getNombrePais(){
+    @Override
+    public String getNombre(){
         return continente.getNombre();
     }
 
@@ -74,6 +75,16 @@ public class TarjetaContinente implements Canjeable, Serializable {
     @Override
     public boolean esComodin() {
         return (simbolo == GestorTarjetas.ARMA);
+    }
+
+    @Override
+    public int getNumero() {
+        return nroTarjeta;
+    }
+
+    @Override
+    public boolean esDePais() {
+        return false;
     }
 
 }

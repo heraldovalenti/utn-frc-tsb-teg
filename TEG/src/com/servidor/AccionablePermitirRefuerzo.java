@@ -36,11 +36,11 @@ public class AccionablePermitirRefuerzo implements Accionable {
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(jugadorServidor.getNroJugador());
         if (jugadorCliente.equals(GestorJugadores.getJugadorLocal())) {
             ControlRefuerzo control = new ControlRefuerzo(cantidadEjercitos, ejercitosPorContinente, permitirMisiles);
-            GestorTurno.setRefuerzoActual(control);
+            GestorTurno.getInstance().setRefuerzoActual(control);
             if (permitirMisiles) {
-                GestorTurno.setEtapaActual(GestorTurno.ETAPA_INCORPORAR_EJERCITOS);
+                GestorTurno.getInstance().setEtapaActual(GestorTurno.ETAPA_INCORPORAR_EJERCITOS);
             } else {
-                GestorTurno.setEtapaActual(GestorTurno.ETAPA_SOLO_REFUERZOS);
+                GestorTurno.getInstance().setEtapaActual(GestorTurno.ETAPA_SOLO_REFUERZOS);
             }
         }
     }

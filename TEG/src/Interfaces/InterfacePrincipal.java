@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,13 +14,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import juego.estructura.Canjeable;
 import juego.estructura.Continente;
-import juego.estructura.GestorPaises;
+import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
-import logger.LogChat;
 import logger.LogItem;
 import logger.Loggeable;
 
@@ -60,6 +59,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         agregarGuis();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
+        GestorTarjetas.inicializarGestor();
     }
 
     public void procesarLog(LogItem logItem) {
@@ -67,11 +67,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         chat.cargarChat(logItem.toString() + "\n");
         //}
     }
-    
-    public void pasarRefuerzosPaisGanado(Pais paisDesde,Pais paisHasta, int cantidad){
-        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this,true,paisDesde, paisHasta, cantidad);
+
+    public void pasarRefuerzosPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
+        RefuerzoPaisGanado ventana = new RefuerzoPaisGanado(this, true, paisDesde, paisHasta, cantidad);
         ventana.setVisible(true);
-    }   
+    }
 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
@@ -156,8 +156,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         return null;
     }
 
-    public void mostrarTarjeta(TarjetaPais tarj) {
-        Tarjeta tarjeta = new Tarjeta(tarj.getPais().getNombre());
+    public void mostrarTarjeta(Canjeable tarj) {
+        Tarjeta tarjeta = new Tarjeta(tarj.getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
         ubicarGuis(tarjeta, mapa.getWidth() / 2, mapa.getHeight() / 2);
@@ -696,7 +696,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     }
 
-    private void habilitarBotones() {
+    public void habilitarBotones() {
         if (esMiTurno()) {
             if (FachadaInterface.atacarPermitido()) {
                 habilitarBotonesAtaque();
@@ -705,7 +705,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 btnAtacarMisil.setEnabled(false);
             }
             btnReagrupar.setEnabled(FachadaInterface.reagruparPermitido());
-            btnTarjeta.setEnabled(FachadaInterface.canjearTarjetaPermitido());
+            btnTarjeta.setEnabled(FachadaInterface.solicitarTarjetaPermitido());
             btnFinTurno.setEnabled(FachadaInterface.finTurnoPermitido());
         } else {
             btnAtacar.setEnabled(false);

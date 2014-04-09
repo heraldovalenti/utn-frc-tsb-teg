@@ -4,7 +4,6 @@
  */
 package juego.mecanicas.situacion;
 
-import java.util.List;
 import juego.estructura.GestorContinentes;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
@@ -49,8 +48,18 @@ public class FronterasAbiertas implements Situacion {
     }
 
     @Override
-    public List<Jugador> jugadoresEnCrisis() {
-        return null;
+    public boolean puedeReagrupar(Jugador jugador) {
+        return true;
+    }
+
+    @Override
+    public String getNombre() {
+        return "Fronteras abiertas";
+    }
+
+    @Override
+    public String getDescripcion() {
+        return "Sólo se pueden realizar ataques desde un continente hacia afuera";
     }
 
 }
