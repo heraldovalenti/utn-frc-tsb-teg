@@ -141,8 +141,8 @@ public class MotorIA {
                 }
             }
         }
+        int margen = 0;
         while (ejercitos > 0) {
-            int margen = 0;
             Set<Pais> paises = jugador.getConjuntoPaises();
             for (Pais pais : paises) {
                 int necesidad = calcularNecesidadRefuerzos(pais, margen);
@@ -230,7 +230,12 @@ public class MotorIA {
     public static void canjearTarjetas(Jugador jugador) {
         boolean canjeValido = false;
         List<Canjeable> listaTarjetas = jugador.obtenerTarjetas();
-        List<Canjeable> paraCanjear = new ArrayList<>(5);
+        List<Canjeable> paraCanjear = new ArrayList<>();
+        paraCanjear.add(null);
+        paraCanjear.add(null);
+        paraCanjear.add(null);
+        paraCanjear.add(null);
+        paraCanjear.add(null);
         if (listaTarjetas.size() > 0) {
             for (int i = 0; i < listaTarjetas.size(); i++) {
                 if (!canjeValido) {

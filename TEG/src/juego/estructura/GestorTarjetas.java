@@ -22,7 +22,6 @@ public class GestorTarjetas {
     public static final int[] AVION_SOLDADO_ANCLA = {1 + 2 + 3, 3};
     public static final int[] SOLDADO_ANCLA = {2 + 3, 1};
     public static final int[] AVION_ANCLA = {1 + 3, 1};
-
     private static List<TarjetaPais> listaTarjetasPais = new ArrayList(72);
     private static List<TarjetaContinente> listaTarjetasContinentes = new ArrayList(7);
     private static List<TarjetaPais> listaTarjetasDevultas = new ArrayList<>(72);
@@ -135,6 +134,9 @@ public class GestorTarjetas {
         int peso = 0;
         boolean hayComodines = false;
         for (Canjeable tarjeta : listaTarjetas) {
+            if (tarjeta == null) {
+                continue;
+            }
             if (tarjeta instanceof TarjetaContinente) {
                 TarjetaContinente tarjetaContinente = (TarjetaContinente) tarjeta;
                 if (tarjetaContinente.fueUsada(jugador)) {
