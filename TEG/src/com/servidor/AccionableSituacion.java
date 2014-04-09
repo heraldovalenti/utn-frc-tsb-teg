@@ -5,6 +5,7 @@
  */
 package com.servidor;
 
+import Interfaces.FachadaInterfacePrincipal;
 import cliente.ClienteManager;
 import com.Accionable;
 import juego.Juego;
@@ -17,16 +18,17 @@ import servidor.ServerManager;
  * @author Daniel
  */
 public class AccionableSituacion implements Accionable {
-    
-    private Situacion situacion;
-    
+
+    private final Situacion situacion;
+
     public AccionableSituacion(Situacion situacion) {
         this.situacion = situacion;
         ServerManager.getInstance().getLogger().addLogItem(new LogItem(situacion.toString()));
     }
-    
+
     @Override
     public void accionar() {
         ClienteManager.getInstance().getJuego().setSituacion(situacion);
+        FachadaInterfacePrincipal.mostrarTarjetaSituacion();
     }
 }

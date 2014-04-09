@@ -49,18 +49,11 @@ public class SecuenciaTurnos {
     }
     
     private SecuenciaTurnos() {
-        //  secuencia = new ArrayList<>();
         actual = 0;
         contadorRondas = 1;
         secuencia = new LinkedList<>(GestorJugadores.getJugadores());
         Collections.shuffle(secuencia);
         rondaInicial1 = true;
-//        while (!listaJugadores.isEmpty()) {
-//            double rnd = Math.random();
-//            double dRes = rnd * listaJugadores.size();
-//            int iRes = (int) dRes;
-//            secuencia.add(listaJugadores.remove(iRes));
-//        }
     }
 
     /**
@@ -76,53 +69,14 @@ public class SecuenciaTurnos {
      * Metodo que indica el comienzo de un nuevo turno.
      */
     public void siguienteTurno() {
-
-//        if (esRondaInicial()) {
-//            if (esFinRonda()) {
-//                actual = 0;
-//                if (rondaInicial1) {
-//                    rondaInicial1 = false;
-//                    rondaInicial2 = true;
-//                } else {
-//                    rondaInicial2 = false;
-//                }
-//            } else {
-//                actual++;
-//            }
-//            if (esRondaInicial()) {
-//                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), false);
-//                ServerManager.getInstance().registrarSalida(accionable);
-//            } else {
-//                if (actual == 0) {
-//                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
-//                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
-//                }
-//                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
-//                ServerManager.getInstance().registrarSalida(accionable);
-//            }
-//        } else {
-//            if (esFinRonda()) {
-//                nuevaRonda();
-//            } else {
-//                actual++;
-//            }
-//            if (contadorRondas > 1) {
-//                if (actual == 0) {
-//                    Situacion situacion = GestorSituacion.getInstance().getProximaSituacion();
-//                    ServerManager.getInstance().registrarSalida(new AccionableSituacion(situacion));
-//                }
-//                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), new HashMap<Continente, Integer>(), true);
-//                ServerManager.getInstance().registrarSalida(accionable);
-//            } else {
-//                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
-//                ServerManager.getInstance().registrarSalida(accionable);
-//            }
-//        }
-//        AccionableInicioTurno accionable = new AccionableInicioTurno(getActual());
-//        ServerManager.getInstance().registrarSalida(accionable);
-        if (esRondaSoloRefuerzos()) {
-            if (esFinRonda()) {
-                actual = 0;
+        if (esFinRonda()) {
+            actual = 0;
+            if (rondaDesdeAtaque) {
+                rondaDesdeAtaque = false;
+            }
+            if (!esRondaSoloRefuerzos() && !rondaDesdeAtaque) {
+                nuevaRonda();
+            } else {
                 if (rondaInicial1) {
                     rondaInicial1 = false;
                     rondaInicial2 = true;
@@ -132,35 +86,17 @@ public class SecuenciaTurnos {
                 } else {
                     situacionUtilizada = true;
                 }
-            } else {
-                actual++;
-            }
-            if (!rondaDesdeAtaque) {
-                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), calcularEjercitosPorContinente(getActual()), false);
-                ServerManager.getInstance().registrarSalida(accionable);
-            } else {
-                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
-                ServerManager.getInstance().registrarSalida(accionable);
-            }
-        } else if (rondaDesdeAtaque) {
-            if (esFinRonda()) {
-                nuevaRonda();
-            } else {
-                actual++;
-            }
-            if (rondaDesdeAtaque) {
-                AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
-                ServerManager.getInstance().registrarSalida(accionable);
-            } else {
-                AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), calcularEjercitosPorContinente(getActual()), true);
-                ServerManager.getInstance().registrarSalida(accionable);
             }
         } else {
-            if (esFinRonda()) {
-                nuevaRonda();
-            } else {
-                actual++;
-            }
+            actual++;
+        }
+        if (esRondaSoloRefuerzos()) {
+            AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), calcularEjercitosPorContinente(getActual()), false);
+            ServerManager.getInstance().registrarSalida(accionable);
+        } else if (rondaDesdeAtaque) {
+            AccionablePermitirAtaque accionable = new AccionablePermitirAtaque(getActual());
+            ServerManager.getInstance().registrarSalida(accionable);
+        } else {
             AccionablePermitirRefuerzo accionable = new AccionablePermitirRefuerzo(getActual(), calcularRefuerzosPermitidos(getActual()), calcularEjercitosPorContinente(getActual()), true);
             ServerManager.getInstance().registrarSalida(accionable);
         }
@@ -179,6 +115,8 @@ public class SecuenciaTurnos {
         secuencia.add(aux);
         situacionUtilizada = false;
         rondaDesdeAtaque = false;
+        AccionableSituacion accionable = new AccionableSituacion(GestorSituacion.getInstance().getProximaSituacion());
+        ServerManager.getInstance().registrarSalida(accionable);
     }
 
     /**
@@ -269,7 +207,7 @@ public class SecuenciaTurnos {
                 refuerzos = 4;
             }
         } else {
-            refuerzos = (int) jugador.getCantidadPaises() / 2;
+            refuerzos = jugador.calcularRefuerzosPermitidos();
         }
         return refuerzos;
     }
@@ -296,7 +234,7 @@ public class SecuenciaTurnos {
         if (esRondaInicial()) {
             rondaSoloRefuerzos = true;
         }
-        if (GestorSituacion.getInstance().getProximaSituacion().refuerzosExtra() && !situacionUtilizada) {
+        if (GestorSituacion.getInstance().getSituacionActual().refuerzosExtra() && !situacionUtilizada) {
             rondaSoloRefuerzos = true;
         }
         return rondaSoloRefuerzos;
