@@ -30,7 +30,7 @@ import juego.mecanicas.situacion.Situacion;
 
 /**
  *
- * @author Daniel
+ * @author Santi Nievas y Daniel Nievas
  */
 public class GestorTurno {
 

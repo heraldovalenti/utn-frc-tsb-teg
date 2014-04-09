@@ -22,7 +22,7 @@ public class FachadaInterfacePrincipal {
     }
 
     public static void mostrarTarjeta(Canjeable tarjeta) {
-            ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
+        ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjeta(tarjeta);
     }
 
     public static void actualizarMapa() {
@@ -76,13 +76,16 @@ public class FachadaInterfacePrincipal {
     public static void actualizarEstadoBotones() {
         ClienteManager.getInstance().getInterfacePrincipal().habilitarBotones();
     }
+
     public static void mostrarTarjetaSituacion() {
         ClienteManager.getInstance().getInterfacePrincipal().mostrarTarjetaSituacion();
     }
-    public static void victoria(String mensaje){
+
+    public static void victoria(String mensaje) {
         ClienteManager.getInstance().getInterfacePrincipal().victoria(mensaje);
-    } 
-    public static void derrota(String mensaje){
+    }
+
+    public static void derrota(String mensaje) {
         ClienteManager.getInstance().getInterfacePrincipal().derrota(mensaje);
-    } 
+    }
 }

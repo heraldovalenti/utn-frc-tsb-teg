@@ -22,7 +22,7 @@ public class AccionableSituacion implements Accionable {
 
     public AccionableSituacion(Situacion situacion) {
         this.situacion = situacion;
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Nueva situación: " + situacion.getNombre()));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Nueva situación: " + situacion.getNombre() + ". Efecto:" + situacion.getDescripcion()));
     }
 
     @Override
