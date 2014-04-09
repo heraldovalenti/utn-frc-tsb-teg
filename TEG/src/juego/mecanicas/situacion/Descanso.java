@@ -104,7 +104,7 @@ public class Descanso implements Situacion {
 
     @Override
     public String getNombre() {
-        return "Descanso";
+        return "Descanso " + getNombreColor(color);
     }
 
     @Override
