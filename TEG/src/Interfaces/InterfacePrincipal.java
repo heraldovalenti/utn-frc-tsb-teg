@@ -691,8 +691,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnVerTarjetasActionPerformed
 
     private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
-        FachadaInterface.atacar(paisDesde, paisHasta);
+        if(FachadaInterface.ataquePermitido(paisDesde, paisHasta)){
+            JOptionPane.showMessageDialog(this,"Ataque no permitido","Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            FachadaInterface.atacar(paisDesde, paisHasta);
+        }
         btnAtacar.setEnabled(false);
+		
     }//GEN-LAST:event_btnAtacarActionPerformed
 
     private void btnAtacarMisilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarMisilActionPerformed
@@ -813,7 +819,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     
     public void inciarRefuerzo() {
         if (refuerzo == null) {
-            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
+            refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual(),this);
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
             ubicarGuis(refuerzo, desktop.getWidth() - refuerzo.getWidth(), 0);
