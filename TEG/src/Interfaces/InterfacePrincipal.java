@@ -52,6 +52,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private boolean reagrupar = false;
     private Reagrupar ventanaReagrupar;
     private HiloSonido hiloSonido;
+    private Tarjeta tarjetaSituacion = null;
 
     /**
      * Creates new form GUI
@@ -409,6 +410,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
         btnSituacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/tarjetaIcono.png"))); // NOI18N
         btnSituacion.setText("Situacion");
+        btnSituacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSituacionActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Ver");
 
@@ -703,6 +709,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
         FachadaInterface.pedirTarjeta();
     }//GEN-LAST:event_btnTarjetaActionPerformed
+
+    private void btnSituacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSituacionActionPerformed
+        mostrarTarjetaSituacion();
+    }//GEN-LAST:event_btnSituacionActionPerformed
     private int[] simularDados(int cant) {
 
         int[] dados = new int[cant];
@@ -711,6 +721,23 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         }
         return dados;
 
+    }
+    public void mostrarTarjetaSituacion(){
+        String nombre = FachadaInterface.getTarjetaSituacion().getNombre();
+        if(tarjetaSituacion == null){
+            tarjetaSituacion = new Tarjeta(nombre);
+            tarjetaSituacion.setVisible(true);
+            desktop.add(tarjetaSituacion);
+            ubicarGuis(tarjetaSituacion,0, mapa.getHeight()-185);
+        }  
+         else{
+             tarjetaSituacion.setVisible(false);
+             tarjetaSituacion = null;
+             mostrarTarjetaSituacion();
+         }
+    }
+    public void cerrarTarjetaSituacion(Tarjeta tar){
+        tarjetaSituacion = null;
     }
 
     public void habilitarBotones() {

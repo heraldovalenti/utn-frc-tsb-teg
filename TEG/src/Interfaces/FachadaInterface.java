@@ -21,6 +21,7 @@ import juego.estructura.Pais;
 import juego.estructura.TarjetaContinente;
 import juego.estructura.TarjetaPais;
 import juego.mecanicas.ataque.ControlAtaque;
+import juego.mecanicas.situacion.Situacion;
 import juego.mecanicas.turno.GestorTurno;
 import servidor.ServerManager;
 
@@ -165,6 +166,9 @@ public class FachadaInterface {
 
     public static boolean canjeValido(Jugador jugador, List<Canjeable> tarjetas) {
         return GestorTarjetas.canjeValido(jugador, tarjetas);
+    }
+    public static Situacion getTarjetaSituacion() {
+        return ClienteManager.getInstance().getJuego().getSituacion();
     }
 
 }
