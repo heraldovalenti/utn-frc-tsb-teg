@@ -29,4 +29,10 @@ public class AccionablePermitirAtaque implements Accionable {
             GestorTurno.getInstance().permitirAtaque();
         }
     }
+
+    public int getNroJugador() {
+        return nroJugador;
+    }
+    
+    
 }
