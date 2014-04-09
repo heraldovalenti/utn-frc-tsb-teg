@@ -23,7 +23,14 @@ public class InterfaceMapa extends javax.swing.JInternalFrame {
     public InterfaceMapa(InterfacePrincipal principal) {
         initComponents();
         this.principal = principal;
-        this.setSize(1018, 747);   
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+            this.setSize(1018, 495);
+        }
+        else{
+            this.setSize(1018, 747);
+        }   
+        
+        //this.setSize(518, 347);
         this.setMaximumSize(new Dimension(1018, 747));
         
         obtenerMapa();
