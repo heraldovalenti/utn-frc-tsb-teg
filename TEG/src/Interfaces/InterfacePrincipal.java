@@ -23,7 +23,6 @@ import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
 import juego.estructura.Pais;
-import juego.estructura.TarjetaPais;
 import logger.LogItem;
 import logger.Loggeable;
 
