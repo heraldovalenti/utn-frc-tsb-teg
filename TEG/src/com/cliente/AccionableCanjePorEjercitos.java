@@ -36,8 +36,6 @@ public class AccionableCanjePorEjercitos implements Accionable {
                 new LogItem("Canje de misiles por ejércitos en " + paisServidor.getNombre()));
         paisServidor.añadirEjercitos(cantidadMisiles * 6);
         paisServidor.restarMisiles(cantidadMisiles);
-        AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal("Se han canjeado " + cantidadMisiles + " misiles por " + cantidadMisiles * 6 + " ejércitos en " + paisServidor.getNombre());
-        ServerManager.getInstance().registrarSalida(mensaje);
         ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
         ServerManager.getInstance().registrarSalida(actualizador);
     }

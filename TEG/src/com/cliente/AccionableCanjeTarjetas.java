@@ -40,7 +40,7 @@ public class AccionableCanjeTarjetas implements Accionable {
                 new LogItem("Canje recibido del jugador " + jugadorServidor.getNombre()));
         if (GestorTarjetas.canjeValido(jugadorServidor, listaTarjetas)) {
             jugadorServidor.usarTarjetas(listaTarjetas);
-            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
+            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor.getNombre() + " ha canjeado las tarjetas " + stringTarjetas());
             ServerManager.getInstance().registrarSalida(mensaje);
             ActualizadorJugador actualizador = new ActualizadorJugador(jugadorServidor);
             ServerManager.getInstance().registrarSalida(actualizador);

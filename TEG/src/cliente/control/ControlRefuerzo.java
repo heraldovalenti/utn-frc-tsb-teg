@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import juego.estructura.Continente;
 import juego.estructura.Pais;
-import logger.LogItem;
 
 /**
  *
@@ -136,8 +135,6 @@ public class ControlRefuerzo {
             for (Pais pais : listaPaises) {
                 AccionableRefuerzo refuerzo = new AccionableRefuerzo(pais);
                 ClienteManager.getInstance().registrarSalida(refuerzo);
-                ClienteManager.getInstance().getLogger().addLogItem(
-                        new LogItem("Enviado actualizador refuerzo con " + listaPaises.toString()));
             }
             FachadaInterfacePrincipal.terminarRefuerzo();
             return true;
