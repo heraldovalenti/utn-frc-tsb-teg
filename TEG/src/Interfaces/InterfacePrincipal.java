@@ -39,10 +39,10 @@ import logger.Loggeable;
 public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable {
 
     private InformacionDelPais informacion;
-    private Jugadores jugadores;
+    private IJugadores jugadores;
     private InterfaceMapa mapa;
-    private Chat chat;
-    private Seleccion seleccion;
+    private IChat chat;
+    private ISeleccion seleccion;
     private Dados dados;
     private boolean mostrarFichas = true;
     private boolean mostrarMisiles = true;
@@ -61,7 +61,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
      */
     public InterfacePrincipal() {
         initComponents();
-        this.setSize(1330, 990);
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+            this.setSize(1330, 745);
+        }
+        else{
+            this.setSize(1330, 990);
+        }   
+        
+       
         agregarGuis();
         habilitarBotones();
         ClienteManager.getInstance().setInterfacePrincipal(this);
@@ -246,14 +253,23 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         mapa = new InterfaceMapa(this);
         mapa.setVisible(true);
         desktop.add(mapa);
-        jugadores = new Jugadores();
+        
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800){
+             chat = new Chat17Pulgadas(this);
+             jugadores = new Jugadores17Pulgadas();
+             seleccion = new Seleccion17Pulgadas();
+        } 
+        else{
+            chat = new Chat(this);
+            jugadores = new Jugadores();
+            seleccion = new Seleccion();
+        }
+        
         jugadores.setVisible(true);
         desktop.add(jugadores);
-        chat = new Chat(this);
         chat.setVisible(true);
         desktop.add(chat);
-        seleccion = new Seleccion();
-        mapa.setVisible(true);
+        seleccion.setVisible(true);
         desktop.add(seleccion);
         dados = new Dados();
         dados.setVisible(true);
