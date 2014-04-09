@@ -3,8 +3,11 @@ package Interfaces;
 import cliente.ClienteManager;
 
 import java.awt.Color;
+import java.awt.Desktop;
 
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -291,6 +294,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         btnAtacarMisil = new javax.swing.JButton();
         btnSonido = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
+        btnSituacion = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -313,8 +317,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 jButton1ActionPerformed(evt);
             }
         });
+        desktop.add(jButton1);
         jButton1.setBounds(830, 13, 73, 20);
-        desktop.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -403,9 +407,13 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             }
         });
 
-        jMenu1.setText("Partida");
+        btnSituacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botones/tarjetaIcono.png"))); // NOI18N
+        btnSituacion.setText("Situacion");
 
-        jMenuItem2.setText("Conectar");
+        jMenu1.setText("Ver");
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reglamento.jpg"))); // NOI18N
+        jMenuItem2.setText("Reglamento");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -415,7 +423,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Ver");
+        jMenu2.setText("Juego");
 
         menuObjetivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/objetivo2.jpg"))); // NOI18N
         menuObjetivo.setText("Objetivo");
@@ -485,7 +493,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addComponent(btnMision)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVerTarjetas)
-                .addGap(98, 98, 98)
+                .addGap(7, 7, 7)
+                .addComponent(btnSituacion)
+                .addGap(18, 18, 18)
                 .addComponent(btnAtacar)
                 .addGap(1, 1, 1)
                 .addComponent(btnAtacarMisil)
@@ -500,7 +510,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,7 +522,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
                         .addComponent(btnTarjeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFinTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnMision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVerTarjetas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSituacion))
                         .addComponent(btnAtacarMisil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReagrupar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSonido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -535,7 +547,12 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_menuObjetivoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        System.exit(0);
+        try {
+            File path = new File ("src/reglamento.pdf");
+            Desktop.getDesktop().open(path);
+       }catch (IOException ex) {
+            ex.printStackTrace();
+       }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void menuInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInformacionActionPerformed
@@ -854,6 +871,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private javax.swing.JButton btnMision;
     private javax.swing.JButton btnReagrupar;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnSituacion;
     private javax.swing.JButton btnSonido;
     private javax.swing.JButton btnTarjeta;
     private javax.swing.JButton btnVerTarjetas;
