@@ -82,6 +82,15 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public void cerraVentanaReagrupar() {
         ventanaReagrupar = null;
     }
+    
+    public void victoria(String mensaje){
+        habilitarBotones();
+        new ObjetivoCumplido(this, false,"victoria", mensaje).setVisible(true);
+    }
+    public void derrota(String mensaje){
+        habilitarBotones();
+        new ObjetivoCumplido(this, false,"derrota", mensaje).setVisible(true);
+    }
 
     private void actualizarJugadores(Jugador actual) {
         jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
