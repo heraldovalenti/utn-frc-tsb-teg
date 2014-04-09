@@ -64,7 +64,9 @@ public class AccionableAtaque implements Accionable {
             actualizador = new ActualizadorPais(destinoServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
             if (conquistado) {
-                ControlVictoria.comprobarVictoria();
+                if (ControlVictoria.comprobarVictoria()) {
+                    return;
+                }
                 if (mostrarTarjetaContinente) {
                     TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(origenServidor.getContinente());
                     AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(origenServidor.getJugador(), tarjeta);
