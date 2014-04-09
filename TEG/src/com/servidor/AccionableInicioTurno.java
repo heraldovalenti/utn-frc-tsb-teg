@@ -6,12 +6,10 @@
 package com.servidor;
 
 import Interfaces.FachadaInterfacePrincipal;
-import cliente.ClienteManager;
 import com.Accionable;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import juego.mecanicas.turno.GestorTurno;
-import logger.LogItem;
 
 /**
  *
@@ -28,8 +26,6 @@ public class AccionableInicioTurno implements Accionable {
     @Override
     public void accionar() {
         Jugador jugadorCliente = GestorJugadores.obtenerPorNumero(nroJugador);
-        ClienteManager.getInstance().getLogger().addLogItem(
-                new LogItem("Inicio turno: " + jugadorCliente));
         GestorTurno.getInstance().setJugadorActual(jugadorCliente);
         FachadaInterfacePrincipal.informarInicioTurno(jugadorCliente);
         FachadaInterfacePrincipal.mostrarMensaje("Turno del jugador: " + jugadorCliente.getNombre());

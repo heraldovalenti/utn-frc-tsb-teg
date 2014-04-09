@@ -7,10 +7,8 @@ package com.cliente;
 
 import com.Accionable;
 import com.servidor.ActualizadorPais;
-import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
-import java.util.ArrayList;
 import logger.LogItem;
 import servidor.ServerManager;
 
@@ -33,6 +31,8 @@ public class AccionableRefuerzo implements Accionable {
     @Override
     public void accionar() {
         Pais paisServidor = GestorPaises.getPais(nroPais);
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Refuerzo en " + paisServidor.getNombre() + ". Ejércitos: " + cantidadEjercitos + ", misiles: " + cantidadMisiles));
         paisServidor.setCantidadEjercitos(cantidadEjercitos);
         paisServidor.setCantidadMisiles(cantidadMisiles);
         ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
