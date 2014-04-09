@@ -19,6 +19,7 @@ import juego.estructura.GestorContinentes;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.TarjetaContinente;
+import logger.LogItem;
 import servidor.ServerManager;
 import servidor.control.ControlVictoria;
 
@@ -40,6 +41,8 @@ public class AccionableAtaque implements Accionable {
     public void accionar() {
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Ataque desde " + origenCliente.getNombre() + " a " + destinoServidor.getNombre()));
         ControlAtaque control = new ControlAtaque(origenServidor, destinoServidor);
         if (control.ataqueValido()) {
             boolean conquistado = false;

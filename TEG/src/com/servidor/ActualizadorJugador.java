@@ -5,7 +5,6 @@
  */
 package com.servidor;
 
-import Interfaces.FachadaInterfacePrincipal;
 import cliente.ClienteManager;
 import com.Accionable;
 import java.util.ArrayList;
@@ -24,12 +23,12 @@ import servidor.ServerManager;
  * @author Daniel
  */
 public class ActualizadorJugador implements Accionable {
-    
+
     private final int nroJugador;
     private final int[] tarjetasPais;
     private final int[] tarjetasContinentes;
     private final int cantidadCanjes;
-    
+
     public ActualizadorJugador(Jugador jugador) {
         this.nroJugador = jugador.getNroJugador();
         this.tarjetasPais = new int[jugador.getCantidadTarjetasPais()];
@@ -44,9 +43,9 @@ public class ActualizadorJugador implements Accionable {
             i++;
         }
         ServerManager.getInstance().getLogger().addLogItem(
-                new LogItem("Actualizado jugador. Nombre: " + jugador.getNombre() + " Tarjetas pais: " + jugador.getListaTarjetasPais()));
+                new LogItem("Actualizado jugador: " + jugador.getNombre()));
     }
-    
+
     @Override
     public void accionar() {
         Jugador jugador = GestorJugadores.obtenerPorNumero(nroJugador);
@@ -56,19 +55,11 @@ public class ActualizadorJugador implements Accionable {
             listaTarjetasPais.add(GestorTarjetas.getTarjetaPais(tarjetasPais[i]));
         }
         jugador.setListaTarjetasPais(listaTarjetasPais);
-//        List listaTarjetasContinente = new ArrayList(7);
-//        for (int i = 0; i < tarjetasContinentes.length; i++) {
-//            listaTarjetasPais.add(GestorTarjetas.getTarjetaContinente(tarjetasContinentes[i]));
-//        }
-//        jugador.setConjuntoTarjetaContinentes(listaTarjetasContinente);
         Set conjuntoTarjetasContinente = new HashSet(10);
         for (int i = 0; i < tarjetasContinentes.length; i++) {
             conjuntoTarjetasContinente.add(GestorTarjetas.getTarjetaContinente(tarjetasContinentes[i]));
         }
         jugador.setConjuntoTarjetaContinentes(conjuntoTarjetasContinente);
-        ClienteManager.getInstance().getLogger().addLogItem(
-                new LogItem("Actualizado jugador. Nombre: " + jugador.getNombre() + " Tarjetas pais: " + jugador.getListaTarjetasPais()));
-        
     }
-    
+
 }

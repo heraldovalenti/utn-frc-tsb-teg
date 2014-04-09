@@ -15,8 +15,8 @@ import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import com.servidor.ActualizadorJugador;
 import java.util.HashMap;
-import java.util.Map;
 import juego.estructura.Continente;
+import logger.LogItem;
 import servidor.ServerManager;
 
 /**
@@ -36,9 +36,11 @@ public class AccionableCanjeTarjetas implements Accionable {
     @Override
     public void accionar() {
         Jugador jugadorServidor = GestorJugadores.obtenerPorNumero(nroJugador);
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Canje recibido del jugador " + jugadorServidor.getNombre()));
         if (GestorTarjetas.canjeValido(jugadorServidor, listaTarjetas)) {
             jugadorServidor.usarTarjetas(listaTarjetas);
-            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor + " ha canjeado las tarjetas de " + stringTarjetas() + " por ejércitos");
+            AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(jugadorServidor.getNombre() + " ha canjeado las tarjetas " + stringTarjetas());
             ServerManager.getInstance().registrarSalida(mensaje);
             ActualizadorJugador actualizador = new ActualizadorJugador(jugadorServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
