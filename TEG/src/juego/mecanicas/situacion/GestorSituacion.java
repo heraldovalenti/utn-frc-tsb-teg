@@ -26,6 +26,7 @@ public class GestorSituacion {
     public GestorSituacion() {
         tarjetaActual = 0;
         crearSituaciones();
+        situacionActual = new CombateNormal();
     }
 
     public static GestorSituacion getInstance() {
@@ -64,6 +65,7 @@ public class GestorSituacion {
         listaSituaciones.add(new Descanso(Color.GREEN));
         listaSituaciones.add(new Descanso(Color.YELLOW));
         listaSituaciones.add(new Descanso(Color.RED));
+        Collections.shuffle(listaSituaciones);
     }
 
     private void renovarSituaciones() {
