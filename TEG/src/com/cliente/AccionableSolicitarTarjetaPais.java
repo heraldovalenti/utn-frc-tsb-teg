@@ -5,7 +5,6 @@
  */
 package com.cliente;
 
-import cliente.ClienteManager;
 import com.Accionable;
 import com.servidor.AccionableMostrarTarjeta;
 import com.servidor.ActualizadorJugador;
@@ -42,6 +41,11 @@ public class AccionableSolicitarTarjetaPais implements Accionable {
                     new LogItem("Tarjeta: " + tarjeta.getNombre()));
             ActualizadorJugador actualizador = new ActualizadorJugador(jugador);
             ServerManager.getInstance().registrarSalida(actualizador);
+            if (jugador.getConjuntoPaises().contains(tarjeta.getPais())) {
+                tarjeta.getPais().añadirEjercitos(3);
+                ActualizadorJugador actualizadorPais = new ActualizadorJugador(jugador);
+                ServerManager.getInstance().registrarSalida(actualizadorPais);
+            }
             AccionableMostrarTarjeta accionable = new AccionableMostrarTarjeta(jugador, tarjeta);
             ServerManager.getInstance().registrarSalida(accionable);
         }

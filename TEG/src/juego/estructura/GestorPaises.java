@@ -155,6 +155,7 @@ public class GestorPaises {
         listaPaises.add(new Pais(CHILE, "Chile", GestorContinentes.getContinente(GestorContinentes.AMERICA_SUR), false));
         listaPaises.add(new Pais(CHINA, "China", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
         listaPaises.add(new Pais(CHUKCHI, "Chukchi", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
+        listaPaises.add(new Pais(IRLANDA, "Irlanda", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
         listaPaises.add(new Pais(ETIOPIA, "Etiopia", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
         listaPaises.add(new Pais(EGIPTO, "Egipto", GestorContinentes.getContinente(GestorContinentes.AFRICA), false));
         listaPaises.add(new Pais(EL_SALVADOR, "El Salvador", GestorContinentes.getContinente(GestorContinentes.AMERICA_CENTRAL), false));
@@ -168,7 +169,6 @@ public class GestorPaises {
         listaPaises.add(new Pais(INDIA, "India", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
         listaPaises.add(new Pais(IRAK, "Irak", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
         listaPaises.add(new Pais(IRAN, "Iran", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
-        listaPaises.add(new Pais(IRLANDA, "Irlanda", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
         listaPaises.add(new Pais(ISLANDIA, "Islandia", GestorContinentes.getContinente(GestorContinentes.EUROPA), true));
         listaPaises.add(new Pais(ISLA_VICTORIA, "Isla Victoria", GestorContinentes.getContinente(GestorContinentes.AMERICA_NORTE), true));
         listaPaises.add(new Pais(ISRAEL, "Israel", GestorContinentes.getContinente(GestorContinentes.ASIA), false));
