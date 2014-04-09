@@ -5,8 +5,10 @@
  */
 package ia;
 
-import cliente.control.ControlRefuerzo;
+import com.cliente.AccionableAtaque;
 import com.cliente.AccionableFinTurno;
+import com.cliente.AccionableMovimiento;
+import com.cliente.AccionableSolicitarTarjetaPais;
 import com.servidor.ActualizadorPais;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import juego.estructura.GestorPaises;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
+import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
 import logger.LogItem;
 import servidor.ServerManager;
@@ -50,7 +53,9 @@ public class MotorIA {
     }
 
     public static void faseSolicitarTarjeta(Jugador jugador) {
-//        GestorTurno.getInstance().solicitarTarjeta(jugador);
+        AccionableSolicitarTarjetaPais solicitar = new AccionableSolicitarTarjetaPais(jugador);
+        ServerManager.getInstance().registrarEntrada(solicitar);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": solicitando tarjeta..."));
     }
 
     public static int calcularAmenaza(Pais pais) {
@@ -88,6 +93,7 @@ public class MotorIA {
     }
 
     public static void atacar(Jugador jugador) {
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de etapa de ataque, realizando ataques..."));
         boolean ataqueRealizado = false;
         while (ataqueRealizado) {
             ataqueRealizado = false;
@@ -98,17 +104,25 @@ public class MotorIA {
                     if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
                         Pais blanco = determinarBlanco(pais);
                         if (blanco != null) {
-                            GestorTurno.getInstance().atacar(pais, blanco);
-                            //TODO: probablemente haya que cambiar el accionable para que use la cola de entrada
+                            if (GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_ATACAR)) {
+                                ControlAtaque control = new ControlAtaque(pais, blanco);
+                                if (control.ataqueValido()) {
+                                    AccionableAtaque ataque = new AccionableAtaque(pais, blanco);
+                                    ServerManager.getInstance().registrarEntrada(ataque);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de ataques."));
     }
 
     public static void reforzar(Jugador jugador, int ejercitos, Map<Continente, Integer> ejercitosPorContinente) {
-        ControlRefuerzo control = new ControlRefuerzo(ejercitos, ejercitosPorContinente, false);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de etapa de refuerzo, realizando refuerzos..."));
+        //ControlRefuerzo control = new ControlRefuerzo(ejercitos, ejercitosPorContinente, false);
+        ArrayList<Pais> paisesJugador = new ArrayList(jugador.getConjuntoPaises());
         if (ejercitosPorContinente != null) {
             for (Continente continente : ejercitosPorContinente.keySet()) {
                 int margen = 0;
@@ -116,9 +130,11 @@ public class MotorIA {
                     Set<Pais> paises = jugador.obtenerPaisesDeContinente(continente);
                     for (Pais pais : paises) {
                         int necesidad = calcularNecesidadRefuerzos(pais, margen);
-                        while (necesidad > 0) {
-                            control.agregarEjercito(pais);
+                        while (necesidad > 0 && ejercitos > 0) {
+                            //control.agregarEjercito(pais);
+                            paisesJugador.get(paisesJugador.indexOf(pais)).añadirEjercitos(1);
                             necesidad--;
+                            ejercitos--;
                         }
                     }
                     margen++;
@@ -130,24 +146,34 @@ public class MotorIA {
             Set<Pais> paises = jugador.getConjuntoPaises();
             for (Pais pais : paises) {
                 int necesidad = calcularNecesidadRefuerzos(pais, margen);
-                while (necesidad > 0) {
-                    control.agregarEjercito(pais);
+                while (necesidad > 0 && ejercitos > 0) {
+                    //control.agregarEjercito(pais);
+                    paisesJugador.get(paisesJugador.indexOf(pais)).añadirEjercitos(1);
                     necesidad--;
+                    ejercitos--;
                 }
             }
             margen++;
         }
-        control.aplicarRefuerzo();
+        //control.aplicarRefuerzo();
+        for (Pais p : paisesJugador) {
+            ActualizadorPais actualizador = new ActualizadorPais(p);
+            ServerManager.getInstance().registrarSalida(actualizador);
+        }
+        AccionableFinTurno accionable = new AccionableFinTurno();
+        ServerManager.getInstance().registrarEntrada(accionable);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de refuerzos."));
     }
-    
+
     public static void reforzarRondaInicial(Jugador jugador, int ejercitos) {
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": refuerzo de ronda inicial, realizando refuerzos..."));
         ArrayList<Pais> paisesJugador = new ArrayList(jugador.getConjuntoPaises());
         while (ejercitos > 0) {
-            int indiceRandom = (int)(Math.random() * paisesJugador.size());
+            int indiceRandom = (int) (Math.random() * paisesJugador.size());
             Pais pais = paisesJugador.get(indiceRandom);
             paisesJugador.get(paisesJugador.indexOf(pais)).añadirEjercitos(1);
             ejercitos--;
-            ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre()+ ": pais " + pais.getNombre() + " reforzado..."));
+            ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": pais " + pais.getNombre() + " reforzado..."));
         }
         for (Pais p : paisesJugador) {
             ActualizadorPais actualizador = new ActualizadorPais(p);
@@ -155,7 +181,7 @@ public class MotorIA {
         }
         AccionableFinTurno accionable = new AccionableFinTurno();
         ServerManager.getInstance().registrarEntrada(accionable);
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre()+ ": refuerzo de ronda inicial realizado. Fin de turno de IA."));
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": refuerzo de ronda inicial realizado. Fin de turno de IA."));
     }
 
     public static int calcularNecesidadRefuerzos(Pais pais, int margen) {
@@ -169,6 +195,7 @@ public class MotorIA {
     }
 
     public static void reagrupar(Jugador jugador) {
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de etapa de reagrupe, reagrupando..."));
         Map<Pais, Integer> mapaAmenazas = calcularAmenazasTotales(jugador);
         for (Pais pais : mapaAmenazas.keySet()) {
             if (mapaAmenazas.get(pais) <= 0 && pais.getCantidadEjercitos() > 4) {
@@ -176,8 +203,13 @@ public class MotorIA {
                 int ejercitos = pais.getCantidadEjercitos() - 2;
                 GestorTurno.getInstance().reagruparEjercitos(pais, destino, ejercitos, 0);
                 //TODO: enviarAccionable
+                if (GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_REAGRUPAR)) {
+                    AccionableMovimiento movimiento = new AccionableMovimiento(pais, destino, ejercitos, 0);
+                    ServerManager.getInstance().registrarEntrada(movimiento);
+                }
             }
         }
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de reagrupaciones."));
     }
 
     public static Pais determinarDestinoRefuerzo(Pais origen) {
@@ -242,7 +274,6 @@ public class MotorIA {
             }
         }
     }
-
 //    public static Map<Pais, Integer> calcularNecesidadRefuerzos(Set<Pais> conjuntoPaises) {
 //        Map<Pais, Integer> necesidadRefuerzos = new HashMap<>();
 //        for (Pais pais : conjuntoPaises) {
