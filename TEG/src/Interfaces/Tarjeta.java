@@ -15,17 +15,20 @@ public class Tarjeta extends javax.swing.JInternalFrame {
     /**
      * Creates new form Tarjeta
      */
-    public Tarjeta(String pais) {
+    public Tarjeta(String tarjeta) {
         initComponents();
-        pais =  pais.replaceAll(" ", "");
+        cargarTarjeta(tarjeta);
+        
+    }
+    public void cargarTarjeta(String tarjeta){
+       tarjeta =  tarjeta.replaceAll(" ", "");
         try{
-            lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+pais+".png")));
+            lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+tarjeta+".png")));
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Tarjeta del pais "+pais+" no encontrada","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tarjeta no encontrada","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
     }
 
     /**
