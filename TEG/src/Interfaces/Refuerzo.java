@@ -6,10 +6,12 @@ package Interfaces;
 
 import cliente.control.ControlRefuerzo;
 import java.awt.Component;
+import java.awt.TextField;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import juego.estructura.Continente;
 import juego.estructura.Pais;
 
@@ -17,43 +19,57 @@ import juego.estructura.Pais;
  *
  * @author Emanuel
  */
-public class Refuerzo extends javax.swing.JInternalFrame {   
+public class Refuerzo extends javax.swing.JInternalFrame {
+
     private ControlRefuerzo controlRefuerzo;
+
     /**
      * Creates new form Refuerzo
      */
-   public Refuerzo(ControlRefuerzo controlRefuerzo) {
+    public Refuerzo(ControlRefuerzo controlRefuerzo) {
         initComponents();
-        rbTropa.setSelected(true);       
+        rbTropa.setSelected(true);
         this.controlRefuerzo = controlRefuerzo;
         actualizarTropas(controlRefuerzo.calcularEjercitosPorContinenteDisponibles(), controlRefuerzo.calcularEjercitosLibresDisponibles());
         btnFinalizar.setEnabled(false);
-   }
-   
-   public void actualizarTropas(Map refuerzosPorContinente, int refuerzosDisponibles){        
-        reiniciarTextField();       
+    }
+
+    public void actualizarTropas(Map<Continente, Integer> refuerzosPorContinente, int refuerzosDisponibles) {
+        reiniciarTextField();
         txtLibres.setText(String.valueOf(refuerzosDisponibles));
-        Component[] componentes = jPanel1.getComponents();        
+        Component[] componentes = jPanel1.getComponents();
         int num = 0;
-        String nombre = "";    
+        String nombre = "";
         Iterator it = refuerzosPorContinente.entrySet().iterator();
-        while (it.hasNext()) {
-                Map.Entry e = (Map.Entry)it.next();
-                Continente cont = (Continente)e.getValue();
-                nombre = cont.getNombre();
-                for(int j=0; j<componentes.length;j++){                
-                    if(componentes[j] instanceof JLabel) 
-                    { 
-                        JLabel label = ((JLabel) componentes[j]);
-                        if(label.getName()!=null && nombre.equalsIgnoreCase(label.getName())){
-                              label.setText(String.valueOf((Integer)e.getKey()));
-                        }
-                    } 
-               
+//        while (it.hasNext()) {
+//                Map.Entry e = (Map.Entry)it.next();
+//                Continente cont = (Continente)e.getValue();
+//                nombre = cont.getNombre();
+//                for(int j=0; j<componentes.length;j++){                
+//                    if(componentes[j] instanceof JLabel) 
+//                    { 
+//                        JLabel label = ((JLabel) componentes[j]);
+//                        if(label.getName()!=null && nombre.equalsIgnoreCase(label.getName())){
+//                              label.setText(String.valueOf((Integer)e.getKey()));
+//                        }
+//                    } 
+//               
+//                }
+//        }
+        for (Continente cont : refuerzosPorContinente.keySet()) {
+            nombre = cont.getNombre();
+            for (Component componente : componentes) {
+                if (componente instanceof JTextField) {
+                    JTextField text = (JTextField) componente;
+                    if (text.getName() != null && nombre.equalsIgnoreCase(text.getName())) {
+                        text.setText(String.valueOf((refuerzosPorContinente.get(cont))));
+                    }
                 }
+            }
         }
-   }
-   private void reiniciarTextField(){
+    }
+
+    private void reiniciarTextField() {
         txtLibres.setText(String.valueOf(0));
         txtAfrica.setText(String.valueOf(0));
         txtAmericaNorte.setText(String.valueOf(0));
@@ -61,49 +77,56 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         txtAsia.setText(String.valueOf(0));
         txtEuropa.setText(String.valueOf(0));
         txtOceania.setText(String.valueOf(0));
-   }
-   public void agregarRefuerzo(Pais pais, ControlRefuerzo control){
-       System.out.println("entre");
-       controlRefuerzo = control;
-       if(esTropa()){
-             if(controlRefuerzo.puedeReforzar(pais)){
-                 System.out.println("Puedo agregar en "+pais.getNombre());
-                  controlRefuerzo.agregarEjercito(pais);
-              }
-              else{
-                  System.out.println("No Puedo agregar en "+pais.getNombre());
-                  JOptionPane.showMessageDialog(this, "No puede Agregar mas refuerzos", "Refuerzos", JOptionPane.WARNING_MESSAGE);      
-              }
-        }
-        else{
-              if(controlRefuerzo.puedeReforzarConMisil(pais)){
-                  controlRefuerzo.agregarMisil(pais);
-              }
-              else{
-                  JOptionPane.showMessageDialog(this, "No puede Canjer por un Misil", "Refuerzos con Misil", JOptionPane.WARNING_MESSAGE);
-              }
+    }
+
+    public void agregarRefuerzo(Pais pais, ControlRefuerzo control) {
+        System.out.println("entre");
+        controlRefuerzo = control;
+        if (esTropa()) {
+            if (controlRefuerzo.puedeReforzar(pais)) {
+                System.out.println("Puedo agregar en " + pais.getNombre());
+                controlRefuerzo.agregarEjercito(pais);
+            } else {
+                System.out.println("No Puedo agregar en " + pais.getNombre());
+                JOptionPane.showMessageDialog(this, "No puede Agregar mas refuerzos", "Refuerzos", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            if (controlRefuerzo.puedeReforzarConMisil(pais)) {
+                controlRefuerzo.agregarMisil(pais);
+            } else {
+                JOptionPane.showMessageDialog(this, "No puede Canjer por un Misil", "Refuerzos con Misil", JOptionPane.WARNING_MESSAGE);
+            }
         }
         actualizarTropas(controlRefuerzo.calcularEjercitosPorContinenteDisponibles(), controlRefuerzo.calcularEjercitosLibresDisponibles());
         btnFinalizar.setEnabled(sinRefuerzos());
-   }
-   private boolean sinRefuerzos(){       
-      if(controlRefuerzo.calcularEjercitosLibresDisponibles() !=0){
-           return false;
-      }
-      Map refPorContinente = controlRefuerzo.calcularEjercitosPorContinenteDisponibles();
-      Iterator it = refPorContinente.entrySet().iterator();
-      while(it.hasNext()) {
-            Map.Entry e = (Map.Entry)it.next();
-            if((Integer)e.getKey() != 0){
+    }
+
+    private boolean sinRefuerzos() {
+        if (controlRefuerzo.calcularEjercitosLibresDisponibles() != 0) {
+            return false;
+        }
+//        Map refPorContinente = controlRefuerzo.calcularEjercitosPorContinenteDisponibles();
+//        Iterator it = refPorContinente.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry e = (Map.Entry) it.next();
+//            if ((Integer) e.getKey() != 0) {
+//                return false;
+//            }
+//        }
+        Map<Continente, Integer> mapaContinentes = controlRefuerzo.calcularEjercitosPorContinenteDisponibles();
+        for (Continente continente : mapaContinentes.keySet()) {
+            if (mapaContinentes.get(continente) > 0) {
                 return false;
             }
-      }
-      return true;
+        }
+        return true;
     }
-    public boolean esTropa(){
+
+    public boolean esTropa() {
         return rbTropa.isSelected();
     }
-     /**
+
+    /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -183,7 +206,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
         jLabel7.setText("Oceania:");
 
         txtOceania.setEditable(false);
-        txtOceania.setName("Oceania"); // NOI18N
+        txtOceania.setName("Oceanía"); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
