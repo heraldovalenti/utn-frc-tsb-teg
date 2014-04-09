@@ -816,7 +816,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             refuerzo = new Refuerzo(FachadaInterface.getRefuerzoActual());
             refuerzo.setVisible(true);
             desktop.add(refuerzo);
-            ubicarGuis(refuerzo, mapa.getWidth() - refuerzo.getWidth(), 0);
+            ubicarGuis(refuerzo, desktop.getWidth() - refuerzo.getWidth(), 0);
         } else {
 
         }

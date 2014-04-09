@@ -73,7 +73,7 @@ public class Tarjetas extends javax.swing.JInternalFrame {
             label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tarjetas/"+pais.replaceAll(" ", "")+".png")));
         }
         catch(Exception e){
-            
+            JOptionPane.showMessageDialog(this, "Tarjeta no encontrada: " + pais.replaceAll(" ", "")+".png", "Error",JOptionPane.ERROR_MESSAGE);
         }
     }
     private void limpiarLabels(){      
@@ -87,7 +87,7 @@ public class Tarjetas extends javax.swing.JInternalFrame {
         return FachadaInterface.canjeValido(FachadaInterface.getJugadorLocal(),tarjetasSeleccionadas);
     }
     private boolean cargarTarjetaSeleccionada(Canjeable tarjeta){
-        if(tarjetasSeleccionadas.size() <3){           
+        if(tarjetasSeleccionadas.size() <=3){           
             if(puedoCanjear()){
                 JOptionPane.showMessageDialog(this,"Ya Posee las tarjetas suficientes para realizar un canje", "Canje", JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -273,6 +273,7 @@ public class Tarjetas extends javax.swing.JInternalFrame {
 
     private void btnCanjearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanjearActionPerformed
         FachadaInterface.canjearTarjeta(FachadaInterface.getJugadorLocal(), tarjetasSeleccionadas);
+        boton.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_btnCanjearActionPerformed
 

@@ -9,6 +9,7 @@ import com.Accionable;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
 import com.servidor.ActualizadorPais;
+import logger.LogItem;
 import servidor.ServerManager;
 
 /**
@@ -29,6 +30,8 @@ public class AccionableLanzarMisil implements Accionable {
     public void accionar() {
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Misil lanzado desde " + origenServidor.getNombre() + " hacia " + destinoServidor.getNombre()));
         origenServidor.restarMisiles(1);
         destinoServidor.restarEjercitos(4 - GestorPaises.calcularDistancia(origenServidor, destinoServidor));
         ActualizadorPais actualizador = new ActualizadorPais(origenServidor);

@@ -147,9 +147,9 @@ public class ObjetivoSecreto implements Serializable {
                 return false;
             }
         }
-        if (jugadorADestruir.getCantidadPaises() > 0) {
-            return false;
-        }
+//        if (jugadorADestruir.getCantidadPaises() > 0) {
+//            return false;
+//        }
         if (islasAOcupar > 0) {
             conjuntoPaises = jugador.obtenerIslasOcupadas();
             conjuntoContinentes = jugador.obtenerContinentesOcupadosConIslas();

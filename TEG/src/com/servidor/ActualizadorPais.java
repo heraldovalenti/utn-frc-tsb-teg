@@ -6,13 +6,13 @@
 package com.servidor;
 
 import Interfaces.FachadaInterfacePrincipal;
-import cliente.ClienteManager;
 import com.Accionable;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorPaises;
 import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import logger.LogItem;
+import servidor.ServerManager;
 
 /**
  *
@@ -30,6 +30,8 @@ public class ActualizadorPais implements Accionable {
         this.nroJugador = pais.getJugador().getNroJugador();
         this.cantidadEjercitos = pais.getCantidadEjercitos();
         this.cantidadMisiles = pais.getCantidadMisiles();
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Actualizado país: " + pais.getNombre() + ". Jugador: " + pais.getJugador().getNombre() + ", ejércitos: " + cantidadEjercitos + ", misiles: " + cantidadMisiles));
     }
 
     @Override

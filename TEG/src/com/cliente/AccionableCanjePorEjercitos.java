@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import juego.estructura.GestorPaises;
 import juego.estructura.Pais;
+import logger.LogItem;
 import servidor.ServerManager;
 
 /**
@@ -31,12 +32,12 @@ public class AccionableCanjePorEjercitos implements Accionable {
     @Override
     public void accionar() {
         Pais paisServidor = GestorPaises.getPais(paisCliente.getNroPais());
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Canje de misiles por ejércitos en " + paisServidor.getNombre()));
         paisServidor.añadirEjercitos(cantidadMisiles * 6);
         paisServidor.restarMisiles(cantidadMisiles);
         AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal("Se han canjeado " + cantidadMisiles + " misiles por " + cantidadMisiles * 6 + " ejércitos en " + paisServidor.getNombre());
         ServerManager.getInstance().registrarSalida(mensaje);
-        List listaPaises = new ArrayList(1);
-        listaPaises.add(paisServidor);
         ActualizadorPais actualizador = new ActualizadorPais(paisServidor);
         ServerManager.getInstance().registrarSalida(actualizador);
     }
