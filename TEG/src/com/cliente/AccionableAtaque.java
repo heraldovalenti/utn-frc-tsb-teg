@@ -31,10 +31,19 @@ public class AccionableAtaque implements Accionable {
 
     private final Pais origenCliente;
     private final Pais destinoCliente;
+    private ControlAtaque control;
 
     public AccionableAtaque(Pais origenCliente, Pais destinoCliente) {
         this.origenCliente = origenCliente;
         this.destinoCliente = destinoCliente;
+    }
+    
+    
+
+    public AccionableAtaque(Pais origenCliente, Pais destinoCliente, ControlAtaque control) {
+        this.origenCliente = origenCliente;
+        this.destinoCliente = destinoCliente;
+        this.control = control;
     }
 
     @Override
@@ -43,13 +52,17 @@ public class AccionableAtaque implements Accionable {
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
         ServerManager.getInstance().getLogger().addLogItem(
                 new LogItem("Ataque desde " + origenCliente.getNombre() + " a " + destinoServidor.getNombre()));
-        ControlAtaque control = new ControlAtaque(origenServidor, destinoServidor);
+        if (control == null) {
+            control = new ControlAtaque(origenServidor, destinoServidor);
+        }
         if (control.ataqueValido()) {
             boolean conquistado = false;
             boolean mostrarTarjetaContinente = false;
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
-            control.atacar(ejercitosAtacantes, ejercitosDefensores);
+            if (!control.ataqueRealizado()) {
+                control.atacar(ejercitosAtacantes, ejercitosDefensores);
+            }
             AccionableMensajeGlobal mensaje = new AccionableMensajeGlobal(origenServidor.getNombre() + " ataca a " + destinoServidor.getNombre());
             ServerManager.getInstance().registrarSalida(mensaje);
             AccionableMostrarDadosAtaque dados = new AccionableMostrarDadosAtaque(origenServidor.getJugador().getNombre(), destinoServidor.getJugador().getNombre(), control.dadosAtacante(), control.dadosDefensor());

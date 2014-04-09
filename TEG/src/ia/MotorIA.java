@@ -11,6 +11,7 @@ import com.cliente.AccionableMovimiento;
 import com.cliente.AccionableSolicitarTarjetaPais;
 import com.servidor.ActualizadorPais;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,26 +96,36 @@ public class MotorIA {
     public static void atacar(Jugador jugador) {
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de etapa de ataque, realizando ataques..."));
         boolean ataqueRealizado = false;
-        while (ataqueRealizado) {
-            ataqueRealizado = false;
-            for (Pais pais : jugador.getConjuntoPaises()) {
-                boolean repetir = true;
-                while (repetir) {
-                    repetir = false;
-                    if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
-                        Pais blanco = determinarBlanco(pais);
-                        if (blanco != null) {
-                            if (GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_ATACAR)) {
+        boolean exploracionCompleta = false;
+        while (!ataqueRealizado || !exploracionCompleta) {
+            try {
+                for (Pais pais : jugador.getConjuntoPaises()) {
+                    boolean repetir = true;
+                    while (repetir) {
+                        if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
+                            Pais blanco = determinarBlanco(pais);
+                            if (blanco != null) {
                                 ControlAtaque control = new ControlAtaque(pais, blanco);
                                 if (control.ataqueValido()) {
-                                    AccionableAtaque ataque = new AccionableAtaque(pais, blanco);
+                                    int ejercitosAntesDeAtaque = pais.getCantidadEjercitos();
+                                    control.atacar(control.ataquePermitido(), control.defensaPermitida());
+                                    AccionableAtaque ataque = new AccionableAtaque(pais, blanco, control);
                                     ServerManager.getInstance().registrarEntrada(ataque);
+                                    ataqueRealizado = true;
+                                    int ejercitosLuegoDeAtaque = ejercitosAntesDeAtaque - control.perdidasAtacante();
+                                    repetir = ejercitosLuegoDeAtaque > 1 && !control.paisConquistado();
                                 }
+                            } else {
+                                repetir = false;
                             }
+                        } else {
+                            repetir = false;
                         }
                     }
                 }
+            } catch (ConcurrentModificationException ex) {
             }
+            exploracionCompleta = true;
         }
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de ataques."));
     }

@@ -75,6 +75,20 @@ public class ControlAtaque {
     public int[] dadosDefensor() {
         return ataque.getTiradaDefensa().getTiradas();
     }
+    
+    public boolean ataqueRealizado() {
+        return this.ataque != null;
+    }
+    
+    public boolean paisConquistado() {
+        if (!ataqueRealizado()) {
+            return false;
+        }
+        if (perdidasDefensor() == defensor.getCantidadEjercitos()) {
+            return true;
+        }
+        return false;
+    }
 
 //    /**
 //     * Prueba la funcionalidad de la clase.
