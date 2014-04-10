@@ -51,4 +51,8 @@ public class ControlVictoria {
         AccionableVictoria victoria = new AccionableVictoria(ganador, mensaje);
         ServerManager.getInstance().registrarSalida(victoria);
     }
+    
+    public static boolean juegoTerminado() {
+        return ganador != null;
+    }
 }
