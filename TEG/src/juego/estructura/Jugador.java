@@ -257,6 +257,7 @@ public class Jugador implements Serializable {
             } else {
                 TarjetaContinente tarjetaCont = (TarjetaContinente) tarjeta;
                 tarjetaCont.registrarUso(this);
+                devolverTarjetaContinente(tarjetaCont);
             }
         }
         cantidadCanjes++;
@@ -268,6 +269,11 @@ public class Jugador implements Serializable {
 
     public boolean fueraDeJuego() {
         return getCantidadPaises() <= 0;
+    }
+    
+    public void devolverTarjetaContinente(TarjetaContinente tarjeta){
+        conjuntoTarjetaContinentes.remove(tarjeta);
+        GestorTarjetas.devolverTarjeta(tarjeta);
     }
 
     @Override

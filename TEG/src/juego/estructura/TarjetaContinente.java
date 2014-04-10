@@ -19,6 +19,7 @@ public class TarjetaContinente implements Canjeable, Serializable {
     private Continente continente;
     private int[] simbolo;
     private final Set<Jugador> usadaPor = new HashSet<>(8);
+    private Jugador jugadorActual;
 
     public TarjetaContinente(int nroTarjeta, Continente continente, int[] simbolo) {
         this.nroTarjeta = nroTarjeta;
@@ -29,8 +30,9 @@ public class TarjetaContinente implements Canjeable, Serializable {
     public int getNroTarjeta() {
         return nroTarjeta;
     }
+
     @Override
-    public String getNombre(){
+    public String getNombre() {
         return continente.getNombre();
     }
 
@@ -52,6 +54,14 @@ public class TarjetaContinente implements Canjeable, Serializable {
 
     public void setSimbolo(int[] simbolo) {
         this.simbolo = simbolo;
+    }
+
+    public Jugador getJugadorActual() {
+        return jugadorActual;
+    }
+
+    public void setJugadorActual(Jugador jugadorActual) {
+        this.jugadorActual = jugadorActual;
     }
 
     public void registrarUso(Jugador jugador) {
@@ -86,5 +96,4 @@ public class TarjetaContinente implements Canjeable, Serializable {
     public boolean esDePais() {
         return false;
     }
-
 }

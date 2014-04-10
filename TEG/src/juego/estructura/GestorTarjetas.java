@@ -163,8 +163,18 @@ public class GestorTarjetas {
         return listaTarjetasPais.remove(0);
     }
 
-    public static void devolverTarjeta(TarjetaPais tarjeta) {
-        listaTarjetasDevultas.add(tarjeta);
+    /**
+     * Este método es para ser llamado desde el jugador solamente
+     * @param tarjeta tarjeta a ser devuelta
+     */
+    public static void devolverTarjeta(Canjeable tarjeta) {
+        if (tarjeta instanceof TarjetaPais) {
+            listaTarjetasDevultas.add((TarjetaPais) tarjeta);
+        }
+        if (tarjeta instanceof TarjetaContinente) {
+            TarjetaContinente tarjetaCont = (TarjetaContinente) tarjeta;
+            tarjetaCont.setJugadorActual(null);
+        }
     }
 
     public static void renovarMazo() {
@@ -202,5 +212,11 @@ public class GestorTarjetas {
             }
         }
         return null;
+    }
+
+    public static void entregarTarjetaContinente(Jugador jugador, TarjetaContinente tarjeta) {
+        if (tarjeta.getJugadorActual() == null && !tarjeta.fueUsada(jugador)) {
+            tarjeta.setJugadorActual(jugador);
+        }
     }
 }

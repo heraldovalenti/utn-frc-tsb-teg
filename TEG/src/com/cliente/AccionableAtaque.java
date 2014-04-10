@@ -37,8 +37,6 @@ public class AccionableAtaque implements Accionable {
         this.origenCliente = origenCliente;
         this.destinoCliente = destinoCliente;
     }
-    
-    
 
     public AccionableAtaque(Pais origenCliente, Pais destinoCliente, ControlAtaque control) {
         this.origenCliente = origenCliente;
@@ -70,7 +68,6 @@ public class AccionableAtaque implements Accionable {
             destinoServidor.restarEjercitos(control.perdidasDefensor());
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
-                mostrarTarjetaContinente = mostrarNuevaTarjetaDeContinente(origenServidor, destinoServidor);
                 origenServidor.restarEjercitos(1);
                 destinoServidor.ocuparPais(origenServidor.getJugador());
                 conquistado = true;
@@ -83,11 +80,7 @@ public class AccionableAtaque implements Accionable {
                 if (ControlVictoria.comprobarVictoria()) {
                     return;
                 }
-                if (mostrarTarjetaContinente) {
-                    TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(origenServidor.getContinente());
-                    AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(origenServidor.getJugador(), tarjeta);
-                    ServerManager.getInstance().registrarSalida(mostrar);
-                }
+                resolverTarjetasContinente(origenCliente, destinoCliente, origenCliente.getJugador(), origenServidor.getJugador());
                 int maximoEjercitos = Math.min(origenServidor.getCantidadEjercitos() - 1, 2);
                 AccionableSolicitarMovimientoPaisGanado movimiento = new AccionableSolicitarMovimientoPaisGanado(origenServidor.getJugador(), origenServidor, destinoServidor, maximoEjercitos);
                 ServerManager.getInstance().registrarSalida(movimiento);
@@ -95,20 +88,20 @@ public class AccionableAtaque implements Accionable {
         }
     }
 
-    private boolean mostrarNuevaTarjetaDeContinente(Pais origen, Pais destino) {
-        Jugador jugador = origen.getJugador();
-        Continente continente = origen.getContinente();
-        if (destino.getContinente().equals(continente)) {
-            int cantidad = origen.getJugador().calcularCantidadDePaisesDeContinente(continente);
-            if (cantidad == GestorContinentes.obtenerCantidadPaises(continente) - 1) {
-                TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(continente);
-                if (tarjeta.fueUsada(jugador)) {
-                    return false;
-                } else {
-                    return jugador.añadirTarjetaContinente(tarjeta);
-                }
-            }
+    private void resolverTarjetasContinente(Pais origen, Pais destino, Jugador atacante, Jugador defensor) {
+        if (!origen.getContinente().equals(destino.getContinente())) {
+            return;
         }
-        return false;
+        Continente continente = origen.getContinente();
+        TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(continente);
+        int cantidadPaisesAtacante = atacante.calcularCantidadDePaisesDeContinente(continente);
+        if (cantidadPaisesAtacante == GestorContinentes.obtenerCantidadPaises(continente)) {
+            GestorTarjetas.entregarTarjetaContinente(atacante, tarjeta);
+            AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(atacante, tarjeta);
+            ServerManager.getInstance().registrarSalida(mostrar);
+        }
+        if (tarjeta.getJugadorActual().equals(defensor)) {
+            defensor.devolverTarjetaContinente(tarjeta);
+        }
     }
 }

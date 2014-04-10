@@ -5,6 +5,7 @@
 package juego.mecanicas.turno;
 
 import com.servidor.AccionableInicioTurno;
+import com.servidor.AccionableMostrarTarjeta;
 import com.servidor.AccionablePermitirAtaque;
 import com.servidor.AccionablePermitirRefuerzo;
 import com.servidor.AccionableSituacion;
@@ -21,7 +22,9 @@ import juego.Juego;
 import juego.estructura.Continente;
 import juego.estructura.GestorContinentes;
 import juego.estructura.GestorJugadores;
+import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
+import juego.estructura.TarjetaContinente;
 import juego.mecanicas.situacion.GestorSituacion;
 import servidor.ServerManager;
 import servidor.control.ControlVictoria;
@@ -72,6 +75,7 @@ public class SecuenciaTurnos {
         if (ControlVictoria.juegoTerminado()) {
             return;
         }
+        mostrarTarjetasContinentesPrimeraRonda();
         if (esFinRonda()) {
             actual = 0;
             if (rondaDesdeAtaque) {
@@ -244,7 +248,7 @@ public class SecuenciaTurnos {
         }
         return rondaSoloRefuerzos;
     }
-    
+
     public boolean esRondaDesdeAtaque() {
         return rondaDesdeAtaque;
     }
@@ -330,7 +334,16 @@ public class SecuenciaTurnos {
         }
     }
 
-//    public static void main(String args[]) {
-//        testSecuenciaTurnos();
-//    }
+    private void mostrarTarjetasContinentesPrimeraRonda() {
+        if (rondaInicial1 && actual == 0) {
+            for (Jugador jugador : secuencia) {
+                for (Continente continente : jugador.obtenerContinentesOcupadosCompletos()) {
+                    TarjetaContinente tarjeta = GestorTarjetas.obtenerPorContinente(continente);
+                    jugador.añadirTarjetaContinente(tarjeta);
+                    AccionableMostrarTarjeta accionable = new AccionableMostrarTarjeta(jugador, tarjeta);
+                    ServerManager.getInstance().registrarSalida(accionable);
+                }
+            }
+        }
+    }
 }
