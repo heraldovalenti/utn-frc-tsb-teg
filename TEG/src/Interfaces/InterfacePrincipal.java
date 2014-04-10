@@ -50,6 +50,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private Canjear ventanaCanjear = null;
     private ObjetivoCumplido victoria =null;
     private ObjetivoCumplido derrota =null;
+    private Tarjetas tarjetas = null;
     
 
     /**
@@ -152,10 +153,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
     public void mostrarTarjeta(Canjeable tarj) {
+        if(tarjetas!=null){
+            tarjetas.actualizarTarjetas(FachadaInterface.obtenerTarjetas());
+        }
         Tarjeta tarjeta = new Tarjeta(tarj.getNombre());
         tarjeta.setVisible(true);
         desktop.add(tarjeta);
         ubicarGuis(tarjeta, mapa.getWidth() / 2, mapa.getHeight() / 2);
+        
     }
     
     public void cargarDados(String nombreAtacante, String nombreDefensor, int[] ataque, int[] defensa) {
@@ -231,6 +236,25 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     
     public void setHiloSonido(HiloSonido hiloSonido) {
         this.hiloSonido = hiloSonido;
+    }
+    public boolean validarVentanasAbiertas(){
+        if(tarjetas != null){
+            JOptionPane.showMessageDialog(this, "Debe cerrar la ventana de tarjetas", "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(refuerzo != null){
+            JOptionPane.showMessageDialog(this, "Debe finalizar la etapa de refuerzo", "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(ventanaCanjear != null){
+            JOptionPane.showMessageDialog(this, "Debe finalizar el proceso de canje", "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(ventanaReagrupar != null){
+            JOptionPane.showMessageDialog(this, "Debe finalizar el proceso de reagrupacion", "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -619,6 +643,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnFinTurnoActionPerformed
 
     private void btnReagruparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReagruparActionPerformed
+        if(!validarVentanasAbiertas()){
+            return;
+        }
         reagrupar = true;
         habilitarBotones();
         FachadaInterface.comenzarReagrupacion();
@@ -651,6 +678,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
+        if(!validarVentanasAbiertas()){
+            return;
+        }
         FachadaInterface.pedirTarjeta();
         reagrupar = FachadaInterface.reagruparPermitido();
     }//GEN-LAST:event_btnTarjetaActionPerformed
@@ -668,6 +698,10 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             JOptionPane.showMessageDialog(this, "Debe finalizar el refuerzo actual", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        if(tarjetas != null){
+            JOptionPane.showMessageDialog(this, "Debe cerrar la ventana de tarjetas", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if(!canjear){
             canjear = true;
             ventanaCanjear = new Canjear(this, false, this);
@@ -675,7 +709,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             btnCanjear.setEnabled(false);
         }
     }//GEN-LAST:event_btnCanjearActionPerformed
-    private void verTarjetas(){
+    private void verTarjetas(){      
         boolean canjePermitido;
         if(FachadaInterface.canjearPermitido() && refuerzo == null && ventanaReagrupar == null && ventanaCanjear== null){
             canjePermitido = true;
@@ -683,7 +717,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         else{
             canjePermitido = false;
         }
-        Tarjetas tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas, canjePermitido);
+        tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas, canjePermitido, this);
         jMenuItem1.setEnabled(false);
         btnVerTarjetas.setEnabled(false);
         tarjetas.setVisible(true);
@@ -694,6 +728,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public void cerrarVentanaCanjear() {
         canjear = false;
         btnCanjear.setEnabled(true);
+    }
+    public void cerrarVentanaTarjetas() {
+        tarjetas = null;
     }
 
     public void mostrarTarjetaSituacion() {

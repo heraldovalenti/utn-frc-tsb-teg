@@ -25,10 +25,11 @@ public class Tarjetas extends javax.swing.JInternalFrame {
     private JButton boton;
     private List<Canjeable> tarjetasSeleccionadas = new ArrayList<Canjeable>();    
     private boolean canjePermitido;
+    private InterfacePrincipal padre;
     /**
      * Creates new form Tarjetas
      */
-    public Tarjetas(List<Canjeable> tarjetas, JMenuItem menu, JButton boton, boolean canjePermitido) {
+    public Tarjetas(List<Canjeable> tarjetas, JMenuItem menu, JButton boton, boolean canjePermitido, InterfacePrincipal padre) {
         initComponents();
         this.tarjetas = (ArrayList)tarjetas;
         limpiarLabels();
@@ -37,8 +38,13 @@ public class Tarjetas extends javax.swing.JInternalFrame {
         deshabilitarChecks();
         btnCanjear.setEnabled(false);
         this.canjePermitido = canjePermitido;
+        this.padre = padre;
         cargarTarjetas();   
   
+    }
+    public void actualizarTarjetas(List<Canjeable> tarjetas){
+        this.tarjetas = (ArrayList)tarjetas;
+        cargarTarjetas();
     }
     private void cargarTarjetas(){
         if(tarjetas == null) return;        
@@ -389,11 +395,13 @@ public class Tarjetas extends javax.swing.JInternalFrame {
         FachadaInterface.canjearTarjeta(FachadaInterface.getJugadorLocal(), tarjetasSeleccionadas);
         boton.setEnabled(true);
         this.dispose();
+        padre.cerraVentanaReagrupar();
     }//GEN-LAST:event_btnCanjearActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
        menu.setEnabled(true);
        boton.setEnabled(true);
+       padre.cerrarVentanaTarjetas();
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void chkTarjeta5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTarjeta5ActionPerformed

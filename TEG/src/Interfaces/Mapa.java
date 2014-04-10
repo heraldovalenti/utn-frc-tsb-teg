@@ -1996,6 +1996,7 @@ public class Mapa extends javax.swing.JPanel {
         add(panelOceania, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 230, 240));
 
         panelAsia2.setOpaque(false);
+        panelAsia2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblIrak.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblIrak.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2006,38 +2007,17 @@ public class Mapa extends javax.swing.JPanel {
                 lblIrakMouseEntered(evt);
             }
         });
+        panelAsia2.add(lblIrak, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 29, 50));
 
         lblFichaIrak.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFichaIrak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fichas/fichaRoja8.png"))); // NOI18N
         lblFichaIrak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblFichaIrak.setName("Irak"); // NOI18N
+        panelAsia2.add(lblFichaIrak, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         lblMisilIrak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/misil/misilRoja.png"))); // NOI18N
         lblMisilIrak.setName("MisilIrak"); // NOI18N
-
-        javax.swing.GroupLayout panelAsia2Layout = new javax.swing.GroupLayout(panelAsia2);
-        panelAsia2.setLayout(panelAsia2Layout);
-        panelAsia2Layout.setHorizontalGroup(
-            panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAsia2Layout.createSequentialGroup()
-                .addGroup(panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(lblFichaIrak)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAsia2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblMisilIrak)))
-                .addContainerGap(11, Short.MAX_VALUE))
-        );
-        panelAsia2Layout.setVerticalGroup(
-            panelAsia2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAsia2Layout.createSequentialGroup()
-                .addComponent(lblMisilIrak, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblIrak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFichaIrak)
-                .addGap(31, 31, 31))
-        );
+        panelAsia2.add(lblMisilIrak, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
         add(panelAsia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, 40, 80));
 
@@ -2576,6 +2556,7 @@ public class Mapa extends javax.swing.JPanel {
     private void lblOregonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOregonMouseEntered
         principal.cargarInformacionPais("OREGON");
         lblMisilOregon.setVisible(false);
+        lblFichaOregon.setVisible(false);
     }//GEN-LAST:event_lblOregonMouseEntered
 
     private void lblFloridaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFloridaMouseEntered
