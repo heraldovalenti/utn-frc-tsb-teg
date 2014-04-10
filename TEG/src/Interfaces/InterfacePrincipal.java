@@ -568,12 +568,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_menu5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Tarjetas tarjetas = new Tarjetas(null, jMenuItem1, btnVerTarjetas);
-        jMenuItem1.setEnabled(false);
-        btnVerTarjetas.setEnabled(false);
-        tarjetas.setVisible(true);
-        desktop.add(tarjetas);
-        ubicarGuis(tarjetas, mapa.getWidth() / 2, mapa.getHeight() / 2);
+        verTarjetas();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnMisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMisionActionPerformed
@@ -591,12 +586,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnMisionActionPerformed
 
     private void btnVerTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTarjetasActionPerformed
-        Tarjetas tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas);
-        jMenuItem1.setEnabled(false);
-        btnVerTarjetas.setEnabled(false);
-        tarjetas.setVisible(true);
-        desktop.add(tarjetas);
-        ubicarGuis(tarjetas, mapa.getWidth() / 2, mapa.getHeight() / 2);
+        verTarjetas();
     }//GEN-LAST:event_btnVerTarjetasActionPerformed
 
     private void btnAtacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtacarActionPerformed
@@ -685,7 +675,22 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             btnCanjear.setEnabled(false);
         }
     }//GEN-LAST:event_btnCanjearActionPerformed
-   
+    private void verTarjetas(){
+        boolean canjePermitido;
+        if(FachadaInterface.canjearPermitido() && refuerzo == null && ventanaReagrupar == null && ventanaCanjear== null){
+            canjePermitido = true;
+        }
+        else{
+            canjePermitido = false;
+        }
+        Tarjetas tarjetas = new Tarjetas(FachadaInterface.obtenerTarjetas(), jMenuItem1, btnVerTarjetas, canjePermitido);
+        jMenuItem1.setEnabled(false);
+        btnVerTarjetas.setEnabled(false);
+        tarjetas.setVisible(true);
+        desktop.add(tarjetas);
+        ubicarGuis(tarjetas, mapa.getWidth() / 2, mapa.getHeight() / 2);
+    }
+            
     public void cerrarVentanaCanjear() {
         canjear = false;
         btnCanjear.setEnabled(true);
