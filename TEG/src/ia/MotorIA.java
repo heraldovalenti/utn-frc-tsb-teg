@@ -127,7 +127,8 @@ public class MotorIA {
             try {
                 for (Pais pais : jugador.getConjuntoPaises()) {
                     boolean repetir = true;
-                    while (repetir) {
+                    //while por if
+                    if (repetir) {
                         if (ControlVictoria.juegoTerminado()) {
                             return;
                         }
@@ -142,6 +143,9 @@ public class MotorIA {
                                     ServerManager.getInstance().registrarEntrada(ataque);
                                     ataqueRealizado = true;
                                     int ejercitosLuegoDeAtaque = ejercitosAntesDeAtaque - control.perdidasAtacante();
+                                    if (ejercitosLuegoDeAtaque < 1) {
+                                        ejercitosLuegoDeAtaque = 1;
+                                    }
                                     repetir = ejercitosLuegoDeAtaque > 1 && !control.paisConquistado();
                                 } else {
                                     repetir = false;
