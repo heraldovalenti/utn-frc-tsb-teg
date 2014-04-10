@@ -5,14 +5,11 @@
 package servidor.ia;
 
 import com.Accionable;
-import com.cliente.AccionableFinTurno;
 import com.servidor.AccionablePermitirAtaque;
 import com.servidor.AccionablePermitirRefuerzo;
 import ia.MotorIA;
 import juego.estructura.GestorJugadores;
-import logger.LogItem;
 import servidor.ConexionCliente;
-import servidor.ServerManager;
 
 /**
  *
@@ -30,33 +27,19 @@ public class ClienteIA extends ConexionCliente {
     @Override
     public void enviar(Accionable a) {
         /*
-         * verificar si el accionable enviado debe ser provesado por la unidad
+         * verificar si el accionable enviado debe ser procesado por la unidad
          * de IA e implementar cada funcion.
          */
-        if (primeraRondaFinalizada) {
-            if (a instanceof AccionablePermitirRefuerzo) {
-                AccionablePermitirRefuerzo permitirRefuerzo = (AccionablePermitirRefuerzo) a;
-                if (permitirRefuerzo.getJugadorServidor().getNroJugador() == this.getId()) {
-                    MotorIA.turnoIA(permitirRefuerzo.getJugadorServidor(), permitirRefuerzo.getCantidadEjercitos(), permitirRefuerzo.getEjercitosPorContinente());
-                }
+        if (a instanceof AccionablePermitirRefuerzo) {
+            AccionablePermitirRefuerzo permitirRefuerzo = (AccionablePermitirRefuerzo) a;
+            if (permitirRefuerzo.getJugadorServidor().getNroJugador() == this.getId()) {
+                MotorIA.turnoIA(permitirRefuerzo.getJugadorServidor(), permitirRefuerzo.getCantidadEjercitos(), permitirRefuerzo.getEjercitosPorContinente());
             }
-        } else {
-            if (a instanceof AccionablePermitirRefuerzo) {
-                AccionablePermitirRefuerzo permitirRefuerzo = (AccionablePermitirRefuerzo) a;
-                if (permitirRefuerzo.getJugadorServidor().getNroJugador() == this.getId()) {
-                    MotorIA.reforzarRondaInicial(permitirRefuerzo.getJugadorServidor(), permitirRefuerzo.getCantidadEjercitos());
-                }
-            }
-            if (a instanceof AccionablePermitirAtaque) {
-                AccionablePermitirAtaque permitirAtaque = (AccionablePermitirAtaque) a;
-                if (permitirAtaque.getNroJugador() == this.getId()) {
-                    MotorIA.atacar(GestorJugadores.obtenerPorNumero(permitirAtaque.getNroJugador()));
-                    MotorIA.reagrupar(GestorJugadores.obtenerPorNumero(permitirAtaque.getNroJugador()));
-                    AccionableFinTurno accionable = new AccionableFinTurno();
-                    ServerManager.getInstance().registrarEntrada(accionable);
-                    ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + GestorJugadores.obtenerPorNumero(permitirAtaque.getNroJugador()).getNombre() + ": Fin de turno de IA."));
-                    primeraRondaFinalizada = true;
-                }
+        }
+        if (a instanceof AccionablePermitirAtaque) {
+            AccionablePermitirAtaque permitirAtaque = (AccionablePermitirAtaque) a;
+            if (permitirAtaque.getNroJugador() == this.getId()) {
+                MotorIA.turnoIA(GestorJugadores.obtenerPorNumero(permitirAtaque.getNroJugador()), 0, null);
             }
         }
     }
