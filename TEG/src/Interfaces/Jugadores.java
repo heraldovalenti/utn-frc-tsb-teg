@@ -41,26 +41,32 @@ public class Jugadores extends IJugadores {
             case(0): txtColor1.setBackground(jugador.getColor());
                      txtJugador1.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador1);
+                     setFuenteJugadorLocal(jugador, txtJugador1);
                      break;
             case(1): txtColor2.setBackground(jugador.getColor());
                      txtJugador2.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador2);
+                     setFuenteJugadorLocal(jugador, txtJugador2);
                      break;
             case(2): txtColor3.setBackground(jugador.getColor());
                      txtJugador3.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador3);
+                     setFuenteJugadorLocal(jugador, txtJugador3);
                      break;
             case(3): txtColor4.setBackground(jugador.getColor());
                      txtJugador4.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador4);
+                     setFuenteJugadorLocal(jugador, txtJugador4);
                      break;
             case(4): txtColor5.setBackground(jugador.getColor());
                      txtJugador5.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador5);
+                     setFuenteJugadorLocal(jugador, txtJugador5);
                      break;
             case(5): txtColor6.setBackground(jugador.getColor());
                      txtJugador6.setText(jugador.getNombre());
                      cambiarColor(jugador, txtJugador6);
+                     setFuenteJugadorLocal(jugador, txtJugador6);
                      break;    
         }
             i++;
@@ -69,11 +75,17 @@ public class Jugadores extends IJugadores {
     }  
     private void cambiarColor(Jugador jugador, JTextField txt){
         if(jugador.equals(jugadorTurno)){
-             txt.setBackground(colorTurno);
+             txt.setBackground(colorTurno);             
          }
          else{
              txt.setBackground(colorNoTurno);
+             
          }
+    }
+    private void setFuenteJugadorLocal(Jugador jugador, JTextField txt){
+        if(FachadaInterface.getJugadorLocal().equals(jugador)){
+             txt.setFont(new java.awt.Font("Tahoma",java.awt.Font.BOLD , 11));
+        }
     }
     private void habilitarTxt(JTextField color, JTextField jugador, boolean habilitar){
         color.setVisible(habilitar);
@@ -122,6 +134,7 @@ public class Jugadores extends IJugadores {
                 int[] cantidad = obtenerCantidadTotalTropas(jugador);
                 txtCantidadTropas.setText(String.valueOf(cantidad[0]));
                 txtCantidadTropasDisponibles.setText(String.valueOf(cantidad[1]));
+                jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del Jugador "+jugador.getNombre()+":"));
             }
         }
     }
