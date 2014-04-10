@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class GestorTarjetas {
 
-    public static final int[] ARMA = {0, 1};
+    public static final int[] ARMA = {0, 3};
     public static final int[] AVION = {1, 1};
     public static final int[] SOLDADO = {2, 1};
     public static final int[] ANCLA = {3, 1};
-    public static final int[] AVION_SOLDADO_ANCLA = {1 + 2 + 3, 3};
+    public static final int[] AVION_SOLDADO_ANCLA = {1 + 2 + 3, 1};
     public static final int[] SOLDADO_ANCLA = {2 + 3, 1};
     public static final int[] AVION_ANCLA = {1 + 3, 1};
     private static List<TarjetaPais> listaTarjetasPais = new ArrayList(72);
