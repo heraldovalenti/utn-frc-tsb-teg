@@ -24,6 +24,7 @@ import juego.estructura.Jugador;
 import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
+import juego.mecanicas.turno.SecuenciaTurnos;
 import logger.LogItem;
 import servidor.ServerManager;
 import servidor.control.ControlVictoria;
@@ -38,10 +39,28 @@ public class MotorIA {
         if (ControlVictoria.juegoTerminado()) {
             return;
         }
-        faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
-        faseAtaque(jugador);
-        faseReagrupamiento(jugador);
-        faseSolicitarTarjeta(jugador);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de turno..."));
+        if (SecuenciaTurnos.getInstancia().esRondaSoloRefuerzos()) {
+            faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
+        } else if (SecuenciaTurnos.getInstancia().esRondaDesdeAtaque()) {
+            faseAtaque(jugador);
+            if (ControlVictoria.juegoTerminado()) {
+                return;
+            }
+            faseReagrupamiento(jugador);
+            faseSolicitarTarjeta(jugador);
+        } else {
+            faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
+            faseAtaque(jugador);
+            if (ControlVictoria.juegoTerminado()) {
+                return;
+            }
+            faseReagrupamiento(jugador);
+            faseSolicitarTarjeta(jugador);
+        }
+        AccionableFinTurno accionable = new AccionableFinTurno();
+        ServerManager.getInstance().registrarEntrada(accionable);
+        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de turno."));
     }
 
     public static void faseRefuerzo(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
@@ -101,11 +120,17 @@ public class MotorIA {
         ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": inicio de etapa de ataque, realizando ataques..."));
         boolean ataqueRealizado = false;
         boolean exploracionCompleta = false;
-        while (!ataqueRealizado || !exploracionCompleta) {
+        while (!ataqueRealizado) {
+            if (exploracionCompleta) {
+                return;
+            }
             try {
                 for (Pais pais : jugador.getConjuntoPaises()) {
                     boolean repetir = true;
                     while (repetir) {
+                        if (ControlVictoria.juegoTerminado()) {
+                            return;
+                        }
                         if (pais.getCantidadEjercitos() > calcularAmenaza(pais)) {
                             Pais blanco = determinarBlanco(pais);
                             if (blanco != null) {
@@ -127,11 +152,12 @@ public class MotorIA {
                         }
                     }
                 }
+                exploracionCompleta = true;
             } catch (ConcurrentModificationException ex) {
+                exploracionCompleta = false;
             }
-            exploracionCompleta = true;
         }
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de ataques."));
+//        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de ataques."));
     }
 
     public static void reforzar(Jugador jugador, int ejercitos, Map<Continente, Integer> ejercitosPorContinente) {
@@ -175,9 +201,9 @@ public class MotorIA {
             ActualizadorPais actualizador = new ActualizadorPais(p);
             ServerManager.getInstance().registrarSalida(actualizador);
         }
-        AccionableFinTurno accionable = new AccionableFinTurno();
-        ServerManager.getInstance().registrarEntrada(accionable);
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de refuerzos."));
+//        AccionableFinTurno accionable = new AccionableFinTurno();
+//        ServerManager.getInstance().registrarEntrada(accionable);
+//        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de etapa de refuerzos."));
     }
 
     public static void reforzarRondaInicial(Jugador jugador, int ejercitos) {
@@ -224,7 +250,7 @@ public class MotorIA {
                 }
             }
         }
-        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de reagrupaciones."));
+//        ServerManager.getInstance().getLogger().addLogItem(new LogItem("Turno de " + jugador.getNombre() + ": fin de reagrupaciones."));
     }
 
     public static Pais determinarDestinoRefuerzo(Pais origen) {
