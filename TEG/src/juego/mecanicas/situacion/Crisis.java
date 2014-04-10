@@ -87,12 +87,12 @@ public class Crisis implements Situacion {
         StringBuilder builder = new StringBuilder();
         if (cantidadJugadores == 1) {
             builder.append("El jugador ");
-            builder.append(jugadoresEnCrisis.get(0));
+            builder.append(jugadoresEnCrisis.get(0).getNombre());
             builder.append(" ");
         } else {
             builder.append("Los jugadores ");
             for (int i = 0; i < cantidadJugadores; i++) {
-                builder.append(jugadoresEnCrisis.get(i));
+                builder.append(jugadoresEnCrisis.get(i).getNombre());
                 if (i + 1 < cantidadJugadores) {
                     builder.append(", ");
                 } else {
