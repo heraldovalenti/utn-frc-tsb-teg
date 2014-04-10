@@ -93,7 +93,7 @@ public class ControlInicioJuego {
 
     private static void inicializarObjetivosSecretos() {
         Set<Jugador> jugadores = GestorJugadores.getJugadores();
-        LinkedList<ObjetivoSecreto> objetivos = new LinkedList<>(GestorObjetivosSecretos.getListaObjetivos());
+        LinkedList<ObjetivoSecreto> objetivos = new LinkedList<>(GestorObjetivosSecretos.getListaObjetivos(GestorJugadores.getCantidadJugadores()));
         Collections.shuffle(objetivos);
         for (Jugador j : jugadores) {
             ObjetivoSecreto objetivo = objetivos.removeFirst();
