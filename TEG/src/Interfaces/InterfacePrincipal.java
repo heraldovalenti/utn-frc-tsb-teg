@@ -88,6 +88,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if(victoria == null){
              habilitarBotones();
              victoria=  new ObjetivoCumplido(this, false, "victoria", mensaje);
+             victoria.setLocationRelativeTo(null);
              victoria.setVisible(true);
         }
        
@@ -97,6 +98,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         if(derrota == null){
              habilitarBotones();
              derrota=  new ObjetivoCumplido(this, false, "derrota", mensaje);
+             derrota.setLocationRelativeTo(null);
              derrota.setVisible(true);
         }        
     }
