@@ -157,7 +157,7 @@ public class GestorTarjetas {
     }
 
     public static TarjetaPais solicitarTarjetaPais() {
-        if (listaTarjetasPais.size() < 0) {
+        if (listaTarjetasPais.size() <= 0) {
             renovarMazo();
         }
         return listaTarjetasPais.remove(0);
