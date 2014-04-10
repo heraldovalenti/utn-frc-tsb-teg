@@ -36,11 +36,12 @@ public class ControlAtaque {
     public boolean ataqueValido() {
         return GestorPaises.sonLimitrofes(atacante, defensor)
                 && Juego.getInstancia().getSituacion().ataquePermitido(atacante, defensor)
+                && Juego.getInstancia().getSituacion().puedeAtacar(atacante.getJugador())
                 && atacante.getCantidadEjercitos() > 1;
     }
 
     public boolean ataqueConMisilValido() {
-        return atacante.getCantidadMisiles() > defensor.getCantidadMisiles() && defensor.getCantidadEjercitos() > 1;
+        return atacante.getCantidadMisiles() > defensor.getCantidadMisiles() && defensor.getCantidadEjercitos() > 1 && Juego.getInstancia().getSituacion().puedeAtacar(atacante.getJugador());
     }
 
     public int ataquePermitido() {

@@ -30,11 +30,14 @@ public class AccionableLanzarMisil implements Accionable {
     public void accionar() {
         Pais origenServidor = GestorPaises.getPais(origenCliente.getNroPais());
         Pais destinoServidor = GestorPaises.getPais(destinoCliente.getNroPais());
-        if (origenServidor.getCantidadMisiles() > destinoServidor.getCantidadMisiles() && GestorPaises.calcularDistancia(origenServidor, destinoServidor) <= 3) {
+        if (origenServidor.getCantidadMisiles() > destinoServidor.getCantidadMisiles() && GestorPaises.calcularDistancia(origenServidor, destinoServidor) <= 3 && GestorPaises.calcularDistancia(origenServidor, destinoServidor) != 0) {
             ServerManager.getInstance().getLogger().addLogItem(
                     new LogItem("Misil lanzado desde " + origenServidor.getNombre() + " hacia " + destinoServidor.getNombre()));
             origenServidor.restarMisiles(1);
             destinoServidor.restarEjercitos(4 - GestorPaises.calcularDistancia(origenServidor, destinoServidor));
+            if(destinoServidor.getCantidadEjercitos()<1){
+                destinoServidor.setCantidadEjercitos(1);
+            }
             ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
             ServerManager.getInstance().registrarSalida(actualizador);
             actualizador = new ActualizadorPais(destinoServidor);

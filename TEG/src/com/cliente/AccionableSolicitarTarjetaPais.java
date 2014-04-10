@@ -33,8 +33,8 @@ public class AccionableSolicitarTarjetaPais implements Accionable {
                 new LogItem("Recibida petición de tarjeta país"));
         Jugador jugador = GestorJugadores.obtenerPorNumero(nroJugador);
         //Se cambia el if por un for para debuguear mas rapido
-        //if (jugador.getCantidadTarjetasPais() < 5) {
-        for (int i = 0; i < 5; i++) {
+        if (jugador.getCantidadTarjetasPais() < 5) {
+            // for (int i = 0; i < 5; i++) {
             TarjetaPais tarjeta = GestorTarjetas.solicitarTarjetaPais();
             jugador.añadirTarjetaPais(tarjeta);
             ServerManager.getInstance().getLogger().addLogItem(
