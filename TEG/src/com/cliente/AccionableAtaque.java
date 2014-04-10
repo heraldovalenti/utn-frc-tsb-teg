@@ -79,7 +79,7 @@ public class AccionableAtaque implements Accionable {
                 if (ControlVictoria.comprobarVictoria()) {
                     return;
                 }
-                resolverTarjetasContinente(origenCliente, destinoCliente, origenCliente.getJugador(), origenServidor.getJugador());
+                resolverTarjetasContinente(origenCliente, destinoCliente, origenServidor.getJugador(), origenServidor.getJugador());
                 int maximoEjercitos = Math.min(origenServidor.getCantidadEjercitos() - 1, 2);
                 AccionableSolicitarMovimientoPaisGanado movimiento = new AccionableSolicitarMovimientoPaisGanado(origenServidor.getJugador(), origenServidor, destinoServidor, maximoEjercitos);
                 ServerManager.getInstance().registrarSalida(movimiento);
