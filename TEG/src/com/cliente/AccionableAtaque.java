@@ -55,7 +55,6 @@ public class AccionableAtaque implements Accionable {
         }
         if (control.ataqueValido()) {
             boolean conquistado = false;
-            boolean mostrarTarjetaContinente = false;
             int ejercitosAtacantes = control.ataquePermitido();
             int ejercitosDefensores = control.defensaPermitida();
             if (!control.ataqueRealizado()) {
