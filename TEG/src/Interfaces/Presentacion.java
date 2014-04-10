@@ -51,6 +51,7 @@ public class Presentacion extends javax.swing.JFrame {
 
         /* Create and display the form */
         Presentacion pres = new Presentacion();
+        pres.setLocationRelativeTo(null);
         pres.setVisible(true);       
         //HiloSonido sonido = new HiloSonido();
         //sonido.start();
