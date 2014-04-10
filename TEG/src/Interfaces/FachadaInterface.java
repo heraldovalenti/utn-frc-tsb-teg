@@ -30,9 +30,10 @@ import servidor.ServerManager;
 public class FachadaInterface {
 
     public static List<ObjetivoSecreto> obtenerObjetivos() {
-        return GestorObjetivosSecretos.getListaObjetivos();
+        return GestorObjetivosSecretos.getListaObjetivos(getJugadores().size());
     }
-     public static ObjetivoSecreto obtenerObjetivo() {
+
+    public static ObjetivoSecreto obtenerObjetivo() {
         return getJugadorLocal().getObjetivoSecreto();
     }
 
@@ -168,16 +169,20 @@ public class FachadaInterface {
     public static boolean canjeValido(Jugador jugador, List<Canjeable> tarjetas) {
         return GestorTarjetas.canjeValido(jugador, tarjetas);
     }
+
     public static Situacion getTarjetaSituacion() {
         return ClienteManager.getInstance().getJuego().getSituacion();
     }
-    public static void canjearTropasPorMisil(Pais pais){
+
+    public static void canjearTropasPorMisil(Pais pais) {
         GestorTurno.getInstance().canjearEjercitosPorMisil(pais, 1);
     }
-    public static void canjearMisilPorTropas(Pais pais){
-        GestorTurno.getInstance().canjearMisilPorEjercito(pais,1);
+
+    public static void canjearMisilPorTropas(Pais pais) {
+        GestorTurno.getInstance().canjearMisilPorEjercito(pais, 1);
     }
+
     public static boolean canjearPermitido() {
         return GestorTurno.getInstance().accionPermitida(GestorTurno.ACCION_CANJEAR_EJERCITO_POR_MISIL);
-    } 
+    }
 }
