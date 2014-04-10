@@ -1,24 +1,18 @@
 package Interfaces;
 
 import cliente.ClienteManager;
-
-import java.awt.Color;
 import java.awt.Desktop;
-
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import juego.estructura.Canjeable;
-import juego.estructura.Continente;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
 import juego.estructura.ObjetivoSecreto;
@@ -61,7 +55,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public InterfacePrincipal() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800) {
+        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 850) {
             this.setSize(1330, 745);
         } else {
             this.setSize(1330, 990);
@@ -74,9 +68,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
     public void procesarLog(LogItem logItem) {
-        //if (logItem instanceof LogChat) {
         chat.cargarChat(logItem.toString() + "\n");
-        //}
     }
     
     public void pasarRefuerzosPaisGanado(Pais paisDesde, Pais paisHasta, int cantidad) {
@@ -99,7 +91,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
     private void actualizarJugadores(Jugador actual) {
-        jugadores.actualizarJugadores(FachadaInterface.getJugadores(), obtenerJugadorActual());
+        jugadores.actualizarJugadores(FachadaInterface.getJugadores(), actual);
     }
     
     public void cargarChat(String msg) {
@@ -109,48 +101,20 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     public void enviarChat(String envioChat) {
         String quienDice = FachadaInterface.getJugadorLocal().getNombre() + ": ";
         FachadaInterface.enviarChat(quienDice + envioChat);
-    }
-    
-    private void actualizarFicha(Set<Jugador> jugadores) {
-        ArrayList<Pais> paises = new ArrayList<Pais>();
-        for (Jugador jugador : jugadores) {
-            for (Pais pais : jugador.getConjuntoPaises()) {
-                paises.add(pais);
-            }
-        }
-        mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
-    }
+    }  
     
     public void mostrarMensajeGlobal(String msj) {
         mapa.mostraMensajeGlobal(msj);
     }
     
-    public void actualizarFichas() {
-        /*ArrayList<Pais> paises= new ArrayList<Pais>();
-         Jugador jug = new Jugador();
-         jug.setColor(Color.black);        
-         Pais pais = new Pais(1,"Chile",new Continente(1,"America"),true);
-         pais.setJugador(jug);
-         pais.setCantidadEjercitos(1);
-         pais.setCantidadMisiles(9);
-         paises.add(pais);
-         jug.añadirPais(pais);
-         pais = new Pais(2,"Brasil",new Continente(1,"America"),true);
-         pais.setJugador(jug);
-         pais.setCantidadEjercitos(2);
-         pais.setCantidadMisiles(5);
-         paises.add(pais);
-         jug.añadirPais(pais);
-         pais = new Pais(3,"Venezuela",new Continente(1,"America"),true);
-         pais.setCantidadEjercitos(3);
-         pais.setJugador(jug);
-         pais.setCantidadMisiles(4);
-         paises.add(pais);
-         jug.añadirPais(pais);
-         Set <Jugador> jugadores = new HashSet<Jugador>();
-         jugadores.add(jug);
-         actualizarFicha(jgadores); */
-        actualizarFicha(FachadaInterface.getJugadores());
+    public void actualizarFichas() {       
+        ArrayList<Pais> paises = new ArrayList<>();
+        for (Jugador jugador : FachadaInterface.getJugadores()) {
+            for (Pais pais : jugador.getConjuntoPaises()) {
+                paises.add(pais);
+            }
+        }
+        mapa.actualizarFichas(paises, mostrarFichas, mostrarMisiles);
     }
     
     public void cargarInformacionPais(String pais) {
@@ -164,7 +128,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         
     }
     
-    private Pais obtenerPaisPorNombre(String nombre) {
+   private Pais obtenerPaisPorNombre(String nombre) {
         Set<Jugador> jugadores = FachadaInterface.getJugadores();
         for (Jugador jugador : jugadores) {
             Set<Pais> paises = jugador.getConjuntoPaises();
@@ -199,7 +163,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     
     private Jugador obtenerJugadorActual() {
         return FachadaInterface.getJugadorTurno();
-        
     }
     
     private List<ObjetivoSecreto> obtenerObjetivos() {
@@ -207,53 +170,15 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
     private ObjetivoSecreto obtenerObjetivo() {
-        return ClienteManager.getInstance().getJugador().getObjetivoSecreto();
+        return FachadaInterface.obtenerObjetivo();
     }
-    
-    private ArrayList<Jugador> simularJugadores() {
-        ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-        Jugador jugador = new Jugador();
-        jugador.setColor(Color.red);
-        jugador.setNombre("ebroggi");
-        jugador.setNroJugador(0);
         
-        jugador.getConjuntoPaises().add(new Pais(1, "Argentina", new Continente(1, "America"), true));
-        jugador.getConjuntoPaises().add(new Pais(2, "Chile", new Continente(1, "America"), true));
-        jugador.getConjuntoPaises().add(new Pais(3, "Venezuela", new Continente(1, "America"), true));
-        jugador.setNroJugador(1);
-        jugadores.add(jugador);
-        
-        jugador = new Jugador();
-        jugador.setColor(Color.blue);
-        jugador.setNombre("dnievas");
-        jugador.getConjuntoPaises().add(new Pais(1, "Argentina", new Continente(1, "America"), true));
-        jugador.setNroJugador(2);
-        jugadores.add(jugador);
-        
-        jugador = new Jugador();
-        jugador.setColor(Color.black);
-        jugador.setNombre("hvalenti");
-        jugador.getConjuntoPaises().add(new Pais(2, "Chile", new Continente(1, "America"), true));
-        jugador.getConjuntoPaises().add(new Pais(3, "Venezuela", new Continente(1, "America"), true));
-        jugadores.add(jugador);
-        
-        jugador = new Jugador();
-        jugador.setColor(Color.green);
-        jugador.setNombre("valerio");
-        jugador.getConjuntoPaises().add(new Pais(2, "Chile", new Continente(1, "America"), true));
-        jugador.getConjuntoPaises().add(new Pais(3, "Venezuela", new Continente(1, "America"), true));
-        jugador.setNroJugador(3);
-        jugadores.add(jugador);
-        return jugadores;
-        
-    }
-    
     private void agregarGuis() {
         mapa = new InterfaceMapa(this);
         mapa.setVisible(true);
         desktop.add(mapa);
         
-        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 800) {
+        if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 850) {
             chat = new Chat17Pulgadas(this);
             jugadores = new Jugadores17Pulgadas();
             seleccion = new Seleccion17Pulgadas();
@@ -309,7 +234,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
         jPanel1 = new javax.swing.JPanel();
         desktop = new javax.swing.JDesktopPane();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnAtacar = new javax.swing.JButton();
         btnReagrupar = new javax.swing.JButton();
@@ -337,15 +261,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         setTitle("T.E.G  Plan Táctico y Estratégico de la Guerra");
 
         desktop.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        desktop.add(jButton1);
-        jButton1.setBounds(830, 13, 73, 20);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -618,22 +533,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     }//GEN-LAST:event_menuObjetivosActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        cargarDados("Emanuel", "Graciela", simularDados((int) Math.floor(Math.random() * 4 + 1)), simularDados((int) Math.floor(Math.random() * 4 + 1)));
-        Tarjeta tarj = new Tarjeta("Asia");
-        tarj.setVisible(true);
-        desktop.add(tarj);
-        Tarjeta tarj2 = new Tarjeta("canad a");
-        tarj2.setVisible(true);
-        desktop.add(tarj2);
-        ubicarGuis(tarj, mapa.getWidth() / 2, mapa.getHeight() / 2);
-        ubicarGuis(tarj2, mapa.getWidth() / 2, mapa.getHeight() / 2);
-        HiloSonido sonido = new HiloSonido("src/Sonidos/tuTurno.mp3");
-        sonido.start();
-        // refuerzo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void menu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu4ActionPerformed
         mostrarFichas = !mostrarFichas;
         String rutaImagen = "";
@@ -708,7 +607,8 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     private void btnFinTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinTurnoActionPerformed
         if (refuerzo != null) {
-            refuerzo.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Debe finalizar la fase de refuerzo", "Error",JOptionPane.WARNING_MESSAGE);
+            return;
         }
         refuerzo = null;
         paisDesde = null;
@@ -763,16 +663,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         ventanaCanjear = new Canjear(this, false, this);
         ventanaCanjear.setVisible(true);
     }//GEN-LAST:event_btnCanjearActionPerformed
-    private int[] simularDados(int cant) {
-        
-        int[] dados = new int[cant];
-        for (int i = 0; i < cant; i++) {
-            dados[i] = (int) Math.floor(Math.random() * 6 + 1);
-        }
-        return dados;
-        
-    }
-
+   
     public void cerrarVentanaCanjear() {
         canjear = false;
     }
@@ -967,7 +858,6 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private javax.swing.JButton btnTarjeta;
     private javax.swing.JButton btnVerTarjetas;
     private javax.swing.JDesktopPane desktop;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

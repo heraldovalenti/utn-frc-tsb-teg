@@ -31,6 +31,9 @@ public class FachadaInterface {
     public static List<ObjetivoSecreto> obtenerObjetivos() {
         return GestorObjetivosSecretos.getListaObjetivos();
     }
+     public static ObjetivoSecreto obtenerObjetivo() {
+        return getJugadorLocal().getObjetivoSecreto();
+    }
 
     public static void enviarChat(String chat) {
         ServerManager.getInstance().registrarSalida(new AccionableChat(getJugadorLocal().getNroJugador(), getJugadorLocal().getNombre(), chat));
