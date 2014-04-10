@@ -151,7 +151,7 @@ public class GestorTurno {
 
     public void lanzarMisil(Pais origen, Pais destino) {
         if (accionPermitida(ACCION_ATACAR)) {
-            if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3 && GestorPaises.calcularDistancia(origen, destino) != 0) {
+            if (origen.getCantidadMisiles() > destino.getCantidadMisiles() && GestorPaises.calcularDistancia(origen, destino) <= 3 && GestorPaises.calcularDistancia(origen, destino) != 0 && Juego.getInstancia().getSituacion().puedeAtacar(origen.getJugador())) {
                 AccionableLanzarMisil lanzamiento = new AccionableLanzarMisil(origen, destino);
                 ClienteManager.getInstance().registrarSalida(lanzamiento);
                 etapaActual = ETAPA_ATACAR;
