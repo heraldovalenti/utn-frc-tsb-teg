@@ -11,6 +11,7 @@ import com.servidor.ActualizadorJugador;
 import juego.estructura.GestorJugadores;
 import juego.estructura.GestorTarjetas;
 import juego.estructura.Jugador;
+import juego.estructura.Pais;
 import juego.estructura.TarjetaPais;
 import logger.LogItem;
 import servidor.ServerManager;
@@ -41,8 +42,9 @@ public class AccionableSolicitarTarjetaPais implements Accionable {
                     new LogItem("Tarjeta: " + tarjeta.getNombre()));
             ActualizadorJugador actualizador = new ActualizadorJugador(jugador);
             ServerManager.getInstance().registrarSalida(actualizador);
-            if (jugador.getConjuntoPaises().contains(tarjeta.getPais())) {
-                tarjeta.getPais().añadirEjercitos(3);
+            Pais pais = tarjeta.getPais();
+            if (jugador.getConjuntoPaises().contains(pais)) {
+                pais.añadirEjercitos(3);
                 ActualizadorJugador actualizadorPais = new ActualizadorJugador(jugador);
                 ServerManager.getInstance().registrarSalida(actualizadorPais);
             }
