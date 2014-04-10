@@ -68,7 +68,7 @@ public class AccionableAtaque implements Accionable {
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
                 origenServidor.restarEjercitos(1);
-                destinoServidor.ocuparPais(origenServidor.getJugador());
+                destinoServidor.ocuparPais(origenServidor.getJugador(),destinoServidor.getJugador());
                 conquistado = true;
             }
             ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
