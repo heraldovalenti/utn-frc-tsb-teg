@@ -355,6 +355,7 @@ public class Refuerzo extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         controlRefuerzo.reiniciar();
         actualizarTropas(controlRefuerzo.calcularEjercitosPorContinenteDisponibles(), controlRefuerzo.calcularEjercitosLibresDisponibles());
+        padre.actualizarFichas();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed

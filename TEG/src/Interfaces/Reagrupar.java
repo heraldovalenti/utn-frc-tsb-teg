@@ -225,8 +225,13 @@ public class Reagrupar extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debe ragrupar al menos una tropa o al menos un misil", "Error al reagrupar", JOptionPane.WARNING_MESSAGE);
             
         } else {
-            FachadaInterface.reagrupar(paisDesde, paisHasta, txtCantidadTropas.getValue(), txtCantidadMisil.getValue());
-            inicializar();
+            if(FachadaInterface.reagrupar(paisDesde, paisHasta, txtCantidadTropas.getValue(), txtCantidadMisil.getValue())){
+                inicializar();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No puede reagrupar desde "+paisDesde.getNombre()+" a "+paisHasta.getNombre());
+            }
+            
         }        
     }//GEN-LAST:event_btnReagruparActionPerformed
 
