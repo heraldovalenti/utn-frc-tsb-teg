@@ -48,6 +48,9 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     private Tarjeta tarjetaSituacion = null;
     private boolean canjear = false;
     private Canjear ventanaCanjear = null;
+    private ObjetivoCumplido victoria =null;
+    private ObjetivoCumplido derrota =null;
+    
 
     /**
      * Creates new form GUI
@@ -81,13 +84,20 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
     public void victoria(String mensaje) {
-        habilitarBotones();
-        new ObjetivoCumplido(this, false, "victoria", mensaje).setVisible(true);
+        if(victoria == null){
+             habilitarBotones();
+             victoria=  new ObjetivoCumplido(this, false, "victoria", mensaje);
+             victoria.setVisible(true);
+        }
+       
     }
 
     public void derrota(String mensaje) {
-        habilitarBotones();
-        new ObjetivoCumplido(this, false, "derrota", mensaje).setVisible(true);
+        if(derrota == null){
+             habilitarBotones();
+             derrota=  new ObjetivoCumplido(this, false, "derrota", mensaje);
+             derrota.setVisible(true);
+        }        
     }
     
     private void actualizarJugadores(Jugador actual) {
@@ -668,13 +678,17 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             JOptionPane.showMessageDialog(this, "Debe finalizar el refuerzo actual", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        canjear = true;
-        ventanaCanjear = new Canjear(this, false, this);
-        ventanaCanjear.setVisible(true);
+        if(!canjear){
+            canjear = true;
+            ventanaCanjear = new Canjear(this, false, this);
+            ventanaCanjear.setVisible(true);
+            btnCanjear.setEnabled(false);
+        }
     }//GEN-LAST:event_btnCanjearActionPerformed
    
     public void cerrarVentanaCanjear() {
         canjear = false;
+        btnCanjear.setEnabled(true);
     }
 
     public void mostrarTarjetaSituacion() {
