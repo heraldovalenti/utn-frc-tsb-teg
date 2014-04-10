@@ -8,6 +8,7 @@ package servidor.control;
 import com.servidor.AccionableVictoria;
 import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
+import logger.LogItem;
 import servidor.ServerManager;
 
 /**
@@ -50,6 +51,8 @@ public class ControlVictoria {
     private static void informarVictoria() {
         AccionableVictoria victoria = new AccionableVictoria(ganador, mensaje);
         ServerManager.getInstance().registrarSalida(victoria);
+        ServerManager.getInstance().getLogger().addLogItem(
+                new LogItem("Victoria del jugador: " + ganador.getNombre()));
     }
     
     public static boolean juegoTerminado() {

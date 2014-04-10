@@ -68,7 +68,7 @@ public class AccionableAtaque implements Accionable {
             origenServidor.restarEjercitos(control.perdidasAtacante());
             if (destinoServidor.getCantidadEjercitos() < 1) {
                 origenServidor.restarEjercitos(1);
-                destinoServidor.ocuparPais(origenServidor.getJugador(),destinoServidor.getJugador());
+                destinoServidor.ocuparPais(origenServidor.getJugador(), destinoServidor.getJugador());
                 conquistado = true;
             }
             ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
@@ -84,7 +84,12 @@ public class AccionableAtaque implements Accionable {
                 AccionableSolicitarMovimientoPaisGanado movimiento = new AccionableSolicitarMovimientoPaisGanado(origenServidor.getJugador(), origenServidor, destinoServidor, maximoEjercitos);
                 ServerManager.getInstance().registrarSalida(movimiento);
             }
+        } else if (origenServidor.getCantidadEjercitos() < 1) {
+            origenServidor.setCantidadEjercitos(1);
+            ActualizadorPais actualizador = new ActualizadorPais(origenServidor);
+            ServerManager.getInstance().registrarSalida(actualizador);
         }
+
     }
 
     private void resolverTarjetasContinente(Pais origen, Pais destino, Jugador atacante, Jugador defensor) {
