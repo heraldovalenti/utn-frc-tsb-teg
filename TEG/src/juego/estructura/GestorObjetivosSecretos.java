@@ -92,7 +92,7 @@ public class GestorObjetivosSecretos {
         listaObjetivos.add(new ObjetivoSecreto(16, "Destruir al ejército Azul; de ser imposible, al jugador de la derecha", null, Color.BLUE, 0, 0, false));
         listaObjetivos.add(new ObjetivoSecreto(17, "Destruir al ejército Amarillo; de ser imposible, al jugador de la derecha", null, Color.YELLOW, 0, 0, false));
         listaObjetivos.add(new ObjetivoSecreto(18, "Destruir al ejército Verde; de ser imposible, al jugador de la derecha", null, Color.GREEN, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(19, "Destruir al jugador de la izquierda", null, null, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(19, "Destruir al jugador de la izquierda", null, null, 0, 0, true));
     }
 
     public static List<ObjetivoSecreto> getListaObjetivos(int cantidadJugadores) {
