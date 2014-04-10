@@ -234,7 +234,7 @@ public class SecuenciaTurnos {
         return rondaInicial1 || rondaInicial2;
     }
 
-    private boolean esRondaSoloRefuerzos() {
+    public boolean esRondaSoloRefuerzos() {
         boolean rondaSoloRefuerzos = false;
         if (esRondaInicial()) {
             rondaSoloRefuerzos = true;
@@ -243,6 +243,10 @@ public class SecuenciaTurnos {
             rondaSoloRefuerzos = true;
         }
         return rondaSoloRefuerzos;
+    }
+    
+    public boolean esRondaDesdeAtaque() {
+        return rondaDesdeAtaque;
     }
 
     /**
