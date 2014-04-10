@@ -28,6 +28,7 @@ public class AccionableSituacion implements Accionable {
     @Override
     public void accionar() {
         ClienteManager.getInstance().getJuego().setSituacion(situacion);
+        ClienteManager.getInstance().getLogger().addLogItem(new LogItem("Situación: " + situacion.getNombre() + ". Efecto:" + situacion.getDescripcion()));
         FachadaInterfacePrincipal.mostrarTarjetaSituacion();
     }
 }
