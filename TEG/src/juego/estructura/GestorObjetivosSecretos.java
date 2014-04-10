@@ -8,9 +8,12 @@ package juego.estructura;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import juego.mecanicas.turno.SecuenciaTurnos;
 
 /**
  *
@@ -99,4 +102,56 @@ public class GestorObjetivosSecretos {
         }
         return listaObjetivos;
     }
+    
+//    public static void main(String args[]) {
+//        crearObjetivos();
+//        Jugador jugador1 = new Jugador(1, "EL_VERDE", Color.green);
+//        Jugador jugador2 = new Jugador(2, "EL_AZUL", Color.blue);
+//        Jugador jugador3 = new Jugador(3, "EL_BLANCO", Color.white);
+////        Jugador jugador4 = new Jugador(4, "EL_ROJO", Color.red);
+////        Jugador jugador5 = new Jugador(5, "EL_NEGRO", Color.black);
+////        Jugador jugador6 = new Jugador(6, "EL_AMARILLO", Color.yellow);
+//        
+//        ArrayList<Jugador> listaSecuencia = new ArrayList<>();
+//        listaSecuencia.add(jugador1);
+//        listaSecuencia.add(jugador2);
+//        listaSecuencia.add(jugador3);
+////        listaSecuencia.add(jugador4);
+////        listaSecuencia.add(jugador5);
+////        listaSecuencia.add(jugador6);
+//        SecuenciaTurnos.getInstancia().setSecuencia(listaSecuencia);
+//        
+//        GestorJugadores.añadirJugador(jugador1);
+//        GestorJugadores.añadirJugador(jugador2);
+//        GestorJugadores.añadirJugador(jugador3);
+////        GestorJugadores.añadirJugador(jugador4);
+////        GestorJugadores.añadirJugador(jugador5);
+////        GestorJugadores.añadirJugador(jugador6);
+//        
+//        List<Pais> paises = new ArrayList<>(GestorPaises.getListaPaises());
+//        LinkedList<Jugador> jugadores = new LinkedList(GestorJugadores.getJugadores());
+//        Collections.shuffle(paises);
+//        Collections.shuffle(jugadores);
+//        for (Pais p : paises) {
+//            Jugador j = jugadores.removeFirst();
+//            jugadores.add(j);
+//            j.añadirPais(p);
+//            p.setCantidadMisiles(0);
+//            p.setCantidadEjercitos(1);
+//        }
+//        
+//        ObjetivoSecreto destruirVerde = listaObjetivos.get(16);
+//        System.out.println("esperado->false_real->"+destruirVerde.comprobarVictoria(jugador2));
+//        ArrayList<Pais> paisesToRemove = new ArrayList<>(jugador3.getConjuntoPaises());
+//        for (int i = 0; i < paisesToRemove.size(); i++) {
+//            paisesToRemove.get(i).ocuparPais(jugador2);
+//        }
+//        System.out.println("esperado->false_real->"+destruirVerde.comprobarVictoria(jugador2));
+//        
+//        paisesToRemove = new ArrayList<>(jugador1.getConjuntoPaises());
+//        for (int i = 0; i < paisesToRemove.size(); i++) {
+//            paisesToRemove.get(i).ocuparPais(jugador2);
+//        }
+//        System.out.println("esperado->true_real->"+destruirVerde.comprobarVictoria(jugador2));
+//    }
 }
