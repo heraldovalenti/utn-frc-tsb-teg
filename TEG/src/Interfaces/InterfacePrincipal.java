@@ -652,6 +652,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
         FachadaInterface.pedirTarjeta();
+        reagrupar = FachadaInterface.reagruparPermitido();
     }//GEN-LAST:event_btnTarjetaActionPerformed
 
     private void btnSituacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSituacionActionPerformed
@@ -771,8 +772,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         Pais pais = obtenerPaisPorNombre(p);
         if (pais == null) {
             return;
-        }
-        System.out.println("canjear es " + canjear);
+        }        
         if (canjear) {
             if (FachadaInterface.esMiPais(pais)) {
                 ventanaCanjear.canjear(pais);
