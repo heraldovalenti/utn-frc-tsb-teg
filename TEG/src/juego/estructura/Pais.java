@@ -103,10 +103,10 @@ public class Pais implements Serializable {
         return otro.continente.equals(this.continente);
     }
 
-    public void ocuparPais(Jugador jugador) {
-        this.jugador.quitarPais(this);
-        jugador.añadirPais(this);
-        this.jugador = jugador;
+    public void ocuparPais(Jugador atacante, Jugador defensor) {
+        defensor.quitarPais(this);
+        atacante.añadirPais(this);
+        this.jugador = atacante;
         this.cantidadEjercitos = 1;
     }
 
