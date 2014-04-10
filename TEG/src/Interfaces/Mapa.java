@@ -112,6 +112,7 @@ public class Mapa extends javax.swing.JPanel {
         label.setVerticalTextPosition(SwingConstants.CENTER);
         if(cantidad == 0){
             label.setIcon(null);
+            label.setText("");
             label.setVisible(false);
             return;
         }

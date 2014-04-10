@@ -47,8 +47,10 @@ public class Seleccion17Pulgadas extends ISeleccion {
 
         jLabel2.setText("HASTA:");
 
+        txtDesde.setEditable(false);
         txtDesde.setBackground(new java.awt.Color(255, 255, 204));
 
+        txtHasta.setEditable(false);
         txtHasta.setBackground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
