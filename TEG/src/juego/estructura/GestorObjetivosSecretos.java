@@ -84,12 +84,12 @@ public class GestorObjetivosSecretos {
         paisesPorContinenteAOcupar.put(GestorContinentes.getContinente(GestorContinentes.ASIA), 4);
         listaObjetivos.add(new ObjetivoSecreto(11, "Ocupar Africa, 4 países de Europa, 4 países de Asia y 6 islas, repartidas en por lo menos tres continentes", paisesPorContinenteAOcupar, null, 0, 6, false));
         listaObjetivos.add(new ObjetivoSecreto(12, "Ocupar 35 países en cualquier lugar del mapa", null, null, 35, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(13, "Destruir al ejército Blanco; de ser posible, al jugador de la derecha", null, Color.WHITE, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(14, "Destruir al ejército Negro; de ser posible, al jugador de la derecha", null, Color.BLACK, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(15, "Destruir al ejército Rojo; de ser posible, al jugador de la derecha", null, Color.RED, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(16, "Destruir al ejército Azul; de ser posible, al jugador de la derecha", null, Color.BLUE, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(17, "Destruir al ejército Amarillo; de ser posible, al jugador de la derecha", null, Color.YELLOW, 0, 0, false));
-        listaObjetivos.add(new ObjetivoSecreto(18, "Destruir al ejército Verde; de ser posible, al jugador de la derecha", null, Color.GREEN, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(13, "Destruir al ejército Blanco; de ser imposible, al jugador de la derecha", null, Color.WHITE, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(14, "Destruir al ejército Negro; de ser imposible, al jugador de la derecha", null, Color.BLACK, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(15, "Destruir al ejército Rojo; de ser imposible, al jugador de la derecha", null, Color.RED, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(16, "Destruir al ejército Azul; de ser imposible, al jugador de la derecha", null, Color.BLUE, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(17, "Destruir al ejército Amarillo; de ser imposible, al jugador de la derecha", null, Color.YELLOW, 0, 0, false));
+        listaObjetivos.add(new ObjetivoSecreto(18, "Destruir al ejército Verde; de ser imposible, al jugador de la derecha", null, Color.GREEN, 0, 0, false));
         listaObjetivos.add(new ObjetivoSecreto(19, "Destruir al jugador de la izquierda", null, null, 0, 0, false));
     }
 
