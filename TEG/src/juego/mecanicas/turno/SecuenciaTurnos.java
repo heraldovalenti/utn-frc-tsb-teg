@@ -165,17 +165,12 @@ public class SecuenciaTurnos {
      * @return el jugador anterior al jugador de referencia
      */
     public Jugador getJugadorAnterior(Jugador jugador) {
-        for (int i = 0; i < secuencia.size(); i++) {
-            Jugador res = secuencia.get(i);
-            if (jugador.equals(res)) {
-                if (i == 0) {
-                    return secuencia.get(secuencia.size() - 1);
-                } else {
-                    return secuencia.get(i - 1);
-                }
-            }
+        int indice = secuencia.indexOf(jugador);
+        if (indice == 0) {
+            return secuencia.get(secuencia.size() - 1);
+        } else {
+            return secuencia.get(indice - 1);
         }
-        return null;
     }
 
     /**
@@ -188,17 +183,12 @@ public class SecuenciaTurnos {
      * @return el jugador siguiente al jugador de referencia
      */
     public Jugador getJugadorSiguiente(Jugador jugador) {
-        for (int i = 0; i < secuencia.size(); i++) {
-            Jugador res = secuencia.get(i);
-            if (jugador.equals(res)) {
-                if (i == secuencia.size() - 1) {
-                    return secuencia.get(0);
-                } else {
-                    return secuencia.get(i + 1);
-                }
-            }
+        int indice = secuencia.indexOf(jugador);
+        if (indice == secuencia.size() - 1) {
+            return secuencia.get(0);
+        } else {
+            return secuencia.get(indice + 1);
         }
-        return null;
     }
 
     private int calcularRefuerzosPermitidos(Jugador jugador) {
