@@ -140,7 +140,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }
     
    private Pais obtenerPaisPorNombre(String nombre) {
-        Set<Jugador> jugadores = FachadaInterface.getJugadores();
+        List<Jugador> jugadores = FachadaInterface.getJugadores();
         for (Jugador jugador : jugadores) {
             Set<Pais> paises = jugador.getConjuntoPaises();
             for (Pais pais : paises) {
@@ -195,11 +195,11 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
         
         if (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height < 850) {
             chat = new Chat17Pulgadas(this);
-            jugadores = new Jugadores17Pulgadas();
+            jugadores = new Jugadores17Pulgadas(FachadaInterface.getJugadores());
             seleccion = new Seleccion17Pulgadas();
         } else {
             chat = new Chat(this);
-            jugadores = new Jugadores();
+            jugadores = new Jugadores(FachadaInterface.getJugadores());
             seleccion = new Seleccion();
         }
         

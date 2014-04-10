@@ -20,6 +20,7 @@ import juego.estructura.Pais;
 import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.situacion.Situacion;
 import juego.mecanicas.turno.GestorTurno;
+import juego.mecanicas.turno.SecuenciaTurnos;
 import servidor.ServerManager;
 
 /**
@@ -135,8 +136,8 @@ public class FachadaInterface {
         //No se va a implementar
     }
 
-    public static Set<Jugador> getJugadores() {
-        return GestorJugadores.getJugadores();
+    public static List<Jugador> getJugadores() {
+        return SecuenciaTurnos.getInstancia().getSecuencia();
     }
 
     public static ControlRefuerzo getRefuerzoActual() {

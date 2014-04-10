@@ -6,6 +6,7 @@
 
 package Interfaces;
 
+import java.util.List;
 import java.util.Set;
 import juego.estructura.Jugador;
 
@@ -14,6 +15,6 @@ import juego.estructura.Jugador;
  * @author Emanuel
  */
 public class IJugadores extends javax.swing.JInternalFrame{
-     public void actualizarJugadores(Set<Jugador> jugadores, Jugador jugadorTurno){
+     public void actualizarJugadores(List<Jugador> jugadores, Jugador jugadorTurno){
     }
 }
