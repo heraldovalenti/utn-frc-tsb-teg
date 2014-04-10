@@ -224,4 +224,8 @@ public class ControlRefuerzo {
         return ejercitosPorContinenteDisponibles;
 
     }
+
+    public boolean misilesPermitidos() {
+        return permitirMisiles;
+    }
 }
