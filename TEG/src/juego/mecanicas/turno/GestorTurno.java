@@ -132,7 +132,7 @@ public class GestorTurno {
         }
     }
 
-    public void reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
+    public boolean reagruparEjercitos(Pais origen, Pais destino, int cantidadEjercitos, int cantidadMisiles) {
         if (accionPermitida(ACCION_REAGRUPAR)) {
             Situacion situacion = Juego.getInstancia().getSituacion();
             ControlMovimiento control = new ControlMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles, situacion, movimientosRealizados);
@@ -143,8 +143,10 @@ public class GestorTurno {
                 AccionableMovimiento movimiento = new AccionableMovimiento(origen, destino, cantidadEjercitos, cantidadMisiles);
                 ClienteManager.getInstance().registrarSalida(movimiento);
                 etapaActual = ETAPA_REAGRUPAR;
+                return true;
             }
         }
+        return false;
     }
 
     public void lanzarMisil(Pais origen, Pais destino) {
