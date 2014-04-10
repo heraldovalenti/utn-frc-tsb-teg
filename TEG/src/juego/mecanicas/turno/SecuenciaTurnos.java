@@ -165,6 +165,9 @@ public class SecuenciaTurnos {
      * @return el jugador anterior al jugador de referencia
      */
     public Jugador getJugadorAnterior(Jugador jugador) {
+        if (!secuencia.contains(jugador)) {
+            return null;
+        }
         int indice = secuencia.indexOf(jugador);
         if (indice == 0) {
             return secuencia.get(secuencia.size() - 1);
@@ -183,6 +186,9 @@ public class SecuenciaTurnos {
      * @return el jugador siguiente al jugador de referencia
      */
     public Jugador getJugadorSiguiente(Jugador jugador) {
+        if (!secuencia.contains(jugador)) {
+            return null;
+        }
         int indice = secuencia.indexOf(jugador);
         if (indice == secuencia.size() - 1) {
             return secuencia.get(0);
@@ -242,7 +248,7 @@ public class SecuenciaTurnos {
     public boolean esRondaDesdeAtaque() {
         return rondaDesdeAtaque;
     }
-
+    
     /**
      * Prueba la funcionalidad de la clase.
      */

@@ -134,13 +134,16 @@ public class ObjetivoSecreto implements Serializable {
         }
         if (colorADestruir != null && jugadorADestruir == null) {
             if (jugador.getColor().equals(colorADestruir)) {
-                jugadorADestruir = secuencia.getJugadorAnterior(jugador);
+                jugadorADestruir = secuencia.getJugadorSiguiente(jugador);
             } else {
                 jugadorADestruir = GestorJugadores.obtenerPorColor(colorADestruir);
+                if (jugadorADestruir == null) {
+                    jugadorADestruir = secuencia.getJugadorSiguiente(jugador);
+                }
             }
         }
         if (destruirIzquierda && jugadorADestruir == null) {
-            jugadorADestruir = secuencia.getJugadorSiguiente(jugador);
+            jugadorADestruir = secuencia.getJugadorAnterior(jugador);
         }
         if (jugadorADestruir != null) {
             if (!jugadorADestruir.fueraDeJuego()) {
