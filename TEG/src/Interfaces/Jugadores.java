@@ -85,6 +85,33 @@ public class Jugadores extends IJugadores {
         habilitarTxt(txtColor5,txtJugador5,!(txtJugador5.getText().compareTo("")==0));
         habilitarTxt(txtColor6,txtJugador6,!(txtJugador6.getText().compareTo("")==0));
     }
+    private void actualizarJugadores(){
+        int i = 0;
+        for(Jugador jugador : jugadores){
+            switch(i){
+            case(0): txtColor1.setBackground(jugador.getColor());                    
+                     cambiarColor(jugador, txtJugador1);
+                     break;
+            case(1): txtColor2.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador2);
+                     break;
+            case(2): txtColor3.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador3);
+                     break;
+            case(3): txtColor4.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador4);
+                     break;
+            case(4): txtColor5.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador5);
+                     break;
+            case(5): txtColor6.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador6);
+                     break;    
+        }
+            i++;
+        }
+        habilitarTxts();
+    }  
     
     
     private void mostrarDetalleJugador(String nombre){
@@ -100,7 +127,7 @@ public class Jugadores extends IJugadores {
     public void actualizarJugadores(Set<Jugador> jugadores, Jugador jugadorTurno){
         this.jugadores = jugadores;
         this.jugadorTurno = jugadorTurno;
-        cargarDatosJugadores();
+        actualizarJugadores();
         if(jugadorTurno != null){
             mostrarDetalleJugador(jugadorTurno.getNombre());
         }
