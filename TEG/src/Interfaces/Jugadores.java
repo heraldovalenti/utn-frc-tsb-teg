@@ -5,6 +5,7 @@ import cliente.ClienteManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JTextField;
 import juego.estructura.Jugador;
@@ -20,16 +21,17 @@ import juego.estructura.Pais;
  * @author Emanuel
  */
 public class Jugadores extends IJugadores {
-    private Set<Jugador> jugadores = new HashSet<Jugador>();
+    private List<Jugador> jugadores ;
     private Jugador jugadorTurno = new Jugador();
     private Color colorTurno = Color.orange;
     private Color colorNoTurno = new Color(255,255,204);
     /**
      * Creates new form GUIJugadores
      */
-    public Jugadores() {
+    public Jugadores(List<Jugador> jugadores) {
         initComponents();
-        this.setSize(250, 747);        
+        this.setSize(250, 747);    
+        this.jugadores = jugadores;
         cargarDatosJugadores();
     }
     private void cargarDatosJugadores(){
@@ -110,7 +112,6 @@ public class Jugadores extends IJugadores {
         }
             i++;
         }
-        habilitarTxts();
     }  
     
     
@@ -124,7 +125,7 @@ public class Jugadores extends IJugadores {
             }
         }
     }
-    public void actualizarJugadores(Set<Jugador> jugadores, Jugador jugadorTurno){
+    public void actualizarJugadores(List<Jugador> jugadores, Jugador jugadorTurno){
         this.jugadores = jugadores;
         this.jugadorTurno = jugadorTurno;
         actualizarJugadores();

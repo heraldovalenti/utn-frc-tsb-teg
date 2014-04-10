@@ -5,6 +5,7 @@ import cliente.ClienteManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JTextField;
 import juego.estructura.Jugador;
@@ -20,16 +21,17 @@ import juego.estructura.Pais;
  * @author Emanuel
  */
 public class Jugadores17Pulgadas extends IJugadores{
-    private Set<Jugador> jugadores = new HashSet<Jugador>();
+   private List<Jugador> jugadores ;
     private Jugador jugadorTurno = new Jugador();
     private Color colorTurno = Color.orange;
     private Color colorNoTurno = new Color(255,255,204);
     /**
      * Creates new form GUIJugadores
      */
-    public Jugadores17Pulgadas() {
+    public Jugadores17Pulgadas(List<Jugador> jugadores) {
         initComponents();
         this.setSize(220, 495);
+        this.jugadores = jugadores;
         cargarDatosJugadores();
     }
     private void cargarDatosJugadores(){
@@ -77,6 +79,32 @@ public class Jugadores17Pulgadas extends IJugadores{
         color.setVisible(habilitar);
         jugador.setVisible(habilitar);
     }
+     private void actualizarJugadores(){
+        int i = 0;
+        for(Jugador jugador : jugadores){
+            switch(i){
+            case(0): txtColor1.setBackground(jugador.getColor());                    
+                     cambiarColor(jugador, txtJugador1);
+                     break;
+            case(1): txtColor2.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador2);
+                     break;
+            case(2): txtColor3.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador3);
+                     break;
+            case(3): txtColor4.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador4);
+                     break;
+            case(4): txtColor5.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador5);
+                     break;
+            case(5): txtColor6.setBackground(jugador.getColor());                     
+                     cambiarColor(jugador, txtJugador6);
+                     break;    
+        }
+            i++;
+        }
+    }  
     private void habilitarTxts(){
         habilitarTxt(txtColor1,txtJugador1,!(txtJugador1.getText().compareTo("")==0));
         habilitarTxt(txtColor2,txtJugador2,!(txtJugador2.getText().compareTo("")==0));
@@ -97,10 +125,10 @@ public class Jugadores17Pulgadas extends IJugadores{
             }
         }
     }
-    public void actualizarJugadores(Set<Jugador> jugadores, Jugador jugadorTurno){
+    public void actualizarJugadores(List<Jugador> jugadores, Jugador jugadorTurno){
         this.jugadores = jugadores;
         this.jugadorTurno = jugadorTurno;
-        cargarDatosJugadores();
+        actualizarJugadores();
         if(jugadorTurno != null){
             mostrarDetalleJugador(jugadorTurno.getNombre());
         }
