@@ -26,6 +26,7 @@ import juego.mecanicas.ataque.ControlAtaque;
 import juego.mecanicas.turno.GestorTurno;
 import logger.LogItem;
 import servidor.ServerManager;
+import servidor.control.ControlVictoria;
 
 /**
  *
@@ -34,6 +35,9 @@ import servidor.ServerManager;
 public class MotorIA {
 
     public static void turnoIA(Jugador jugador, int cantidadEjercitos, Map<Continente, Integer> ejercitosPorContinente) {
+        if (ControlVictoria.juegoTerminado()) {
+            return;
+        }
         faseRefuerzo(jugador, cantidadEjercitos, ejercitosPorContinente);
         faseAtaque(jugador);
         faseReagrupamiento(jugador);

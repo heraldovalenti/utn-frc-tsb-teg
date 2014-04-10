@@ -24,6 +24,7 @@ import juego.estructura.GestorJugadores;
 import juego.estructura.Jugador;
 import juego.mecanicas.situacion.GestorSituacion;
 import servidor.ServerManager;
+import servidor.control.ControlVictoria;
 
 /**
  *
@@ -68,6 +69,9 @@ public class SecuenciaTurnos {
      * Metodo que indica el comienzo de un nuevo turno.
      */
     public void siguienteTurno() {
+        if (ControlVictoria.juegoTerminado()) {
+            return;
+        }
         if (esFinRonda()) {
             actual = 0;
             if (rondaDesdeAtaque) {
