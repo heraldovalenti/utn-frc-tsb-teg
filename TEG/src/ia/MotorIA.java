@@ -143,6 +143,8 @@ public class MotorIA {
                                     ataqueRealizado = true;
                                     int ejercitosLuegoDeAtaque = ejercitosAntesDeAtaque - control.perdidasAtacante();
                                     repetir = ejercitosLuegoDeAtaque > 1 && !control.paisConquistado();
+                                } else {
+                                    repetir = false;
                                 }
                             } else {
                                 repetir = false;
