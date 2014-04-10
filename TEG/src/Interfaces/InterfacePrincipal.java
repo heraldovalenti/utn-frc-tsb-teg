@@ -123,7 +123,7 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
             if (p == null) {
                 return;
             }
-            informacion.setDatos(pais, p.getJugador().getNombre(), p.getCantidadEjercitos());
+            informacion.setDatos(p);
         }
         
     }
@@ -659,6 +659,14 @@ public class InterfacePrincipal extends javax.swing.JFrame implements Loggeable 
     }//GEN-LAST:event_btnSituacionActionPerformed
 
     private void btnCanjearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanjearActionPerformed
+        if(ventanaReagrupar != null){
+            JOptionPane.showMessageDialog(this, "Debe finalizar la etapa de reagrupacion", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(refuerzo != null){
+            JOptionPane.showMessageDialog(this, "Debe finalizar el refuerzo actual", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         canjear = true;
         ventanaCanjear = new Canjear(this, false, this);
         ventanaCanjear.setVisible(true);

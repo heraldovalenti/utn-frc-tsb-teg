@@ -36,25 +36,8 @@ public class Refuerzo extends javax.swing.JInternalFrame {
     public void actualizarTropas(Map<Continente, Integer> refuerzosPorContinente, int refuerzosDisponibles) {
         reiniciarTextField();
         txtLibres.setText(String.valueOf(refuerzosDisponibles));
-        Component[] componentes = jPanel1.getComponents();
-        int num = 0;
-        String nombre = "";
-        Iterator it = refuerzosPorContinente.entrySet().iterator();
-//        while (it.hasNext()) {
-//                Map.Entry e = (Map.Entry)it.next();
-//                Continente cont = (Continente)e.getValue();
-//                nombre = cont.getNombre();
-//                for(int j=0; j<componentes.length;j++){                
-//                    if(componentes[j] instanceof JLabel) 
-//                    { 
-//                        JLabel label = ((JLabel) componentes[j]);
-//                        if(label.getName()!=null && nombre.equalsIgnoreCase(label.getName())){
-//                              label.setText(String.valueOf((Integer)e.getKey()));
-//                        }
-//                    } 
-//               
-//                }
-//        }
+        Component[] componentes = jPanel1.getComponents();       
+        String nombre = "";        
         for (Continente cont : refuerzosPorContinente.keySet()) {
             nombre = cont.getNombre();
             for (Component componente : componentes) {
