@@ -100,8 +100,10 @@ public class AccionableAtaque implements Accionable {
             AccionableMostrarTarjeta mostrar = new AccionableMostrarTarjeta(atacante, tarjeta);
             ServerManager.getInstance().registrarSalida(mostrar);
         }
-        if (tarjeta.getJugadorActual().equals(defensor)) {
-            defensor.devolverTarjetaContinente(tarjeta);
+        if (tarjeta.getJugadorActual() != null) {
+            if (tarjeta.getJugadorActual().equals(defensor)) {
+                defensor.devolverTarjetaContinente(tarjeta);
+            }
         }
     }
 }
