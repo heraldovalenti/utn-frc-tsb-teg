@@ -7,6 +7,12 @@ package juego.mecanicas.ataque;
 import juego.Juego;
 import juego.estructura.Pais;
 import juego.estructura.GestorPaises;
+import juego.mecanicas.situacion.CombateNormal;
+import juego.mecanicas.situacion.FronterasAbiertas;
+import juego.mecanicas.situacion.FronterasCerradas;
+import juego.mecanicas.situacion.Nieve;
+import juego.mecanicas.situacion.Situacion;
+import juego.mecanicas.situacion.VientoFavor;
 
 /**
  *
@@ -32,27 +38,36 @@ public class ControlAtaque {
                 && Juego.getInstancia().getSituacion().ataquePermitido(atacante, defensor)
                 && atacante.getCantidadEjercitos() > 1;
     }
+
     public boolean ataqueConMisilValido() {
-        return atacante.getCantidadMisiles() > defensor.getCantidadMisiles() && defensor.getCantidadEjercitos() >1;
+        return atacante.getCantidadMisiles() > defensor.getCantidadMisiles() && defensor.getCantidadEjercitos() > 1;
     }
 
     public int ataquePermitido() {
-        int res = 4;
-        int porSituacion = Juego.getInstancia().getSituacion().maximoAtaque();
-        int porOcupacion = atacante.getCantidadEjercitos();
+        Situacion situacionJuego = Juego.getInstancia().getSituacion();
+        int ejercitosAtacante = atacante.getCantidadEjercitos();
         int ejercitosDefensor = defensor.getCantidadEjercitos();
-        int porSuperPobacion = ((double) (porOcupacion / 2) >= ejercitosDefensor && porOcupacion >= 4) ? 4 : 3;
-        res = Math.max(porSituacion, porSuperPobacion);
-        res = Math.min(res, porOcupacion);
+        int res = ejercitosAtacante - 1;
+        double aux = ((double)ejercitosAtacante / 2);
+        if ((aux >= ejercitosDefensor && ejercitosAtacante >= 4) 
+                || situacionJuego instanceof VientoFavor) {
+            res ++;
+        } 
+        if (res > 4) {
+            res = 4;
+        }
         return res;
     }
 
     public int defensaPermitida() {
-        int res = 4;
-        int porSituacion = Juego.getInstancia().getSituacion().maximoDefensa();
-        int porOcupacion = defensor.getCantidadEjercitos();
-        res = Math.min(res, porSituacion);
-        res = Math.min(res, porOcupacion);
+        Situacion situacionJuego = Juego.getInstancia().getSituacion();
+        int res = defensor.getCantidadEjercitos();
+        if (res > 3) {
+            res = 3;
+        }
+        if (situacionJuego instanceof Nieve) {
+            res++;
+        }
         return res;
     }
 
@@ -61,7 +76,13 @@ public class ControlAtaque {
     }
 
     public int perdidasAtacante() {
-        return ataque.getResolucion().getResultadoAtacante();
+        int cantidadAtacante = atacante.getCantidadEjercitos() - 1;
+        int cantidadResolucion = ataque.getResolucion().getResultadoAtacante();
+        if (cantidadResolucion > cantidadAtacante) {
+            return cantidadAtacante;
+        } else {
+            return cantidadResolucion;
+        }
     }
 
     public int perdidasDefensor() {
@@ -75,11 +96,11 @@ public class ControlAtaque {
     public int[] dadosDefensor() {
         return ataque.getTiradaDefensa().getTiradas();
     }
-    
+
     public boolean ataqueRealizado() {
         return this.ataque != null;
     }
-    
+
     public boolean paisConquistado() {
         if (!ataqueRealizado()) {
             return false;
@@ -96,43 +117,46 @@ public class ControlAtaque {
 //     * @param args
 //     */
 //    public static void main(String args[]) {
-//        Situacion situacion = new Nieve();
-//        Pais defensor = new Pais();
-//        Pais atacante = new Pais();
-//        Ocupacion ocupacionDefensor = new Ocupacion();
-//        Ocupacion ocupacionAtacante = new Ocupacion();
+//        Situacion nieve = new VientoFavor();
+//        Pais defensor = GestorPaises.getPais(GestorPaises.COLOMBIA);
+//        Pais atacante = GestorPaises.getPais(GestorPaises.NICARAGUA);
+//        defensor.setCantidadEjercitos(4);
+//        atacante.setCantidadEjercitos(2);
 //        Juego juego = Juego.getInstancia();
-//        juego.setSituacion(situacion);
 //
-//        ocupacionDefensor.setEjercitos(4);
-//        ocupacionAtacante.setEjercitos(8);
-//        defensor.setOcupacion(ocupacionDefensor);
-//        atacante.setOcupacion(ocupacionAtacante);
+//        juego.setSituacion(nieve);
+//        for (int i = 0; i < 100; i++) {
 //        ControlAtaque control = new ControlAtaque(atacante, defensor);
 //
-//
+//        System.out.println(control.ataqueValido());
+////        System.out.println("defensa:" + control.defensaPermitida());
+////        System.out.println("ataque:" + control.ataquePermitido());
+//        control.atacar(control.ataquePermitido(), control.defensaPermitida());
+//        System.out.println("perdidasAtaque:" + control.perdidasAtacante());
+////            System.out.println("//////////////////////////////////");
+//        }
 //        int perdidasDefensa=0;
 //        int perdidasAtaque=0;
-//        int vueltas = 100000;
+//        int vueltas = 100;
 //        for (int i = 0; i < vueltas; i++) {
 //
 //            control.atacar(control.ataquePermitido(), control.defensaPermitida());
 //
 //            perdidasAtaque+=control.perdidasAtacante();
 //            perdidasDefensa+=control.perdidasDefensor();
-////            System.out.println("Ataque permitido: " + control.ataquePermitido());
-////            System.out.println("Defensa permitido: " + control.defensaPermitida());
-////
-////            for (int r : control.ataque.getTiradaAtacaque().getTiradas()) {
-////                System.out.print("tiradaAtaque=" + r + ";");
-////            }
-////            System.out.println("");
-////            for (int r : control.ataque.getTiradaDefensa().getTiradas()) {
-////                System.out.print("tiradaDefens=" + r + ";");
-////            }
-////            System.out.println("");
-////            System.out.println("perdidasAtacante=" + control.perdidasAtacante());
-////            System.out.println("perdidasDefensor=" + control.perdidasDefensor());
+//            System.out.println("Ataque permitido: " + control.ataquePermitido());
+//            System.out.println("Defensa permitido: " + control.defensaPermitida());
+//
+//            for (int r : control.ataque.getTiradaAtaque().getTiradas()) {
+//                System.out.print("tiradaAtaque=" + r + ";");
+//            }
+//            System.out.println("");
+//            for (int r : control.ataque.getTiradaDefensa().getTiradas()) {
+//                System.out.print("tiradaDefens=" + r + ";");
+//            }
+//            System.out.println("");
+//            System.out.println("perdidasAtacante=" + control.perdidasAtacante());
+//            System.out.println("perdidasDefensor=" + control.perdidasDefensor());
 //        }
 //        System.out.println("perdidasDefensa="+perdidasDefensa+";tasa="+(double)perdidasDefensa/(perdidasDefensa+perdidasAtaque)*100);
 //        System.out.println("perdidasAtaque="+perdidasAtaque+";tasa="+(double)perdidasAtaque/(perdidasDefensa+perdidasAtaque)*100);
