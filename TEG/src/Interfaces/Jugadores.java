@@ -332,13 +332,16 @@ public class Jugadores extends IJugadores {
         lblTropas.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTropas.setText("Cantidad de Tropas:");
 
+        txtCantidadPaises.setEditable(false);
         txtCantidadPaises.setBackground(new java.awt.Color(255, 255, 204));
 
+        txtCantidadTropas.setEditable(false);
         txtCantidadTropas.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Cantidad de Misiles:");
 
+        txtCantidadTropasDisponibles.setEditable(false);
         txtCantidadTropasDisponibles.setBackground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);

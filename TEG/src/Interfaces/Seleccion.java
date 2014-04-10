@@ -47,8 +47,10 @@ public class Seleccion extends ISeleccion {
 
         jLabel2.setText("HASTA:");
 
+        txtDesde.setEditable(false);
         txtDesde.setBackground(new java.awt.Color(255, 255, 204));
 
+        txtHasta.setEditable(false);
         txtHasta.setBackground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -79,7 +81,7 @@ public class Seleccion extends ISeleccion {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
