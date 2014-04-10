@@ -3,6 +3,7 @@ package Interfaces;
 
 
 import javax.swing.JMenuItem;
+import juego.estructura.Pais;
 
 
 /*
@@ -25,12 +26,13 @@ public class InformacionDelPais extends javax.swing.JInternalFrame {
         this.menu = menu;
     }
     
-    public void setDatos(String pais, String dueño, int tropas){
-        lblDueño.setText(dueño);
-        lblPais.setText(pais.toUpperCase());
-        lblCantidad.setText(String.valueOf(tropas));
+    public void setDatos(Pais p){
+        lblDueño.setText(p.getJugador().getNombre());
+        lblPais.setText(p.getNombre().toUpperCase());
+        lblCantidad.setText(String.valueOf(p.getCantidadEjercitos()));
+        lblMisiles.setText(String.valueOf(p.getCantidadMisiles()));
         try{
-            lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/paises/"+pais+".png")));
+            lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/paises/"+p.getNombre()+".png")));
         }
         catch(Exception e){
         }

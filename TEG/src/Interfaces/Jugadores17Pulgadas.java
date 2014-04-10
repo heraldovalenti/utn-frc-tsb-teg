@@ -348,8 +348,10 @@ public class Jugadores17Pulgadas extends IJugadores{
         lblTropas.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTropas.setText("Cantidad de Tropas:");
 
+        txtCantidadPaises.setEditable(false);
         txtCantidadPaises.setBackground(new java.awt.Color(255, 255, 204));
 
+        txtCantidadTropas.setEditable(false);
         txtCantidadTropas.setBackground(new java.awt.Color(255, 255, 204));
         txtCantidadTropas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +362,7 @@ public class Jugadores17Pulgadas extends IJugadores{
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Cantidad de Misiles:");
 
+        txtCantidadTropasDisponibles.setEditable(false);
         txtCantidadTropasDisponibles.setBackground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -434,7 +437,7 @@ public class Jugadores17Pulgadas extends IJugadores{
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, Short.MAX_VALUE)
         );
 
         pack();
