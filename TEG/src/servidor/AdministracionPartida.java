@@ -4,6 +4,8 @@
  */
 package servidor;
 
+import cliente.ClienteManager;
+import cliente.control.ControlConexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -48,11 +50,33 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (!ControlEjecucionServidor.enEjecucion()) {
-                    ControlEjecucionServidor.ocultarVentanaAdministracionPartida();
-                }
+                finalizar();
             }
         });
+    }
+    
+    private void finalizar() {
+        if (!ControlEjecucionServidor.enEjecucion()) {
+            this.dispose();
+            return;
+        }
+        int res = JOptionPane.showConfirmDialog(this, "Se terminará cualquier conexión existente.\n"
+                + "¿Está seguro que desea cerrar el sistema?",
+                "Confirmación requerida", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (res == JOptionPane.YES_OPTION) {
+            if (ClienteManager.getInstance().getConexionServidor().conexionEstablecida()) {
+                ControlConexion.solicitarCierreConexion();
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (Exception ex) {
+                }
+            }
+            if (ControlEjecucionServidor.enEjecucion()) {
+                ControlEjecucionServidor.detenerServidor(false);
+            }
+            this.dispose();
+        }
     }
     
     /**
@@ -151,7 +175,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         if (!ControlEjecucionServidor.enEjecucion()) {
             return;
         }
-        ControlEjecucionServidor.detenerServidor();
+        ControlEjecucionServidor.detenerServidor(true);
     }
 
     /**
@@ -275,7 +299,7 @@ public class AdministracionPartida extends javax.swing.JFrame implements Loggeab
         menuItemServidorDetener = new javax.swing.JMenuItem();
         menuItemServidorReiniciar = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("TEG - Administracion de partida");
         setResizable(false);
 
