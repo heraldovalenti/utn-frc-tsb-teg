@@ -22,6 +22,7 @@ import javax.swing.text.DefaultCaret;
 import logger.LogChat;
 import logger.LogItem;
 import logger.Loggeable;
+import servidor.ServerManager;
 import servidor.control.ControlEjecucionServidor;
 
 /**
@@ -166,9 +167,19 @@ public class SalaEspera extends javax.swing.JFrame implements Loggeable {
                 "Confirmación requerida", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
-            //System.exit(0);
+            if (ClienteManager.getInstance().getConexionServidor().conexionEstablecida()) {
+                ControlConexion.solicitarCierreConexion();
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (Exception ex) {
+                }
+            }
+            if (ControlEjecucionServidor.enEjecucion()) {
+                ControlEjecucionServidor.detenerServidor(false);
+            }
+            this.dispose();
+            System.exit(0);
         }
-        //se deberia notificar al servidor de la desconexion.
     }
 
     private void enviarChat() {

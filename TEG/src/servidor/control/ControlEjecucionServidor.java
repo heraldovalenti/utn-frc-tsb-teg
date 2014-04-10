@@ -77,8 +77,9 @@ public class ControlEjecucionServidor {
      * gestor de clientes y el escucha de nuevas conexiones.
      * Verifica ademas si hay conexiones establecidas con los clientes y si es
      * el caso, informa la situación y solicita confirmación.
+     * @param informarSituacion true para mostrar mensajes en la interfaz.
      */
-    public static void detenerServidor() {
+    public static void detenerServidor(boolean informarSituacion) {
         AdministracionPartida administracionPartida = ServerManager.getInstance().getAdministracionPartida();
         Servidor servidor = ServerManager.getInstance().getServidor();
         GestorClientes gestorClientes = ServerManager.getInstance().getGestorClientes();
@@ -89,7 +90,7 @@ public class ControlEjecucionServidor {
             return;
         }
         
-        if (gestorClientes.conexionesEstablecidas()) {
+        if (gestorClientes.conexionesEstablecidas() && informarSituacion) {
             int res = JOptionPane.showConfirmDialog(administracionPartida, 
                     "Existen conexiones abiertas. Se perderán dichas conexiones"
                     + "y cualquier avance no guardado del juego."
